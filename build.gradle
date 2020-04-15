@@ -1,0 +1,18 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'war'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.sun.faces:jsf-api:2.2.20'
+    implementation 'com.sun.faces:jsf-impl:2.2.20'
+    implementation 'org.primefaces:primefaces:7.0'
+    implementation 'net.bootsfaces:bootsfaces:1.4.2'
+    implementation 'jstl:jstl:1.2'
+    implementation 'org.hibernate:hibernate-core:5.4.10.Final'
+    implementation 'org.postgresql:postgresql:42.2.9.jre7'
+    testImplementation 'junit:junit:4.12'
+} 

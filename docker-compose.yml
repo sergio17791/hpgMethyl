@@ -1,0 +1,20 @@
+version: '2.2'
+services:
+   db:
+      image: 'postgres:12.1'
+      ports:
+         - '5432:5432'
+      environment:
+         POSTGRES_DB: hpgMethyl
+      volumes:
+       - postgres:/data/postgres
+   tomcat:
+      build:
+         context: .
+         dockerfile: Dockerfile
+      ports:
+        - '8080:8080'
+        
+volumes:
+   postgres:
+            
