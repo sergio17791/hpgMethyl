@@ -11,6 +11,8 @@
         <title><h:outputText value="#{msg['general.hpgMethyl']}"/></title>
     </h:head>
     <h:body>
-    	<h:outputText value="#{msg['general.pageUnderConstruction']}"/>
+    	<f:view locale="#{languageSelector.language}">
+    		<h:outputText value="#{msg['general.pageUnderConstruction']}"/>
+    	</f:view>
     </h:body>
 </html>
