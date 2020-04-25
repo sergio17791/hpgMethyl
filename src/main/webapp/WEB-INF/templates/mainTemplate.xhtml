@@ -12,7 +12,43 @@
     </h:head>
     <h:body>
     	<f:view locale="#{languageSelector.language}">
-    		<h:outputText value="#{msg['general.pageUnderConstruction']}"/>
+    		<header>
+    			<ui:insert name="top">
+    				<b:navBar brand="#{msg['general.hpgMethyl']}" brandHref="#" fixed="top" sticky="true" inverse="true">
+    					<b:navbarLinks>
+    						<b:navLink value="#{msg['menu.blog']}" outcome=""></b:navLink>
+    						<b:navLink value="#{msg['menu.aboutUs']}" outcome=""></b:navLink>
+    						<b:navLink value="#{msg['menu.contact']}" outcome=""></b:navLink>
+    						<b:navLink value="#{msg['menu.test']}" outcome=""></b:navLink>
+    						<b:navLink value="#{msg['menu.results']}" outcome=""></b:navLink>
+    					</b:navbarLinks>
+    					<b:navbarLinks pull="right" styleClass="hidden-xs">
+    						<b:dropMenu value="#{msg['menu.language']}" iconAwesome="globe" iconAlign="left">
+    							<b:navLink value="#{msg['menu.language.english']}" action=""></b:navLink>
+    							<b:navLink value="#{msg['menu.language.spanish']}" action=""></b:navLink> 
+    							<b:navLink value="#{msg['menu.language.valencian']}" action=""></b:navLink> 
+    						</b:dropMenu>
+    						<b:navLink value="#{msg['menu.login']}" outcome="" iconAwesome="sign-in" iconAlign="left"></b:navLink>
+    						<b:dropMenu value="#UserName" iconAwesome="user" iconAlign="left">
+    							<b:navLink value="#{msg['menu.configuration']}" outcome="" iconAwesome="gear" iconAlign="left"></b:navLink> 
+    							<b:navLink value="#{msg['menu.logout']}" outcome="" iconAwesome="sign-out" iconAlign="left"></b:navLink> 
+    						</b:dropMenu>
+    					</b:navbarLinks>
+    				</b:navBar>
+    			</ui:insert>
+    		</header>
+    		<section>
+    			<b:container fluid="true" style="margin-bottom: 100px;">
+    				<ui:insert name="content">
+    					<h:outputText value="&lt;br/&gt;" escape="false" />
+    					<h:outputText value="&lt;br/&gt;" escape="false" />
+    					<h:outputText value="&lt;br/&gt;" escape="false" />
+    					<h:outputText value="#{msg['general.pageUnderConstruction']}"/>
+                        <h:outputText value="&lt;br/&gt;" escape="false" />
+                        <h:link value="#{msg['general.hpgMethyl']}" outcome="index" />
+    				</ui:insert>
+    			</b:container>
+    		</section>
     	</f:view>
     </h:body>
 </html>
