@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:body>
+		<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                        template="./WEB-INF/templates/mainTemplate.xhtml">
+            <ui:define name="content">
+				<b:panel title="#{msg['login.enterAccount']}" look="info" collapsible="false">
+					<b:form id="loginForm" inline="true">
+						<b:inputText id ="emailLogin" value="#{userLoginBean.email}" label="#{msg['login.email']}" placerholder="#{msg['login.email']}" maxlength="60" required="true" requiredMessage="#{msg['error.form.requiredField']}">
+							<f:facet name="append">
+      							<b:icon name="user" />
+    						</f:facet>
+						</b:inputText>
+						<b:message for="emailLogin" auto-update="true"/>
+						<b:commandButton update="@form" value="Validate constraints" />
+  						<b:messages redisplay="false"/>
+    				</b:form>
+				</b:panel>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

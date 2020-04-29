@@ -18,7 +18,7 @@
     <managed-bean>
         <description>Controls the language in which the application is displayed</description>
         <managed-bean-name>languageSelector</managed-bean-name>
-        <managed-bean-class>es.hpgMethyl.LanguageSelectorBean</managed-bean-class>
+        <managed-bean-class>es.hpgMethyl.bean.LanguageSelector</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
 </faces-config>

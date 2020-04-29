@@ -1,4 +1,4 @@
-package es.hpgMethyl;
+package es.hpgMethyl.bean;
 
 import java.util.Locale;
 import javax.faces.component.UIViewRoot;
@@ -9,36 +9,16 @@ import javax.faces.context.FacesContext;
  * @version 1.0.0
  * @since 2020-04-19
  */
-public class LanguageSelectorBean {
+public class LanguageSelector {
 	
-	private String codeLanguage;
     private Locale language;
     
     /**
      * Create a new instance of LanguageSelectorBean
      */
-	public LanguageSelectorBean() {
+	public LanguageSelector() {
 		FacesContext context = FacesContext.getCurrentInstance();
         this.language = context.getViewRoot().getLocale();
-        if (this.language != null) {
-            this.codeLanguage = this.language.getLanguage();
-        } else {
-            this.codeLanguage = null;
-        }
-	}
-
-	/**
-	 * @return the codeLanguage
-	 */
-	public String getCodeLanguage() {
-		return codeLanguage;
-	}
-
-	/**
-	 * @param codeLanguage the codeLanguage to set
-	 */
-	public void setCodeLanguage(String codeLanguage) {
-		this.codeLanguage = codeLanguage;
 	}
 
 	/**
@@ -59,10 +39,9 @@ public class LanguageSelectorBean {
 	 * Modify the current language of the application
 	 * @param newCodeLanguage The new language code to be set
 	 */
-    public void changeLang(String newCodeLanguage) {
+    public void changeLanguage(String code) {
 
-        this.setCodeLanguage(newCodeLanguage); 
-        Locale newLanguage = new Locale(newCodeLanguage);
+        Locale newLanguage = new Locale(code);
         this.setLanguage(newLanguage);
 
         UIViewRoot viewRoot = FacesContext.getCurrentInstance().getViewRoot();
