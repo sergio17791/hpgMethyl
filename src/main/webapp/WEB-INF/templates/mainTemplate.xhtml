@@ -9,6 +9,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <title><h:outputText value="#{msg['general.hpgMethyl']}"/></title>
+        <h:outputStylesheet library="css" name="style.css"/>
     </h:head>
     <h:body>
     	<f:view locale="#{languageSelector.language}">
@@ -39,21 +40,15 @@
     				</h:form>
     			</ui:insert>
     		</header>
-    		<section>
-    			<b:container fluid="true">
-            		<h:outputText value="&lt;br/&gt;" escape="false" />
-    		    	<h:outputText value="&lt;br/&gt;" escape="false" />
-    				<h:outputText value="&lt;br/&gt;" escape="false" />
-    				<ui:insert name="content">
-    					<h:outputText value="&lt;br/&gt;" escape="false" />
-    					<h:outputText value="&lt;br/&gt;" escape="false" />
-    					<h:outputText value="&lt;br/&gt;" escape="false" />
+    		<b:container fluid="false" styleClass="content">
+    			<ui:insert name="content">
+    				<b:container id="defaultPage" fluid="true">
     					<h:outputText value="#{msg['general.pageUnderConstruction']}"/>
-                        <h:outputText value="&lt;br/&gt;" escape="false" />
-                        <h:link value="#{msg['general.hpgMethyl']}" outcome="index" />
-    				</ui:insert>
-    			</b:container>
-    		</section>
+                    	<h:outputText value="&lt;br/&gt;" escape="false" />
+                    	<h:link value="#{msg['general.hpgMethyl']}" outcome="index" />
+    				</b:container>
+    			</ui:insert>
+    		</b:container>
     	</f:view>
     </h:body>
 </html>
