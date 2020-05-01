@@ -25,9 +25,9 @@
 	    					</b:navbarLinks>
 	    					<b:navbarLinks pull="right">
     							<b:dropMenu value="#{msg['menu.language']}" iconAwesome="globe" iconAlign="left">    							
-    								<b:navCommandLink value="#{msg['menu.language.english']}" actionListener="#{languageSelector.changeLanguage('en')}" styleClass="dropdown-item"></b:navCommandLink >
-    								<b:navCommandLink value="#{msg['menu.language.spanish']}" actionListener="#{languageSelector.changeLanguage('es')}" styleClass="dropdown-item"></b:navCommandLink > 
-    								<b:navCommandLink value="#{msg['menu.language.valencian']}" actionListener="#{languageSelector.changeLanguage('ca')}" styleClass="dropdown-item"></b:navCommandLink >    					  							 
+    								<b:navCommandLink value="#{msg['menu.language.english']}" actionListener="#{languageSelector.changeLanguage('en')}"></b:navCommandLink >
+    								<b:navCommandLink value="#{msg['menu.language.spanish']}" actionListener="#{languageSelector.changeLanguage('es')}"></b:navCommandLink > 
+    								<b:navCommandLink value="#{msg['menu.language.valencian']}" actionListener="#{languageSelector.changeLanguage('ca')}"></b:navCommandLink >    					  							 
     							</b:dropMenu>
     							<b:navLink value="#{msg['menu.login']}" outcome="login" iconAwesome="sign-in" iconAlign="left" rendered="#{authUser == null}"></b:navLink>
     							<b:dropMenu value="#UserName" iconAwesome="user" iconAlign="left" rendered="#{authUser != null}">

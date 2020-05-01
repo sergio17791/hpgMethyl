@@ -1,6 +1,8 @@
 package es.hpgMethyl.bean;
 
 import java.util.Locale;
+
+import javax.faces.application.ViewHandler;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
@@ -43,8 +45,15 @@ public class LanguageSelector {
 
         Locale newLanguage = new Locale(code);
         this.setLanguage(newLanguage);
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        String refreshPage = context.getViewRoot().getViewId();
 
-        UIViewRoot viewRoot = FacesContext.getCurrentInstance().getViewRoot();
+        ViewHandler handler = context.getApplication().getViewHandler();
+        UIViewRoot viewRoot = handler.createView(context, refreshPage);
         viewRoot.setLocale(this.getLanguage());
+        
+        viewRoot.setViewId(refreshPage);
+        context.setViewRoot(viewRoot);
     }
 }
