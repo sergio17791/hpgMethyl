@@ -1,6 +1,9 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'war'
+plugins {
+	id 'java'
+	id 'eclipse'
+	id 'war'
+	id 'org.flywaydb.flyway' version '6.4.2'
+}
 
 repositories {
     mavenCentral()
@@ -16,3 +19,10 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.2.9.jre7'
     testImplementation 'junit:junit:4.12'
 } 
+
+flyway {
+    url = 'jdbc:postgresql://172.19.0.2:5432/hpgMethyl'
+    user = 'postgres'
+    password = 'postgres'
+    driver = 'org.postgresql.Driver'
+}
