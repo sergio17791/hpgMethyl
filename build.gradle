@@ -21,7 +21,7 @@ dependencies {
 } 
 
 flyway {
-    url = 'jdbc:postgresql://172.19.0.2:5432/hpgMethyl'
+    url = 'jdbc:postgresql://172.19.0.3:5432/hpgMethyl'
     user = 'postgres'
     password = 'postgres'
     driver = 'org.postgresql.Driver'
