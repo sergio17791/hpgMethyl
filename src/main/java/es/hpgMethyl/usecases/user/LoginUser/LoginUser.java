@@ -14,20 +14,32 @@ public class LoginUser {
 		this.userDAO = userDAO;
 	}
 	
-	public LoginUserResponse execute(LoginUserRequest request) throws InvalidCredentials, UserNotFound {
+	public LoginUserResponse execute(LoginUserRequest request) throws InvalidCredentials {
 		
-		User user = this.userDAO.findByEmail(request.getEmail());
+		String email = request.getEmail();
+		String password = request.getPassword();
+		
+		if(email != null && password != null) {
 
-		Boolean passwordVerified = PasswordUtils.checkPassword(
-				request.getPassword(), 
-				user.getPassword(), 
-				user.getSalt()
-		);
+			User user;
+			try {
+				user = this.userDAO.findByEmail(request.getEmail());
+			} catch (UserNotFound e) {
+				throw new InvalidCredentials();
+			}
 			
-		if(passwordVerified) {
-			return new LoginUserResponse(user);
-		}			
-				
+			Boolean passwordVerified = PasswordUtils.checkPassword(
+					password, 
+					user.getPassword(), 
+					user.getSalt()
+			);
+					
+			if(passwordVerified) {
+				return new LoginUserResponse(user);
+			}	 
+			
+		}
+								
 		throw new InvalidCredentials();
 	}
 }
