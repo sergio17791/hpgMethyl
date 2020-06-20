@@ -1,6 +1,9 @@
 package es.hpgMethyl.utils;
 
+import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -46,4 +49,32 @@ public final class FacesContextUtils {
 	     FacesMessage facesMessage = new FacesMessage(message);
 	     facesContext.addMessage(component.getClientId(), facesMessage);
 	 }
+	 
+	 public static String geti18nMessage(String key) {
+
+	        FacesContext facesContext = FacesContext.getCurrentInstance();
+
+	        Locale locale;
+
+	        if (facesContext == null) {
+	            locale = Locale.getDefault();
+	        } else {
+	            if (facesContext.getViewRoot() != null) {
+	                locale = facesContext.getViewRoot().getLocale();
+	            } else {
+	                locale = Locale.getDefault();
+	            }
+	        }
+
+	        String message;
+
+	        try {
+	            ResourceBundle bundle = ResourceBundle.getBundle("i18n.messages", locale);
+	            message = bundle.getString(key);
+	        } catch (MissingResourceException e) {
+	            return e.getMessage();
+	        }
+
+	        return message;
+	    }
 }

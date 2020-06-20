@@ -1,6 +1,6 @@
 package es.hpgMethyl.entities;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -35,8 +35,8 @@ public class User extends BaseEntity {
 
 	public User(
 			UUID id, 
-			LocalDateTime createdAt, 
-			LocalDateTime updatedAt, 
+			Date createdAt, 
+			Date updatedAt, 
 			String firstName, 
 			String lastName, 
 			String email,

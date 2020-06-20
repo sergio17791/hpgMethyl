@@ -1,6 +1,6 @@
 package es.hpgMethyl.junit.usecases.user;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 import org.junit.Assert;
@@ -30,8 +30,8 @@ public class LoginUserTest {
 		this.loginUser = new LoginUser(userDaoHibernate);
 		this.user = new User(
 			UUID.randomUUID(), 
-			LocalDateTime.now(), 
-			LocalDateTime.now(), 
+			new Date(), 
+			new Date(), 
 			"First name", 
 			"Last name", 
 			"test@test.com", 

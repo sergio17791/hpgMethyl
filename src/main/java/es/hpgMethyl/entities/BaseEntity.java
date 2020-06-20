@@ -1,6 +1,6 @@
 package es.hpgMethyl.entities;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -23,15 +23,15 @@ public abstract class BaseEntity {
 	
 	@CreationTimestamp
 	@Column(name = "created_at", updatable = false, nullable = false)
-	private LocalDateTime createdAt;
+	private Date createdAt;
 	
 	@UpdateTimestamp
 	@Column(name = "updated_at", nullable = false)
-	private LocalDateTime updatedAt;
+	private Date updatedAt;
 	
 	public BaseEntity() {}
 
-	public BaseEntity(UUID id, LocalDateTime createdAt, LocalDateTime updatedAt) {
+	public BaseEntity(UUID id, Date createdAt, Date updatedAt) {
 		this.id = id;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
@@ -54,28 +54,28 @@ public abstract class BaseEntity {
 	/**
 	 * @return the createdAt
 	 */
-	public LocalDateTime getCreatedAt() {
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
 	/**
 	 * @param createdAt the createdAt to set
 	 */
-	public void setCreatedAt(LocalDateTime createdAt) {
+	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	/**
 	 * @return the updatedAt
 	 */
-	public LocalDateTime getUpdatedAt() {
+	public Date getUpdatedAt() {
 		return updatedAt;
 	}
 
 	/**
 	 * @param updatedAt the updatedAt to set
 	 */
-	public void setUpdatedAt(LocalDateTime updatedAt) {
+	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 }
