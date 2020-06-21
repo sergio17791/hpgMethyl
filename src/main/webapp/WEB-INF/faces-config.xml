@@ -27,6 +27,12 @@
         <managed-bean-class>es.hpgMethyl.beans.UserLogin</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <description>Controls user exit to the system</description>
+        <managed-bean-name>userLogout</managed-bean-name>
+        <managed-bean-class>es.hpgMethyl.beans.UserLogout</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
     <navigation-rule>
         <from-view-id>/login.xhtml</from-view-id>
         <navigation-case>

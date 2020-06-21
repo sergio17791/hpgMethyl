@@ -51,30 +51,36 @@ public final class FacesContextUtils {
 	 }
 	 
 	 public static String geti18nMessage(String key) {
+		 
+		 FacesContext facesContext = FacesContext.getCurrentInstance();
 
-	        FacesContext facesContext = FacesContext.getCurrentInstance();
+	     Locale locale;
 
-	        Locale locale;
+	     if (facesContext == null) {
+	         locale = Locale.getDefault();
+	     } else {
+	    	 if (facesContext.getViewRoot() != null) {
+	             locale = facesContext.getViewRoot().getLocale();
+	         } else {
+	             locale = Locale.getDefault();
+	         }
+	     }
 
-	        if (facesContext == null) {
-	            locale = Locale.getDefault();
-	        } else {
-	            if (facesContext.getViewRoot() != null) {
-	                locale = facesContext.getViewRoot().getLocale();
-	            } else {
-	                locale = Locale.getDefault();
-	            }
-	        }
+	     String message;
 
-	        String message;
+	     try {
+	         ResourceBundle bundle = ResourceBundle.getBundle("i18n.messages", locale);
+	         message = bundle.getString(key);
+	     } catch (MissingResourceException e) {
+	         return e.getMessage();
+	     }
 
-	        try {
-	            ResourceBundle bundle = ResourceBundle.getBundle("i18n.messages", locale);
-	            message = bundle.getString(key);
-	        } catch (MissingResourceException e) {
-	            return e.getMessage();
-	        }
-
-	        return message;
-	    }
+	     return message;
+	 }
+	 
+	 public static void invalidateSession() {
+	     FacesContext facesContext = FacesContext.getCurrentInstance();
+	     ExternalContext externalContext = facesContext.getExternalContext();
+	     externalContext.invalidateSession();
+	 }
 }
