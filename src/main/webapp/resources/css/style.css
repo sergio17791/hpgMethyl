@@ -22,3 +22,32 @@ body{
 #defaultPage {
     text-align: center !important;
 }
+
+.errorMessage {
+	height: 34px;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	flex-direction: column;
+}
+
+@media only screen and (max-width : 991.5px) {
+    .errorMessageWithTopLabel {
+        height: 34px;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 992px) {
+    .errorMessageWithTopLabel {
+        margin-top: 25px;
+        height: 34px;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-direction: column;
+    }
+}

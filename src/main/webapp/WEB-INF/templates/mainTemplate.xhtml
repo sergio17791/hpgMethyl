@@ -14,39 +14,37 @@
     <h:body>
     	<f:view locale="#{languageSelector.language}">
     		<header>
-    			<ui:insert name="top">
-    				<h:form>
-	    				<b:navBar brand="#{msg['general.hpgMethyl']}" brandHref="#{request.contextPath}/faces/index.xhtml" fixed="top" sticky="true" inverse="true">
-	    					<b:navbarLinks>
-	    						<b:navLink value="#{msg['menu.blog']}" outcome=""></b:navLink>
-	    						<b:navLink value="#{msg['menu.aboutUs']}" outcome=""></b:navLink>
-	    						<b:navLink value="#{msg['menu.contact']}" outcome=""></b:navLink>
-	    						<b:navLink value="#{msg['menu.test']}" outcome="" rendered="#{authUser != null}"></b:navLink>
-	    						<b:navLink value="#{msg['menu.results']}" outcome="" rendered="#{authUser != null}"></b:navLink>
-	    					</b:navbarLinks>
-	    					<b:navbarLinks pull="right">
-    							<b:dropMenu value="#{msg['menu.language']}" iconAwesome="globe" iconAlign="left">    							
-    								<b:navCommandLink value="#{msg['menu.language.english']}" actionListener="#{languageSelector.changeLanguage('en')}"></b:navCommandLink >
-    								<b:navCommandLink value="#{msg['menu.language.spanish']}" actionListener="#{languageSelector.changeLanguage('es')}"></b:navCommandLink > 
-    								<b:navCommandLink value="#{msg['menu.language.valencian']}" actionListener="#{languageSelector.changeLanguage('ca')}"></b:navCommandLink >    					  							 
-    							</b:dropMenu>
-    							<b:navLink value="#{msg['menu.login']}" outcome="login" iconAwesome="sign-in" iconAlign="left" rendered="#{authUser == null}"></b:navLink>
-    							<b:dropMenu value="#UserName" iconAwesome="user" iconAlign="left" rendered="#{authUser != null}">
-    								<b:navLink value="#{msg['menu.configuration']}" outcome="" iconAwesome="gear" iconAlign="left"></b:navLink> 
-    								<b:navLink value="#{msg['menu.logout']}" outcome="" iconAwesome="sign-out" iconAlign="left"></b:navLink> 
-    							</b:dropMenu>
-    						</b:navbarLinks>
-    					</b:navBar>
-    				</h:form>
-    			</ui:insert>
+    			<h:form>
+	    			<b:navBar brand="#{msg['general.hpgMethyl']}" brandHref="#{request.contextPath}/faces/index.xhtml" fixed="top" sticky="true" inverse="true">
+	    				<b:navbarLinks>
+	    					<b:navLink value="#{msg['menu.blog']}" outcome=""></b:navLink>
+	    					<b:navLink value="#{msg['menu.aboutUs']}" outcome=""></b:navLink>
+	    					<b:navLink value="#{msg['menu.contact']}" outcome=""></b:navLink>
+	    					<b:navLink value="#{msg['menu.test']}" outcome="" rendered="#{sessionUser != null}"></b:navLink>
+	    					<b:navLink value="#{msg['menu.results']}" outcome="" rendered="#{sessionUser != null}"></b:navLink>
+	    				</b:navbarLinks>
+	    				<b:navbarLinks pull="right">
+    						<b:dropMenu value="#{msg['menu.language']}" iconAwesome="globe" iconAlign="left">    							
+    							<b:navCommandLink value="#{msg['menu.language.english']}" actionListener="#{languageSelector.changeLanguage('en')}"></b:navCommandLink>
+    							<b:navCommandLink value="#{msg['menu.language.spanish']}" actionListener="#{languageSelector.changeLanguage('es')}"></b:navCommandLink> 
+    							<b:navCommandLink value="#{msg['menu.language.valencian']}" actionListener="#{languageSelector.changeLanguage('ca')}"></b:navCommandLink>
+    						</b:dropMenu>
+    						<b:navLink value="#{msg['menu.login']}" outcome="login" iconAwesome="sign-in" iconAlign="left" rendered="#{sessionUser == null}"></b:navLink>
+    						<b:dropMenu value="#{sessionUser.toString()}" iconAwesome="user" iconAlign="left" rendered="#{sessionUser != null}">
+    							<b:navLink value="#{msg['menu.configuration']}" outcome="" iconAwesome="gear" iconAlign="left"></b:navLink> 
+    							<b:navLink value="#{msg['menu.logout']}" outcome="" iconAwesome="sign-out" iconAlign="left"></b:navLink> 
+    						</b:dropMenu>
+    					</b:navbarLinks>
+    				</b:navBar>
+    			</h:form>
     		</header>
     		<b:container fluid="false" styleClass="content">
     			<ui:insert name="content">
-    				<b:container id="defaultPage" fluid="true">
+    				<h:panelGroup id="defaultPage">
     					<h:outputText value="#{msg['general.pageUnderConstruction']}"/>
                     	<h:outputText value="&lt;br/&gt;" escape="false" />
                     	<h:link value="#{msg['general.hpgMethyl']}" outcome="index" />
-    				</b:container>
+    				</h:panelGroup>
     			</ui:insert>
     		</b:container>
     	</f:view>

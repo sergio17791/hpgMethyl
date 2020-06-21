@@ -18,7 +18,24 @@
     <managed-bean>
         <description>Controls the language in which the application is displayed</description>
         <managed-bean-name>languageSelector</managed-bean-name>
-        <managed-bean-class>es.hpgMethyl.bean.LanguageSelector</managed-bean-class>
+        <managed-bean-class>es.hpgMethyl.beans.LanguageSelector</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <description>Control user access to the system</description>
+        <managed-bean-name>userLogin</managed-bean-name>
+        <managed-bean-class>es.hpgMethyl.beans.UserLogin</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <navigation-rule>
+        <from-view-id>/login.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>validLoginUser</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>invalidLoginUser</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>
