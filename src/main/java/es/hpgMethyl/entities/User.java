@@ -32,7 +32,7 @@ public class User extends BaseEntity {
 	public User() {
 		super();
 	}
-
+	
 	public User(
 			UUID id, 
 			Date createdAt, 
@@ -140,7 +140,5 @@ public class User extends BaseEntity {
 	@Override
 	public String toString() {
 		return firstName + " " + lastName;
-	}
-	
-	
+	}	
 }

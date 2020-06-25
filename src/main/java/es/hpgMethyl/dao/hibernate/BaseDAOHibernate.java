@@ -13,6 +13,7 @@ import org.hibernate.Transaction;
 
 import es.hpgMethyl.dao.BaseDAO;
 import es.hpgMethyl.exceptions.HpgMethylException;
+import es.hpgMethyl.exceptions.SaveObjectException;
 import es.hpgMethyl.utils.HibernateUtils;
 
 public class BaseDAOHibernate<T, ID extends Serializable> implements BaseDAO<T, ID> {
@@ -31,7 +32,7 @@ public class BaseDAOHibernate<T, ID extends Serializable> implements BaseDAO<T, 
     }  
 
 	@Override
-	public void save(T entity) throws HpgMethylException {
+	public void save(T entity) throws SaveObjectException {
 		
 		Session session = HibernateUtils.getSessionFactory().openSession();
 		Transaction transaction = null;
@@ -49,7 +50,7 @@ public class BaseDAOHibernate<T, ID extends Serializable> implements BaseDAO<T, 
 				LOGGER.log(Level.WARNING,"Rollback on save failed", ex);
 			} 			
 			
-			throw new HpgMethylException(hibernateException);
+			throw new SaveObjectException(hibernateException);
 			
 		} finally {
 			session.close();

@@ -1,12 +1,12 @@
-package es.hpgMethyl.usecases.user.LoginUser;
+package es.hpgMethyl.usecases.user.SignupUser;
 
 import es.hpgMethyl.entities.User;
 
-public class LoginUserResponse {
+public class SignupUserResponse {
 
 	private User user;
-	
-	public LoginUserResponse(User user) {
+
+	public SignupUserResponse(User user) {
 		this.user = user;
 	}
 

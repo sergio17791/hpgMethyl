@@ -9,6 +9,10 @@ public class HpgMethylException extends Exception {
 		super(exception);
 	}
 	
+	public HpgMethylException(String message) {
+		super(message);
+	}
+	
 	public HpgMethylException() {
 		super();
 	}
