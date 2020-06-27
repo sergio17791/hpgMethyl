@@ -6,8 +6,10 @@ import java.util.Optional;
 
 import es.hpgMethyl.dao.UserDAO;
 import es.hpgMethyl.entities.User;
+import es.hpgMethyl.exceptions.DuplicatedEmail;
 import es.hpgMethyl.exceptions.SaveObjectException;
 import es.hpgMethyl.exceptions.SignupUserException;
+import es.hpgMethyl.exceptions.UserNotFound;
 import es.hpgMethyl.utils.PasswordUtils;
 
 public class SignupUser {
@@ -18,7 +20,11 @@ public class SignupUser {
 		this.userDAO = userDAO;
 	}
 	
-	public SignupUserResponse execute(SignupUserRequest request) throws SignupUserException {
+	public SignupUserResponse execute(SignupUserRequest request) throws DuplicatedEmail, SignupUserException {
+		
+		if(checkDuplicatedEmail(request.getEmail())) {
+			throw new DuplicatedEmail();
+		}
 				
 		Optional<String> salt = PasswordUtils.makeSalt(32);
 		
@@ -47,5 +53,14 @@ public class SignupUser {
 		}
 		
 		return new SignupUserResponse(user);
+	}
+	
+	private Boolean checkDuplicatedEmail(String email) {
+		try {
+			this.userDAO.findByEmail(email);
+			return true;
+		} catch (UserNotFound e) {
+			return false;
+		}
 	}
 }

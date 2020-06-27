@@ -26,11 +26,12 @@ public class User extends BaseEntity {
 	@Column(name = "salt", nullable = false)
 	private String salt;
 	
-	@Column(name = "active")
+	@Column(name = "active", nullable = false)
 	private Boolean active;
 	
 	public User() {
 		super();
+		this.active = true;
 	}
 	
 	public User(

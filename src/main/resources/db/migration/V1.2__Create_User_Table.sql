@@ -5,7 +5,7 @@ CREATE TABLE "user" (
     email VARCHAR(60) NOT NULL UNIQUE,
     password VARCHAR(512) NOT NULL,
     salt VARCHAR(60) NOT NULL,
-    active BOOLEAN DEFAULT true,
+    active BOOLEAN NOT NULL DEFAULT true,
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
     updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
     PRIMARY KEY (id)
