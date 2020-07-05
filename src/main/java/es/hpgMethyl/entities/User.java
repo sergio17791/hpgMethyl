@@ -23,8 +23,17 @@ public class User extends BaseEntity {
 	@Column(name = "password", nullable = false)
 	private String password;
 	
-	@Column(name = "salt", nullable = false)
-	private String salt;
+	@Column(name = "password_salt", nullable = false)
+	private String passwordSalt;
+	
+	@Column(name = "password_recovery_question", nullable = false)
+	private String passwordRecoveryQuestion;
+	
+	@Column(name = "password_recovery_response", nullable = false)
+	private String passwordRecoveryResponse;
+	
+	@Column(name = "password_recovery_response_salt", nullable = false)
+	private String passwordRecoveryResponseSalt;
 	
 	@Column(name = "active", nullable = false)
 	private Boolean active;
@@ -42,7 +51,10 @@ public class User extends BaseEntity {
 			String lastName, 
 			String email,
 			String password,
-			String salt,
+			String passwordSalt,
+			String passwordRecoveryQuestion,
+			String passwordRecoveryResponse,
+			String passwordRecoveryResponseSalt,
 			Boolean active
 	) {
 		super(id, createdAt, updatedAt);
@@ -50,7 +62,10 @@ public class User extends BaseEntity {
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		this.salt = salt;
+		this.passwordSalt = passwordSalt;
+		this.passwordRecoveryQuestion = passwordRecoveryQuestion;
+		this.passwordRecoveryResponse = passwordRecoveryResponse;
+		this.passwordRecoveryResponseSalt = passwordRecoveryResponseSalt;
 		this.active = active;
 	}
 
@@ -111,17 +126,59 @@ public class User extends BaseEntity {
 	}
 
 	/**
-	 * @return the salt
+	 * @return the passwordSalt
 	 */
-	public String getSalt() {
-		return salt;
+	public String getPasswordSalt() {
+		return passwordSalt;
 	}
 
 	/**
-	 * @param salt the salt to set
+	 * @param passwordSalt the passwordSalt to set
 	 */
-	public void setSalt(String salt) {
-		this.salt = salt;
+	public void setPasswordSalt(String passwordSalt) {
+		this.passwordSalt = passwordSalt;
+	}
+
+	/**
+	 * @return the passwordRecoveryQuestion
+	 */
+	public String getPasswordRecoveryQuestion() {
+		return passwordRecoveryQuestion;
+	}
+
+	/**
+	 * @param passwordRecoveryQuestion the passwordRecoveryQuestion to set
+	 */
+	public void setPasswordRecoveryQuestion(String passwordRecoveryQuestion) {
+		this.passwordRecoveryQuestion = passwordRecoveryQuestion;
+	}
+
+	/**
+	 * @return the passwordRecoveryResponse
+	 */
+	public String getPasswordRecoveryResponse() {
+		return passwordRecoveryResponse;
+	}
+
+	/**
+	 * @param passwordRecoveryResponse the passwordRecoveryResponse to set
+	 */
+	public void setPasswordRecoveryResponse(String passwordRecoveryResponse) {
+		this.passwordRecoveryResponse = passwordRecoveryResponse;
+	}
+
+	/**
+	 * @return the passwordRecoveryResponseSalt
+	 */
+	public String getPasswordRecoveryResponseSalt() {
+		return passwordRecoveryResponseSalt;
+	}
+
+	/**
+	 * @param passwordRecoveryResponseSalt the passwordRecoveryResponseSalt to set
+	 */
+	public void setPasswordRecoveryResponseSalt(String passwordRecoveryResponseSalt) {
+		this.passwordRecoveryResponseSalt = passwordRecoveryResponseSalt;
 	}
 
 	/**

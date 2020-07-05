@@ -67,13 +67,11 @@ public class UserLogin {
 	public String checkUser() {
 				
 		try {
-			
-			
 			LoginUserResponse loginUserResponse = new LoginUser(new UserDAOHibernate()).execute(
-					new LoginUserRequest(
-						this.getEmail(),
-						this.getPassword()
-					)
+				new LoginUserRequest(
+					this.getEmail(),
+					this.getPassword()
+				)
 			);
 			
 			FacesContextUtils.setParameterFacesContextSession(FacesContextUtils.SESSION_USER, loginUserResponse.getUser());
