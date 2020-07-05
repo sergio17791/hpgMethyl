@@ -9,12 +9,25 @@ public class SignupUserRequest {
 	private String firstName;
 	
 	private String lastName;
+	
+	private String passwordRecoveryQuestion;
+	
+	private String passwordRecoveryResponse;
 
-	public SignupUserRequest(String email, String password, String firstName, String lastName) {
+	public SignupUserRequest(
+			String email, 
+			String password, 
+			String firstName, 
+			String lastName,
+			String passwordRecoveryQuestion,
+			String passwordRecoveryResponse
+	) {
 		this.email = email;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.passwordRecoveryQuestion = passwordRecoveryQuestion;
+		this.passwordRecoveryResponse = passwordRecoveryResponse;
 	}
 
 	/**
@@ -72,6 +85,32 @@ public class SignupUserRequest {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
-	
+
+	/**
+	 * @return the passwordRecoveryQuestion
+	 */
+	public String getPasswordRecoveryQuestion() {
+		return passwordRecoveryQuestion;
+	}
+
+	/**
+	 * @param passwordRecoveryQuestion the passwordRecoveryQuestion to set
+	 */
+	public void setPasswordRecoveryQuestion(String passwordRecoveryQuestion) {
+		this.passwordRecoveryQuestion = passwordRecoveryQuestion;
+	}
+
+	/**
+	 * @return the passwordRecoveryResponse
+	 */
+	public String getPasswordRecoveryResponse() {
+		return passwordRecoveryResponse;
+	}
+
+	/**
+	 * @param passwordRecoveryResponse the passwordRecoveryResponse to set
+	 */
+	public void setPasswordRecoveryResponse(String passwordRecoveryResponse) {
+		this.passwordRecoveryResponse = passwordRecoveryResponse;
+	}
 }

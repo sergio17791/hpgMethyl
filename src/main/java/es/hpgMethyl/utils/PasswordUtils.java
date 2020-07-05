@@ -4,7 +4,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Base64;
-import java.util.Optional;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -12,23 +11,20 @@ import javax.crypto.spec.PBEKeySpec;
 public class PasswordUtils {
 	
 	private static final String ENCRYPTION_ALGORITHM = "PBKDF2WithHmacSHA512";
-	private static final int 	 ENCRYPTION_ITERATIONS = 10;
-	private static final int 	 ENCRYPTION_KEY_LENGTH = 512;
+	private static final int 	ENCRYPTION_ITERATIONS = 1000000;
+	private static final int 	ENCRYPTION_KEY_LENGTH = 1024;
+	private static final int 	SALT_BYTES_LENGTH = 20;
 	
 	private PasswordUtils() {};
 	
-	public static Optional<String> makeSalt(int length) {
-		
-		if(length <= 0) {
-			return Optional.empty();
-		}
-		
+	public static String makeSalt() {
+	
 		SecureRandom secureRandom = new SecureRandom();
-		byte bytes[] = new byte[length];
+		byte bytes[] = new byte[SALT_BYTES_LENGTH];
 		secureRandom.nextBytes(bytes);
-		String salt = Base64.getEncoder().encodeToString(bytes);
+		String salt = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
 		
-		return Optional.of(salt);		
+		return salt;		
 	}
 	
 	public static String getHashWithSalt(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {

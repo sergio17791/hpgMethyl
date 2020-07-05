@@ -2,7 +2,6 @@ package es.hpgMethyl.usecases.user.SignupUser;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Optional;
 
 import es.hpgMethyl.dao.UserDAO;
 import es.hpgMethyl.entities.User;
@@ -26,25 +25,24 @@ public class SignupUser {
 			throw new DuplicatedEmail();
 		}
 				
-		Optional<String> salt = PasswordUtils.makeSalt(32);
+		String passwordSalt = generateSalt();
 		
-		if(salt.isEmpty()) {
-			throw new SignupUserException("Error creating salt");
-		}
+		String passwordRecoveryResponseSalt = generateSalt();
 		
-		String password = null;
-		try {
-			password = PasswordUtils.getHashWithSalt(request.getPassword(), salt.get());
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			throw new SignupUserException(e);
-		}
+		String passwordRecoveryResponseFormatted = request.getPasswordRecoveryResponse().replaceAll("\\s","").toLowerCase();
+
+		String password = generateHashWithSalt(request.getPassword(), passwordSalt);
+		String passwordRecoveryResponse = generateHashWithSalt(passwordRecoveryResponseFormatted, passwordRecoveryResponseSalt);
 		
 		User user = new User();
 		user.setFirstName(request.getFirstName());
 		user.setLastName(request.getLastName());
 		user.setEmail(request.getEmail());
-		user.setSalt(salt.get());
+		user.setPasswordSalt(passwordSalt);
 		user.setPassword(password);
+		user.setPasswordRecoveryQuestion(request.getPasswordRecoveryQuestion());
+		user.setPasswordRecoveryResponse(passwordRecoveryResponse);
+		user.setPasswordRecoveryResponseSalt(passwordRecoveryResponseSalt);
 		
 		try {
 			this.userDAO.save(user);
@@ -61,6 +59,26 @@ public class SignupUser {
 			return true;
 		} catch (UserNotFound e) {
 			return false;
+		}
+	}
+	
+	private String generateSalt() throws SignupUserException {
+		
+		String salt = PasswordUtils.makeSalt();
+		
+		if(salt == null || salt.isEmpty()) {
+			throw new SignupUserException("Error generating salt");
+		}
+		
+		return salt;
+	}
+	
+	private String generateHashWithSalt(String string, String salt) throws SignupUserException {
+		
+		try {
+			return PasswordUtils.getHashWithSalt(string, salt);
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+			throw new SignupUserException(e);
 		}
 	}
 }
