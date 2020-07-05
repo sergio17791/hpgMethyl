@@ -1,0 +1,175 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                template="./WEB-INF/templates/mainTemplate.xhtml">
+    <ui:define name="content">
+        <b:form id="loginForm">
+            <b:row>
+                <b:column col-md="6">
+                    <legend><h:outputText value="#{msg['signup.signup']}"/></legend>      
+                </b:column>                 
+            </b:row>
+            <b:panel>
+                <fieldset>    
+                	<b:row>
+                		<b:column col-md="6">
+	                		<b:inputText id ="firstNameSignup" 
+	                					 value="#{userSignup.firstName}"
+		                                 styleClass="form-control-plaintext"
+		                                 label="#{msg['signup.firstName']}" 
+		                                 maxlength="60" 
+		                                 required="true" 
+		                                 requiredMessage="#{msg['error.form.requiredField']}">
+								<b:focus rendered="true" />		                               
+	                    	</b:inputText> 
+                		</b:column>
+                		<b:column col-md="6">
+	                		<h:message for="firstNameSignup" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+                		</b:column>
+                	</b:row>
+                	<b:row>
+                		<b:column col-md="6">
+	                		<b:inputText id ="lastNameSignup" 
+	                					 value="#{userSignup.lastName}"
+		                                 styleClass="form-control-plaintext"
+		                                 label="#{msg['signup.lastName']}" 
+		                                 maxlength="60" 
+		                                 required="true" 
+		                                 requiredMessage="#{msg['error.form.requiredField']}">
+	                    	</b:inputText> 
+                		</b:column>
+                		<b:column col-md="6">
+	                		<h:message for="lastNameSignup" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+                		</b:column>
+                	</b:row>
+                	<b:row>
+                		<b:column col-md="6">
+	                		<b:inputText id ="emailSignup" 
+	                					 value="#{userSignup.email}" 
+		                                 type="email"
+		                                 styleClass="form-control-plaintext"
+		                                 label="#{msg['signup.email']}" 
+		                                 maxlength="60" 
+		                                 required="true" 
+		                                 requiredMessage="#{msg['error.form.requiredField']}">
+		                        <f:facet name="append">
+		                            <b:icon name="envelope"/>
+		                        </f:facet>		                                 
+	                    	</b:inputText> 
+                		</b:column>
+                		<b:column col-md="6">
+	                		<h:message for="emailSignup" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+                		</b:column>
+                	</b:row>
+                	<b:row>
+                		<b:column col-md="6">
+	                		<b:inputText id ="emailVerificationSignup" 
+	                					 value="#{userSignup.emailVerification}" 
+		                                 type="email"
+		                                 styleClass="form-control-plaintext"
+		                                 label="#{msg['signup.emailVerification']}" 
+		                                 maxlength="60" 
+		                                 required="true" 
+		                                 requiredMessage="#{msg['error.form.requiredField']}">
+		                        <f:facet name="append">
+		                            <b:icon name="envelope"/>
+		                        </f:facet>	
+	                    	</b:inputText> 
+                		</b:column>
+                		<b:column col-md="6">
+	                		<h:message for="emailVerificationSignup" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+                		</b:column>
+                	</b:row>
+                	<b:row>
+                		<b:column col-md="6">
+	                		<b:inputSecret id ="passwordSignup" 
+		                                   value="#{userSignup.password}" 
+		                                   label="#{msg['signup.password']}" 
+		                                   class="passwordInput"
+		                                   maxlength="60" 
+		                                   required="true" 
+		                                   requiredMessage="#{msg['error.form.requiredField']}">                               
+		                        <f:facet name="append">
+      								<b:button look="default" onclick="toggleShowPassword();" icon="eye-open"/>
+    							</f:facet>
+		                    </b:inputSecret> 
+                		</b:column>
+                		<b:column col-md="6">
+	                		<h:message for="passwordSignup" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+                		</b:column>
+                	</b:row>
+                	<b:row>
+                		<b:column col-md="6">
+	                		<b:inputSecret id ="passwordVerificationSignup" 
+		                                   value="#{userSignup.passwordVerification}" 
+		                                   label="#{msg['signup.passwordVerification']}" 
+		                                   class="passwordInput"
+		                                   maxlength="60" 
+		                                   required="true" 
+		                                   requiredMessage="#{msg['error.form.requiredField']}">                               
+		                        <f:facet name="append">
+      								<b:button look="default" onclick="toggleShowPassword();" icon="eye-open"/>
+    							</f:facet>
+		                    </b:inputSecret> 
+                		</b:column>
+                		<b:column col-md="6">
+	                		<h:message for="passwordVerificationSignup" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+                		</b:column>
+                	</b:row>
+                	<b:row>
+                		<b:column col-md="6">
+	                		<b:inputText id ="passwordRecoveryQuestionSignup" 
+	                					 value="#{userSignup.passwordRecoveryQuestion}"
+		                                 styleClass="form-control-plaintext"
+		                                 label="#{msg['signup.passwordRecoveryQuestion']}" 
+		                                 maxlength="60" 
+		                                 required="true" 
+		                                 requiredMessage="#{msg['error.form.requiredField']}">
+	                    	</b:inputText> 
+                		</b:column>
+                		<b:column col-md="6">
+	                		<h:message for="passwordRecoveryQuestionSignup" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+                		</b:column>
+                	</b:row>
+                	<b:row>
+                		<b:column col-md="6">
+	                		<b:inputText id ="passwordRecoveryResponseSignup" 
+	                					 value="#{userSignup.passwordRecoveryResponse}"
+		                                 styleClass="form-control-plaintext"
+		                                 label="#{msg['signup.passwordRecoveryResponse']}" 
+		                                 maxlength="60" 
+		                                 required="true" 
+		                                 requiredMessage="#{msg['error.form.requiredField']}">
+	                    	</b:inputText> 
+                		</b:column>
+                		<b:column col-md="6">
+	                		<h:message for="passwordRecoveryResponseSignup" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+                		</b:column>
+                	</b:row>              
+                    <b:row>
+                    	<b:column col-md="6">
+	                		<b:commandButton id="signupButton"
+		                                     binding="#{userSignup.signupComponent}"
+		                                     value="#{msg['login.enter']}" 
+		                                     action="#{userSignup.processUserRegistration()}"
+		                                     look="primary"
+		                                     styleClass="btn-block"/> 
+                		</b:column>
+                		<b:column col-md="6">
+	                		<h:message for="signupButton" styleClass="alert alert-danger errorMessage"/>
+                		</b:column>                    	
+                    </b:row>    
+                    <b:row style="margin-top: 10px">
+                    	<b:column col-md="6" styleClass="text-center">
+                    		<b:link value="#{msg['signup.login']}" styleClass="stretched-link text-secondary" outcome="login" />
+                    		<h:outputText value=" - "/>
+                            <b:link value="#{msg['signup.forgotMyPassword']}" styleClass="stretched-link text-secondary" outcome="login"/>
+                    	</b:column>                    	
+                    </b:row>  	
+                </fieldset>        
+            </b:panel>                                          
+        </b:form>
+    </ui:define>
+</ui:composition>

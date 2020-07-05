@@ -38,7 +38,7 @@
     				</b:navBar>
     			</h:form>
     		</header>
-    		<b:container fluid="false" styleClass="content">
+    		<b:container styleClass="content">
     			<ui:insert name="content">
     				<h:panelGroup id="defaultPage">
     					<h:outputText value="#{msg['general.pageUnderConstruction']}"/>
@@ -48,5 +48,6 @@
     			</ui:insert>
     		</b:container>
     	</f:view>
+    	<h:outputScript library="js" name="functions.js" />
     </h:body>
 </html>

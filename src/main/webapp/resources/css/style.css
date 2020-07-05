@@ -17,6 +17,7 @@ body{
     height: 100% !important;
     background-color: white !important;
     padding-top: 15px;
+    overflow: auto;
 }
 
 #defaultPage {

@@ -26,6 +26,7 @@
 		                        <f:facet name="append">
 		                            <b:icon name="user" />
 		                        </f:facet>
+		                        <b:focus rendered="true" />
 	                    	</b:inputText> 
                 		</b:column>
                 		<b:column col-md="6">
@@ -37,12 +38,13 @@
 	                		<b:inputSecret id ="passwordLogin" 
 		                                   value="#{userLogin.password}" 
 		                                   label="#{msg['login.password']}" 
+		                                   class="passwordInput"
 		                                   maxlength="60" 
 		                                   required="true" 
-		                                   requiredMessage="#{msg['error.form.requiredField']}">                               
+		                                   requiredMessage="#{msg['error.form.requiredField']}">
 		                        <f:facet name="append">
-		                            <b:icon name="eye-open"/>
-		                        </f:facet>
+      								<b:button look="default" onclick="toggleShowPassword();" icon="eye-open"/>
+    							</f:facet>
 		                    </b:inputSecret> 
                 		</b:column>
                 		<b:column col-md="6">
@@ -64,7 +66,7 @@
                     </b:row>    
                     <b:row style="margin-top: 10px">
                     	<b:column col-md="6" styleClass="text-center">
-                    		<b:link value="#{msg['login.signin']}" styleClass="stretched-link text-secondary" outcome="login" />
+                    		<b:link value="#{msg['login.signin']}" styleClass="stretched-link text-secondary" outcome="signup" />
                             <h:outputText value=" - "/>
                             <b:link value="#{msg['login.forgotMyPassword']}" styleClass="stretched-link text-secondary" outcome="login"/>
                     	</b:column>                    	

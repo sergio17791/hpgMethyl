@@ -33,6 +33,12 @@
         <managed-bean-class>es.hpgMethyl.beans.UserLogout</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <description>Controls user registration in the system</description>
+        <managed-bean-name>userSignup</managed-bean-name>
+        <managed-bean-class>es.hpgMethyl.beans.UserSignup</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
     <navigation-rule>
         <from-view-id>/login.xhtml</from-view-id>
         <navigation-case>
@@ -42,6 +48,17 @@
         <navigation-case>
             <from-outcome>invalidLoginUser</from-outcome>
             <to-view-id>/login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/signup.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>validSignupUser</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>invalidSignupUser</from-outcome>
+            <to-view-id>/signup.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>
