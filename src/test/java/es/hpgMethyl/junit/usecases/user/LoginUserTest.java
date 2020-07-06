@@ -35,8 +35,11 @@ public class LoginUserTest {
 			"First name", 
 			"Last name", 
 			"test@test.com", 
-			"zjlLDS8dN6GMtm8kt1EAxyEOqb0wtMkgoYfvZccptp91LE+DTJiDMKiTmReKKEjIQU/vLRI0bH+8rMSWPFogmQ==", 
-			"hWd34tw8Y9t69Gkl+LVRuguPVBt2WAzESxWv6hv4Qgh/R9IGkZ4ksUmF", 
+			"yk7wtMR4rBr/UPCThvmoiSiw5Lf+hD+VwbQVeb21zXPOi5XJqRoGgxGml1JQj5DdxahbDV+QysvAEt44ZVvA6qrUifWJStKKlL4LGz6rOwjVtg9AblQBFWW2CHxZ85CTN+exdOlKU/cTVjC3uyCaQs6cS/ckzk1DVZPgTZT5lBY=", 
+			"Lm7jSnhSQYVOh3mQHToscnO_CV0",
+			"Recovery question",
+			"uKjTIA2jD1XUhcL2IcYC52FMS5ahYHcpwrt2qyDefsNOTx68reYWiu57ExBIq0KUJHmmeWh6n/bxfpnJ7PouZdaanp3NthhFN6pFMuvvBPWRcfdcpkuL54fntJskAIfMXrsOyEbVLbOuegPi3q0zmQxM3BTB27lKal6k2ZjVcu8=",
+			"HYq3kHHP0mcFia25J5qp8YYN8TE",
 			true
 		);
 	}
@@ -93,7 +96,7 @@ public class LoginUserTest {
 	public void test_execute_givenValidCredentials_expectUser() throws InvalidCredentials, UserNotFound {
 		
 		String email = "test@test.com";
-		String password = "test";
+		String password = "passwordtest";
 		
 		Mockito.when(userDaoHibernate.findByEmail(email)).thenReturn(this.user);
 		

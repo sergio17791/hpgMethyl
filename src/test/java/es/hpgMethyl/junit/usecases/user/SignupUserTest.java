@@ -32,10 +32,12 @@ public class SignupUserTest {
 		
 		String email = "test@email.com";
 		String password = "passwordtest";
-		String firstName = "Awesome first name";
-		String lastName = "Awesome last name";
+		String firstName = "First name";
+		String lastName = "Last name";
+		String passwordRecoveryQuestion = "Recovery question";
+		String passwordRecoveryResponse = "Recovery response";
 		
-		SignupUserRequest request = new SignupUserRequest(email, password, firstName, lastName);
+		SignupUserRequest request = new SignupUserRequest(email, password, firstName, lastName, passwordRecoveryQuestion, passwordRecoveryResponse);
 		
 		Mockito.doReturn(new User()).when(userDaoHibernate).findByEmail(email);
 		
@@ -47,10 +49,12 @@ public class SignupUserTest {
 		
 		String email = "test@email.com";
 		String password = "passwordtest";
-		String firstName = "Awesome first name";
-		String lastName = "Awesome last name";
+		String firstName = "First name";
+		String lastName = "Last name";
+		String passwordRecoveryQuestion = "Recovery question";
+		String passwordRecoveryResponse = "Recovery response";
 		
-		SignupUserRequest request = new SignupUserRequest(email, password, firstName, lastName);
+		SignupUserRequest request = new SignupUserRequest(email, password, firstName, lastName, passwordRecoveryQuestion, passwordRecoveryResponse);
 		
 		Mockito.doThrow(UserNotFound.class).when(userDaoHibernate).findByEmail(email);
 		
@@ -64,10 +68,12 @@ public class SignupUserTest {
 		
 		String email = "test@email.com";
 		String password = "passwordtest";
-		String firstName = "Awesome first name";
-		String lastName = "Awesome last name";
+		String firstName = "First name";
+		String lastName = "Last name";
+		String passwordRecoveryQuestion = "Recovery question";
+		String passwordRecoveryResponse = "Recovery response";
 		
-		SignupUserRequest request = new SignupUserRequest(email, password, firstName, lastName);
+		SignupUserRequest request = new SignupUserRequest(email, password, firstName, lastName, passwordRecoveryQuestion, passwordRecoveryResponse);
 		
 		Mockito.doThrow(UserNotFound.class).when(userDaoHibernate).findByEmail(email);
 		
