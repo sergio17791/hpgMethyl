@@ -114,6 +114,8 @@
 		                        <f:facet name="append">
       								<b:button look="default" onclick="toggleShowPassword();" icon="eye-open"/>
     							</f:facet>
+    							<f:attribute name="password" value="#{userSignup.password}" />
+    							<f:validator validatorId="equalsPasswordValidator" /> 
 		                    </b:inputSecret> 
                 		</b:column>
                 		<b:column col-md="6">
