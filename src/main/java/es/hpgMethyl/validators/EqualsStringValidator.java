@@ -9,21 +9,23 @@ import javax.faces.validator.ValidatorException;
 
 import es.hpgMethyl.utils.FacesContextUtils;
 
-@FacesValidator("equalsPasswordValidator")
-public class EqualsPasswordValidator implements Validator {
+@FacesValidator("equalsStringValidator")
+public class EqualsStringValidator implements Validator {
 
 	@Override
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 		
-		String password =  (String) component.getAttributes().get("password");
+		String string =  (String) component.getAttributes().get("stringToVerify");
 		
-		String passwordVerification = (String) value;
+		String errorMessageName =  (String) component.getAttributes().get("errorMessage");
 		
-		if(!passwordVerification.equals(password)) {
+		String stringVerification = (String) value;
+		
+		if(!stringVerification.equals(string)) {
 			
-			String invalidPasswordFormatMessage = FacesContextUtils.geti18nMessage("signup.passwordsNotEquals");
+			String errorMessage = FacesContextUtils.geti18nMessage(errorMessageName);
 			
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, invalidPasswordFormatMessage, invalidPasswordFormatMessage);
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, errorMessage);
 			
 			throw new ValidatorException(message);
 		}		

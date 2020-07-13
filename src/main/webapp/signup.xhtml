@@ -46,7 +46,8 @@
                 	</b:row>
                 	<b:row>
                 		<b:column col-md="6">
-	                		<b:inputText id ="emailSignup" 
+	                		<b:inputText id ="emailSignup"
+	                					 binding ="#{emailSignupComponent}" 
 	                					 value="#{userSignup.email}" 
 		                                 type="email"
 		                                 styleClass="form-control-plaintext"
@@ -75,7 +76,10 @@
 		                                 requiredMessage="#{msg['error.form.requiredField']}">
 		                        <f:facet name="append">
 		                            <b:icon name="envelope"/>
-		                        </f:facet>	
+		                        </f:facet>
+		                        <f:attribute name="stringToVerify" value="#{emailSignupComponent.value}" />
+    							<f:attribute name="errorMessage" value="signup.emailsNotEquals" />
+    							<f:validator validatorId="equalsStringValidator"/> 	
 	                    	</b:inputText> 
                 		</b:column>
                 		<b:column col-md="6">
@@ -84,7 +88,8 @@
                 	</b:row>
                 	<b:row style="padding-bottom: 10px !important;">
                 		<b:column col-md="6">
-	                		<b:inputSecret id ="passwordSignup" 
+	                		<b:inputSecret id ="passwordSignup"
+	                					   binding="#{passwordSignupComponent}"
 		                                   value="#{userSignup.password}" 
 		                                   label="#{msg['signup.password']}" 
 		                                   class="passwordInput"
@@ -94,7 +99,7 @@
 		                        <f:facet name="append">
       								<b:button look="default" onclick="toggleShowPassword();" icon="eye-open"/>
     							</f:facet>    						
-								<f:validator validatorId="passwordValidator" />   
+								<f:validator validatorId="passwordValidator"/>   
 		                    </b:inputSecret>
 		                    <small class="text-muted"><h:outputText value="#{msg['signup.passwordPatternInfo']}"/></small> 
                 		</b:column>
@@ -114,8 +119,9 @@
 		                        <f:facet name="append">
       								<b:button look="default" onclick="toggleShowPassword();" icon="eye-open"/>
     							</f:facet>
-    							<f:attribute name="password" value="#{userSignup.password}" />
-    							<f:validator validatorId="equalsPasswordValidator" /> 
+    							<f:attribute name="stringToVerify" value="#{passwordSignupComponent.value}" />
+    							<f:attribute name="errorMessage" value="signup.passwordsNotEquals" />
+    							<f:validator validatorId="equalsStringValidator"/> 
 		                    </b:inputSecret> 
                 		</b:column>
                 		<b:column col-md="6">
