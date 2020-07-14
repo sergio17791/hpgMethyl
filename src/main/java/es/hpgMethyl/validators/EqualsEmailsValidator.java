@@ -9,26 +9,23 @@ import javax.faces.validator.ValidatorException;
 
 import es.hpgMethyl.utils.FacesContextUtils;
 
-@FacesValidator("equalsStringValidator")
-public class EqualsStringValidator implements Validator {
+@FacesValidator("equalsEmailsValidator")
+public class EqualsEmailsValidator implements Validator {
 
 	@Override
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 		
-		String string =  (String) component.getAttributes().get("stringToVerify");
-		
-		String errorMessageName =  (String) component.getAttributes().get("errorMessage");
-		
-		String stringVerification = (String) value;
-		
-		if(!stringVerification.equals(string)) {
+		String email =  (String) component.getAttributes().get("email");
 			
-			String errorMessage = FacesContextUtils.geti18nMessage(errorMessageName);
+		String emailVerification = (String) value;
+		
+		if(!emailVerification.equals(email)) {
+			
+			String errorMessage = FacesContextUtils.geti18nMessage("signup.emailsNotEquals");
 			
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, errorMessage);
 			
 			throw new ValidatorException(message);
 		}		
 	}
-
 }

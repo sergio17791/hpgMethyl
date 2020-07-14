@@ -22,7 +22,7 @@
 		                                 maxlength="60" 
 		                                 required="true" 
 		                                 requiredMessage="#{msg['error.form.requiredField']}">
-								<b:focus rendered="true" />		                               
+								<b:focus rendered="true" />                               
 	                    	</b:inputText> 
                 		</b:column>
                 		<b:column col-md="6">
@@ -77,9 +77,8 @@
 		                        <f:facet name="append">
 		                            <b:icon name="envelope"/>
 		                        </f:facet>
-		                        <f:attribute name="stringToVerify" value="#{emailSignupComponent.value}" />
-    							<f:attribute name="errorMessage" value="signup.emailsNotEquals" />
-    							<f:validator validatorId="equalsStringValidator"/> 	
+		                        <f:attribute name="email" value="#{emailSignupComponent.value}"/>
+    							<f:validator validatorId="equalsEmailsValidator"/> 	
 	                    	</b:inputText> 
                 		</b:column>
                 		<b:column col-md="6">
@@ -89,7 +88,7 @@
                 	<b:row style="padding-bottom: 10px !important;">
                 		<b:column col-md="6">
 	                		<b:inputSecret id ="passwordSignup"
-	                					   binding="#{passwordSignupComponent}"
+	                					   binding ="#{passwordSignupComponent}"
 		                                   value="#{userSignup.password}" 
 		                                   label="#{msg['signup.password']}" 
 		                                   class="passwordInput"
@@ -98,8 +97,9 @@
 		                                   requiredMessage="#{msg['error.form.requiredField']}">                               
 		                        <f:facet name="append">
       								<b:button look="default" onclick="toggleShowPassword();" icon="eye-open"/>
-    							</f:facet>    						
-								<f:validator validatorId="passwordValidator"/>   
+    							</f:facet>    					
+								<f:validator validatorId="passwordValidator"/>
+								<f:event listener="#{userSignup.cleanInputComponent}" type="preRenderComponent"/>	   
 		                    </b:inputSecret>
 		                    <small class="text-muted"><h:outputText value="#{msg['signup.passwordPatternInfo']}"/></small> 
                 		</b:column>
@@ -109,7 +109,7 @@
                 	</b:row>
                 	<b:row>
                 		<b:column col-md="6">
-	                		<b:inputSecret id ="passwordVerificationSignup" 
+	                		<b:inputSecret id ="passwordVerificationSignup"
 		                                   value="#{userSignup.passwordVerification}" 
 		                                   label="#{msg['signup.passwordVerification']}" 
 		                                   class="passwordInput"
@@ -119,9 +119,9 @@
 		                        <f:facet name="append">
       								<b:button look="default" onclick="toggleShowPassword();" icon="eye-open"/>
     							</f:facet>
-    							<f:attribute name="stringToVerify" value="#{passwordSignupComponent.value}" />
-    							<f:attribute name="errorMessage" value="signup.passwordsNotEquals" />
-    							<f:validator validatorId="equalsStringValidator"/> 
+    							<f:attribute name="password" value="#{passwordSignupComponent.value}" />
+    							<f:validator validatorId="equalsPasswordsValidator"/>    						
+								<f:event listener="#{userSignup.cleanInputComponent}" type="preRenderComponent"/>	 
 		                    </b:inputSecret> 
                 		</b:column>
                 		<b:column col-md="6">
@@ -145,13 +145,14 @@
                 	</b:row>
                 	<b:row>
                 		<b:column col-md="6">
-	                		<b:inputText id ="passwordRecoveryResponseSignup" 
+	                		<b:inputText id ="passwordRecoveryResponseSignup"
 	                					 value="#{userSignup.passwordRecoveryResponse}"
 		                                 styleClass="form-control-plaintext"
 		                                 label="#{msg['signup.passwordRecoveryResponse']}" 
 		                                 maxlength="60" 
 		                                 required="true" 
 		                                 requiredMessage="#{msg['error.form.requiredField']}">
+		                    	<f:event listener="#{userSignup.cleanInputComponent}" type="preRenderComponent"/>
 	                    	</b:inputText> 
                 		</b:column>
                 		<b:column col-md="6">
@@ -165,7 +166,7 @@
 		                                     value="#{msg['login.enter']}" 
 		                                     action="#{userSignup.processUserRegistration()}"
 		                                     look="primary"
-		                                     styleClass="btn-block"/> 
+		                                     styleClass="btn-block"/>
                 		</b:column>
                 		<b:column col-md="6">
 	                		<h:message for="signupButton" styleClass="alert alert-danger errorMessage"/>

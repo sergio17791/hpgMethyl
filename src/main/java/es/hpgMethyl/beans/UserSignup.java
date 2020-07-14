@@ -2,6 +2,9 @@ package es.hpgMethyl.beans;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.ComponentSystemEvent;
 
 import es.hpgMethyl.dao.hibernate.UserDAOHibernate;
 import es.hpgMethyl.exceptions.DuplicatedEmail;
@@ -160,7 +163,7 @@ public class UserSignup {
 	public void setSignupComponent(UIComponent signupComponent) {
 		this.signupComponent = signupComponent;
 	}
-	
+
 	public String processUserRegistration() {
 			
 		try {
@@ -191,5 +194,10 @@ public class UserSignup {
     	this.setPasswordVerification("");
 		
 		return "invalidSignupUser";
+	}
+	
+	public void cleanInputComponent(ComponentSystemEvent event) throws AbortProcessingException {
+		UIInput input = (UIInput) event.getComponent();
+		input.setValue("");
 	}
 }

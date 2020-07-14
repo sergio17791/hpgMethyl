@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
@@ -36,8 +37,9 @@ public class PasswordValidator implements Validator {
 			
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, invalidPasswordFormatMessage, invalidPasswordFormatMessage);
 			
+			((UIInput) component).setSubmittedValue("");
+			
 			throw new ValidatorException(message);
 		}		
 	}
-
 }
