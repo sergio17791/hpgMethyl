@@ -22,6 +22,12 @@
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     <managed-bean>
+        <description>Control password recovery by email and secret question</description>
+        <managed-bean-name>passwordRecovery</managed-bean-name>
+        <managed-bean-class>es.hpgMethyl.beans.PasswordRecovery</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
         <description>Control user access to the system</description>
         <managed-bean-name>userLogin</managed-bean-name>
         <managed-bean-class>es.hpgMethyl.beans.UserLogin</managed-bean-class>
