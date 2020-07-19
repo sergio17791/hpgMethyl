@@ -1,15 +1,26 @@
 package es.hpgMethyl.beans;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.ComponentSystemEvent;
 
 import es.hpgMethyl.dao.hibernate.UserDAOHibernate;
 import es.hpgMethyl.entities.User;
+import es.hpgMethyl.exceptions.ChangePasswordException;
 import es.hpgMethyl.exceptions.UserNotFound;
+import es.hpgMethyl.usecases.user.ChangePassword.ChangePassword;
+import es.hpgMethyl.usecases.user.ChangePassword.ChangePasswordRequest;
+import es.hpgMethyl.usecases.user.ChangePassword.ChangePasswordResponse;
 import es.hpgMethyl.usecases.user.GetUserByEmail.GetUserByEmail;
 import es.hpgMethyl.usecases.user.GetUserByEmail.GetUserByEmailRequest;
 import es.hpgMethyl.usecases.user.GetUserByEmail.GetUserByEmailResponse;
 import es.hpgMethyl.utils.FacesContextUtils;
+import es.hpgMethyl.utils.PasswordUtils;
 
 public class PasswordRecovery {
 
@@ -17,25 +28,32 @@ public class PasswordRecovery {
 	
 	private String email;
 	
+	private String question;
+	
+	private String response;
+	
+	private Boolean correctResponse;
+	
+	private String newPassword;
+	
+	private String newPasswordVerification;
+	
 	private UIComponent passwordRecoveryComponent;
+	
+	private UIComponent responseQuestionComponent;
+	
+	private UIComponent changePasswordComponent;
 
 	public PasswordRecovery() {
 		this.user = null;
+		this.question = null;
+		this.response = null;
+		this.correctResponse = false;
+		this.newPassword = null;
+		this.newPasswordVerification = null;
 		this.passwordRecoveryComponent = null;
-	}
-	
-	/**
-	 * @return the user
-	 */
-	public User getUser() {
-		return user;
-	}
-
-	/**
-	 * @param user the user to set
-	 */
-	public void setUser(User user) {
-		this.user = user;
+		this.responseQuestionComponent = null;
+		this.changePasswordComponent = null;
 	}
 
 	/**
@@ -53,6 +71,77 @@ public class PasswordRecovery {
 	}
 
 	/**
+	 * @return the question
+	 */
+	public String getQuestion() {
+		return question;
+	}
+
+	/**
+	 * @param question the question to set
+	 */
+	public void setQuestion(String question) {
+		this.question = question;
+	}
+
+	/**
+	 * @return the response
+	 */
+	public String getResponse() {
+		return response;
+	}
+
+	/**
+	 * @param response the response to set
+	 */
+	public void setResponse(String response) {
+		this.response = response;
+	}
+	
+
+	/**
+	 * @return the correctResponse
+	 */
+	public Boolean getCorrectResponse() {
+		return correctResponse;
+	}
+
+	/**
+	 * @param correctResponse the correctResponse to set
+	 */
+	public void setCorrectResponse(Boolean correctResponse) {
+		this.correctResponse = correctResponse;
+	}
+
+	/**
+	 * @return the newPassword
+	 */
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	/**
+	 * @param newPassword the newPassword to set
+	 */
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
+	/**
+	 * @return the newPasswordVerification
+	 */
+	public String getNewPasswordVerification() {
+		return newPasswordVerification;
+	}
+
+	/**
+	 * @param newPasswordVerification the newPasswordVerification to set
+	 */
+	public void setNewPasswordVerification(String newPasswordVerification) {
+		this.newPasswordVerification = newPasswordVerification;
+	}
+
+	/**
 	 * @return the passwordRecoveryComponent
 	 */
 	public UIComponent getPasswordRecoveryComponent() {
@@ -66,6 +155,28 @@ public class PasswordRecovery {
 		this.passwordRecoveryComponent = passwordRecoveryComponent;
 	}
 	
+	public UIComponent getResponseQuestionComponent() {
+		return responseQuestionComponent;
+	}
+
+	public void setResponseQuestionComponent(UIComponent responseQuestionComponent) {
+		this.responseQuestionComponent = responseQuestionComponent;
+	}
+
+	/**
+	 * @return the changePasswordComponent
+	 */
+	public UIComponent getChangePasswordComponent() {
+		return changePasswordComponent;
+	}
+
+	/**
+	 * @param changePasswordComponent the changePasswordComponent to set
+	 */
+	public void setChangePasswordComponent(UIComponent changePasswordComponent) {
+		this.changePasswordComponent = changePasswordComponent;
+	}
+
 	public void checkEmail() {
 		
 		try {
@@ -74,10 +185,52 @@ public class PasswordRecovery {
 			);
 			
 			this.user = response.getUser();
+			this.setQuestion(this.user.getPasswordRecoveryQuestion());
 			
 		} catch(UserNotFound e) {
 			String userNotFoundMessage = FacesContextUtils.geti18nMessage("passwordRecovery.userNotFound");
 			FacesContextUtils.setMessageInComponent(this.getPasswordRecoveryComponent(), FacesMessage.SEVERITY_ERROR, userNotFoundMessage, userNotFoundMessage);
 		}
+	}
+	
+	public void sendResponse() {
+		
+		try {
+			String hashedResponse = PasswordUtils.getHashWithSalt(this.getResponse().replaceAll("\\s","").toLowerCase(), this.user.getPasswordRecoveryResponseSalt());
+			
+			if(hashedResponse.equals(this.user.getPasswordRecoveryResponse())) {
+				this.setCorrectResponse(true);
+			} else {
+				String wrongResponseMessage = FacesContextUtils.geti18nMessage("passwordRecovery.wrongResponse");
+				FacesContextUtils.setMessageInComponent(this.getResponseQuestionComponent(), FacesMessage.SEVERITY_ERROR, wrongResponseMessage, wrongResponseMessage);
+			}
+			
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
+			FacesContextUtils.setMessageInComponent(this.getResponseQuestionComponent(), FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
+		}
+	}
+	
+	public String changePassword() {
+		
+		try {
+			ChangePasswordResponse response = new ChangePassword(new UserDAOHibernate()).execute(
+					new ChangePasswordRequest(this.user, this.getNewPassword())
+			);
+			
+			FacesContextUtils.setParameterFacesContextSession(FacesContextUtils.SESSION_USER, response.getUser());
+			
+			return "correctChange";			
+		} catch (ChangePasswordException e) {
+			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
+			FacesContextUtils.setMessageInComponent(this.getChangePasswordComponent(), FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
+			
+			return "wrongChange";
+		}
+	}
+	
+	public void cleanInputComponent(ComponentSystemEvent event) throws AbortProcessingException {
+		UIInput input = (UIInput) event.getComponent();
+		input.setValue("");
 	}
 }

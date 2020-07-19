@@ -174,7 +174,7 @@ public class UserSignup {
 					this.getFirstName(),
 					this.getLastName(),
 					this.getPasswordRecoveryQuestion(),
-					this.getPasswordRecoveryResponse()
+					this.getPasswordRecoveryResponse().replaceAll("\\s","").toLowerCase()
 				)				
 			);
 			
@@ -183,10 +183,10 @@ public class UserSignup {
 			return "validSignupUser";			
 		} catch (DuplicatedEmail e) {
 			String duplicatedEmailMessage = FacesContextUtils.geti18nMessage("signup.duplicatedEmail");
-			FacesContextUtils.setMessageInComponent(this.signupComponent, FacesMessage.SEVERITY_ERROR, duplicatedEmailMessage, duplicatedEmailMessage);			
+			FacesContextUtils.setMessageInComponent(this.getSignupComponent(), FacesMessage.SEVERITY_ERROR, duplicatedEmailMessage, duplicatedEmailMessage);			
 		} catch (SignupUserException e) {
-			String signupUserExceptionMessage = FacesContextUtils.geti18nMessage("error.default");
-			FacesContextUtils.setMessageInComponent(this.signupComponent, FacesMessage.SEVERITY_ERROR, signupUserExceptionMessage, signupUserExceptionMessage);
+			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
+			FacesContextUtils.setMessageInComponent(this.getSignupComponent(), FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
 		}
 		
     	this.setPassword("");

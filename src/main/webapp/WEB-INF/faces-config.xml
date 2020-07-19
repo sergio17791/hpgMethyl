@@ -67,4 +67,15 @@
             <to-view-id>/signup.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/passwordRecovery.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>correctChange</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>wrongChange</from-outcome>
+            <to-view-id>/passwordRecovery.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

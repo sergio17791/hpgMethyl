@@ -29,7 +29,7 @@ public class SignupUser {
 		
 		String passwordRecoveryResponseSalt = generateSalt();
 		
-		String passwordRecoveryResponseFormatted = request.getPasswordRecoveryResponse().replaceAll("\\s","").toLowerCase();
+		String passwordRecoveryResponseFormatted = request.getPasswordRecoveryResponse();
 
 		String password = generateHashWithSalt(request.getPassword(), passwordSalt);
 		String passwordRecoveryResponse = generateHashWithSalt(passwordRecoveryResponseFormatted, passwordRecoveryResponseSalt);
