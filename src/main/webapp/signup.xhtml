@@ -8,7 +8,7 @@
         <b:form id="loginForm">
             <b:row>
                 <b:column col-md="6">
-                    <legend><h:outputText value="#{msg['signup.signup']}"/></legend>      
+                    <legend><h:outputText value="#{msg['signup.createAccount']}"/></legend>      
                 </b:column>                 
             </b:row>
             <b:panel>
@@ -163,7 +163,7 @@
                     	<b:column col-md="6">
 	                		<b:commandButton id="signupButton"
 		                                     binding="#{userSignup.signupComponent}"
-		                                     value="#{msg['login.enter']}" 
+		                                     value="#{msg['signup.signup']}" 
 		                                     action="#{userSignup.processUserRegistration()}"
 		                                     look="primary"
 		                                     styleClass="btn-block"/>
