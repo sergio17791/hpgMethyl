@@ -65,7 +65,8 @@
                     <fieldset>
 						<legend><h4><h:outputText value="#{msg['analysis.smithWatermanLegend']}"/></h4></legend>
 					</fieldset>
-					<b:row>
+					<h:outputText value="#{msg['analysis.smithWatermanText']}"/>
+					<b:row style="margin-top: 10px">
                 		<b:column col-md="4">
                 			<b:inputText id ="swaMinimunScore" 
 	                					 value="#{analysis.swaMinimunScore}"
