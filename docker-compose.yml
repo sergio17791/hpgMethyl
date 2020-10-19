@@ -8,13 +8,27 @@ services:
          POSTGRES_DB: hpgMethyl
       volumes:
        - postgres:/data/postgres
+      networks:
+         webapp:
+            ipv4_address: 172.19.0.3
    tomcat:
       build:
          context: .
          dockerfile: Dockerfile
       ports:
         - '8080:8080'
+      networks:
+         webapp:
+            ipv4_address: 172.19.0.2
         
 volumes:
    postgres:
+
+networks:
+  webapp:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.19.0.0/16
+         gateway: 172.19.0.1
             
