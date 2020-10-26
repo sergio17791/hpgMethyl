@@ -10,12 +10,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <title><h:outputText value="#{msg['general.hpgMethyl']}"/></title>
         <h:outputStylesheet library="css" name="style.css"/>
+        <link rel="icon" type="image/png" href="/resources/images/dna_icon.png"/>
     </h:head>
     <h:body>
     	<f:view locale="#{languageSelector.language}">
     		<header>
     			<h:form>
-	    			<b:navBar brand="#{msg['general.hpgMethyl']}" brandHref="#{request.contextPath}/faces/index.xhtml" fixed="top" sticky="true" inverse="true">
+	    			<b:navBar brand="#{msg['general.hpgMethyl']}" 
+	    					  brandImg="/resources/images/dna_icon.png" 
+	    					  brandHref="#{request.contextPath}/faces/index.xhtml"
+	    					  brandImgStyleClass="navBarImg"
+	    					  fixed="top" 
+	    					  sticky="true" 
+	    					  inverse="false">
 	    				<b:navbarLinks>
 	    					<b:navLink value="#{msg['menu.blog']}" outcome=""></b:navLink>
 	    					<b:navLink value="#{msg['menu.aboutUs']}" outcome=""></b:navLink>
