@@ -10,7 +10,7 @@
 		<composite:attribute name="value" required="true"/>
 		<composite:attribute name="label" required="true"/>
 		<composite:attribute name="type" required="false" default="text"/>
-		<composite:attribute name="maxlength" required="false" default="60"/>
+		<composite:attribute name="maxlength" required="false" type="java.lang.Integer"/>
 		<composite:attribute name="required" required="false" default="false" type="java.lang.Boolean"/>
 		<composite:attribute name="requiredMessage" required="false" default="#{msg['error.form.requiredField']}"/>
 		<composite:attribute name="focus" required="false" default="false" type="java.lang.Boolean"/>
@@ -24,7 +24,7 @@
 		                 a:type="#{cc.attrs.type}"
 			             required="#{cc.attrs.required}">
 				<b:focus rendered="#{cc.attrs.focus}"/>
-				<c:if test="#{cc.attrs.maxlength}">
+				<c:if test="#{cc.attrs.maxlength != null}">
 					<f:attribute name="maxlength" value="#{cc.attrs.maxlength}"/>	
 				</c:if>
 				<c:if test="#{cc.attrs.required}">
