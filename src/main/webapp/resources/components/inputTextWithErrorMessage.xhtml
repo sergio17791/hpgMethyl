@@ -15,9 +15,10 @@
 		<composite:attribute name="requiredMessage" required="false" default="#{msg['error.form.requiredField']}"/>
 		<composite:attribute name="focus" required="false" default="false" type="java.lang.Boolean"/>
 		<composite:attribute name="colMdSize" required="false" default="6" type="java.lang.Integer"/>
+		<composite:attribute name="colOffsetMd" required="false" default="0" type="java.lang.Integer"/>
 	</composite:interface>
     <composite:implementation>
-		<b:column col-md="#{cc.attrs.colMdSize}">
+		<b:column col-md="#{cc.attrs.colMdSize}" offset-md="#{cc.attrs.colOffsetMd}">
         	<b:inputText id ="#{cc.attrs.inputId}" 
 	        			 value="#{cc.attrs.value}"
 		               	 styleClass="form-control-plaintext"
