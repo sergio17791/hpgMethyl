@@ -4,6 +4,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:b="http://bootsfaces.net/ui"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:components="http://java.sun.com/jsf/composite/components"
                 template="./WEB-INF/templates/mainTemplate.xhtml">
     <ui:define name="content">
         <b:form id="analysisForm" enctype="multipart/form-data">
@@ -15,18 +16,12 @@
             <b:panel>
             	<fieldset>
             		<b:row>
-                		<b:column col-md="6">
-                			<b:inputText id ="identifier" 
-	                					 value="#{analysis.identifier}"
-		                            	 styleClass="form-control-plaintext"
-		                                 label="#{msg['analysis.identifier']}" 
-			                             maxlength="60" 
-			                             required="true" 
-		    	                         requiredMessage="#{msg['error.form.requiredField']}">
-								<b:focus rendered="true" />                               
-	                	    </b:inputText>
-                			<h:message for="identifier" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-                		</b:column>
+                		<components:inputTextWithErrorMessage inputId="identifier"
+                											  value="#{analysis.identifier}"
+                											  label="#{msg['analysis.identifier']}"
+                											  maxlength="60"
+                											  required="true" 
+                											  focus="true"/>                			
                 		<b:column col-md="6">
                 			<h:outputLabel styleClass="control-label" for="inputReadFile">#{msg['analysis.inputReadFile']}:</h:outputLabel>
                 			<h:inputFile id="inputReadFile" 
@@ -67,63 +62,39 @@
 					</fieldset>
 					<h:outputText value="#{msg['analysis.smithWatermanText']}"/>
 					<b:row style="margin-top: 10px">
-                		<b:column col-md="4">
-                			<b:inputText id ="swaMinimunScore" 
-	                					 value="#{analysis.swaMinimunScore}"
-		                            	 styleClass="form-control-plaintext"
-		                                 label="#{msg['analysis.swaMinimunScore']}" 
-			                             a:type="number"
-			                             required="true" 
-		    	                         requiredMessage="#{msg['error.form.requiredField']}">                               
-	                	    </b:inputText>
-                			<h:message for="swaMinimunScore" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-                		</b:column>
-                		<b:column col-md="4">
-                			<b:inputText id ="swaMatchScore" 
-	                					 value="#{analysis.swaMatchScore}"
-		                            	 styleClass="form-control-plaintext"
-		                                 label="#{msg['analysis.swaMatchScore']}" 
-			                             a:type="number"
-			                             required="true" 
-		    	                         requiredMessage="#{msg['error.form.requiredField']}">                    
-	                	    </b:inputText>
-                			<h:message for="swaMatchScore" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-                		</b:column>
-                		<b:column col-md="4">
-                			<b:inputText id ="swaMismatchScore" 
-	                					 value="#{analysis.swaMismatchScore}"
-		                            	 styleClass="form-control-plaintext"
-		                                 label="#{msg['analysis.swaMismatchScore']}" 
-			                             a:type="number"
-			                             required="true" 
-		    	                         requiredMessage="#{msg['error.form.requiredField']}">                         
-	                	    </b:inputText>
-                			<h:message for="swaMismatchScore" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-                		</b:column>
+						<components:inputTextWithErrorMessage inputId="swaMinimunScore"
+                											  value="#{analysis.swaMinimunScore}"
+                											  label="#{msg['analysis.swaMinimunScore']}"
+                											  type="number"
+                											  required="true"
+                											  colMdSize="4"/> 
+						<components:inputTextWithErrorMessage inputId="swaMatchScore"
+                											  value="#{analysis.swaMatchScore}"
+                											  label="#{msg['analysis.swaMatchScore']}"
+                											  type="number"
+                											  required="true"
+                											  colMdSize="4"/>
+						<components:inputTextWithErrorMessage inputId="swaMismatchScore"
+                											  value="#{analysis.swaMismatchScore}"
+                											  label="#{msg['analysis.swaMismatchScore']}"
+                											  type="number"
+                											  required="true"
+                											  colMdSize="4"/>                											                   											   
                 	</b:row>
                 	<b:row>
-                		<b:column col-md="4" offset-md="2">
-                			<b:inputText id ="swaGapOpen" 
-	                					 value="#{analysis.swaGapOpen}"
-		                            	 styleClass="form-control-plaintext"
-		                                 label="#{msg['analysis.swaGapOpen']}" 
-			                             a:type="number"
-			                             required="true" 
-		    	                         requiredMessage="#{msg['error.form.requiredField']}">                              
-	                	    </b:inputText>
-                			<h:message for="swaGapOpen" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-                		</b:column>
-                		<b:column col-md="4">
-                			<b:inputText id ="swaGapExtend" 
-	                					 value="#{analysis.swaGapExtend}"
-		                            	 styleClass="form-control-plaintext"
-		                                 label="#{msg['analysis.swaGapExtend']}" 
-			                             a:type="number"
-			                             required="true" 
-		    	                         requiredMessage="#{msg['error.form.requiredField']}">                              
-	                	    </b:inputText>
-                			<h:message for="swaGapExtend" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-                		</b:column>
+                		<components:inputTextWithErrorMessage inputId="swaGapOpen"
+                											  value="#{analysis.swaGapOpen}"
+                											  label="#{msg['analysis.swaGapOpen']}"
+                											  type="number"
+                											  required="true"
+                											  colMdSize="4"
+                											  colOffsetMd="2"/>
+						<components:inputTextWithErrorMessage inputId="swaGapExtend"
+                											  value="#{analysis.swaGapExtend}"
+                											  label="#{msg['analysis.swaGapExtend']}"
+                											  type="number"
+                											  required="true"
+                											  colMdSize="4"/>                											  
                 	</b:row>
                 	<b:row>
                     	<b:column col-md="6">
