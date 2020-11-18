@@ -17,7 +17,7 @@ dependencies {
     implementation 'jstl:jstl:1.2'
     implementation 'org.hibernate:hibernate-core:5.4.10.Final'
     implementation 'org.postgresql:postgresql:42.2.9.jre7'
-    providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
+    implementation 'javax.servlet:javax.servlet-api:3.0.1'
     testCompile 'junit:junit:4.12'
 	testCompile 'org.mockito:mockito-core:3.3.3'
     

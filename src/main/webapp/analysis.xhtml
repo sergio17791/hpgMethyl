@@ -41,22 +41,45 @@
 		                                 	 label="#{msg['analysis.pairedMode']}" 
 			                             	 required="true" 
 		    	                         	 requiredMessage="#{msg['error.form.requiredField']}">    
-		    	            	<f:selectItem itemValue="0" itemLabel="#{msg['analysis.singleEnd']}" />
-    							<f:selectItem itemValue="1" itemLabel="#{msg['analysis.pairedEnd']}" />                          
+		    	            	<f:selectItem itemValue="0" itemLabel="#{msg['analysis.singleEndMode']}"/>
+    							<f:selectItem itemValue="1" itemLabel="#{msg['analysis.pairedEndMode']}"/>
+    							<f:ajax render="pairedEndModeSection" />                        
 	                	    </b:selectOneMenu>
                 			<h:message for="pairedMode" styleClass="alert alert-danger errorMessageWithTopLabel"/>
                 		</b:column>
-                		<b:column col-md="6" rendered="#{analysis.pairedMode eq '1'}">
-                			<h:outputLabel styleClass="control-label" for="pairedModeFile">#{msg['analysis.pairedModeFile']}:</h:outputLabel>
-                			<h:inputFile id="pairedModeFile" 
-                                         value="#{analysis.pairedModeFile}" 
-                                         styleClass="form-control"
-                                         required="true"
-                                         requiredMessage="#{msg['error.form.requiredField']}">
-                            </h:inputFile>
-                			<h:message for="pairedModeFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-                		</b:column>
                 	</b:row>
+                	<h:panelGroup id="pairedEndModeSection">
+                		<h:panelGroup rendered="#{analysis.pairedMode eq '1'}">
+							<fieldset>
+								<legend><h4><h:outputText value="#{msg['analysis.pairedEndModeLegend']}"/></h4></legend>
+							</fieldset>
+							<h:outputText value="#{msg['analysis.pairedEndModeText']}"/>
+							<b:row>
+                				<b:column col-md="4">
+                					<h:outputLabel styleClass="control-label" for="pairedEndModeFile">#{msg['analysis.pairedEndModeFile']}:</h:outputLabel>
+                					<h:inputFile id="pairedEndModeFile" 
+                                         	 	value="#{analysis.pairedEndModeFile}" 
+                                         	 	styleClass="form-control"
+                                         	 	required="#{analysis.pairedMode eq '1'}"
+                                         	 	requiredMessage="#{msg['error.form.requiredField']}">
+                            		</h:inputFile>
+                					<h:message for="pairedEndModeFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+                				</b:column>
+                				<components:inputTextWithErrorMessage inputId="pairedMaxDistance"
+                											  value="#{analysis.pairedMaxDistance}"
+                											  label="#{msg['analysis.pairedMaxDistance']}"
+                											  type="number"
+                											  required="false"
+                											  colMdSize="4"/>
+								<components:inputTextWithErrorMessage inputId="pairedMinDistance"
+                											  value="#{analysis.pairedMinDistance}"
+                											  label="#{msg['analysis.pairedMinDistance']}"
+                											  type="number"
+                											  required="false"
+                											  colMdSize="4"/>                											  
+                			</b:row>	
+						</h:panelGroup>
+					</h:panelGroup>                 	            					
                     <fieldset>
 						<legend><h4><h:outputText value="#{msg['analysis.smithWatermanLegend']}"/></h4></legend>
 					</fieldset>

@@ -10,6 +10,9 @@ public class Analysis {
 	private String identifier;
 	private String pairedMode;
 	private Part inputReadFile;
+	private Part pairedEndModeFile;
+	private BigDecimal pairedMaxDistance;
+	private BigDecimal pairedMinDistance;
 	private BigDecimal swaMinimunScore;
 	private BigDecimal swaMatchScore;
 	private BigDecimal swaMismatchScore;
@@ -21,6 +24,9 @@ public class Analysis {
 		this.identifier = "";
 		this.pairedMode = "0";
 		this.inputReadFile = null;
+		this.pairedEndModeFile = null;
+		this.pairedMaxDistance = null;
+		this.pairedMinDistance = null;
 		this.swaMinimunScore = new BigDecimal("0.8");
 		this.swaMatchScore = new BigDecimal("5.0");
 		this.swaMismatchScore = new BigDecimal("-4.0");
@@ -69,6 +75,48 @@ public class Analysis {
 	 */
 	public void setInputReadFile(Part inputReadFile) {
 		this.inputReadFile = inputReadFile;
+	}
+
+	/**
+	 * @return the pairedEndModeFile
+	 */
+	public Part getPairedEndModeFile() {
+		return pairedEndModeFile;
+	}
+
+	/**
+	 * @param pairedEndModeFile the pairedEndModeFile to set
+	 */
+	public void setPairedEndModeFile(Part pairedEndModeFile) {
+		this.pairedEndModeFile = pairedEndModeFile;
+	}
+
+	/**
+	 * @return the pairedMaxDistance
+	 */
+	public BigDecimal getPairedMaxDistance() {
+		return pairedMaxDistance;
+	}
+
+	/**
+	 * @param pairedMaxDistance the pairedMaxDistance to set
+	 */
+	public void setPairedMaxDistance(BigDecimal pairedMaxDistance) {
+		this.pairedMaxDistance = pairedMaxDistance;
+	}
+
+	/**
+	 * @return the pairedMinDistance
+	 */
+	public BigDecimal getPairedMinDistance() {
+		return pairedMinDistance;
+	}
+
+	/**
+	 * @param pairedMinDistance the pairedMinDistance to set
+	 */
+	public void setPairedMinDistance(BigDecimal pairedMinDistance) {
+		this.pairedMinDistance = pairedMinDistance;
 	}
 
 	/**
