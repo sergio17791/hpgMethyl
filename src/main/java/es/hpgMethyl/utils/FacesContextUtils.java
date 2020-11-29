@@ -25,10 +25,18 @@ public final class FacesContextUtils {
 	 }
 	 
 	 public static Object getParameterFacesContextSession(String key) {
+		 
+		 Object parameter = null;
+		 
 		 FacesContext facesContext = FacesContext.getCurrentInstance();
-	     ExternalContext externalContext = facesContext.getExternalContext();
-	     Map<String, Object> sessionMap = externalContext.getSessionMap();
-	     return sessionMap.get(key);
+		 
+		 if(facesContext != null) {
+			 ExternalContext externalContext = facesContext.getExternalContext();
+		     Map<String, Object> sessionMap = externalContext.getSessionMap();
+		     return sessionMap.get(key);
+		 }
+	     
+	     return parameter;
 	 }
 	 
 	 public static void setMessageInComponent(UIComponent component, Severity severity, String message, String details) {

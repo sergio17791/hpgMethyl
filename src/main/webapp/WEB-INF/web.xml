@@ -8,6 +8,17 @@
     	<param-name>BootsFaces_USETHEME</param-name>
     	<param-value>true</param-value>
 	</context-param>
+    <filter>
+    	<description>
+    	</description>
+    	<display-name>LoginFilter</display-name>
+    	<filter-name>LoginFilter</filter-name>
+    	<filter-class>es.hpgMethyl.filters.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+    	<filter-name>LoginFilter</filter-name>
+    	<url-pattern>/user/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>Faces_Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
