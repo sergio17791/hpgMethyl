@@ -22,8 +22,8 @@ public class LoginFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		
-		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
-		
+		User user = (User) req.getSession().getAttribute(FacesContextUtils.SESSION_USER);
+
 		if(user == null) {
 			res.sendRedirect(req.getContextPath() + LOGIN_URL);    
 			return; 			

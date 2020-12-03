@@ -17,7 +17,7 @@
     </filter>
     <filter-mapping>
     	<filter-name>LoginFilter</filter-name>
-    	<url-pattern>/user/*</url-pattern>
+    	<url-pattern>/faces/user/*</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>Faces_Servlet</servlet-name>

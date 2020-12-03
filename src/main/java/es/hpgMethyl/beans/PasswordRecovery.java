@@ -220,12 +220,12 @@ public class PasswordRecovery {
 			
 			FacesContextUtils.setParameterFacesContextSession(FacesContextUtils.SESSION_USER, response.getUser());
 			
-			return "correctChange";			
+			return "index?faces-redirect=true";			
 		} catch (ChangePasswordException e) {
 			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.getChangePasswordComponent(), FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
 			
-			return "wrongChange";
+			return "passwordRecovery";
 		}
 	}
 	

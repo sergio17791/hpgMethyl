@@ -180,7 +180,7 @@ public class UserSignup {
 			
 			FacesContextUtils.setParameterFacesContextSession(FacesContextUtils.SESSION_USER, signupUserResponse.getUser());
 			
-			return "validSignupUser";			
+			return "index?faces-redirect=true";			
 		} catch (DuplicatedEmail e) {
 			String duplicatedEmailMessage = FacesContextUtils.geti18nMessage("signup.duplicatedEmail");
 			FacesContextUtils.setMessageInComponent(this.getSignupComponent(), FacesMessage.SEVERITY_ERROR, duplicatedEmailMessage, duplicatedEmailMessage);			
@@ -193,7 +193,7 @@ public class UserSignup {
     	this.setPasswordRecoveryResponse("");
     	this.setPasswordVerification("");
 		
-		return "invalidSignupUser";
+		return "signup";
 	}
 	
 	public void cleanInputComponent(ComponentSystemEvent event) throws AbortProcessingException {

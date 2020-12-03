@@ -76,11 +76,11 @@ public class UserLogin {
 			
 			FacesContextUtils.setParameterFacesContextSession(FacesContextUtils.SESSION_USER, loginUserResponse.getUser());
 			
-			return "validLoginUser";
+			return "index?faces-redirect=true";
 		} catch (InvalidCredentials e) {
 			String invalidCredentialsMessage = FacesContextUtils.geti18nMessage("login.invalidCredentials");
 			FacesContextUtils.setMessageInComponent(this.loginComponent, FacesMessage.SEVERITY_ERROR, invalidCredentialsMessage, invalidCredentialsMessage);
-			return "invalidLoginUser";
+			return "login";
 		}			
 	}
 }
