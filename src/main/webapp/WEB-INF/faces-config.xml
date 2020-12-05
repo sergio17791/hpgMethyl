@@ -37,18 +37,18 @@
         <description>Control user access to the system</description>
         <managed-bean-name>userLogin</managed-bean-name>
         <managed-bean-class>es.hpgMethyl.beans.UserLogin</managed-bean-class>
-        <managed-bean-scope>view</managed-bean-scope>
+        <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
     <managed-bean>
         <description>Controls user exit to the system</description>
         <managed-bean-name>userLogout</managed-bean-name>
         <managed-bean-class>es.hpgMethyl.beans.UserLogout</managed-bean-class>
-        <managed-bean-scope>view</managed-bean-scope>
+        <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
     <managed-bean>
         <description>Controls user registration in the system</description>
         <managed-bean-name>userSignup</managed-bean-name>
         <managed-bean-class>es.hpgMethyl.beans.UserSignup</managed-bean-class>
-        <managed-bean-scope>view</managed-bean-scope>
+        <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
 </faces-config>
