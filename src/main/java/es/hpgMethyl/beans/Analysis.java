@@ -18,6 +18,10 @@ public class Analysis {
 	private BigDecimal swaMismatchScore;
 	private BigDecimal swaGapOpen;
 	private BigDecimal swaGapExtend;
+	private Boolean reportAll;
+	private Boolean reportBest;
+	private Boolean reportNBest;
+	private BigDecimal reportNHits;
 	private UIComponent sendAnalysisComponent;
 
 	public Analysis() {
@@ -32,6 +36,10 @@ public class Analysis {
 		this.swaMismatchScore = new BigDecimal("-4.0");
 		this.swaGapOpen = new BigDecimal(10.0);
 		this.swaGapExtend = new BigDecimal(0.5);
+		this.reportAll = false;
+		this.reportBest = true;
+		this.reportNBest = null;
+		this.reportNHits = null;
 		this.sendAnalysisComponent = null;
 	}
 
@@ -187,6 +195,62 @@ public class Analysis {
 	 */
 	public void setSwaGapExtend(BigDecimal swaGapExtend) {
 		this.swaGapExtend = swaGapExtend;
+	}
+
+	/**
+	 * @return the reportAll
+	 */
+	public Boolean getReportAll() {
+		return reportAll;
+	}
+
+	/**
+	 * @param reportAll the reportAll to set
+	 */
+	public void setReportAll(Boolean reportAll) {
+		this.reportAll = reportAll;
+	}
+
+	/**
+	 * @return the reportBest
+	 */
+	public Boolean getReportBest() {
+		return reportBest;
+	}
+
+	/**
+	 * @param reportBest the reportBest to set
+	 */
+	public void setReportBest(Boolean reportBest) {
+		this.reportBest = reportBest;
+	}
+
+	/**
+	 * @return the reportNBest
+	 */
+	public Boolean getReportNBest() {
+		return reportNBest;
+	}
+
+	/**
+	 * @param reportNBest the reportNBest to set
+	 */
+	public void setReportNBest(Boolean reportNBest) {
+		this.reportNBest = reportNBest;
+	}
+
+	/**
+	 * @return the reportNHits
+	 */
+	public BigDecimal getReportNHits() {
+		return reportNHits;
+	}
+
+	/**
+	 * @param reportNHits the reportNHits to set
+	 */
+	public void setReportNHits(BigDecimal reportNHits) {
+		this.reportNHits = reportNHits;
 	}
 
 	/**

@@ -43,16 +43,17 @@
 		    	                         	 requiredMessage="#{msg['error.form.requiredField']}">    
 		    	            	<f:selectItem itemValue="0" itemLabel="#{msg['analysis.singleEndMode']}"/>
     							<f:selectItem itemValue="1" itemLabel="#{msg['analysis.pairedEndMode']}"/>
-    							<f:ajax render="pairedEndModeSection" />                        
+    							<f:ajax render="pairedEndModeSection" /> 
+    							<f:ajax render="mappedReadFilteringSection" />                        
 	                	    </b:selectOneMenu>
                 			<h:message for="pairedMode" styleClass="alert alert-danger errorMessageWithTopLabel"/>
                 		</b:column>
                 	</b:row>
-                	<h:panelGroup id="pairedEndModeSection">
-                		<h:panelGroup rendered="#{analysis.pairedMode eq '1'}">
-							<fieldset>
-								<legend><h4><h:outputText value="#{msg['analysis.pairedEndModeLegend']}"/></h4></legend>
-							</fieldset>
+                </fieldset>
+                <h:panelGroup id="pairedEndModeSection">
+                	<h:panelGroup rendered="#{analysis.pairedMode eq '1'}">
+						<fieldset>
+							<legend><h4><h:outputText value="#{msg['analysis.pairedEndModeLegend']}"/></h4></legend>							
 							<h:outputText value="#{msg['analysis.pairedEndModeText']}"/>
 							<b:row style="margin-top: 10px">
                 				<b:column col-md="4">
@@ -77,12 +78,12 @@
                 											  type="number"
                 											  required="false"
                 											  colMdSize="4"/>                											  
-                			</b:row>	
-						</h:panelGroup>
-					</h:panelGroup>                 	            					
-                    <fieldset>
-						<legend><h4><h:outputText value="#{msg['analysis.smithWatermanLegend']}"/></h4></legend>
-					</fieldset>
+                			</b:row>
+                		</fieldset>	
+					</h:panelGroup>
+				</h:panelGroup>                 	            					
+                <fieldset>
+					<legend><h4><h:outputText value="#{msg['analysis.smithWatermanLegend']}"/></h4></legend>
 					<h:outputText value="#{msg['analysis.smithWatermanText']}"/>
 					<b:row style="margin-top: 10px">
 						<components:inputTextWithErrorMessage inputId="swaMinimunScore"
@@ -119,20 +120,54 @@
                 											  required="true"
                 											  colMdSize="4"/>                											  
                 	</b:row>
-                	<b:row>
-                    	<b:column col-md="6">
-	                		<b:commandButton id="sendAnalysisButton"
-		                                     binding="#{analysis.sendAnalysisComponent}"
-		                                     value="#{msg['analysis.send']}" 
-		                                     action="#{analysis.sendAnalysis()}"
-		                                     look="primary"
-		                                     styleClass="btn-block"/>
-                		</b:column>
-                		<b:column col-md="6">
-	                		<h:message for="sendAnalysisButton" styleClass="alert alert-danger errorMessage"/>
-                		</b:column>                    	
-                    </b:row>  
-            	</fieldset>      
+                </fieldset>
+                 <h:panelGroup id="mappedReadFilteringSection">
+                	<h:panelGroup rendered="#{analysis.pairedMode eq '0'}">
+                		<fieldset>
+							<legend><h4><h:outputText value="#{msg['analysis.mappedReadFilteringLegend']}"/></h4></legend>
+							<h:outputText value="#{msg['analysis.mappedReadFilteringText']}"/>
+							<b:row>
+								<b:column col-md="4">
+									<b:selectBooleanCheckbox id="reportAll"
+													 		value="#{analysis.reportAll}" 
+													 		caption="#{msg['analysis.reportAll']}"/>
+									<h:message for="reportAll" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+								</b:column>
+								<b:column col-md="8">
+									<b:selectBooleanCheckbox id="reportBest"
+													 		value="#{analysis.reportBest}" 
+													 		caption="#{msg['analysis.reportBest']}"/>
+									<h:message for="reportBest" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+								</b:column>
+							</b:row>
+							<b:row>
+		                		<components:inputTextWithErrorMessage inputId="reportNBest"
+                											  		value="#{analysis.reportNBest}"
+                											  		label="#{msg['analysis.reportNBest']}"
+                											  		type="number"
+                											  		colMdSize="6"/>
+								<components:inputTextWithErrorMessage inputId="reportNHits"
+                											  		value="#{analysis.reportNHits}"
+                											  		label="#{msg['analysis.reportNHits']}"
+                											  		type="number"
+                											  		colMdSize="6"/>                											  
+                			</b:row>                											
+						</fieldset> 	
+					</h:panelGroup>
+				</h:panelGroup> 
+                <b:row>
+                	<b:column col-md="6">
+	                	<b:commandButton id="sendAnalysisButton"
+		                                 binding="#{analysis.sendAnalysisComponent}"
+		                                 value="#{msg['analysis.send']}" 
+		                                 action="#{analysis.sendAnalysis()}"
+		                                 look="primary"
+		                                 styleClass="btn-block"/>
+                	</b:column>
+                	<b:column col-md="6">
+	                	<h:message for="sendAnalysisButton" styleClass="alert alert-danger errorMessage"/>
+                	</b:column>                    	
+                </b:row>               	  
             </b:panel>                                          
         </b:form>
     </ui:define>
