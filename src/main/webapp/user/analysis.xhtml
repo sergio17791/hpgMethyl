@@ -34,6 +34,26 @@
                 		</b:column>
                 	</b:row>
                 	<b:row>
+						<b:column col-md="4">
+							<b:selectBooleanCheckbox id="writeMethylationContext"
+							  				 		 value="#{analysis.writeMethylationContext}" 
+													 caption="#{msg['analysis.writeMethylationContext']}"/>
+							<h:message for="writeMethylationContext" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+						</b:column>
+						<b:column col-md="4">
+							<b:selectBooleanCheckbox id="readBatchSize"
+							  				 		 value="#{analysis.readBatchSize}" 
+													 caption="#{msg['analysis.readBatchSize']}"/>
+							<h:message for="readBatchSize" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+						</b:column>
+						<b:column col-md="4">
+							<b:selectBooleanCheckbox id="writeBatchSize"
+							  				 		 value="#{analysis.writeBatchSize}" 
+													 caption="#{msg['analysis.writeBatchSize']}"/>
+							<h:message for="writeBatchSize" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+						</b:column>
+					</b:row>
+                	<b:row>
                 		<b:column col-md="6">
                 			<b:selectOneMenu id ="pairedMode" 
 	                					 	 value="#{analysis.pairedMode}"

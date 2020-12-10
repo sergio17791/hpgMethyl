@@ -10,6 +10,9 @@ public class Analysis {
 	private String identifier;
 	private String pairedMode;
 	private Part inputReadFile;
+	private Boolean writeMethylationContext;
+	private Boolean readBatchSize;
+	private Boolean writeBatchSize;
 	private Part pairedEndModeFile;
 	private BigDecimal pairedMaxDistance;
 	private BigDecimal pairedMinDistance;
@@ -28,6 +31,9 @@ public class Analysis {
 		this.identifier = "";
 		this.pairedMode = "0";
 		this.inputReadFile = null;
+		this.writeMethylationContext = false;
+		this.readBatchSize = false;
+		this.writeBatchSize = false;
 		this.pairedEndModeFile = null;
 		this.pairedMaxDistance = null;
 		this.pairedMinDistance = null;
@@ -83,6 +89,48 @@ public class Analysis {
 	 */
 	public void setInputReadFile(Part inputReadFile) {
 		this.inputReadFile = inputReadFile;
+	}
+
+	/**
+	 * @return the writeMethylationContext
+	 */
+	public Boolean getWriteMethylationContext() {
+		return writeMethylationContext;
+	}
+
+	/**
+	 * @param writeMethylationContext the writeMethylationContext to set
+	 */
+	public void setWriteMethylationContext(Boolean writeMethylationContext) {
+		this.writeMethylationContext = writeMethylationContext;
+	}
+
+	/**
+	 * @return the readBatchSize
+	 */
+	public Boolean getReadBatchSize() {
+		return readBatchSize;
+	}
+
+	/**
+	 * @param readBatchSize the readBatchSize to set
+	 */
+	public void setReadBatchSize(Boolean readBatchSize) {
+		this.readBatchSize = readBatchSize;
+	}
+
+	/**
+	 * @return the writeBatchSize
+	 */
+	public Boolean getWriteBatchSize() {
+		return writeBatchSize;
+	}
+
+	/**
+	 * @param writeBatchSize the writeBatchSize to set
+	 */
+	public void setWriteBatchSize(Boolean writeBatchSize) {
+		this.writeBatchSize = writeBatchSize;
 	}
 
 	/**
