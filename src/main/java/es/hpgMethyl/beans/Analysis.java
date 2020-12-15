@@ -21,6 +21,9 @@ public class Analysis {
 	private BigDecimal swaMismatchScore;
 	private BigDecimal swaGapOpen;
 	private BigDecimal swaGapExtend;
+	private BigDecimal calFlankSize;
+	private BigDecimal minimumCalSize;
+	private BigDecimal calUmbralLengthFactor;
 	private Boolean reportAll;
 	private Boolean reportBest;
 	private Boolean reportNBest;
@@ -40,8 +43,11 @@ public class Analysis {
 		this.swaMinimunScore = new BigDecimal("0.8");
 		this.swaMatchScore = new BigDecimal("5.0");
 		this.swaMismatchScore = new BigDecimal("-4.0");
-		this.swaGapOpen = new BigDecimal(10.0);
-		this.swaGapExtend = new BigDecimal(0.5);
+		this.swaGapOpen = new BigDecimal("10.0");
+		this.swaGapExtend = new BigDecimal("0.5");
+		this.calFlankSize = new BigDecimal("5");
+		this.minimumCalSize = new BigDecimal("30");
+		this.calUmbralLengthFactor = new BigDecimal("4");
 		this.reportAll = false;
 		this.reportBest = true;
 		this.reportNBest = null;
@@ -243,6 +249,48 @@ public class Analysis {
 	 */
 	public void setSwaGapExtend(BigDecimal swaGapExtend) {
 		this.swaGapExtend = swaGapExtend;
+	}
+
+	/**
+	 * @return the calFlankSize
+	 */
+	public BigDecimal getCalFlankSize() {
+		return calFlankSize;
+	}
+
+	/**
+	 * @param calFlankSize the calFlankSize to set
+	 */
+	public void setCalFlankSize(BigDecimal calFlankSize) {
+		this.calFlankSize = calFlankSize;
+	}
+
+	/**
+	 * @return the minimumCalSize
+	 */
+	public BigDecimal getMinimumCalSize() {
+		return minimumCalSize;
+	}
+
+	/**
+	 * @param minimumCalSize the minimumCalSize to set
+	 */
+	public void setMinimumCalSize(BigDecimal minimumCalSize) {
+		this.minimumCalSize = minimumCalSize;
+	}
+
+	/**
+	 * @return the calUmbralLengthFactor
+	 */
+	public BigDecimal getCalUmbralLengthFactor() {
+		return calUmbralLengthFactor;
+	}
+
+	/**
+	 * @param calUmbralLengthFactor the calUmbralLengthFactor to set
+	 */
+	public void setCalUmbralLengthFactor(BigDecimal calUmbralLengthFactor) {
+		this.calUmbralLengthFactor = calUmbralLengthFactor;
 	}
 
 	/**

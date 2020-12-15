@@ -110,19 +110,16 @@
                 											  value="#{analysis.swaMinimunScore}"
                 											  label="#{msg['analysis.swaMinimunScore']}"
                 											  type="number"
-                											  required="true"
                 											  colMdSize="4"/> 
 						<components:inputTextWithErrorMessage inputId="swaMatchScore"
                 											  value="#{analysis.swaMatchScore}"
                 											  label="#{msg['analysis.swaMatchScore']}"
                 											  type="number"
-                											  required="true"
                 											  colMdSize="4"/>
 						<components:inputTextWithErrorMessage inputId="swaMismatchScore"
                 											  value="#{analysis.swaMismatchScore}"
                 											  label="#{msg['analysis.swaMismatchScore']}"
                 											  type="number"
-                											  required="true"
                 											  colMdSize="4"/>                											                   											   
                 	</b:row>
                 	<b:row>
@@ -130,15 +127,34 @@
                 											  value="#{analysis.swaGapOpen}"
                 											  label="#{msg['analysis.swaGapOpen']}"
                 											  type="number"
-                											  required="true"
                 											  colMdSize="4"
                 											  colOffsetMd="2"/>
 						<components:inputTextWithErrorMessage inputId="swaGapExtend"
                 											  value="#{analysis.swaGapExtend}"
                 											  label="#{msg['analysis.swaGapExtend']}"
                 											  type="number"
-                											  required="true"
                 											  colMdSize="4"/>                											  
+                	</b:row>
+                </fieldset>
+                <fieldset>
+					<legend><h4><h:outputText value="#{msg['analysis.seedingAndCalStagesParametersLegend']}"/></h4></legend>
+					<h:outputText value="#{msg['analysis.seedingAndCalStagesParametersText']}"/>
+					<b:row style="margin-top: 10px">
+						<components:inputTextWithErrorMessage inputId="calFlankSize"
+                											  value="#{analysis.calFlankSize}"
+                											  label="#{msg['analysis.calFlankSize']}"
+                											  type="number"
+                											  colMdSize="4"/> 
+						<components:inputTextWithErrorMessage inputId="minimumCalSize"
+                											  value="#{analysis.minimumCalSize}"
+                											  label="#{msg['analysis.swaMatchScore']}"
+                											  type="number"
+                											  colMdSize="4"/>
+						<components:inputTextWithErrorMessage inputId="calUmbralLengthFactor"
+                											  value="#{analysis.calUmbralLengthFactor}"
+                											  label="#{msg['analysis.swaMismatchScore']}"
+                											  type="number"
+                											  colMdSize="4"/>                											                   											   
                 	</b:row>
                 </fieldset>
                  <h:panelGroup id="mappedReadFilteringSection">
