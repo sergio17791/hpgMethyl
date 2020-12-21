@@ -147,14 +147,48 @@
                 											  colMdSize="4"/> 
 						<components:inputTextWithErrorMessage inputId="minimumCalSize"
                 											  value="#{analysis.minimumCalSize}"
-                											  label="#{msg['analysis.swaMatchScore']}"
+                											  label="#{msg['analysis.minimumCalSize']}"
                 											  type="number"
                 											  colMdSize="4"/>
 						<components:inputTextWithErrorMessage inputId="calUmbralLengthFactor"
                 											  value="#{analysis.calUmbralLengthFactor}"
-                											  label="#{msg['analysis.swaMismatchScore']}"
+                											  label="#{msg['analysis.calUmbralLengthFactor']}"
                 											  type="number"
                 											  colMdSize="4"/>                											                   											   
+                	</b:row>
+                	<b:row>
+                		<components:inputTextWithErrorMessage inputId="maximumBetweenSeeds"
+                											  value="#{analysis.maximumBetweenSeeds}"
+                											  label="#{msg['analysis.maximumBetweenSeeds']}"
+                											  type="number"
+                											  colMdSize="4"/>
+						<components:inputTextWithErrorMessage inputId="maximumSeedSize"
+                											  value="#{analysis.maximumSeedSize}"
+                											  label="#{msg['analysis.maximumSeedSize']}"
+                											  type="number"
+                											  colMdSize="4"/>
+						<components:inputTextWithErrorMessage inputId="minimumSeedSize"
+                											  value="#{analysis.minimumSeedSize}"
+                											  label="#{msg['analysis.minimumSeedSize']}"
+                											  type="number"
+                											  colMdSize="4"/>                											                											  
+                	</b:row>
+                	<b:row>
+                		<components:inputTextWithErrorMessage inputId="numberSeedsPerRead"
+                											  value="#{analysis.numberSeedsPerRead}"
+                											  label="#{msg['analysis.numberSeedsPerRead']}"
+                											  type="number"
+                											  colMdSize="4"/>
+						<components:inputTextWithErrorMessage inputId="readMinimumDiscardLength"
+                											  value="#{analysis.readMinimumDiscardLength}"
+                											  label="#{msg['analysis.readMinimumDiscardLength']}"
+                											  type="number"
+                											  colMdSize="4"/>
+						<components:inputTextWithErrorMessage inputId="readMaximumInnerGap"
+                											  value="#{analysis.readMaximumInnerGap}"
+                											  label="#{msg['analysis.readMaximumInnerGap']}"
+                											  type="number"
+                											  colMdSize="4"/>                											                											  
                 	</b:row>
                 </fieldset>
                  <h:panelGroup id="mappedReadFilteringSection">

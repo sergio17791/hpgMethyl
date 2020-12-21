@@ -24,6 +24,12 @@ public class Analysis {
 	private BigDecimal calFlankSize;
 	private BigDecimal minimumCalSize;
 	private BigDecimal calUmbralLengthFactor;
+	private BigDecimal maximumBetweenSeeds;
+	private BigDecimal maximumSeedSize;
+	private BigDecimal minimumSeedSize;
+	private BigDecimal numberSeedsPerRead;
+	private BigDecimal readMinimumDiscardLength;
+	private BigDecimal readMaximumInnerGap;
 	private Boolean reportAll;
 	private Boolean reportBest;
 	private Boolean reportNBest;
@@ -48,6 +54,12 @@ public class Analysis {
 		this.calFlankSize = new BigDecimal("5");
 		this.minimumCalSize = new BigDecimal("30");
 		this.calUmbralLengthFactor = new BigDecimal("4");
+		this.maximumBetweenSeeds = new BigDecimal("100");
+		this.maximumSeedSize = new BigDecimal("23");
+		this.minimumSeedSize = new BigDecimal("16");
+		this.numberSeedsPerRead = new BigDecimal("10");
+		this.readMinimumDiscardLength = new BigDecimal("100");
+		this.readMaximumInnerGap = new BigDecimal("-1");
 		this.reportAll = false;
 		this.reportBest = true;
 		this.reportNBest = null;
@@ -291,6 +303,90 @@ public class Analysis {
 	 */
 	public void setCalUmbralLengthFactor(BigDecimal calUmbralLengthFactor) {
 		this.calUmbralLengthFactor = calUmbralLengthFactor;
+	}
+
+	/**
+	 * @return the maximumBetweenSeeds
+	 */
+	public BigDecimal getMaximumBetweenSeeds() {
+		return maximumBetweenSeeds;
+	}
+
+	/**
+	 * @param maximumBetweenSeeds the maximumBetweenSeeds to set
+	 */
+	public void setMaximumBetweenSeeds(BigDecimal maximumBetweenSeeds) {
+		this.maximumBetweenSeeds = maximumBetweenSeeds;
+	}
+
+	/**
+	 * @return the maximumSeedSize
+	 */
+	public BigDecimal getMaximumSeedSize() {
+		return maximumSeedSize;
+	}
+
+	/**
+	 * @param maximumSeedSize the maximumSeedSize to set
+	 */
+	public void setMaximumSeedSize(BigDecimal maximumSeedSize) {
+		this.maximumSeedSize = maximumSeedSize;
+	}
+
+	/**
+	 * @return the minimumSeedSize
+	 */
+	public BigDecimal getMinimumSeedSize() {
+		return minimumSeedSize;
+	}
+
+	/**
+	 * @param minimumSeedSize the minimumSeedSize to set
+	 */
+	public void setMinimumSeedSize(BigDecimal minimumSeedSize) {
+		this.minimumSeedSize = minimumSeedSize;
+	}
+
+	/**
+	 * @return the numberSeedsPerRead
+	 */
+	public BigDecimal getNumberSeedsPerRead() {
+		return numberSeedsPerRead;
+	}
+
+	/**
+	 * @param numberSeedsPerRead the numberSeedsPerRead to set
+	 */
+	public void setNumberSeedsPerRead(BigDecimal numberSeedsPerRead) {
+		this.numberSeedsPerRead = numberSeedsPerRead;
+	}
+
+	/**
+	 * @return the readMinimumDiscardLength
+	 */
+	public BigDecimal getReadMinimumDiscardLength() {
+		return readMinimumDiscardLength;
+	}
+
+	/**
+	 * @param readMinimumDiscardLength the readMinimumDiscardLength to set
+	 */
+	public void setReadMinimumDiscardLength(BigDecimal readMinimumDiscardLength) {
+		this.readMinimumDiscardLength = readMinimumDiscardLength;
+	}
+
+	/**
+	 * @return the readMaximumInnerGap
+	 */
+	public BigDecimal getReadMaximumInnerGap() {
+		return readMaximumInnerGap;
+	}
+
+	/**
+	 * @param readMaximumInnerGap the readMaximumInnerGap to set
+	 */
+	public void setReadMaximumInnerGap(BigDecimal readMaximumInnerGap) {
+		this.readMaximumInnerGap = readMaximumInnerGap;
 	}
 
 	/**
