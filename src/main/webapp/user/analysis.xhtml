@@ -190,6 +190,32 @@
                 											  type="number"
                 											  colMdSize="4"/>                											                											  
                 	</b:row>
+                	<b:row>
+                		<components:inputTextWithErrorMessage inputId="seedSize"
+                											  value="#{analysis.seedSize}"
+                											  label="#{msg['analysis.seedSize']}"
+                											  type="number"
+                											  colMdSize="4"
+                											  colOffsetMd="2"/>
+						<components:inputTextWithErrorMessage inputId="minimumNumberSeeds"
+                											  value="#{analysis.minimumNumberSeeds}"
+                											  label="#{msg['analysis.minimumNumberSeeds']}"
+                											  type="number"
+                											  colMdSize="4"/>            											                											  
+                	</b:row>
+                	<b:row>
+                		<components:inputTextWithErrorMessage inputId="filterReadMappings"
+                											  value="#{analysis.filterReadMappings}"
+                											  label="#{msg['analysis.filterReadMappings']}"
+                											  type="number"
+                											  colMdSize="4"
+                											  colOffsetMd="2"/>
+						<components:inputTextWithErrorMessage inputId="filterSeedMappings"
+                											  value="#{analysis.filterSeedMappings}"
+                											  label="#{msg['analysis.filterSeedMappings']}"
+                											  type="number"
+                											  colMdSize="4"/>            											                											  
+                	</b:row>
                 </fieldset>
                  <h:panelGroup id="mappedReadFilteringSection">
                 	<h:panelGroup rendered="#{analysis.pairedMode eq '0'}">

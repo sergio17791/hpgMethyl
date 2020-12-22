@@ -30,6 +30,10 @@ public class Analysis {
 	private BigDecimal numberSeedsPerRead;
 	private BigDecimal readMinimumDiscardLength;
 	private BigDecimal readMaximumInnerGap;
+	private BigDecimal seedSize;
+	private BigDecimal minimumNumberSeeds;
+	private BigDecimal filterReadMappings;
+	private BigDecimal filterSeedMappings;
 	private Boolean reportAll;
 	private Boolean reportBest;
 	private Boolean reportNBest;
@@ -60,6 +64,10 @@ public class Analysis {
 		this.numberSeedsPerRead = new BigDecimal("10");
 		this.readMinimumDiscardLength = new BigDecimal("100");
 		this.readMaximumInnerGap = new BigDecimal("-1");
+		this.seedSize = null;
+		this.minimumNumberSeeds = null;
+		this.filterReadMappings = null;
+		this.filterSeedMappings = null;
 		this.reportAll = false;
 		this.reportBest = true;
 		this.reportNBest = null;
@@ -387,6 +395,62 @@ public class Analysis {
 	 */
 	public void setReadMaximumInnerGap(BigDecimal readMaximumInnerGap) {
 		this.readMaximumInnerGap = readMaximumInnerGap;
+	}
+
+	/**
+	 * @return the seedSize
+	 */
+	public BigDecimal getSeedSize() {
+		return seedSize;
+	}
+
+	/**
+	 * @param seedSize the seedSize to set
+	 */
+	public void setSeedSize(BigDecimal seedSize) {
+		this.seedSize = seedSize;
+	}
+
+	/**
+	 * @return the minimumNumberSeeds
+	 */
+	public BigDecimal getMinimumNumberSeeds() {
+		return minimumNumberSeeds;
+	}
+
+	/**
+	 * @param minimumNumberSeeds the minimumNumberSeeds to set
+	 */
+	public void setMinimumNumberSeeds(BigDecimal minimumNumberSeeds) {
+		this.minimumNumberSeeds = minimumNumberSeeds;
+	}
+
+	/**
+	 * @return the filterReadMappings
+	 */
+	public BigDecimal getFilterReadMappings() {
+		return filterReadMappings;
+	}
+
+	/**
+	 * @param filterReadMappings the filterReadMappings to set
+	 */
+	public void setFilterReadMappings(BigDecimal filterReadMappings) {
+		this.filterReadMappings = filterReadMappings;
+	}
+
+	/**
+	 * @return the filterSeedMappings
+	 */
+	public BigDecimal getFilterSeedMappings() {
+		return filterSeedMappings;
+	}
+
+	/**
+	 * @param filterSeedMappings the filterSeedMappings to set
+	 */
+	public void setFilterSeedMappings(BigDecimal filterSeedMappings) {
+		this.filterSeedMappings = filterSeedMappings;
 	}
 
 	/**
