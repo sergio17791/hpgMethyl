@@ -262,6 +262,13 @@
                 	</b:column>
                 	<b:column col-md="6">
 	                	<h:message for="sendAnalysisButton" styleClass="alert alert-danger errorMessage"/>
+                	</b:column>
+                	<b:column col-md="6">
+	                	<b:commandButton id="resetAnalysisButton"
+		                                 value="#{msg['analysis.reset']}" 
+		                                 type="reset"
+		                                 look="light"
+		                                 styleClass="btn-block"/>
                 	</b:column>                    	
                 </b:row>               	  
             </b:panel>                                          
