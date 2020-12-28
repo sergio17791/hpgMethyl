@@ -6,11 +6,17 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "analysis_request")
 public class AnalysisRequest extends BaseEntity {
+	
+	@ManyToOne
+	@JoinColumn(name="id", nullable=false)
+	private User user;
 
 	@Column(name = "identifier", nullable = false)
 	private String identifier;
@@ -106,6 +112,7 @@ public class AnalysisRequest extends BaseEntity {
 	private BigDecimal reportNHits;
 
 	public AnalysisRequest(
+			User user,
 			UUID id, 
 			Date createdAt, 
 			Date updatedAt,
@@ -142,6 +149,7 @@ public class AnalysisRequest extends BaseEntity {
 			BigDecimal reportNHits
 	) {
 		super(id, createdAt, updatedAt);
+		this.user = user;
 		this.identifier = identifier;
 		this.inputReadFile = inputReadFile;
 		this.writeMethylationContext = writeMethylationContext;
@@ -173,6 +181,20 @@ public class AnalysisRequest extends BaseEntity {
 		this.reportBest = reportBest;
 		this.reportNBest = reportNBest;
 		this.reportNHits = reportNHits;
+	}
+
+	/**
+	 * @return the user
+	 */
+	public User getUser() {
+		return user;
+	}
+
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	/**
