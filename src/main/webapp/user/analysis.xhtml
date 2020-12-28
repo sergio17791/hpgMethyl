@@ -179,37 +179,28 @@
                 											  label="#{msg['analysis.numberSeedsPerRead']}"
                 											  type="number"
                 											  colMdSize="4"/>
+                		<components:inputTextWithErrorMessage inputId="minimumNumberSeeds"
+                											  value="#{analysis.minimumNumberSeeds}"
+                											  label="#{msg['analysis.minimumNumberSeeds']}"
+                											  type="number"
+                											  colMdSize="4"/>                											  
 						<components:inputTextWithErrorMessage inputId="readMinimumDiscardLength"
                 											  value="#{analysis.readMinimumDiscardLength}"
                 											  label="#{msg['analysis.readMinimumDiscardLength']}"
                 											  type="number"
-                											  colMdSize="4"/>
-						<components:inputTextWithErrorMessage inputId="readMaximumInnerGap"
-                											  value="#{analysis.readMaximumInnerGap}"
-                											  label="#{msg['analysis.readMaximumInnerGap']}"
-                											  type="number"
                 											  colMdSize="4"/>                											                											  
                 	</b:row>
                 	<b:row>
-                		<components:inputTextWithErrorMessage inputId="seedSize"
-                											  value="#{analysis.seedSize}"
-                											  label="#{msg['analysis.seedSize']}"
+                		<components:inputTextWithErrorMessage inputId="readMaximumInnerGap"
+                											  value="#{analysis.readMaximumInnerGap}"
+                											  label="#{msg['analysis.readMaximumInnerGap']}"
                 											  type="number"
-                											  colMdSize="4"
-                											  colOffsetMd="2"/>
-						<components:inputTextWithErrorMessage inputId="minimumNumberSeeds"
-                											  value="#{analysis.minimumNumberSeeds}"
-                											  label="#{msg['analysis.minimumNumberSeeds']}"
-                											  type="number"
-                											  colMdSize="4"/>            											                											  
-                	</b:row>
-                	<b:row>
+                											  colMdSize="4"/>
                 		<components:inputTextWithErrorMessage inputId="filterReadMappings"
                 											  value="#{analysis.filterReadMappings}"
                 											  label="#{msg['analysis.filterReadMappings']}"
                 											  type="number"
-                											  colMdSize="4"
-                											  colOffsetMd="2"/>
+                											  colMdSize="4"/>
 						<components:inputTextWithErrorMessage inputId="filterSeedMappings"
                 											  value="#{analysis.filterSeedMappings}"
                 											  label="#{msg['analysis.filterSeedMappings']}"

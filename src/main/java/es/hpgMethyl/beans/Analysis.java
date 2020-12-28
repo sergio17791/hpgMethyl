@@ -30,7 +30,6 @@ public class Analysis {
 	private BigDecimal numberSeedsPerRead;
 	private BigDecimal readMinimumDiscardLength;
 	private BigDecimal readMaximumInnerGap;
-	private BigDecimal seedSize;
 	private BigDecimal minimumNumberSeeds;
 	private BigDecimal filterReadMappings;
 	private BigDecimal filterSeedMappings;
@@ -64,7 +63,6 @@ public class Analysis {
 		this.numberSeedsPerRead = new BigDecimal("10");
 		this.readMinimumDiscardLength = new BigDecimal("100");
 		this.readMaximumInnerGap = new BigDecimal("-1");
-		this.seedSize = null;
 		this.minimumNumberSeeds = null;
 		this.filterReadMappings = null;
 		this.filterSeedMappings = null;
@@ -395,20 +393,6 @@ public class Analysis {
 	 */
 	public void setReadMaximumInnerGap(BigDecimal readMaximumInnerGap) {
 		this.readMaximumInnerGap = readMaximumInnerGap;
-	}
-
-	/**
-	 * @return the seedSize
-	 */
-	public BigDecimal getSeedSize() {
-		return seedSize;
-	}
-
-	/**
-	 * @param seedSize the seedSize to set
-	 */
-	public void setSeedSize(BigDecimal seedSize) {
-		this.seedSize = seedSize;
 	}
 
 	/**

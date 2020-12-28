@@ -87,9 +87,6 @@ public class AnalysisRequest extends BaseEntity {
 	@Column(name = "read_maximum_inner_gap", nullable = true)
 	private BigDecimal readMaximumInnerGap;
 	
-	@Column(name = "seed_size", nullable = true)
-	private BigDecimal seedSize;
-	
 	@Column(name = "minimum_number_seeds", nullable = true)
 	private BigDecimal minimumNumberSeeds;
 	
@@ -139,7 +136,6 @@ public class AnalysisRequest extends BaseEntity {
 			BigDecimal numberSeedsPerRead, 
 			BigDecimal readMinimumDiscardLength, 
 			BigDecimal readMaximumInnerGap,
-			BigDecimal seedSize, 
 			BigDecimal minimumNumberSeeds, 
 			BigDecimal filterReadMappings,
 			BigDecimal filterSeedMappings, 
@@ -173,7 +169,6 @@ public class AnalysisRequest extends BaseEntity {
 		this.numberSeedsPerRead = numberSeedsPerRead;
 		this.readMinimumDiscardLength = readMinimumDiscardLength;
 		this.readMaximumInnerGap = readMaximumInnerGap;
-		this.seedSize = seedSize;
 		this.minimumNumberSeeds = minimumNumberSeeds;
 		this.filterReadMappings = filterReadMappings;
 		this.filterSeedMappings = filterSeedMappings;
@@ -517,20 +512,6 @@ public class AnalysisRequest extends BaseEntity {
 	 */
 	public void setReadMaximumInnerGap(BigDecimal readMaximumInnerGap) {
 		this.readMaximumInnerGap = readMaximumInnerGap;
-	}
-
-	/**
-	 * @return the seedSize
-	 */
-	public BigDecimal getSeedSize() {
-		return seedSize;
-	}
-
-	/**
-	 * @param seedSize the seedSize to set
-	 */
-	public void setSeedSize(BigDecimal seedSize) {
-		this.seedSize = seedSize;
 	}
 
 	/**
