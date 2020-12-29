@@ -33,7 +33,10 @@ CREATE TABLE "analysis_request" (
     report_n_hits integer,
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
     updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
-    PRIMARY KEY (id),
-    FOREIGN KEY ("user") REFERENCES "user"(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    ADD CONSTRAINT paired_mode_values CHECK (paired_mode IN (0, 1))
+    CONSTRAINT analysis_request_pkey PRIMARY KEY (id),
+    CONSTRAINT analysis_request_user_fkey FOREIGN KEY ("user") 
+    	REFERENCES "user"(id) MATCH SIMPLE 
+    	ON UPDATE CASCADE 
+    	ON DELETE CASCADE,
+    CONSTRAINT paired_mode_values CHECK (paired_mode IN (0, 1))
 );

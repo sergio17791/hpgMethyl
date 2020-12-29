@@ -11,5 +11,5 @@ CREATE TABLE "user" (
     active BOOLEAN NOT NULL DEFAULT true,
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
     updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
-    PRIMARY KEY (id)
+    CONSTRAINT user_pkey PRIMARY KEY (id)
 );
