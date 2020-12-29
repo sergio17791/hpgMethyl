@@ -8,7 +8,7 @@ import javax.servlet.http.Part;
 public class Analysis {
 	
 	private String identifier;
-	private String pairedMode;
+	private Integer pairedMode;
 	private Part inputReadFile;
 	private Boolean writeMethylationContext;
 	private Boolean readBatchSize;
@@ -41,7 +41,7 @@ public class Analysis {
 
 	public Analysis() {
 		this.identifier = "";
-		this.pairedMode = "0";
+		this.pairedMode = 0;
 		this.inputReadFile = null;
 		this.writeMethylationContext = false;
 		this.readBatchSize = false;
@@ -90,14 +90,14 @@ public class Analysis {
 	/**
 	 * @return the pairedMode
 	 */
-	public String getPairedMode() {
+	public Integer getPairedMode() {
 		return pairedMode;
 	}
 
 	/**
 	 * @param pairedMode the pairedMode to set
 	 */
-	public void setPairedMode(String pairedMode) {
+	public void setPairedMode(Integer pairedMode) {
 		this.pairedMode = pairedMode;
 	}
 

@@ -1,150 +1,98 @@
-package es.hpgMethyl.entities;
+package es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import es.hpgMethyl.entities.User;
 
-@Entity
-@Table(name = "analysis_request")
-public class AnalysisRequest extends BaseEntity {
-	
-	@ManyToOne
-	@JoinColumn(name="id", nullable=false)
+public class CreateMethylationAnalysisRequest {
+
 	private User user;
-
-	@Column(name = "identifier", nullable = false)
-	private String identifier;
 	
-	@Column(name = "input_read_file", nullable = false)
-	private String inputReadFile;
+	private String identifier; 
 	
-	@Column(name = "write_methylation_context", nullable = false)
+	private String inputReadFile; 
+	
 	private Boolean writeMethylationContext;
 	
-	@Column(name = "read_batch_size", nullable = false)
-	private Boolean readBatchSize;
+	private Boolean readBatchSize; 
 	
-	@Column(name = "write_batch_size", nullable = false)
-	private Boolean writeBatchSize;
+	private Boolean writeBatchSize; 
 	
-	@Column(name = "paired_mode", nullable = false)
-	private Integer pairedMode;
+	private Integer pairedMode; 
 	
-	@Column(name = "paired_end_mode_file", nullable = true)
 	private String pairedEndModeFile;
 	
-	@Column(name = "paired_max_distance", nullable = true)
-	private BigDecimal pairedMaxDistance;
+	private BigDecimal pairedMaxDistance; 
 	
-	@Column(name = "paired_min_distance", nullable = true)
-	private BigDecimal pairedMinDistance;
+	private BigDecimal pairedMinDistance; 
 	
-	@Column(name = "swa_minimun_score", nullable = true)
 	private BigDecimal swaMinimunScore;
 	
-	@Column(name = "swa_match_score", nullable = true)
-	private BigDecimal swaMatchScore;
+	private BigDecimal swaMatchScore; 
 	
-	@Column(name = "swa_mismatch_score", nullable = true)
-	private BigDecimal swaMismatchScore;
+	private BigDecimal swaMismatchScore; 
 	
-	@Column(name = "swa_gap_open", nullable = true)
-	private BigDecimal swaGapOpen;
+	private BigDecimal swaGapOpen; 
 	
-	@Column(name = "swa_gap_extend", nullable = true)
 	private BigDecimal swaGapExtend;
 	
-	@Column(name = "cal_flank_size", nullable = true)
-	private BigDecimal calFlankSize;
+	private BigDecimal calFlankSize; 
 	
-	@Column(name = "minimum_cal_size", nullable = true)
-	private BigDecimal minimumCalSize;
+	private BigDecimal minimumCalSize; 
 	
-	@Column(name = "cal_umbral_length_factor", nullable = true)
 	private BigDecimal calUmbralLengthFactor;
 	
-	@Column(name = "maximum_between_seeds", nullable = true)
-	private BigDecimal maximumBetweenSeeds;
+	private BigDecimal maximumBetweenSeeds; 
 	
-	@Column(name = "maximum_seed_size", nullable = true)
-	private BigDecimal maximumSeedSize;
+	private BigDecimal maximumSeedSize; 
 	
-	@Column(name = "minimum_seed_size", nullable = true)
 	private BigDecimal minimumSeedSize;
 	
-	@Column(name = "number_seeds_per_read", nullable = true)
-	private BigDecimal numberSeedsPerRead;
+	private BigDecimal numberSeedsPerRead; 
 	
-	@Column(name = "read_minimum_discard_length", nullable = true)
-	private BigDecimal readMinimumDiscardLength;
+	private BigDecimal readMinimumDiscardLength; 
 	
-	@Column(name = "read_maximum_inner_gap", nullable = true)
 	private BigDecimal readMaximumInnerGap;
 	
-	@Column(name = "minimum_number_seeds", nullable = true)
-	private BigDecimal minimumNumberSeeds;
+	private BigDecimal minimumNumberSeeds; 
 	
-	@Column(name = "filter_read_mappings", nullable = true)
 	private BigDecimal filterReadMappings;
 	
-	@Column(name = "filter_seed_mappings", nullable = true)
-	private BigDecimal filterSeedMappings;
+	private BigDecimal filterSeedMappings; 
 	
-	@Column(name = "report_all", nullable = false)
-	private Boolean reportAll;
+	private Boolean reportAll; 
 	
-	@Column(name = "report_best", nullable = false)
-	private Boolean reportBest;
+	private Boolean reportBest; 
 	
-	@Column(name = "report_n_best", nullable = true)
 	private BigDecimal reportNBest;
 	
-	@Column(name = "report_n_hits", nullable = true)
 	private BigDecimal reportNHits;
-	
-	public AnalysisRequest() {
-		super();
-		this.writeMethylationContext = false;
-		this.readBatchSize = false;
-		this.writeBatchSize = false;
-		this.reportAll = false;
-		this.reportBest = true;
-	}
 
-	public AnalysisRequest(			
-			UUID id, 
-			Date createdAt, 
-			Date updatedAt,
-			User user,
+	public CreateMethylationAnalysisRequest(
+			User user, 
 			String identifier, 
-			String inputReadFile, 
-			Boolean writeMethylationContext,
+			String inputReadFile,
+			Boolean writeMethylationContext, 
 			Boolean readBatchSize, 
 			Boolean writeBatchSize, 
-			Integer pairedMode, 
-			String pairedEndModeFile,
+			Integer pairedMode,
+			String pairedEndModeFile, 
 			BigDecimal pairedMaxDistance, 
-			BigDecimal pairedMinDistance, 
-			BigDecimal swaMinimunScore,
+			BigDecimal pairedMinDistance,
+			BigDecimal swaMinimunScore, 
 			BigDecimal swaMatchScore, 
 			BigDecimal swaMismatchScore, 
-			BigDecimal swaGapOpen, 
-			BigDecimal swaGapExtend,
+			BigDecimal swaGapOpen,
+			BigDecimal swaGapExtend, 
 			BigDecimal calFlankSize, 
-			BigDecimal minimumCalSize, 
-			BigDecimal calUmbralLengthFactor,
+			BigDecimal minimumCalSize,
+			BigDecimal calUmbralLengthFactor, 
 			BigDecimal maximumBetweenSeeds, 
-			BigDecimal maximumSeedSize, 
-			BigDecimal minimumSeedSize,
+			BigDecimal maximumSeedSize,
+			BigDecimal minimumSeedSize, 
 			BigDecimal numberSeedsPerRead, 
-			BigDecimal readMinimumDiscardLength, 
-			BigDecimal readMaximumInnerGap,
+			BigDecimal readMinimumDiscardLength,
+			BigDecimal readMaximumInnerGap, 
 			BigDecimal minimumNumberSeeds, 
 			BigDecimal filterReadMappings,
 			BigDecimal filterSeedMappings, 
@@ -153,7 +101,6 @@ public class AnalysisRequest extends BaseEntity {
 			BigDecimal reportNBest,
 			BigDecimal reportNHits
 	) {
-		super(id, createdAt, updatedAt);
 		this.user = user;
 		this.identifier = identifier;
 		this.inputReadFile = inputReadFile;
@@ -621,3 +568,4 @@ public class AnalysisRequest extends BaseEntity {
 		this.reportNHits = reportNHits;
 	}
 }
+
