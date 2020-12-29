@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class AnalysisRequest extends BaseEntity {
 	
 	@ManyToOne
-	@JoinColumn(name="id", nullable=false)
+	@JoinColumn(name="\"user\"", nullable=false)
 	private User user;
 
 	@Column(name = "identifier", nullable = false)
