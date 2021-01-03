@@ -2,7 +2,10 @@ package es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis;
 
 import es.hpgMethyl.dao.AnalysisRequestDAO;
 import es.hpgMethyl.entities.AnalysisRequest;
+import es.hpgMethyl.entities.User;
+import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
 import es.hpgMethyl.exceptions.CreateMethylationAnalysisException;
+import es.hpgMethyl.exceptions.DuplicatedIdentifier;
 import es.hpgMethyl.exceptions.SaveObjectException;
 
 public class CreateMethylationAnalysis {
@@ -13,11 +16,18 @@ public class CreateMethylationAnalysis {
 		this.analysisRequestDAO = analysisRequestDAO;
 	}
 	
-	public CreateMethylationAnalysisResponse execute(CreateMethylationAnalysisRequest request) throws CreateMethylationAnalysisException {
+	public CreateMethylationAnalysisResponse execute(CreateMethylationAnalysisRequest request) throws CreateMethylationAnalysisException, DuplicatedIdentifier {
+		
+		User user = request.getUser();
+		String identifier = request.getIdentifier();
+		
+		if(checkDuplicatedUserIdentifier(user, identifier)) {
+			throw new DuplicatedIdentifier();
+		}
 		
 		AnalysisRequest analysisRequest = new AnalysisRequest();
-		analysisRequest.setUser(request.getUser());
-		analysisRequest.setIdentifier(request.getIdentifier());
+		analysisRequest.setUser(user);
+		analysisRequest.setIdentifier(identifier);
 		analysisRequest.setInputReadFile(request.getInputReadFile());
 		analysisRequest.setWriteMethylationContext(request.getWriteMethylationContext());
 		analysisRequest.setReadBatchSize(request.getReadBatchSize());
@@ -55,5 +65,14 @@ public class CreateMethylationAnalysis {
 		}
 		
 		return new CreateMethylationAnalysisResponse(analysisRequest);		
+	}
+	
+	private Boolean checkDuplicatedUserIdentifier(User user, String identifier) {
+		try {
+			this.analysisRequestDAO.findByIdentifier(user, identifier);
+			return true;
+		} catch (AnalysisRequestNotFound e) {
+			return false;
+		}
 	}
 }
