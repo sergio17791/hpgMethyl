@@ -27,7 +27,7 @@ public class LoginUserTest {
 	@Before
 	public void setUp() {
 		this.userDaoHibernate = Mockito.mock(UserDAOHibernate.class);
-		this.loginUser = new LoginUser(userDaoHibernate);
+		this.loginUser = new LoginUser(this.userDaoHibernate);
 		this.user = new User(
 			UUID.randomUUID(), 
 			new Date(), 

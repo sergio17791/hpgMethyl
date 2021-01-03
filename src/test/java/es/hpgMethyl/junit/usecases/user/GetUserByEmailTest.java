@@ -24,7 +24,7 @@ public class GetUserByEmailTest {
 	@Before
 	public void setUp() {
 		this.userDaoHibernate = Mockito.mock(UserDAOHibernate.class);
-		this.getUserByEmail = new GetUserByEmail(userDaoHibernate);
+		this.getUserByEmail = new GetUserByEmail(this.userDaoHibernate);
 	}
 	
 	@Test(expected = UserNotFound.class)

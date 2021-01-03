@@ -27,7 +27,7 @@ public class ChangePasswordTest {
 	@Before
 	public void setUp() {
 		this.userDaoHibernate = Mockito.mock(UserDAOHibernate.class);
-		this.changePassword = new ChangePassword(userDaoHibernate);
+		this.changePassword = new ChangePassword(this.userDaoHibernate);
 		this.user = new User(
 			UUID.randomUUID(), 
 			new Date(), 
