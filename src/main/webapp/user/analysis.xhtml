@@ -244,24 +244,24 @@
 				</h:panelGroup> 
                 <b:row>
                 	<b:column col-md="6">
+	                	<b:commandButton id="resetAnalysisButton"
+		                                 value="#{msg['analysis.reset']}" 
+		                                 type="reset"
+		                                 look="light"
+		                                 styleClass="btn-block"/>
+                	</b:column>
+                	<b:column col-md="6">
 	                	<b:commandButton id="sendAnalysisButton"
 		                                 binding="#{analysis.sendAnalysisComponent}"
 		                                 value="#{msg['analysis.send']}" 
 		                                 action="#{analysis.sendAnalysis()}"
 		                                 look="primary"
 		                                 styleClass="btn-block"/>
-                	</b:column>
-                	<b:column col-md="6">
-	                	<b:commandButton id="resetAnalysisButton"
-		                                 value="#{msg['analysis.reset']}" 
-		                                 type="reset"
-		                                 look="light"
-		                                 styleClass="btn-block"/>
                 	</b:column>                    	
                 </b:row>
-                <b:row>             
+                <b:row style="margin-top: 10px">             
                 	<b:column col-md="12">
-	                	<h:message for="sendAnalysisButton" styleClass="alert alert-danger errorMessage"/>
+	                	<h:message for="sendAnalysisButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
                 	</b:column>
                 </b:row>               	  
             </b:panel>                                          

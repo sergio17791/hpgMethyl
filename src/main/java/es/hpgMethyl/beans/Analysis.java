@@ -2,8 +2,17 @@ package es.hpgMethyl.beans;
 
 import java.math.BigDecimal;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.servlet.http.Part;
+
+import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
+import es.hpgMethyl.entities.User;
+import es.hpgMethyl.exceptions.CreateMethylationAnalysisException;
+import es.hpgMethyl.exceptions.DuplicatedIdentifier;
+import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysis;
+import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysisRequest;
+import es.hpgMethyl.utils.FacesContextUtils;
 
 public class Analysis {
 	
@@ -35,7 +44,7 @@ public class Analysis {
 	private BigDecimal filterSeedMappings;
 	private Boolean reportAll;
 	private Boolean reportBest;
-	private Boolean reportNBest;
+	private BigDecimal reportNBest;
 	private BigDecimal reportNHits;
 	private UIComponent sendAnalysisComponent;
 
@@ -468,14 +477,14 @@ public class Analysis {
 	/**
 	 * @return the reportNBest
 	 */
-	public Boolean getReportNBest() {
+	public BigDecimal getReportNBest() {
 		return reportNBest;
 	}
 
 	/**
 	 * @param reportNBest the reportNBest to set
 	 */
-	public void setReportNBest(Boolean reportNBest) {
+	public void setReportNBest(BigDecimal reportNBest) {
 		this.reportNBest = reportNBest;
 	}
 
@@ -508,6 +517,69 @@ public class Analysis {
 	}
 
 	public String sendAnalysis() {
-		return "";
+		
+		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
+		
+		if(user == null) {
+			return "index?faces-redirect=true";
+		}
+		
+		String inputReadFileName = this.getInputReadFile().getSubmittedFileName();
+		
+		String pairedEndModeFile = null;
+		
+		if(this.getPairedEndModeFile() != null) {
+			pairedEndModeFile = this.getPairedEndModeFile().getName();
+		}
+		
+		try {
+			new CreateMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
+				new CreateMethylationAnalysisRequest(
+					user,
+					this.getIdentifier(),
+					inputReadFileName,
+					this.getWriteMethylationContext(), 
+					this.getReadBatchSize(), 
+					this.getWriteBatchSize(), 
+					this.getPairedMode(),
+					pairedEndModeFile, 
+					this.getPairedMaxDistance(), 
+					this.getPairedMinDistance(),
+					this.getSwaMinimunScore(), 
+					this.getSwaMatchScore(), 
+					this.getSwaMismatchScore(), 
+					this.getSwaGapOpen(),
+					this.getSwaGapExtend(), 
+					this.getCalFlankSize(), 
+					this.getMinimumCalSize(),
+					this.getCalUmbralLengthFactor(), 
+					this.getMaximumBetweenSeeds(), 
+					this.getMaximumSeedSize(),
+					this.getMinimumSeedSize(), 
+					this.getNumberSeedsPerRead(), 
+					this.getReadMinimumDiscardLength(),
+					this.getReadMaximumInnerGap(), 
+					this.getMinimumNumberSeeds(), 
+					this.getFilterReadMappings(),
+					this.getFilterSeedMappings(), 
+					this.getReportAll(), 
+					this.getReportBest(), 
+					this.getReportNBest(),
+					this.getReportNHits()
+				)				
+			);
+			
+			String successMessage = FacesContextUtils.geti18nMessage("analysis.requestSentSuccessfully");
+			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_INFO, successMessage, successMessage);
+
+		} catch (CreateMethylationAnalysisException e) {
+			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
+			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
+		} catch (DuplicatedIdentifier e) {
+			String duplicatedIdentifierErrorMessage = FacesContextUtils.geti18nMessage("error.default");
+			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, duplicatedIdentifierErrorMessage, duplicatedIdentifierErrorMessage);
+		}
+		
+		return "analysis";
 	}
 }
