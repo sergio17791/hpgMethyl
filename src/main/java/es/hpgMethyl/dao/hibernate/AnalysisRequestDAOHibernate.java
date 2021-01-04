@@ -26,7 +26,7 @@ public class AnalysisRequestDAOHibernate extends BaseDAOHibernate<AnalysisReques
 			CriteriaQuery<AnalysisRequest> criteriaQuery = criteriaBuilder.createQuery(AnalysisRequest.class);
 			
 			Root<AnalysisRequest> root = criteriaQuery.from(AnalysisRequest.class);
-			criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("\"user\""), user));
+			criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("user"), user));
 			criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("identifier"), identifier));
 			
 			Query<AnalysisRequest> query = session.createQuery(criteriaQuery);	
