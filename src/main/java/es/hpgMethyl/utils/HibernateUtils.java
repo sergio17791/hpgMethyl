@@ -14,6 +14,8 @@ public final class HibernateUtils {
     public static synchronized void buildSessionFactory() {
         if (sessionFactory == null) {
             Configuration configuration = new Configuration();
+            configuration.setProperty("hibernate.connection.username", System.getProperty("DB_USER")); 
+            configuration.setProperty("hibernate.connection.password", System.getProperty("DB_PASSWORD"));
             configuration.setProperty("hibernate.current_session_context_class", "thread");         
             sessionFactory = configuration.configure().buildSessionFactory();
         }

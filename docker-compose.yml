@@ -6,21 +6,25 @@ services:
          - '5432:5432'
       environment:
          POSTGRES_DB: hpgMethyl
+         POSTGRES_USER: ${DB_USER}
+         POSTGRES_PASSWORD: ${DB_PASSWORD}
       volumes:
-       - postgres:/data/postgres
+         - postgres:/data/postgres
       networks:
          webapp:
             ipv4_address: 172.19.0.3
    tomcat:
       build:
          context: .
+         args:
+            DB_USER: ${DB_USER}
+            DB_PASSWORD: ${DB_PASSWORD}
          dockerfile: Dockerfile
       ports:
-        - '8080:8080'
+         - '8080:8080'
       networks:
          webapp:
-            ipv4_address: 172.19.0.2
-        
+            ipv4_address: 172.19.0.2              
 volumes:
    postgres:
 
@@ -29,6 +33,6 @@ networks:
     driver: bridge
     ipam:
      config:
-       - subnet: 172.19.0.0/16
-         gateway: 172.19.0.1
+        - subnet: 172.19.0.0/16
+          gateway: 172.19.0.1
             

@@ -3,6 +3,7 @@ plugins {
 	id 'eclipse'
 	id 'war'
 	id 'org.flywaydb.flyway' version '6.4.2'
+	id 'com.avast.gradle.docker-compose' version '0.14.0'
 }
 
 repositories {
@@ -25,7 +26,13 @@ dependencies {
 
 flyway {
     url = 'jdbc:postgresql://172.19.0.3:5432/hpgMethyl'
-    user = 'postgres'
-    password = 'postgres'
+    user = hpgMethylDBUser
+    password = hpgMethylDBPassword
     driver = 'org.postgresql.Driver'
+}
+
+dockerCompose {
+    useComposeFiles = ['docker-compose.yml']
+    environment.put 'DB_USER', hpgMethylDBUser
+    environment.put 'DB_PASSWORD', hpgMethylDBPassword
 }
