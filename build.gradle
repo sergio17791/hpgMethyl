@@ -36,3 +36,17 @@ dockerCompose {
     environment.put 'DB_USER', hpgMethylDBUser
     environment.put 'DB_PASSWORD', hpgMethylDBPassword
 }
+
+tasks.register('hpgMethylDeploy') {
+    description 'Performs project build, deployment and database migration'
+    dependsOn 'clean'
+    dependsOn 'build'
+    dependsOn 'composeUp'
+    dependsOn 'flywayMigrate'
+    tasks.findByName('build').mustRunAfter 'clean'
+    tasks.findByName('composeUp').mustRunAfter 'build'
+    tasks.findByName('flywayMigrate').mustRunAfter 'composeUp'
+    doLast {
+        println "HpgMethyl deploy completed"
+    }
+}
