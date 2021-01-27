@@ -32,7 +32,8 @@ flyway {
 }
 
 dockerCompose {
-    useComposeFiles = ['docker-compose.yml']
+	useComposeFiles = ['docker-compose.yml']
+	projectName = ['hpgMethyl']
     environment.put 'DB_USER', hpgMethylDBUser
     environment.put 'DB_PASSWORD', hpgMethylDBPassword
 }
