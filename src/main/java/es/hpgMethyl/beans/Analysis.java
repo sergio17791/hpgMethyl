@@ -1,5 +1,6 @@
 package es.hpgMethyl.beans;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import javax.faces.application.FacesMessage;
@@ -13,6 +14,7 @@ import es.hpgMethyl.exceptions.DuplicatedIdentifier;
 import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysis;
 import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysisRequest;
 import es.hpgMethyl.utils.FacesContextUtils;
+import es.hpgMethyl.utils.FileUtils;
 
 public class Analysis {
 	
@@ -533,6 +535,8 @@ public class Analysis {
 		}
 		
 		try {
+			FileUtils.saveFileUploadedByUser(user, this.getInputReadFile(), inputReadFileName);
+			
 			new CreateMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
 				new CreateMethylationAnalysisRequest(
 					user,
@@ -578,6 +582,9 @@ public class Analysis {
 		} catch (DuplicatedIdentifier e) {
 			String duplicatedIdentifierErrorMessage = FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, duplicatedIdentifierErrorMessage, duplicatedIdentifierErrorMessage);
+		} catch (IOException e) {
+			String defaultErrorMessage = e.getMessage();//FacesContextUtils.geti18nMessage("error.default");
+			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
 		}
 		
 		return "analysis";

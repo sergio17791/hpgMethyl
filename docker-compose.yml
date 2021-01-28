@@ -22,11 +22,14 @@ services:
          dockerfile: Dockerfile
       ports:
          - '8080:8080'
+      volumes:
+         - tomcat:/data/tomcat
       networks:
          webapp:
             ipv4_address: 172.19.0.2              
 volumes:
-   postgres:
+  postgres:
+  tomcat: 
 
 networks:
   webapp:
