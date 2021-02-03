@@ -8,12 +8,16 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven { 
+    	url 'http://repository.primefaces.org' 
+    }
 }
 
 dependencies {
     implementation 'com.sun.faces:jsf-api:2.2.20'
     implementation 'com.sun.faces:jsf-impl:2.2.20'
     implementation 'org.primefaces:primefaces:7.0'
+    implementation 'org.primefaces.themes:bootstrap:1.0.10'
     implementation 'net.bootsfaces:bootsfaces:1.5.0'
     implementation 'jstl:jstl:1.2'
     implementation 'org.hibernate:hibernate-core:5.4.27.Final'
