@@ -1,5 +1,8 @@
 package es.hpgMethyl.dao.hibernate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -34,6 +37,30 @@ public class AnalysisRequestDAOHibernate extends BaseDAOHibernate<AnalysisReques
 			return query.getSingleResult();
 		} catch(NoResultException exception) {
 			throw new AnalysisRequestNotFound("Analysis Request " + identifier + " not found", exception);
+		} finally {
+			session.close();
+		}
+	}
+
+	@Override
+	public List<AnalysisRequest> list(User user) {
+		
+		Session session = HibernateUtils.getSessionFactory().openSession();
+		
+		try {		
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<AnalysisRequest> criteriaQuery = criteriaBuilder.createQuery(AnalysisRequest.class);
+			
+			Root<AnalysisRequest> root = criteriaQuery.from(AnalysisRequest.class);
+			if(user != null) {
+				criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("user"), user));
+			}
+
+			Query<AnalysisRequest> query = session.createQuery(criteriaQuery);	
+			
+			return query.getResultList();
+		} catch(NoResultException exception) {
+			return new ArrayList<AnalysisRequest>();
 		} finally {
 			session.close();
 		}
