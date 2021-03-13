@@ -19,6 +19,12 @@
         <description>Controls the sending of analysis requests by users</description>
         <managed-bean-name>analysis</managed-bean-name>
         <managed-bean-class>es.hpgMethyl.beans.Analysis</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <description>List requests for analysis by a user</description>
+        <managed-bean-name>listUserAnalysis</managed-bean-name>
+        <managed-bean-class>es.hpgMethyl.beans.ListUserMethylationAnalysisBean</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
     <managed-bean>

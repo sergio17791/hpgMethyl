@@ -5,12 +5,12 @@
                 xmlns:b="http://bootsfaces.net/ui"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:components="http://java.sun.com/jsf/composite/components"
-                template="../WEB-INF/templates/mainTemplate.xhtml">
+                template="../../WEB-INF/templates/mainTemplate.xhtml">
     <ui:define name="content">
         <b:form id="analysisForm" enctype="multipart/form-data">
             <b:row>
                 <b:column col-md="6">
-                    <legend><h:outputText value="#{msg['analysis.legend']}"/></legend>      
+                    <legend><h:outputText value="#{msg['analysis.send.legend']}"/></legend>      
                 </b:column>                 
             </b:row>
             <b:panel>
@@ -18,12 +18,12 @@
             		<b:row>
                 		<components:inputTextWithErrorMessage inputId="identifier"
                 											  value="#{analysis.identifier}"
-                											  label="#{msg['analysis.identifier']}"
+                											  label="#{msg['analysis.attribute.identifier']}"
                 											  maxlength="60"
                 											  required="true" 
                 											  focus="true"/>                			
                 		<b:column col-md="6">
-                			<h:outputLabel styleClass="control-label" for="inputReadFile">#{msg['analysis.inputReadFile']}:</h:outputLabel>
+                			<h:outputLabel styleClass="control-label" for="inputReadFile">#{msg['analysis.attribute.inputReadFile']}:</h:outputLabel>
                 			<h:inputFile id="inputReadFile" 
                                          value="#{analysis.inputReadFile}" 
                                          styleClass="form-control"
@@ -37,19 +37,19 @@
 						<b:column col-md="4">
 							<b:selectBooleanCheckbox id="writeMethylationContext"
 							  				 		 value="#{analysis.writeMethylationContext}" 
-													 caption="#{msg['analysis.writeMethylationContext']}"/>
+													 caption="#{msg['analysis.attribute.writeMethylationContext']}"/>
 							<h:message for="writeMethylationContext" styleClass="alert alert-danger errorMessageWithTopLabel"/>
 						</b:column>
 						<b:column col-md="4">
 							<b:selectBooleanCheckbox id="readBatchSize"
 							  				 		 value="#{analysis.readBatchSize}" 
-													 caption="#{msg['analysis.readBatchSize']}"/>
+													 caption="#{msg['analysis.attribute.readBatchSize']}"/>
 							<h:message for="readBatchSize" styleClass="alert alert-danger errorMessageWithTopLabel"/>
 						</b:column>
 						<b:column col-md="4">
 							<b:selectBooleanCheckbox id="writeBatchSize"
 							  				 		 value="#{analysis.writeBatchSize}" 
-													 caption="#{msg['analysis.writeBatchSize']}"/>
+													 caption="#{msg['analysis.attribute.writeBatchSize']}"/>
 							<h:message for="writeBatchSize" styleClass="alert alert-danger errorMessageWithTopLabel"/>
 						</b:column>
 					</b:row>
@@ -58,11 +58,11 @@
                 			<b:selectOneMenu id ="pairedMode" 
 	                					 	 value="#{analysis.pairedMode}"
 		                            	 	 styleClass="form-control"
-		                                 	 label="#{msg['analysis.pairedMode']}" 
+		                                 	 label="#{msg['analysis.attribute.pairedMode']}" 
 			                             	 required="true" 
 		    	                         	 requiredMessage="#{msg['error.form.requiredField']}">    
-		    	            	<f:selectItem itemValue="0" itemLabel="#{msg['analysis.singleEndMode']}"/>
-    							<f:selectItem itemValue="1" itemLabel="#{msg['analysis.pairedEndMode']}"/>
+		    	            	<f:selectItem itemValue="0" itemLabel="#{msg['analysis.attribute.pairedMode.SINGLE_END_MODE']}"/>
+    							<f:selectItem itemValue="1" itemLabel="#{msg['analysis.attribute.pairedMode.PAIRED_END_MODE']}"/>
     							<f:ajax render="pairedEndModeSection" /> 
     							<f:ajax render="mappedReadFilteringSection" />                        
 	                	    </b:selectOneMenu>
@@ -73,28 +73,28 @@
                 <h:panelGroup id="pairedEndModeSection">
                 	<h:panelGroup rendered="#{analysis.pairedMode eq '1'}">
 						<fieldset>
-							<legend><h4><h:outputText value="#{msg['analysis.pairedEndModeLegend']}"/></h4></legend>							
-							<h:outputText value="#{msg['analysis.pairedEndModeText']}"/>
+							<legend><h4><h:outputText value="#{msg['analysis.send.pairedEndModeLegend']}"/></h4></legend>							
+							<h:outputText value="#{msg['analysis.send.pairedEndModeText']}"/>
 							<b:row style="margin-top: 10px">
                 				<b:column col-md="4">
-                					<h:outputLabel styleClass="control-label" for="pairedEndModeFile">#{msg['analysis.pairedEndModeFile']}:</h:outputLabel>
+                					<h:outputLabel styleClass="control-label" for="pairedEndModeFile">#{msg['analysis.attribute.pairedEndModeFile']}:</h:outputLabel>
                 					<h:inputFile id="pairedEndModeFile" 
-                                         	 	value="#{analysis.pairedEndModeFile}" 
-                                         	 	styleClass="form-control"
-                                         	 	required="#{analysis.pairedMode eq '1'}"
-                                         	 	requiredMessage="#{msg['error.form.requiredField']}">
+                                         	 	 value="#{analysis.pairedEndModeFile}" 
+                                         	 	 styleClass="form-control"
+                                         	 	 required="#{analysis.pairedMode eq '1'}"
+                                         	 	 requiredMessage="#{msg['error.form.requiredField']}">
                             		</h:inputFile>
                 					<h:message for="pairedEndModeFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
                 				</b:column>
                 				<components:inputTextWithErrorMessage inputId="pairedMaxDistance"
                 											  value="#{analysis.pairedMaxDistance}"
-                											  label="#{msg['analysis.pairedMaxDistance']}"
+                											  label="#{msg['analysis.attribute.pairedMaxDistance']}"
                 											  type="number"
                 											  required="false"
                 											  colMdSize="4"/>
 								<components:inputTextWithErrorMessage inputId="pairedMinDistance"
                 											  value="#{analysis.pairedMinDistance}"
-                											  label="#{msg['analysis.pairedMinDistance']}"
+                											  label="#{msg['analysis.attribute.pairedMinDistance']}"
                 											  type="number"
                 											  required="false"
                 											  colMdSize="4"/>                											  
@@ -103,107 +103,107 @@
 					</h:panelGroup>
 				</h:panelGroup>                 	            					
                 <fieldset>
-					<legend><h4><h:outputText value="#{msg['analysis.smithWatermanLegend']}"/></h4></legend>
-					<h:outputText value="#{msg['analysis.smithWatermanText']}"/>
+					<legend><h4><h:outputText value="#{msg['analysis.send.smithWatermanLegend']}"/></h4></legend>
+					<h:outputText value="#{msg['analysis.send.smithWatermanText']}"/>
 					<b:row style="margin-top: 10px">
 						<components:inputTextWithErrorMessage inputId="swaMinimunScore"
                 											  value="#{analysis.swaMinimunScore}"
-                											  label="#{msg['analysis.swaMinimunScore']}"
+                											  label="#{msg['analysis.attribute.swaMinimunScore']}"
                 											  type="number"
                 											  colMdSize="4"/> 
 						<components:inputTextWithErrorMessage inputId="swaMatchScore"
                 											  value="#{analysis.swaMatchScore}"
-                											  label="#{msg['analysis.swaMatchScore']}"
+                											  label="#{msg['analysis.attribute.swaMatchScore']}"
                 											  type="number"
                 											  colMdSize="4"/>
 						<components:inputTextWithErrorMessage inputId="swaMismatchScore"
                 											  value="#{analysis.swaMismatchScore}"
-                											  label="#{msg['analysis.swaMismatchScore']}"
+                											  label="#{msg['analysis.attribute.swaMismatchScore']}"
                 											  type="number"
                 											  colMdSize="4"/>                											                   											   
                 	</b:row>
                 	<b:row>
                 		<components:inputTextWithErrorMessage inputId="swaGapOpen"
                 											  value="#{analysis.swaGapOpen}"
-                											  label="#{msg['analysis.swaGapOpen']}"
+                											  label="#{msg['analysis.attribute.swaGapOpen']}"
                 											  type="number"
                 											  colMdSize="4"
                 											  colOffsetMd="2"/>
 						<components:inputTextWithErrorMessage inputId="swaGapExtend"
                 											  value="#{analysis.swaGapExtend}"
-                											  label="#{msg['analysis.swaGapExtend']}"
+                											  label="#{msg['analysis.attribute.swaGapExtend']}"
                 											  type="number"
                 											  colMdSize="4"/>                											  
                 	</b:row>
                 </fieldset>
                 <fieldset>
-					<legend><h4><h:outputText value="#{msg['analysis.seedingAndCalStagesParametersLegend']}"/></h4></legend>
-					<h:outputText value="#{msg['analysis.seedingAndCalStagesParametersText']}"/>
+					<legend><h4><h:outputText value="#{msg['analysis.send.seedingAndCalStagesParametersLegend']}"/></h4></legend>
+					<h:outputText value="#{msg['analysis.send.seedingAndCalStagesParametersText']}"/>
 					<b:row style="margin-top: 10px">
 						<components:inputTextWithErrorMessage inputId="calFlankSize"
                 											  value="#{analysis.calFlankSize}"
-                											  label="#{msg['analysis.calFlankSize']}"
+                											  label="#{msg['analysis.attribute.calFlankSize']}"
                 											  type="number"
                 											  colMdSize="4"/> 
 						<components:inputTextWithErrorMessage inputId="minimumCalSize"
                 											  value="#{analysis.minimumCalSize}"
-                											  label="#{msg['analysis.minimumCalSize']}"
+                											  label="#{msg['analysis.attribute.minimumCalSize']}"
                 											  type="number"
                 											  colMdSize="4"/>
 						<components:inputTextWithErrorMessage inputId="calUmbralLengthFactor"
                 											  value="#{analysis.calUmbralLengthFactor}"
-                											  label="#{msg['analysis.calUmbralLengthFactor']}"
+                											  label="#{msg['analysis.attribute.calUmbralLengthFactor']}"
                 											  type="number"
                 											  colMdSize="4"/>                											                   											   
                 	</b:row>
                 	<b:row>
                 		<components:inputTextWithErrorMessage inputId="maximumBetweenSeeds"
                 											  value="#{analysis.maximumBetweenSeeds}"
-                											  label="#{msg['analysis.maximumBetweenSeeds']}"
+                											  label="#{msg['analysis.attribute.maximumBetweenSeeds']}"
                 											  type="number"
                 											  colMdSize="4"/>
 						<components:inputTextWithErrorMessage inputId="maximumSeedSize"
                 											  value="#{analysis.maximumSeedSize}"
-                											  label="#{msg['analysis.maximumSeedSize']}"
+                											  label="#{msg['analysis.attribute.maximumSeedSize']}"
                 											  type="number"
                 											  colMdSize="4"/>
 						<components:inputTextWithErrorMessage inputId="minimumSeedSize"
                 											  value="#{analysis.minimumSeedSize}"
-                											  label="#{msg['analysis.minimumSeedSize']}"
+                											  label="#{msg['analysis.attribute.minimumSeedSize']}"
                 											  type="number"
                 											  colMdSize="4"/>                											                											  
                 	</b:row>
                 	<b:row>
                 		<components:inputTextWithErrorMessage inputId="numberSeedsPerRead"
                 											  value="#{analysis.numberSeedsPerRead}"
-                											  label="#{msg['analysis.numberSeedsPerRead']}"
+                											  label="#{msg['analysis.attribute.numberSeedsPerRead']}"
                 											  type="number"
                 											  colMdSize="4"/>
                 		<components:inputTextWithErrorMessage inputId="minimumNumberSeeds"
                 											  value="#{analysis.minimumNumberSeeds}"
-                											  label="#{msg['analysis.minimumNumberSeeds']}"
+                											  label="#{msg['analysis.attribute.minimumNumberSeeds']}"
                 											  type="number"
                 											  colMdSize="4"/>                											  
 						<components:inputTextWithErrorMessage inputId="readMinimumDiscardLength"
                 											  value="#{analysis.readMinimumDiscardLength}"
-                											  label="#{msg['analysis.readMinimumDiscardLength']}"
+                											  label="#{msg['analysis.attribute.readMinimumDiscardLength']}"
                 											  type="number"
                 											  colMdSize="4"/>                											                											  
                 	</b:row>
                 	<b:row>
                 		<components:inputTextWithErrorMessage inputId="readMaximumInnerGap"
                 											  value="#{analysis.readMaximumInnerGap}"
-                											  label="#{msg['analysis.readMaximumInnerGap']}"
+                											  label="#{msg['analysis.attribute.readMaximumInnerGap']}"
                 											  type="number"
                 											  colMdSize="4"/>
                 		<components:inputTextWithErrorMessage inputId="filterReadMappings"
                 											  value="#{analysis.filterReadMappings}"
-                											  label="#{msg['analysis.filterReadMappings']}"
+                											  label="#{msg['analysis.attribute.filterReadMappings']}"
                 											  type="number"
                 											  colMdSize="4"/>
 						<components:inputTextWithErrorMessage inputId="filterSeedMappings"
                 											  value="#{analysis.filterSeedMappings}"
-                											  label="#{msg['analysis.filterSeedMappings']}"
+                											  label="#{msg['analysis.attribute.filterSeedMappings']}"
                 											  type="number"
                 											  colMdSize="4"/>            											                											  
                 	</b:row>
@@ -211,31 +211,31 @@
                  <h:panelGroup id="mappedReadFilteringSection">
                 	<h:panelGroup rendered="#{analysis.pairedMode eq '0'}">
                 		<fieldset>
-							<legend><h4><h:outputText value="#{msg['analysis.mappedReadFilteringLegend']}"/></h4></legend>
-							<h:outputText value="#{msg['analysis.mappedReadFilteringText']}"/>
+							<legend><h4><h:outputText value="#{msg['analysis.send.mappedReadFilteringLegend']}"/></h4></legend>
+							<h:outputText value="#{msg['analysis.send.mappedReadFilteringText']}"/>
 							<b:row>
 								<b:column col-md="4">
 									<b:selectBooleanCheckbox id="reportAll"
 													 		value="#{analysis.reportAll}" 
-													 		caption="#{msg['analysis.reportAll']}"/>
+													 		caption="#{msg['analysis.attribute.reportAll']}"/>
 									<h:message for="reportAll" styleClass="alert alert-danger errorMessageWithTopLabel"/>
 								</b:column>
 								<b:column col-md="8">
 									<b:selectBooleanCheckbox id="reportBest"
 													 		value="#{analysis.reportBest}" 
-													 		caption="#{msg['analysis.reportBest']}"/>
+													 		caption="#{msg['analysis.attribute.reportBest']}"/>
 									<h:message for="reportBest" styleClass="alert alert-danger errorMessageWithTopLabel"/>
 								</b:column>
 							</b:row>
 							<b:row>
 		                		<components:inputTextWithErrorMessage inputId="reportNBest"
                 											  		value="#{analysis.reportNBest}"
-                											  		label="#{msg['analysis.reportNBest']}"
+                											  		label="#{msg['analysis.attribute.reportNBest']}"
                 											  		type="number"
                 											  		colMdSize="6"/>
 								<components:inputTextWithErrorMessage inputId="reportNHits"
                 											  		value="#{analysis.reportNHits}"
-                											  		label="#{msg['analysis.reportNHits']}"
+                											  		label="#{msg['analysis.attribute.reportNHits']}"
                 											  		type="number"
                 											  		colMdSize="6"/>                											  
                 			</b:row>                											
@@ -245,7 +245,7 @@
                 <b:row>
                 	<b:column col-md="6">
 	                	<b:commandButton id="resetAnalysisButton"
-		                                 value="#{msg['analysis.reset']}" 
+		                                 value="#{msg['analysis.send.reset']}" 
 		                                 type="reset"
 		                                 look="light"
 		                                 styleClass="btn-block"/>
@@ -253,17 +253,18 @@
                 	<b:column col-md="6">
 	                	<b:commandButton id="sendAnalysisButton"
 		                                 binding="#{analysis.sendAnalysisComponent}"
-		                                 value="#{msg['analysis.send']}" 
+		                                 value="#{msg['analysis.send.submit']}" 
 		                                 action="#{analysis.sendAnalysis()}"
 		                                 look="primary"
-		                                 styleClass="btn-block"/>
+		                                 styleClass="btn-block"/>     
                 	</b:column>                    	
                 </b:row>
+                
                 <b:row style="margin-top: 10px">             
                 	<b:column col-md="12">
 	                	<h:message for="sendAnalysisButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
                 	</b:column>
-                </b:row>               	  
+                </b:row>         	  
             </b:panel>                                          
         </b:form>
     </ui:define>

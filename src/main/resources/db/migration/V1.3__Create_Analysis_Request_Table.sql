@@ -1,3 +1,4 @@
+CREATE SEQUENCE analysis_number_sequence START 1;
 CREATE TABLE "analysis_request" (
     id uuid DEFAULT uuid_generate_v4(),
     "user" uuid NOT NULL,
@@ -31,12 +32,15 @@ CREATE TABLE "analysis_request" (
     report_best BOOLEAN NOT NULL DEFAULT true,
     report_n_best integer,
     report_n_hits integer,
+    status VARCHAR(60) NOT NULL DEFAULT 'CREATED',
+    number integer default nextval('analysis_number_sequence'),
     created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
-    updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),
+    updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(),   
     CONSTRAINT analysis_request_pkey PRIMARY KEY (id),
     CONSTRAINT analysis_request_user_fkey FOREIGN KEY ("user") 
     	REFERENCES "user"(id) MATCH SIMPLE 
     	ON UPDATE CASCADE 
     	ON DELETE CASCADE,
-    CONSTRAINT paired_mode_values CHECK (paired_mode IN (0, 1))
+    CONSTRAINT paired_mode_values CHECK (paired_mode IN (0, 1)),
+    CONSTRAINT status_values CHECK (status IN ('CREATED','PROCESSING','COMPLETED'))
 );

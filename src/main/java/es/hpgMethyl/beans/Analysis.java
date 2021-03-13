@@ -11,6 +11,7 @@ import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.CreateMethylationAnalysisException;
 import es.hpgMethyl.exceptions.DuplicatedIdentifier;
+import es.hpgMethyl.types.PairedMode;
 import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysis;
 import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysisRequest;
 import es.hpgMethyl.utils.FacesContextUtils;
@@ -531,7 +532,7 @@ public class Analysis {
 		String pairedEndModeFile = null;
 		
 		if(this.getPairedEndModeFile() != null) {
-			pairedEndModeFile = this.getPairedEndModeFile().getName();
+			pairedEndModeFile = this.getPairedEndModeFile().getSubmittedFileName();
 		}
 		
 		try {
@@ -545,7 +546,7 @@ public class Analysis {
 					this.getWriteMethylationContext(), 
 					this.getReadBatchSize(), 
 					this.getWriteBatchSize(), 
-					this.getPairedMode(),
+					this.getPairedMode() == 1 ? PairedMode.PAIRED_END_MODE : PairedMode.SINGLE_END_MODE,
 					pairedEndModeFile, 
 					this.getPairedMaxDistance(), 
 					this.getPairedMinDistance(),
@@ -577,10 +578,10 @@ public class Analysis {
 			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_INFO, successMessage, successMessage);
 
 		} catch (CreateMethylationAnalysisException e) {
-			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
+			String defaultErrorMessage = e.getMessage();//FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
 		} catch (DuplicatedIdentifier e) {
-			String duplicatedIdentifierErrorMessage = FacesContextUtils.geti18nMessage("error.default");
+			String duplicatedIdentifierErrorMessage = e.getMessage();//FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, duplicatedIdentifierErrorMessage, duplicatedIdentifierErrorMessage);
 		} catch (IOException e) {
 			String defaultErrorMessage = e.getMessage();//FacesContextUtils.geti18nMessage("error.default");

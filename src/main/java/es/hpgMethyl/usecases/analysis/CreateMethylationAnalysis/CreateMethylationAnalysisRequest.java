@@ -3,6 +3,7 @@ package es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis;
 import java.math.BigDecimal;
 
 import es.hpgMethyl.entities.User;
+import es.hpgMethyl.types.PairedMode;
 
 public class CreateMethylationAnalysisRequest {
 
@@ -18,7 +19,7 @@ public class CreateMethylationAnalysisRequest {
 	
 	private Boolean writeBatchSize; 
 	
-	private Integer pairedMode; 
+	private PairedMode pairedMode; 
 	
 	private String pairedEndModeFile;
 	
@@ -75,7 +76,7 @@ public class CreateMethylationAnalysisRequest {
 			Boolean writeMethylationContext, 
 			Boolean readBatchSize, 
 			Boolean writeBatchSize, 
-			Integer pairedMode,
+			PairedMode pairedMode,
 			String pairedEndModeFile, 
 			BigDecimal pairedMaxDistance, 
 			BigDecimal pairedMinDistance,
@@ -221,14 +222,14 @@ public class CreateMethylationAnalysisRequest {
 	/**
 	 * @return the pairedMode
 	 */
-	public Integer getPairedMode() {
+	public PairedMode getPairedMode() {
 		return pairedMode;
 	}
 
 	/**
 	 * @param pairedMode the pairedMode to set
 	 */
-	public void setPairedMode(Integer pairedMode) {
+	public void setPairedMode(PairedMode pairedMode) {
 		this.pairedMode = pairedMode;
 	}
 

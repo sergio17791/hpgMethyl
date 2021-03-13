@@ -16,6 +16,7 @@ import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
 import es.hpgMethyl.exceptions.CreateMethylationAnalysisException;
 import es.hpgMethyl.exceptions.DuplicatedIdentifier;
 import es.hpgMethyl.exceptions.SaveObjectException;
+import es.hpgMethyl.types.PairedMode;
 import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysis;
 import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysisRequest;
 import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysisResponse;
@@ -61,7 +62,7 @@ public class CreateMethylationAnalysisTest {
 				false, 
 				false, 
 				false, 
-				0,
+				PairedMode.SINGLE_END_MODE,
 				null, 
 				null, 
 				null,
@@ -93,52 +94,6 @@ public class CreateMethylationAnalysisTest {
 		this.createMethylationAnalysis.execute(request);
 	}
 	
-	@Test(expected = CreateMethylationAnalysisException.class)
-	public void test_execute_givenConstraintViolation_expectThrowCreateMethylationAnalysisException() throws AnalysisRequestNotFound, CreateMethylationAnalysisException, DuplicatedIdentifier, SaveObjectException {	
-		
-		String identifier = "CreateMethylationAnalysisException";
-		
-		CreateMethylationAnalysisRequest request = new CreateMethylationAnalysisRequest(
-				this.user, 
-				identifier,
-				"inputReadFile",
-				false, 
-				false, 
-				false, 
-				2,
-				null, 
-				null, 
-				null,
-				new BigDecimal("0.8"),
-				new BigDecimal("5.0"),
-				new BigDecimal("-4.0"),
-				new BigDecimal("10.0"),
-				new BigDecimal("0.5"),
-				new BigDecimal("5"),
-				new BigDecimal("30"),
-				new BigDecimal("4"),
-				new BigDecimal("100"),
-				new BigDecimal("23"),
-				new BigDecimal("16"),
-				new BigDecimal("10"),
-				new BigDecimal("100"),
-				new BigDecimal("-1"),
-				null, 
-				null,
-				null, 
-				false, 
-				true, 
-				null,
-				null
-		);
-		
-		Mockito.doThrow(AnalysisRequestNotFound.class).when(analysisRequestDAOHibernate).findByIdentifier(user, identifier);
-		
-		Mockito.doThrow(SaveObjectException.class).when(analysisRequestDAOHibernate).save(Mockito.any(AnalysisRequest.class));
-		
-		this.createMethylationAnalysis.execute(request);
-	}
-	
 	@Test
 	public void test_execute_givenValidRequest_expectAnalysisRequest() throws AnalysisRequestNotFound, CreateMethylationAnalysisException, DuplicatedIdentifier, SaveObjectException {	
 		
@@ -151,7 +106,7 @@ public class CreateMethylationAnalysisTest {
 				false, 
 				true, 
 				false, 
-				1,
+				PairedMode.PAIRED_END_MODE,
 				"pairedEndModeFile", 
 				new BigDecimal("1"), 
 				new BigDecimal("2"),

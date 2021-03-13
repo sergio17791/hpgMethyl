@@ -6,9 +6,17 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import es.hpgMethyl.types.AnalysisStatus;
+import es.hpgMethyl.types.PairedMode;
 
 @Entity
 @Table(name = "analysis_request")
@@ -20,6 +28,10 @@ public class AnalysisRequest extends BaseEntity {
 
 	@Column(name = "identifier", nullable = false)
 	private String identifier;
+	
+	@Column(name = "status", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private AnalysisStatus status;
 	
 	@Column(name = "input_read_file", nullable = false)
 	private String inputReadFile;
@@ -34,7 +46,8 @@ public class AnalysisRequest extends BaseEntity {
 	private Boolean writeBatchSize;
 	
 	@Column(name = "paired_mode", nullable = false)
-	private Integer pairedMode;
+	@Enumerated(EnumType.ORDINAL)
+	private PairedMode pairedMode;
 	
 	@Column(name = "paired_end_mode_file", nullable = true)
 	private String pairedEndModeFile;
@@ -108,8 +121,13 @@ public class AnalysisRequest extends BaseEntity {
 	@Column(name = "report_n_hits", nullable = true)
 	private BigDecimal reportNHits;
 	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "analysis_number_sequence")
+	@Column(name = "number", unique = true, nullable = false, insertable = false, updatable = false)
+	private Integer number;
+	
 	public AnalysisRequest() {
 		super();
+		this.status = AnalysisStatus.CREATED;
 		this.writeMethylationContext = false;
 		this.readBatchSize = false;
 		this.writeBatchSize = false;
@@ -123,11 +141,12 @@ public class AnalysisRequest extends BaseEntity {
 			Date updatedAt,
 			User user,
 			String identifier, 
+			AnalysisStatus status,
 			String inputReadFile, 
 			Boolean writeMethylationContext,
 			Boolean readBatchSize, 
 			Boolean writeBatchSize, 
-			Integer pairedMode, 
+			PairedMode pairedMode, 
 			String pairedEndModeFile,
 			BigDecimal pairedMaxDistance, 
 			BigDecimal pairedMinDistance, 
@@ -151,11 +170,13 @@ public class AnalysisRequest extends BaseEntity {
 			Boolean reportAll, 
 			Boolean reportBest, 
 			BigDecimal reportNBest,
-			BigDecimal reportNHits
+			BigDecimal reportNHits,
+			Integer number
 	) {
 		super(id, createdAt, updatedAt);
 		this.user = user;
 		this.identifier = identifier;
+		this.status = status;
 		this.inputReadFile = inputReadFile;
 		this.writeMethylationContext = writeMethylationContext;
 		this.readBatchSize = readBatchSize;
@@ -185,6 +206,7 @@ public class AnalysisRequest extends BaseEntity {
 		this.reportBest = reportBest;
 		this.reportNBest = reportNBest;
 		this.reportNHits = reportNHits;
+		this.number = number;
 	}
 
 	/**
@@ -213,6 +235,20 @@ public class AnalysisRequest extends BaseEntity {
 	 */
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
+	}
+
+	/**
+	 * @return the status
+	 */
+	public AnalysisStatus getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(AnalysisStatus status) {
+		this.status = status;
 	}
 
 	/**
@@ -274,14 +310,14 @@ public class AnalysisRequest extends BaseEntity {
 	/**
 	 * @return the pairedMode
 	 */
-	public Integer getPairedMode() {
+	public PairedMode getPairedMode() {
 		return pairedMode;
 	}
 
 	/**
 	 * @param pairedMode the pairedMode to set
 	 */
-	public void setPairedMode(Integer pairedMode) {
+	public void setPairedMode(PairedMode pairedMode) {
 		this.pairedMode = pairedMode;
 	}
 
@@ -619,5 +655,19 @@ public class AnalysisRequest extends BaseEntity {
 	 */
 	public void setReportNHits(BigDecimal reportNHits) {
 		this.reportNHits = reportNHits;
+	}
+	
+	/**
+	 * @return the number
+	 */
+	public Integer getNumber() {
+		return number;
+	}
+
+	/**
+	 * @param number the number to set
+	 */
+	public void setNumber(Integer number) {
+		this.number = number;
 	}
 }
