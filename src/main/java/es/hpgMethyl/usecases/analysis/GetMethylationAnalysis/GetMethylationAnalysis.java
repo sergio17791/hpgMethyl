@@ -5,6 +5,7 @@ import java.util.UUID;
 import es.hpgMethyl.dao.AnalysisRequestDAO;
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
+import es.hpgMethyl.exceptions.GetObjectException;
 import es.hpgMethyl.exceptions.HpgMethylException;
 
 public class GetMethylationAnalysis {
@@ -15,7 +16,7 @@ public class GetMethylationAnalysis {
 		this.analysisRequestDAO = analysisRequestDAO;
 	}
 	
-	public GetMethylationAnalysisResponse execute(GetMethylationAnalysisRequest request) throws AnalysisRequestNotFound, HpgMethylException {
+	public GetMethylationAnalysisResponse execute(GetMethylationAnalysisRequest request) throws AnalysisRequestNotFound, GetObjectException {
 		
 		UUID id = request.getId();
 		

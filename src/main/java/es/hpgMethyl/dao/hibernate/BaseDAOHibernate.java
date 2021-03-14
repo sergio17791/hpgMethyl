@@ -12,7 +12,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import es.hpgMethyl.dao.BaseDAO;
-import es.hpgMethyl.exceptions.HpgMethylException;
+import es.hpgMethyl.exceptions.DeleteObjectException;
+import es.hpgMethyl.exceptions.GetObjectException;
+import es.hpgMethyl.exceptions.ListObjectsException;
 import es.hpgMethyl.exceptions.SaveObjectException;
 import es.hpgMethyl.utils.HibernateUtils;
 
@@ -58,7 +60,7 @@ public class BaseDAOHibernate<T, ID extends Serializable> implements BaseDAO<T, 
 	}
 
 	@Override
-	public T get(ID id) throws HpgMethylException {
+	public T get(ID id) throws GetObjectException {
 		
 		Session session = HibernateUtils.getSessionFactory().openSession();
 		Transaction transaction = null;
@@ -78,7 +80,7 @@ public class BaseDAOHibernate<T, ID extends Serializable> implements BaseDAO<T, 
 				LOGGER.log(Level.WARNING,"Rollback on get failed", ex);
 			} 			
 			
-			throw new HpgMethylException(hibernateException);
+			throw new GetObjectException(hibernateException);
 			
 		} finally {
 			session.close();
@@ -86,7 +88,7 @@ public class BaseDAOHibernate<T, ID extends Serializable> implements BaseDAO<T, 
 	}
 
 	@Override
-	public void delete(T entity) throws HpgMethylException {
+	public void delete(T entity) throws DeleteObjectException {
 		
 		Session session = HibernateUtils.getSessionFactory().openSession();
 		Transaction transaction = null;
@@ -104,7 +106,7 @@ public class BaseDAOHibernate<T, ID extends Serializable> implements BaseDAO<T, 
 				LOGGER.log(Level.WARNING,"Rollback on delete failed", ex);
 			} 			
 			
-			throw new HpgMethylException(hibernateException);
+			throw new DeleteObjectException(hibernateException);
 			
 		} finally {
 			session.close();
@@ -113,7 +115,7 @@ public class BaseDAOHibernate<T, ID extends Serializable> implements BaseDAO<T, 
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<T> listAll() throws HpgMethylException {
+	public List<T> listAll() throws ListObjectsException {
 		
 		Session session = HibernateUtils.getSessionFactory().openSession();
 		String queryStr = "from " + getPersistentClass().getName() + " entity";
@@ -122,7 +124,7 @@ public class BaseDAOHibernate<T, ID extends Serializable> implements BaseDAO<T, 
 			Query<T> query = session.createQuery(queryStr);
 			return query.list();
 		} catch(HibernateException hibernateException) {
-			throw new HpgMethylException(hibernateException);
+			throw new ListObjectsException(hibernateException);
 		} finally {
 			session.close();
 		}	

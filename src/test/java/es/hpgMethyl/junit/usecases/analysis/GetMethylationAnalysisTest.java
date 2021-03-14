@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import es.hpgMethyl.dao.AnalysisRequestDAO;
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
+import es.hpgMethyl.exceptions.GetObjectException;
 import es.hpgMethyl.exceptions.HpgMethylException;
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysis;
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysisRequest;
@@ -32,7 +33,7 @@ public class GetMethylationAnalysisTest {
 		
 		UUID id = UUID.randomUUID();
 		
-		Mockito.doThrow(HpgMethylException.class).when(analysisRequestDAO).get(id);
+		Mockito.doThrow(GetObjectException.class).when(analysisRequestDAO).get(id);
 		
 		this.getMethylationAnalysis.execute(new GetMethylationAnalysisRequest(id));
 	}
