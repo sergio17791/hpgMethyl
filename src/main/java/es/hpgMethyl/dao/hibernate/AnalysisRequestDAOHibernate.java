@@ -2,6 +2,7 @@ package es.hpgMethyl.dao.hibernate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -17,10 +18,10 @@ import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
 import es.hpgMethyl.utils.HibernateUtils;
 
-public class AnalysisRequestDAOHibernate extends BaseDAOHibernate<AnalysisRequest,String> implements AnalysisRequestDAO {
+public class AnalysisRequestDAOHibernate extends BaseDAOHibernate<AnalysisRequest, UUID> implements AnalysisRequestDAO {
 
 	@Override
-	public AnalysisRequest findByIdentifier(User user, String identifier) throws AnalysisRequestNotFound {
+	public AnalysisRequest findByIdentifier(User user, String identifier) {
 		
 		Session session = HibernateUtils.getSessionFactory().openSession();
 		
@@ -36,7 +37,7 @@ public class AnalysisRequestDAOHibernate extends BaseDAOHibernate<AnalysisReques
 			
 			return query.getSingleResult();
 		} catch(NoResultException exception) {
-			throw new AnalysisRequestNotFound("Analysis Request " + identifier + " not found", exception);
+			return null;
 		} finally {
 			session.close();
 		}

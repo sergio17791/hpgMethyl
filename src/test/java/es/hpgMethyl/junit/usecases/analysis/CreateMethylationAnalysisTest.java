@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
+import es.hpgMethyl.dao.AnalysisRequestDAO;
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
@@ -25,14 +25,14 @@ public class CreateMethylationAnalysisTest {
 
 	private CreateMethylationAnalysis createMethylationAnalysis;
 	
-	private AnalysisRequestDAOHibernate analysisRequestDAOHibernate;
+	private AnalysisRequestDAO analysisRequestDAO;
 	
 	private User user;
 	
 	@Before
 	public void setUp() {
-		this.analysisRequestDAOHibernate = Mockito.mock(AnalysisRequestDAOHibernate.class);
-		this.createMethylationAnalysis = new CreateMethylationAnalysis(this.analysisRequestDAOHibernate);
+		this.analysisRequestDAO = Mockito.mock(AnalysisRequestDAO.class);
+		this.createMethylationAnalysis = new CreateMethylationAnalysis(this.analysisRequestDAO);
 		
 		this.user = new User(
 				UUID.randomUUID(), 
@@ -89,7 +89,7 @@ public class CreateMethylationAnalysisTest {
 				null
 		);
 		
-		Mockito.doReturn(new AnalysisRequest()).when(analysisRequestDAOHibernate).findByIdentifier(user, identifier);
+		Mockito.doReturn(new AnalysisRequest()).when(analysisRequestDAO).findByIdentifier(user, identifier);
 		
 		this.createMethylationAnalysis.execute(request);
 	}
@@ -133,9 +133,9 @@ public class CreateMethylationAnalysisTest {
 				new BigDecimal("34")
 		);
 		
-		Mockito.doThrow(AnalysisRequestNotFound.class).when(analysisRequestDAOHibernate).findByIdentifier(user, identifier);
+		Mockito.doReturn(null).when(analysisRequestDAO).findByIdentifier(user, identifier);
 		
-		Mockito.doNothing().when(analysisRequestDAOHibernate).save(Mockito.any(AnalysisRequest.class));
+		Mockito.doNothing().when(analysisRequestDAO).save(Mockito.any(AnalysisRequest.class));
 		
 		CreateMethylationAnalysisResponse useCaseResponse = this.createMethylationAnalysis.execute(request);
 		

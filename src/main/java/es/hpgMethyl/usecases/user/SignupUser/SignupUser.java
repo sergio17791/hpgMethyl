@@ -54,12 +54,10 @@ public class SignupUser {
 	}
 	
 	private Boolean checkDuplicatedEmail(String email) {
-		try {
-			this.userDAO.findByEmail(email);
-			return true;
-		} catch (UserNotFound e) {
-			return false;
-		}
+		
+		User user = this.userDAO.findByEmail(email);
+		
+		return user != null;
 	}
 	
 	private String generateSalt() throws SignupUserException {

@@ -1,5 +1,7 @@
 package es.hpgMethyl.dao.hibernate;
 
+import java.util.UUID;
+
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -13,10 +15,10 @@ import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.UserNotFound;
 import es.hpgMethyl.utils.HibernateUtils;
 
-public class UserDAOHibernate extends BaseDAOHibernate<User,String> implements UserDAO {
+public class UserDAOHibernate extends BaseDAOHibernate<User, UUID> implements UserDAO {
 
 	@Override
-	public User findByEmail(String email) throws UserNotFound {
+	public User findByEmail(String email) {
 		
 		Session session = HibernateUtils.getSessionFactory().openSession();
 		
@@ -31,7 +33,7 @@ public class UserDAOHibernate extends BaseDAOHibernate<User,String> implements U
 			
 			return query.getSingleResult();
 		} catch(NoResultException exception) {
-			throw new UserNotFound("User " + email + " not found", exception);
+			return null;
 		} finally {
 			session.close();
 		}

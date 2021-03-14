@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import es.hpgMethyl.dao.hibernate.UserDAOHibernate;
+import es.hpgMethyl.dao.UserDAO;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.InvalidCredentials;
 import es.hpgMethyl.exceptions.UserNotFound;
@@ -22,12 +22,12 @@ public class LoginUserTest {
 	
 	private User user;
 	
-	private UserDAOHibernate userDaoHibernate;
+	private UserDAO userDao;
 	
 	@Before
 	public void setUp() {
-		this.userDaoHibernate = Mockito.mock(UserDAOHibernate.class);
-		this.loginUser = new LoginUser(this.userDaoHibernate);
+		this.userDao = Mockito.mock(UserDAO.class);
+		this.loginUser = new LoginUser(this.userDao);
 		this.user = new User(
 			UUID.randomUUID(), 
 			new Date(), 
@@ -61,7 +61,7 @@ public class LoginUserTest {
 		String email = "fake@email.com";
 		String password = "fakeemailpassword";
 		
-		Mockito.when(userDaoHibernate.findByEmail(email)).thenThrow(UserNotFound.class);
+		Mockito.doReturn(null).when(userDao).findByEmail(email);
 		
 		LoginUserRequest request = new LoginUserRequest(email, password);
 			
@@ -85,7 +85,7 @@ public class LoginUserTest {
 		String email = "test@test.com";
 		String password = "fakeemailpassword";
 		
-		Mockito.when(userDaoHibernate.findByEmail(email)).thenReturn(this.user);
+		Mockito.doReturn(this.user).when(userDao).findByEmail(email);
 		
 		LoginUserRequest request = new LoginUserRequest(email, password);
 		
@@ -98,7 +98,7 @@ public class LoginUserTest {
 		String email = "test@test.com";
 		String password = "passwordtest";
 		
-		Mockito.when(userDaoHibernate.findByEmail(email)).thenReturn(this.user);
+		Mockito.doReturn(this.user).when(userDao).findByEmail(email);
 		
 		LoginUserRequest request = new LoginUserRequest(email, password);
 		

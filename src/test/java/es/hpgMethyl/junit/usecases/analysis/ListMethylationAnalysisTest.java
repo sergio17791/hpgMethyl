@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.mockito.Mockito;
 
-import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
+import es.hpgMethyl.dao.AnalysisRequestDAO;
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.usecases.analysis.ListMethylationAnalysis.ListMethylationAnalysis;
@@ -20,14 +20,14 @@ public class ListMethylationAnalysisTest {
 
 	private ListMethylationAnalysis listMethylationAnalysis;
 	
-	private AnalysisRequestDAOHibernate analysisRequestDAOHibernate;
+	private AnalysisRequestDAO analysisRequestDAO;
 	
 	private User user;
 	
 	@Before
 	public void setUp() {
-		this.analysisRequestDAOHibernate = Mockito.mock(AnalysisRequestDAOHibernate.class);
-		this.listMethylationAnalysis = new ListMethylationAnalysis(this.analysisRequestDAOHibernate);		
+		this.analysisRequestDAO = Mockito.mock(AnalysisRequestDAO.class);
+		this.listMethylationAnalysis = new ListMethylationAnalysis(this.analysisRequestDAO);		
 		
 		this.user = new User(
 				UUID.randomUUID(), 
@@ -49,7 +49,7 @@ public class ListMethylationAnalysisTest {
 		
 		ListMethylationAnalysisRequest request = new ListMethylationAnalysisRequest(user);
 		
-		Mockito.doReturn(new ArrayList<AnalysisRequest>()).when(analysisRequestDAOHibernate).list(user);
+		Mockito.doReturn(new ArrayList<AnalysisRequest>()).when(analysisRequestDAO).list(user);
 		
 		ListMethylationAnalysisResponse response = this.listMethylationAnalysis.execute(request);
 		
@@ -65,7 +65,7 @@ public class ListMethylationAnalysisTest {
 		analysisRequestList.add(new AnalysisRequest());
 		analysisRequestList.add(new AnalysisRequest());
 		
-		Mockito.doReturn(analysisRequestList).when(analysisRequestDAOHibernate).list(user);
+		Mockito.doReturn(analysisRequestList).when(analysisRequestDAO).list(user);
 		
 		ListMethylationAnalysisResponse response = this.listMethylationAnalysis.execute(request);
 		

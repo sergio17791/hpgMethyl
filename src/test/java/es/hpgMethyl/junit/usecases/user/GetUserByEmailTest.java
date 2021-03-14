@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import es.hpgMethyl.dao.hibernate.UserDAOHibernate;
+import es.hpgMethyl.dao.UserDAO;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.UserNotFound;
 import es.hpgMethyl.usecases.user.GetUserByEmail.GetUserByEmail;
@@ -19,12 +19,12 @@ public class GetUserByEmailTest {
 
 	private GetUserByEmail getUserByEmail;
 	
-	private UserDAOHibernate userDaoHibernate;
+	private UserDAO userDao;
 	
 	@Before
 	public void setUp() {
-		this.userDaoHibernate = Mockito.mock(UserDAOHibernate.class);
-		this.getUserByEmail = new GetUserByEmail(this.userDaoHibernate);
+		this.userDao = Mockito.mock(UserDAO.class);
+		this.getUserByEmail = new GetUserByEmail(this.userDao);
 	}
 	
 	@Test(expected = UserNotFound.class)
@@ -34,7 +34,7 @@ public class GetUserByEmailTest {
 		
 		GetUserByEmailRequest request = new GetUserByEmailRequest(email);
 		
-		Mockito.doThrow(UserNotFound.class).when(userDaoHibernate).findByEmail(email);
+		Mockito.doReturn(null).when(userDao).findByEmail(email);
 		
 		this.getUserByEmail.execute(request);
 	}
@@ -61,7 +61,7 @@ public class GetUserByEmailTest {
 		
 		GetUserByEmailRequest request = new GetUserByEmailRequest(email);
 		
-		Mockito.when(userDaoHibernate.findByEmail(email)).thenReturn(user);
+		Mockito.doReturn(user).when(userDao).findByEmail(email);
 		
 		GetUserByEmailResponse response = this.getUserByEmail.execute(request);
 		

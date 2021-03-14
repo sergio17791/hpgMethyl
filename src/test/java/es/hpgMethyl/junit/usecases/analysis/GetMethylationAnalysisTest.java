@@ -27,12 +27,22 @@ public class GetMethylationAnalysisTest {
 		this.getMethylationAnalysis = new GetMethylationAnalysis(this.analysisRequestDAO);
 	}
 	
+	@Test(expected = HpgMethylException.class)
+	public void test_execute_givenAnErrorWhenGetAnalysisRequestObject_expectThrowHpgMethylException() throws HpgMethylException {
+		
+		UUID id = UUID.randomUUID();
+		
+		Mockito.doThrow(HpgMethylException.class).when(analysisRequestDAO).get(id);
+		
+		this.getMethylationAnalysis.execute(new GetMethylationAnalysisRequest(id));
+	}
+	
 	@Test(expected = AnalysisRequestNotFound.class)
 	public void test_execute_givenNonExistentMethylationAnalysis_expectThrowAnalysisRequestNotFound() throws HpgMethylException {
 		
 		UUID id = UUID.randomUUID();
 		
-		Mockito.doThrow(HpgMethylException.class).when(analysisRequestDAO).get(id.toString());
+		Mockito.doReturn(null).when(analysisRequestDAO).get(id);
 		
 		this.getMethylationAnalysis.execute(new GetMethylationAnalysisRequest(id));
 	}
@@ -45,7 +55,7 @@ public class GetMethylationAnalysisTest {
 		AnalysisRequest analysisRequest = new AnalysisRequest();
 		analysisRequest.setId(id);
 		
-		Mockito.when(analysisRequestDAO.get(id.toString())).thenReturn(analysisRequest);
+		Mockito.doReturn(analysisRequest).when(analysisRequestDAO).get(id);
 		
 		GetMethylationAnalysisResponse response = this.getMethylationAnalysis.execute(new GetMethylationAnalysisRequest(id));
 		

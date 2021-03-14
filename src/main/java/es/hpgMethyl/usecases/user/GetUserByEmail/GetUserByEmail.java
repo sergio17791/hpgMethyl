@@ -14,7 +14,13 @@ public class GetUserByEmail {
 	
 	public GetUserByEmailResponse execute(GetUserByEmailRequest request) throws UserNotFound {
 		
-		User user = this.userDAO.findByEmail(request.getEmail());
+		String email = request.getEmail();
+		
+		User user = this.userDAO.findByEmail(email);
+		
+		if(user == null) {
+			throw new UserNotFound("User " + email + " not found");
+		}
 		
 		return new GetUserByEmailResponse(user);
 	}

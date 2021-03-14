@@ -68,11 +68,9 @@ public class CreateMethylationAnalysis {
 	}
 	
 	private Boolean checkDuplicatedUserIdentifier(User user, String identifier) {
-		try {
-			this.analysisRequestDAO.findByIdentifier(user, identifier);
-			return true;
-		} catch (AnalysisRequestNotFound e) {
-			return false;
-		}
+		
+		AnalysisRequest analysisRequest = this.analysisRequestDAO.findByIdentifier(user, identifier);
+			
+		return analysisRequest != null;
 	}
 }

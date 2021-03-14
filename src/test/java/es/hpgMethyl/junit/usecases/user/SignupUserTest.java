@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import es.hpgMethyl.dao.hibernate.UserDAOHibernate;
+import es.hpgMethyl.dao.UserDAO;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.DuplicatedEmail;
 import es.hpgMethyl.exceptions.SaveObjectException;
@@ -19,12 +19,12 @@ public class SignupUserTest {
 	
 	private SignupUser signupUser;
 	
-	private UserDAOHibernate userDaoHibernate;
+	private UserDAO userDao;
 	
 	@Before
 	public void setUp() {
-		this.userDaoHibernate = Mockito.mock(UserDAOHibernate.class);
-		this.signupUser = new SignupUser(userDaoHibernate);
+		this.userDao = Mockito.mock(UserDAO.class);
+		this.signupUser = new SignupUser(userDao);
 	}
 	
 	@Test(expected = DuplicatedEmail.class)
@@ -39,7 +39,7 @@ public class SignupUserTest {
 		
 		SignupUserRequest request = new SignupUserRequest(email, password, firstName, lastName, passwordRecoveryQuestion, passwordRecoveryResponse);
 		
-		Mockito.doReturn(new User()).when(userDaoHibernate).findByEmail(email);
+		Mockito.doReturn(new User()).when(userDao).findByEmail(email);
 		
 		this.signupUser.execute(request);
 	}
@@ -56,9 +56,9 @@ public class SignupUserTest {
 		
 		SignupUserRequest request = new SignupUserRequest(email, password, firstName, lastName, passwordRecoveryQuestion, passwordRecoveryResponse);
 		
-		Mockito.doThrow(UserNotFound.class).when(userDaoHibernate).findByEmail(email);
+		Mockito.doReturn(null).when(userDao).findByEmail(email);
 		
-		Mockito.doThrow(SaveObjectException.class).when(userDaoHibernate).save(Mockito.any(User.class));
+		Mockito.doThrow(SaveObjectException.class).when(userDao).save(Mockito.any(User.class));
 		
 		this.signupUser.execute(request);
 	}
@@ -75,9 +75,9 @@ public class SignupUserTest {
 		
 		SignupUserRequest request = new SignupUserRequest(email, password, firstName, lastName, passwordRecoveryQuestion, passwordRecoveryResponse);
 		
-		Mockito.doThrow(UserNotFound.class).when(userDaoHibernate).findByEmail(email);
+		Mockito.doReturn(null).when(userDao).findByEmail(email);
 		
-		Mockito.doNothing().when(userDaoHibernate).save(Mockito.any(User.class));
+		Mockito.doNothing().when(userDao).save(Mockito.any(User.class));
 		
 		SignupUserResponse response = this.signupUser.execute(request);
 

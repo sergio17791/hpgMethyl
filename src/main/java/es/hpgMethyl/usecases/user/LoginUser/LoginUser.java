@@ -21,10 +21,9 @@ public class LoginUser {
 		
 		if(email != null && password != null) {
 
-			User user;
-			try {
-				user = this.userDAO.findByEmail(request.getEmail());
-			} catch (UserNotFound e) {
+			User user = this.userDAO.findByEmail(request.getEmail());
+			
+			if(user == null) {
 				throw new InvalidCredentials();
 			}
 			

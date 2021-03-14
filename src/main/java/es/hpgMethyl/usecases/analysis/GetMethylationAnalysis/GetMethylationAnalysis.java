@@ -15,17 +15,16 @@ public class GetMethylationAnalysis {
 		this.analysisRequestDAO = analysisRequestDAO;
 	}
 	
-	public GetMethylationAnalysisResponse execute(GetMethylationAnalysisRequest request) throws AnalysisRequestNotFound {
+	public GetMethylationAnalysisResponse execute(GetMethylationAnalysisRequest request) throws AnalysisRequestNotFound, HpgMethylException {
 		
 		UUID id = request.getId();
 		
-		try {
-			AnalysisRequest analysisRequest= this.analysisRequestDAO.get(id.toString());
+		AnalysisRequest analysisRequest = this.analysisRequestDAO.get(id);
 			
-			return new GetMethylationAnalysisResponse(analysisRequest);
+		if(analysisRequest == null) {
+			throw new AnalysisRequestNotFound("Analysis Request " + id + " not found ");
+		}
 			
-		} catch (HpgMethylException exception) {
-			throw new AnalysisRequestNotFound("Analysis Request " + id + " not found", exception);
-		}		
+		return new GetMethylationAnalysisResponse(analysisRequest);	
 	}
 }

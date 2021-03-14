@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import es.hpgMethyl.dao.hibernate.UserDAOHibernate;
+import es.hpgMethyl.dao.UserDAO;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.ChangePasswordException;
 import es.hpgMethyl.exceptions.SaveObjectException;
@@ -22,12 +22,12 @@ public class ChangePasswordTest {
 	
 	private ChangePassword changePassword;
 	
-	private UserDAOHibernate userDaoHibernate;
+	private UserDAO userDao;
 	
 	@Before
 	public void setUp() {
-		this.userDaoHibernate = Mockito.mock(UserDAOHibernate.class);
-		this.changePassword = new ChangePassword(this.userDaoHibernate);
+		this.userDao = Mockito.mock(UserDAO.class);
+		this.changePassword = new ChangePassword(this.userDao);
 		this.user = new User(
 			UUID.randomUUID(), 
 			new Date(), 
@@ -51,7 +51,7 @@ public class ChangePasswordTest {
 		
 		ChangePasswordRequest request = new ChangePasswordRequest(this.user, newPassword);
 		
-		Mockito.doThrow(SaveObjectException.class).when(userDaoHibernate).save(Mockito.any(User.class));
+		Mockito.doThrow(SaveObjectException.class).when(userDao).save(Mockito.any(User.class));
 		
 		this.changePassword.execute(request);
 	}
@@ -66,7 +66,7 @@ public class ChangePasswordTest {
 		
 		ChangePasswordRequest request = new ChangePasswordRequest(this.user, newPassword);
 		
-		Mockito.doNothing().when(userDaoHibernate).save(Mockito.any(User.class));
+		Mockito.doNothing().when(userDao).save(Mockito.any(User.class));
 		
 		ChangePasswordResponse response = this.changePassword.execute(request);
 		
