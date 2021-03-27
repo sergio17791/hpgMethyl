@@ -16,15 +16,31 @@
         </resource-bundle>
     </application>
     <managed-bean>
-        <description>Controls the sending of analysis requests by users</description>
-        <managed-bean-name>analysis</managed-bean-name>
-        <managed-bean-class>es.hpgMethyl.beans.Analysis</managed-bean-class>
+        <description>Contains the information of an analysis request</description>
+        <managed-bean-name>analysisBean</managed-bean-name>
+        <managed-bean-class>es.hpgMethyl.beans.AnalysisRequestBean</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <description>Controls the sending of analysis requests by users</description>
+        <managed-bean-name>analysisDetail</managed-bean-name>
+        <managed-bean-class>es.hpgMethyl.beans.MethylationAnalysisDetail</managed-bean-class>      
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+      		<property-name>id</property-name>
+      		<value>#{param['id']}</value>
+   		</managed-property>
     </managed-bean>
     <managed-bean>
         <description>List requests for analysis by a user</description>
         <managed-bean-name>listUserAnalysis</managed-bean-name>
-        <managed-bean-class>es.hpgMethyl.beans.ListUserMethylationAnalysisBean</managed-bean-class>
+        <managed-bean-class>es.hpgMethyl.beans.ListUserMethylationAnalysis</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <description>List requests for analysis by a user</description>
+        <managed-bean-name>sendAnalysis</managed-bean-name>
+        <managed-bean-class>es.hpgMethyl.beans.SendMethylationAnalysisRequest</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
     <managed-bean>

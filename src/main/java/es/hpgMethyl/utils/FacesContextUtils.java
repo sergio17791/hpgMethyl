@@ -5,11 +5,14 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import javax.el.ELContext;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+
+import es.hpgMethyl.beans.AnalysisRequestBean;
 
 public final class FacesContextUtils {
 
@@ -37,6 +40,11 @@ public final class FacesContextUtils {
 		 }
 	     
 	     return parameter;
+	 }
+	 
+	 public static Object getBean(String key) {		 
+		 ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+		 return elContext.getELResolver().getValue(elContext, null, key);
 	 }
 	 
 	 public static void setMessageInComponent(UIComponent component, Severity severity, String message, String details) {

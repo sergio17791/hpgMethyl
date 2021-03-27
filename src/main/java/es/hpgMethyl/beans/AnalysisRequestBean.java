@@ -1,31 +1,20 @@
 package es.hpgMethyl.beans;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.servlet.http.Part;
-
-import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
-import es.hpgMethyl.entities.User;
-import es.hpgMethyl.exceptions.CreateMethylationAnalysisException;
-import es.hpgMethyl.exceptions.DuplicatedIdentifier;
+import es.hpgMethyl.types.AnalysisStatus;
 import es.hpgMethyl.types.PairedMode;
-import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysis;
-import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysisRequest;
-import es.hpgMethyl.utils.FacesContextUtils;
-import es.hpgMethyl.utils.FileUtils;
 
-public class Analysis {
+public class AnalysisRequestBean {
 	
 	private String identifier;
-	private Integer pairedMode;
-	private Part inputReadFile;
+	private AnalysisStatus status;
+	private PairedMode pairedMode;
+	private String inputReadFile;
 	private Boolean writeMethylationContext;
 	private Boolean readBatchSize;
 	private Boolean writeBatchSize;
-	private Part pairedEndModeFile;
+	private String pairedEndModeFile;
 	private BigDecimal pairedMaxDistance;
 	private BigDecimal pairedMinDistance;
 	private BigDecimal swaMinimunScore;
@@ -49,11 +38,12 @@ public class Analysis {
 	private Boolean reportBest;
 	private BigDecimal reportNBest;
 	private BigDecimal reportNHits;
-	private UIComponent sendAnalysisComponent;
+	private Integer number;
 
-	public Analysis() {
+	public AnalysisRequestBean() {
 		this.identifier = "";
-		this.pairedMode = 0;
+		this.pairedMode = PairedMode.SINGLE_END_MODE;
+		this.status = null;
 		this.inputReadFile = null;
 		this.writeMethylationContext = false;
 		this.readBatchSize = false;
@@ -82,7 +72,7 @@ public class Analysis {
 		this.reportBest = true;
 		this.reportNBest = null;
 		this.reportNHits = null;
-		this.sendAnalysisComponent = null;
+		this.number = null;
 	}
 
 	/**
@@ -100,30 +90,44 @@ public class Analysis {
 	}
 	
 	/**
+	 * @return the status
+	 */
+	public AnalysisStatus getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(AnalysisStatus status) {
+		this.status = status;
+	}
+
+	/**
 	 * @return the pairedMode
 	 */
-	public Integer getPairedMode() {
+	public PairedMode getPairedMode() {
 		return pairedMode;
 	}
 
 	/**
 	 * @param pairedMode the pairedMode to set
 	 */
-	public void setPairedMode(Integer pairedMode) {
+	public void setPairedMode(PairedMode pairedMode) {
 		this.pairedMode = pairedMode;
 	}
 
 	/**
 	 * @return the inputReadFile
 	 */
-	public Part getInputReadFile() {
+	public String getInputReadFile() {
 		return inputReadFile;
 	}
 
 	/**
 	 * @param inputReadFile the readInputFile to set
 	 */
-	public void setInputReadFile(Part inputReadFile) {
+	public void setInputReadFile(String inputReadFile) {
 		this.inputReadFile = inputReadFile;
 	}
 
@@ -172,14 +176,14 @@ public class Analysis {
 	/**
 	 * @return the pairedEndModeFile
 	 */
-	public Part getPairedEndModeFile() {
+	public String getPairedEndModeFile() {
 		return pairedEndModeFile;
 	}
 
 	/**
 	 * @param pairedEndModeFile the pairedEndModeFile to set
 	 */
-	public void setPairedEndModeFile(Part pairedEndModeFile) {
+	public void setPairedEndModeFile(String pairedEndModeFile) {
 		this.pairedEndModeFile = pairedEndModeFile;
 	}
 
@@ -506,88 +510,16 @@ public class Analysis {
 	}
 
 	/**
-	 * @return the sendAnalysisComponent
+	 * @return the number
 	 */
-	public UIComponent getSendAnalysisComponent() {
-		return sendAnalysisComponent;
+	public Integer getNumber() {
+		return number;
 	}
 
 	/**
-	 * @param sendAnalysisComponent the sendAnalysisComponent to set
+	 * @param number the number to set
 	 */
-	public void setSendAnalysisComponent(UIComponent sendAnalysisComponent) {
-		this.sendAnalysisComponent = sendAnalysisComponent;
-	}
-
-	public String sendAnalysis() {
-		
-		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
-		
-		if(user == null) {
-			return "index?faces-redirect=true";
-		}
-		
-		String inputReadFileName = this.getInputReadFile().getSubmittedFileName();
-		
-		String pairedEndModeFile = null;
-		
-		if(this.getPairedEndModeFile() != null) {
-			pairedEndModeFile = this.getPairedEndModeFile().getSubmittedFileName();
-		}
-		
-		try {
-			FileUtils.saveFileUploadedByUser(user, this.getInputReadFile(), inputReadFileName);
-			
-			new CreateMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
-				new CreateMethylationAnalysisRequest(
-					user,
-					this.getIdentifier(),
-					inputReadFileName,
-					this.getWriteMethylationContext(), 
-					this.getReadBatchSize(), 
-					this.getWriteBatchSize(), 
-					this.getPairedMode() == 1 ? PairedMode.PAIRED_END_MODE : PairedMode.SINGLE_END_MODE,
-					pairedEndModeFile, 
-					this.getPairedMaxDistance(), 
-					this.getPairedMinDistance(),
-					this.getSwaMinimunScore(), 
-					this.getSwaMatchScore(), 
-					this.getSwaMismatchScore(), 
-					this.getSwaGapOpen(),
-					this.getSwaGapExtend(), 
-					this.getCalFlankSize(), 
-					this.getMinimumCalSize(),
-					this.getCalUmbralLengthFactor(), 
-					this.getMaximumBetweenSeeds(), 
-					this.getMaximumSeedSize(),
-					this.getMinimumSeedSize(), 
-					this.getNumberSeedsPerRead(), 
-					this.getReadMinimumDiscardLength(),
-					this.getReadMaximumInnerGap(), 
-					this.getMinimumNumberSeeds(), 
-					this.getFilterReadMappings(),
-					this.getFilterSeedMappings(), 
-					this.getReportAll(), 
-					this.getReportBest(), 
-					this.getReportNBest(),
-					this.getReportNHits()
-				)				
-			);
-			
-			String successMessage = FacesContextUtils.geti18nMessage("analysis.requestSentSuccessfully");
-			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_INFO, successMessage, successMessage);
-
-		} catch (CreateMethylationAnalysisException e) {
-			String defaultErrorMessage = e.getMessage();//FacesContextUtils.geti18nMessage("error.default");
-			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
-		} catch (DuplicatedIdentifier e) {
-			String duplicatedIdentifierErrorMessage = e.getMessage();//FacesContextUtils.geti18nMessage("error.default");
-			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, duplicatedIdentifierErrorMessage, duplicatedIdentifierErrorMessage);
-		} catch (IOException e) {
-			String defaultErrorMessage = e.getMessage();//FacesContextUtils.geti18nMessage("error.default");
-			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
-		}
-		
-		return "analysis";
+	public void setNumber(Integer number) {
+		this.number = number;
 	}
 }

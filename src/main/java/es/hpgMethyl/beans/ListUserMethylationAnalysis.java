@@ -15,12 +15,12 @@ import es.hpgMethyl.usecases.analysis.ListMethylationAnalysis.ListMethylationAna
 import es.hpgMethyl.usecases.analysis.ListMethylationAnalysis.ListMethylationAnalysisResponse;
 import es.hpgMethyl.utils.FacesContextUtils;
 
-public class ListUserMethylationAnalysisBean {
+public class ListUserMethylationAnalysis {
 
 	private List<AnalysisRequest> analysisRequestLists;
 	
-	public ListUserMethylationAnalysisBean() {
-		this.setAnalysisRequestLists(new ArrayList<AnalysisRequest>());
+	public ListUserMethylationAnalysis() {
+		this.analysisRequestLists = new ArrayList<AnalysisRequest>();
 	}
 
 	/**
