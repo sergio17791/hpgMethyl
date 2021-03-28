@@ -1,11 +1,19 @@
 package es.hpgMethyl.beans;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
 import es.hpgMethyl.types.AnalysisStatus;
 import es.hpgMethyl.types.PairedMode;
 
-public class AnalysisRequestBean {
+@ManagedBean(name="analysisBean")
+@ViewScoped
+public class AnalysisRequestBean implements Serializable {
+	
+	private static final long serialVersionUID = -6282901190770748985L;
 	
 	private String identifier;
 	private AnalysisStatus status;

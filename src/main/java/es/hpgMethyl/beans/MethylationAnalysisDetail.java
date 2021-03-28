@@ -1,8 +1,12 @@
-package es.hpgMethyl.beans;
+  package es.hpgMethyl.beans;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
@@ -16,8 +20,13 @@ import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnaly
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysisResponse;
 import es.hpgMethyl.utils.FacesContextUtils;
 
-public class MethylationAnalysisDetail {
+@ManagedBean(name="analysisDetail")
+@RequestScoped
+public class MethylationAnalysisDetail implements Serializable {
 
+	private static final long serialVersionUID = 929869883425786237L;
+
+	@ManagedProperty(value="#{param.id}")
 	private String id;	
 	
 	private AnalysisRequest analysisRequest;

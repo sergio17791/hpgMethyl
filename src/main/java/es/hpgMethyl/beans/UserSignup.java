@@ -1,6 +1,10 @@
 package es.hpgMethyl.beans;
 
+import java.io.Serializable;
+
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.event.AbortProcessingException;
@@ -14,8 +18,12 @@ import es.hpgMethyl.usecases.user.SignupUser.SignupUserRequest;
 import es.hpgMethyl.usecases.user.SignupUser.SignupUserResponse;
 import es.hpgMethyl.utils.FacesContextUtils;
 
-public class UserSignup {
+@ManagedBean(name="userSignup")
+@RequestScoped
+public class UserSignup implements Serializable {
 
+	private static final long serialVersionUID = -5391509907036611627L;
+	
 	private String email;
 	private String emailVerification;
 	private String firstName;

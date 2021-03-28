@@ -4,8 +4,12 @@ import java.io.Serializable;
 import java.util.Locale;
 
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+@ManagedBean(name="languageSelector")
+@SessionScoped
 public class LanguageSelector implements Serializable {
 	
 	private static final long serialVersionUID = 8026391569352704332L;

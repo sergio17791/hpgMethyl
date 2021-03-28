@@ -1,8 +1,11 @@
 package es.hpgMethyl.beans;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.servlet.http.Part;
 
@@ -15,8 +18,12 @@ import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylatio
 import es.hpgMethyl.utils.FacesContextUtils;
 import es.hpgMethyl.utils.FileUtils;
 
-public class SendMethylationAnalysisRequest {
+@ManagedBean(name="sendAnalysis")
+@RequestScoped
+public class SendMethylationAnalysisRequest implements Serializable {
 	
+	private static final long serialVersionUID = -589016682649578821L;
+
 	private Part inputReadFile;
 	
 	private Part pairedEndModeFile;
