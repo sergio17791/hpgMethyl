@@ -1,9 +1,12 @@
 package es.hpgMethyl.beans;
 
+import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.event.AbortProcessingException;
@@ -22,7 +25,11 @@ import es.hpgMethyl.usecases.user.GetUserByEmail.GetUserByEmailResponse;
 import es.hpgMethyl.utils.FacesContextUtils;
 import es.hpgMethyl.utils.PasswordUtils;
 
-public class PasswordRecovery {
+@ManagedBean(name="passwordRecovery")
+@ViewScoped
+public class PasswordRecovery implements Serializable {
+
+	private static final long serialVersionUID = 7364661395117841439L;
 
 	private User user;
 	

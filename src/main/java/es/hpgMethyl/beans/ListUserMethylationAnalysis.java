@@ -1,9 +1,12 @@
 package es.hpgMethyl.beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 
@@ -15,8 +18,12 @@ import es.hpgMethyl.usecases.analysis.ListMethylationAnalysis.ListMethylationAna
 import es.hpgMethyl.usecases.analysis.ListMethylationAnalysis.ListMethylationAnalysisResponse;
 import es.hpgMethyl.utils.FacesContextUtils;
 
-public class ListUserMethylationAnalysis {
+@ManagedBean(name="listUserAnalysis")
+@RequestScoped
+public class ListUserMethylationAnalysis implements Serializable {
 
+	private static final long serialVersionUID = 6123081117058258476L;
+	
 	private List<AnalysisRequest> analysisRequestLists;
 	
 	public ListUserMethylationAnalysis() {

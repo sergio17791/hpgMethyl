@@ -5,15 +5,15 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:b="http://bootsfaces.net/ui">
-    <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-        <title><h:outputText value="#{msg['general.hpgMethyl']}"/></title>
-        <h:outputStylesheet library="css" name="style.css"/>
-        <link rel="icon" type="image/png" href="/resources/images/dna_icon.png"/>
-    </h:head>
-    <h:body>
-    	<f:view locale="#{languageSelector.language}">
+	<f:view locale="#{languageSelector.language}">
+    	<h:head>
+        	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        	<title><h:outputText value="#{msg['general.hpgMethyl']}"/></title>
+        	<h:outputStylesheet library="css" name="style.css"/>
+        	<link rel="icon" type="image/png" href="/resources/images/dna_icon.png"/>
+    	</h:head>
+    	<h:body>    	
     		<header>
     			<h:form>
 	    			<b:navBar brand="#{msg['general.hpgMethyl']}" 
@@ -54,7 +54,7 @@
     				</h:panelGroup>
     			</ui:insert>
     		</b:container>
-    	</f:view>
-    	<h:outputScript library="js" name="functions.js" />
-    </h:body>
+    		<h:outputScript library="js" name="functions.js" />
+    	</h:body>
+    </f:view>
 </html>

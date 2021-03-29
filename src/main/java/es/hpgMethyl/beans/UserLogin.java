@@ -1,6 +1,10 @@
 package es.hpgMethyl.beans;
 
+import java.io.Serializable;
+
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 
 import es.hpgMethyl.dao.hibernate.UserDAOHibernate;
@@ -10,7 +14,11 @@ import es.hpgMethyl.usecases.user.LoginUser.LoginUserRequest;
 import es.hpgMethyl.usecases.user.LoginUser.LoginUserResponse;
 import es.hpgMethyl.utils.FacesContextUtils;
 
-public class UserLogin {
+@ManagedBean(name="userLogin")
+@RequestScoped
+public class UserLogin implements Serializable {
+	
+	private static final long serialVersionUID = 5008481712459039430L;
 	
 	private String email;
     private String password;

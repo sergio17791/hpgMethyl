@@ -1,21 +1,24 @@
 package es.hpgMethyl.beans;
 
+import java.io.Serializable;
 import java.util.Locale;
 
-import javax.faces.application.ViewHandler;
-import javax.faces.component.UIViewRoot;
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-public class LanguageSelector {
+@ManagedBean(name="languageSelector")
+@SessionScoped
+public class LanguageSelector implements Serializable {
 	
-    private Locale language;
+	private static final long serialVersionUID = 8026391569352704332L;
+	
+	private Locale language;
     
-    /**
-     * Create a new instance of LanguageSelectorBean
-     */
-	public LanguageSelector() {
-		FacesContext context = FacesContext.getCurrentInstance();
-        this.language = context.getViewRoot().getLocale();
+	@PostConstruct
+	protected void init() {
+        this.language = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 	}
 
 	/**
@@ -37,18 +40,7 @@ public class LanguageSelector {
 	 * @param code The new language code to be set
 	 */
     public void changeLanguage(String code) {
-
-        Locale newLanguage = new Locale(code);
-        this.setLanguage(newLanguage);
-        
-        FacesContext context = FacesContext.getCurrentInstance();
-        String refreshPage = context.getViewRoot().getViewId();
-
-        ViewHandler handler = context.getApplication().getViewHandler();
-        UIViewRoot viewRoot = handler.createView(context, refreshPage);
-        viewRoot.setLocale(this.getLanguage());
-        
-        viewRoot.setViewId(refreshPage);
-        context.setViewRoot(viewRoot);
+        this.language = new Locale(code);       
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(language);
     }
 }
