@@ -24,7 +24,7 @@
 		<view-id value="/faces/user/analysis/send.xhtml"/>
 	</url-mapping>
 	<url-mapping id="analysisDetail" parentId="analysis">
-		<pattern value="/#{id}"/>
+		<pattern value="/#{ analysisDetail.id }"/>
 		<view-id value="/faces/user/analysis/detail.xhtml"/>
 	</url-mapping>
 </pretty-config>
