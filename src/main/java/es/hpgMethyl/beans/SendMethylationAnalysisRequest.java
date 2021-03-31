@@ -82,7 +82,7 @@ public class SendMethylationAnalysisRequest implements Serializable {
 		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
 		
 		if(user == null) {
-			return "index?faces-redirect=true";
+			return "pretty:home";	
 		}
 		
 		String inputReadFileName = this.getInputReadFile().getSubmittedFileName();
@@ -148,6 +148,6 @@ public class SendMethylationAnalysisRequest implements Serializable {
 			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
 		}
 		
-		return "analysis";
+		return null;
 	}
 }

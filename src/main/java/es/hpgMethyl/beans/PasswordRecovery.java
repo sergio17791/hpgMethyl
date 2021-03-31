@@ -227,12 +227,12 @@ public class PasswordRecovery implements Serializable {
 			
 			FacesContextUtils.setParameterFacesContextSession(FacesContextUtils.SESSION_USER, response.getUser());
 			
-			return "index?faces-redirect=true";			
+			return "pretty:home";				
 		} catch (ChangePasswordException e) {
 			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.getChangePasswordComponent(), FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
 			
-			return "passwordRecovery";
+			return null;
 		}
 	}
 	

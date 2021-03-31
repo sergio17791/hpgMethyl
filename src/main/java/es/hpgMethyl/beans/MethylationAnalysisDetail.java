@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -26,7 +25,6 @@ public class MethylationAnalysisDetail implements Serializable {
 
 	private static final long serialVersionUID = 929869883425786237L;
 
-	@ManagedProperty(value="#{param.id}")
 	private String id;	
 	
 	private AnalysisRequest analysisRequest;
@@ -144,6 +142,6 @@ public class MethylationAnalysisDetail implements Serializable {
 		String successMessage = FacesContextUtils.geti18nMessage("analysis.send.requestSentSuccessfully");
 		FacesContextUtils.setMessageInComponent(this.getUpdateAnalysisParametersComponent(), FacesMessage.SEVERITY_INFO, successMessage, successMessage);
 		
-		return "detail?faces-redirect=true&includeViewParams=true";
+		return null;
 	}
 }

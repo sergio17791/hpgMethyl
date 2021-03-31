@@ -188,7 +188,7 @@ public class UserSignup implements Serializable {
 			
 			FacesContextUtils.setParameterFacesContextSession(FacesContextUtils.SESSION_USER, signupUserResponse.getUser());
 			
-			return "index?faces-redirect=true";			
+			return "pretty:home";				
 		} catch (DuplicatedEmail e) {
 			String duplicatedEmailMessage = FacesContextUtils.geti18nMessage("signup.duplicatedEmail");
 			FacesContextUtils.setMessageInComponent(this.getSignupComponent(), FacesMessage.SEVERITY_ERROR, duplicatedEmailMessage, duplicatedEmailMessage);			
@@ -201,7 +201,7 @@ public class UserSignup implements Serializable {
     	this.setPasswordRecoveryResponse("");
     	this.setPasswordVerification("");
 		
-		return "signup";
+		return null;
 	}
 	
 	public void cleanInputComponent(ComponentSystemEvent event) throws AbortProcessingException {

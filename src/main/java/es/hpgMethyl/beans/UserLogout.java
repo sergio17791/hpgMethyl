@@ -19,8 +19,7 @@ public class UserLogout implements Serializable {
 
 	public void closeSession() {
 		
-		FacesContextUtils.invalidateSession();
-		
+		FacesContextUtils.invalidateSession();		
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		try {
 			externalContext.redirect(((HttpServletRequest) externalContext.getRequest()).getRequestURI());

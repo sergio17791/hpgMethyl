@@ -18,7 +18,7 @@
     			<h:form>
 	    			<b:navBar brand="#{msg['general.hpgMethyl']}" 
 	    					  brandImg="/resources/images/dna_icon.png" 
-	    					  brandHref="#{request.contextPath}/faces/index.xhtml"
+	    					  brandHref="/"
 	    					  brandImgStyleClass="navBarImg"
 	    					  fixed="top" 
 	    					  sticky="true" 
@@ -27,7 +27,7 @@
 	    					<b:navLink value="#{msg['menu.blog']}" outcome=""></b:navLink>
 	    					<b:navLink value="#{msg['menu.aboutUs']}" outcome=""></b:navLink>
 	    					<b:navLink value="#{msg['menu.contact']}" outcome=""></b:navLink>
-	    					<b:navLink value="#{msg['menu.analysis']}" outcome="/user/analysis/list" rendered="#{sessionUser != null}"></b:navLink>
+	    					<b:navLink value="#{msg['menu.analysis']}" outcome="pretty:analysis" rendered="#{sessionUser != null}"></b:navLink>
 	    					<b:navLink value="GitHub" href="https://github.com/grev-uv/hpg-methyl" iconAwesome="github" iconAlign="left"></b:navLink>
 	    				</b:navbarLinks>
 	    				<b:navbarLinks pull="right">
@@ -36,7 +36,7 @@
     							<b:navCommandLink value="#{msg['menu.language.spanish']}" actionListener="#{languageSelector.changeLanguage('es')}"></b:navCommandLink> 
     							<b:navCommandLink value="#{msg['menu.language.valencian']}" actionListener="#{languageSelector.changeLanguage('ca')}"></b:navCommandLink>
     						</b:dropMenu>
-    						<b:navLink value="#{msg['menu.login']}" outcome="login" iconAwesome="sign-in" iconAlign="left" rendered="#{sessionUser == null}"></b:navLink>
+    						<b:navLink value="#{msg['menu.login']}" outcome="pretty:login" iconAwesome="sign-in" iconAlign="left" rendered="#{sessionUser == null}"></b:navLink>
     						<b:dropMenu value="#{sessionUser.toString()}" iconAwesome="user" iconAlign="left" rendered="#{sessionUser != null}">
     							<b:navLink value="#{msg['menu.configuration']}" outcome="" iconAwesome="gear" iconAlign="left"></b:navLink> 
     							<b:navCommandLink value="#{msg['menu.logout']}" actionListener="#{userLogout.closeSession()}" iconAwesome="sign-out" iconAlign="left"></b:navCommandLink> 
@@ -50,7 +50,7 @@
     				<h:panelGroup id="defaultPage">
     					<h:outputText value="#{msg['general.pageUnderConstruction']}"/>
                     	<h:outputText value="&lt;br/&gt;" escape="false" />
-                    	<h:link value="#{msg['general.hpgMethyl']}" outcome="index" />
+                    	<h:link value="#{msg['general.hpgMethyl']}" outcome="pretty:home" />
     				</h:panelGroup>
     			</ui:insert>
     		</b:container>

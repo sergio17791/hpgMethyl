@@ -1,30 +1,30 @@
 <pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces">
-	<url-mapping id="base">
+	<url-mapping id="home">
 		<pattern value="/"/>
 		<view-id value="/faces/index.xhtml"/>
 	</url-mapping>
-	<url-mapping id="login" parentId="base">
-		<pattern value="login/" />
+	<url-mapping id="login" parentId="home">
+		<pattern value="login"/>
 		<view-id value="/faces/login.xhtml"/>
 	</url-mapping>
-	<url-mapping id="signup" parentId="base">
-		<pattern value="signup/" />
+	<url-mapping id="signup" parentId="home">
+		<pattern value="signup"/>
 		<view-id value="/faces/signup.xhtml"/>
 	</url-mapping>
-	<url-mapping id="passwordRecovery" parentId="base">
-		<pattern value="passwordRecovery/"/>
+	<url-mapping id="passwordRecovery" parentId="home">
+		<pattern value="passwordRecovery"/>
 		<view-id value="/faces/passwordRecovery.xhtml"/>
 	</url-mapping>
-	<url-mapping id="analysis" parentId="base">
-		<pattern value="analysis/"/>
+	<url-mapping id="analysis" parentId="home">
+		<pattern value="analysis"/>
 		<view-id value="/faces/user/analysis/list.xhtml"/>
 	</url-mapping>
 	<url-mapping id="analysisSend" parentId="analysis">
-		<pattern value="send/"/>
+		<pattern value="/send"/>
 		<view-id value="/faces/user/analysis/send.xhtml"/>
 	</url-mapping>
 	<url-mapping id="analysisDetail" parentId="analysis">
-		<pattern value="#{ analysisDetail.id }/"/>
+		<pattern value="/#{ id }"/>
 		<view-id value="/faces/user/analysis/detail.xhtml"/>
 	</url-mapping>
 </pretty-config>
