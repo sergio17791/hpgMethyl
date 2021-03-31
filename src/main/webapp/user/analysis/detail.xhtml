@@ -36,7 +36,7 @@
             </b:row>
             <b:panel contentDisabled="#{analysisBean.status ne 'CREATED'}">
             	 <ui:decorate template="../../WEB-INF/templates/analysisRequestTemplate.xhtml"/>
-            	 <b:row>
+            	 <b:row rendered="#{analysisBean.status eq 'CREATED'}">
                 	<b:column col-md="6">
 	                	<b:commandButton id="resetAnalysisButton"
 		                                 value="#{msg['general.reset']}" 
