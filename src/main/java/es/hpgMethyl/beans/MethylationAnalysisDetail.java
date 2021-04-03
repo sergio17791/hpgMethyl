@@ -85,56 +85,61 @@ public class MethylationAnalysisDetail implements Serializable {
 		return PairedMode.values();
 	}
 
-	public void loadAnalysisDetail() {
+	public String loadAnalysisDetail() {
 		
 		if (!FacesContext.getCurrentInstance().isPostback()) { 
-			if(id != null) {
-				try {
-					GetMethylationAnalysisResponse response = new GetMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
-							new GetMethylationAnalysisRequest(UUID.fromString(this.id))
-					);
-					
-					analysisRequest = response.getAnalysisRequest();
-					
-					AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
-					analysisRequestBean.setIdentifier(analysisRequest.getIdentifier());
-					analysisRequestBean.setStatus(analysisRequest.getStatus());
-					analysisRequestBean.setPairedMode(analysisRequest.getPairedMode());
-					analysisRequestBean.setInputReadFile(analysisRequest.getInputReadFile());
-					analysisRequestBean.setWriteMethylationContext(analysisRequest.getWriteMethylationContext());
-					analysisRequestBean.setReadBatchSize(analysisRequest.getReadBatchSize());
-					analysisRequestBean.setWriteBatchSize(analysisRequest.getWriteBatchSize());
-					analysisRequestBean.setPairedEndModeFile(analysisRequest.getPairedEndModeFile());
-					analysisRequestBean.setPairedMaxDistance(analysisRequest.getPairedMaxDistance());
-					analysisRequestBean.setPairedMinDistance(analysisRequest.getPairedMinDistance());
-					analysisRequestBean.setSwaMinimunScore(analysisRequest.getSwaMinimunScore());
-					analysisRequestBean.setSwaMatchScore(analysisRequest.getSwaMatchScore());
-					analysisRequestBean.setSwaMismatchScore(analysisRequest.getSwaMismatchScore());
-					analysisRequestBean.setSwaGapOpen(analysisRequest.getSwaGapOpen());
-					analysisRequestBean.setSwaGapExtend(analysisRequest.getSwaGapExtend());
-					analysisRequestBean.setCalFlankSize(analysisRequest.getCalFlankSize());
-					analysisRequestBean.setMinimumCalSize(analysisRequest.getMinimumCalSize());
-					analysisRequestBean.setCalUmbralLengthFactor(analysisRequest.getCalUmbralLengthFactor());
-					analysisRequestBean.setMaximumBetweenSeeds(analysisRequest.getMaximumBetweenSeeds());
-					analysisRequestBean.setMaximumSeedSize(analysisRequest.getMaximumSeedSize());
-					analysisRequestBean.setMinimumCalSize(analysisRequest.getMinimumCalSize());
-					analysisRequestBean.setNumberSeedsPerRead(analysisRequest.getNumberSeedsPerRead());
-					analysisRequestBean.setReadMinimumDiscardLength(analysisRequest.getReadMinimumDiscardLength());
-					analysisRequestBean.setReadMaximumInnerGap(analysisRequest.getReadMaximumInnerGap());
-					analysisRequestBean.setMinimumNumberSeeds(analysisRequest.getMinimumNumberSeeds());
-					analysisRequestBean.setFilterReadMappings(analysisRequest.getFilterReadMappings());
-					analysisRequestBean.setFilterSeedMappings(analysisRequest.getFilterSeedMappings());
-					analysisRequestBean.setReportAll(analysisRequest.getReportAll());
-					analysisRequestBean.setReportBest(analysisRequest.getReportBest());
-					analysisRequestBean.setReportNBest(analysisRequest.getReportNBest());
-					analysisRequestBean.setReportNHits(analysisRequest.getReportNHits());
-					analysisRequestBean.setNumber(analysisRequest.getNumber());
-					
-				} catch (AnalysisRequestNotFound | GetObjectException e) {
-					
-				}		
+			
+			if(id == null) {
+				return "pretty:home";
 			}
-		}		
+			
+			try {
+				GetMethylationAnalysisResponse response = new GetMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
+						new GetMethylationAnalysisRequest(UUID.fromString(this.id))
+				);
+					
+				analysisRequest = response.getAnalysisRequest();
+					
+				AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
+				analysisRequestBean.setIdentifier(analysisRequest.getIdentifier());
+				analysisRequestBean.setStatus(analysisRequest.getStatus());
+				analysisRequestBean.setPairedMode(analysisRequest.getPairedMode());
+				analysisRequestBean.setInputReadFile(analysisRequest.getInputReadFile());
+				analysisRequestBean.setWriteMethylationContext(analysisRequest.getWriteMethylationContext());
+				analysisRequestBean.setReadBatchSize(analysisRequest.getReadBatchSize());
+				analysisRequestBean.setWriteBatchSize(analysisRequest.getWriteBatchSize());
+				analysisRequestBean.setPairedEndModeFile(analysisRequest.getPairedEndModeFile());
+				analysisRequestBean.setPairedMaxDistance(analysisRequest.getPairedMaxDistance());
+				analysisRequestBean.setPairedMinDistance(analysisRequest.getPairedMinDistance());
+				analysisRequestBean.setSwaMinimunScore(analysisRequest.getSwaMinimunScore());
+				analysisRequestBean.setSwaMatchScore(analysisRequest.getSwaMatchScore());
+				analysisRequestBean.setSwaMismatchScore(analysisRequest.getSwaMismatchScore());
+				analysisRequestBean.setSwaGapOpen(analysisRequest.getSwaGapOpen());
+				analysisRequestBean.setSwaGapExtend(analysisRequest.getSwaGapExtend());
+				analysisRequestBean.setCalFlankSize(analysisRequest.getCalFlankSize());
+				analysisRequestBean.setMinimumCalSize(analysisRequest.getMinimumCalSize());
+				analysisRequestBean.setCalUmbralLengthFactor(analysisRequest.getCalUmbralLengthFactor());
+				analysisRequestBean.setMaximumBetweenSeeds(analysisRequest.getMaximumBetweenSeeds());
+				analysisRequestBean.setMaximumSeedSize(analysisRequest.getMaximumSeedSize());
+				analysisRequestBean.setMinimumCalSize(analysisRequest.getMinimumCalSize());
+				analysisRequestBean.setNumberSeedsPerRead(analysisRequest.getNumberSeedsPerRead());
+				analysisRequestBean.setReadMinimumDiscardLength(analysisRequest.getReadMinimumDiscardLength());
+				analysisRequestBean.setReadMaximumInnerGap(analysisRequest.getReadMaximumInnerGap());
+				analysisRequestBean.setMinimumNumberSeeds(analysisRequest.getMinimumNumberSeeds());
+				analysisRequestBean.setFilterReadMappings(analysisRequest.getFilterReadMappings());
+				analysisRequestBean.setFilterSeedMappings(analysisRequest.getFilterSeedMappings());
+				analysisRequestBean.setReportAll(analysisRequest.getReportAll());
+				analysisRequestBean.setReportBest(analysisRequest.getReportBest());
+				analysisRequestBean.setReportNBest(analysisRequest.getReportNBest());
+				analysisRequestBean.setReportNHits(analysisRequest.getReportNHits());
+				analysisRequestBean.setNumber(analysisRequest.getNumber());				
+				
+			} catch (AnalysisRequestNotFound | GetObjectException e) {
+				return "pretty:home";
+			}						
+		}
+		
+		return null;	
 	}
 	
 	public String updateAnalysisParameters() {

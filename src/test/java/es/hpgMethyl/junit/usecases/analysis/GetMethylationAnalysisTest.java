@@ -28,8 +28,8 @@ public class GetMethylationAnalysisTest {
 		this.getMethylationAnalysis = new GetMethylationAnalysis(this.analysisRequestDAO);
 	}
 	
-	@Test(expected = HpgMethylException.class)
-	public void test_execute_givenAnErrorWhenGetAnalysisRequestObject_expectThrowHpgMethylException() throws HpgMethylException {
+	@Test(expected = GetObjectException.class)
+	public void test_execute_givenAnErrorWhenGetAnalysisRequestObject_expectThrowGetObjectException() throws HpgMethylException {
 		
 		UUID id = UUID.randomUUID();
 		
