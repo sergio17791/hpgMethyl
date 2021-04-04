@@ -11,12 +11,17 @@ import javax.faces.context.FacesContext;
 
 import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
 import es.hpgMethyl.entities.AnalysisRequest;
+import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
+import es.hpgMethyl.exceptions.DuplicatedIdentifier;
 import es.hpgMethyl.exceptions.GetObjectException;
+import es.hpgMethyl.exceptions.UpdateMethylationAnalysisException;
 import es.hpgMethyl.types.PairedMode;
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysis;
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysisRequest;
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysisResponse;
+import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisParameters.UpdateMethylationAnalysisParameters;
+import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisParameters.UpdateMethylationAnalysisParametersRequest;
 import es.hpgMethyl.utils.FacesContextUtils;
 
 @ManagedBean(name="analysisDetail")
@@ -89,7 +94,7 @@ public class MethylationAnalysisDetail implements Serializable {
 		
 		if (!FacesContext.getCurrentInstance().isPostback()) { 
 			
-			if(id == null) {
+			if(this.id == null) {
 				return "pretty:home";
 			}
 			
@@ -98,7 +103,17 @@ public class MethylationAnalysisDetail implements Serializable {
 						new GetMethylationAnalysisRequest(UUID.fromString(this.id))
 				);
 					
-				analysisRequest = response.getAnalysisRequest();
+				this.analysisRequest = response.getAnalysisRequest();
+				
+				User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
+				
+				if(user == null) {
+					return "pretty:home";	
+				}
+				
+				if(!this.analysisRequest.getUser().getId().equals(user.getId())) {
+					return "pretty:home";
+				}
 					
 				AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
 				analysisRequestBean.setIdentifier(analysisRequest.getIdentifier());
@@ -144,9 +159,60 @@ public class MethylationAnalysisDetail implements Serializable {
 	
 	public String updateAnalysisParameters() {
 		
-		String successMessage = FacesContextUtils.geti18nMessage("analysis.send.requestSentSuccessfully");
-		FacesContextUtils.setMessageInComponent(this.getUpdateAnalysisParametersComponent(), FacesMessage.SEVERITY_INFO, successMessage, successMessage);
+		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
 		
+		if(user == null) {
+			return "pretty:home";	
+		}
+				
+		AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
+		
+		try {
+			new UpdateMethylationAnalysisParameters(new AnalysisRequestDAOHibernate()).execute(
+					new UpdateMethylationAnalysisParametersRequest(
+						UUID.fromString(this.id),
+						analysisRequestBean.getIdentifier(),
+						analysisRequestBean.getWriteMethylationContext(), 
+						analysisRequestBean.getReadBatchSize(), 
+						analysisRequestBean.getWriteBatchSize(), 
+						analysisRequestBean.getPairedMode(),
+						analysisRequestBean.getPairedMaxDistance(), 
+						analysisRequestBean.getPairedMinDistance(),
+						analysisRequestBean.getSwaMinimunScore(), 
+						analysisRequestBean.getSwaMatchScore(), 
+						analysisRequestBean.getSwaMismatchScore(), 
+						analysisRequestBean.getSwaGapOpen(),
+						analysisRequestBean.getSwaGapExtend(), 
+						analysisRequestBean.getCalFlankSize(), 
+						analysisRequestBean.getMinimumCalSize(),
+						analysisRequestBean.getCalUmbralLengthFactor(), 
+						analysisRequestBean.getMaximumBetweenSeeds(), 
+						analysisRequestBean.getMaximumSeedSize(),
+						analysisRequestBean.getMinimumSeedSize(), 
+						analysisRequestBean.getNumberSeedsPerRead(), 
+						analysisRequestBean.getReadMinimumDiscardLength(),
+						analysisRequestBean.getReadMaximumInnerGap(), 
+						analysisRequestBean.getMinimumNumberSeeds(), 
+						analysisRequestBean.getFilterReadMappings(),
+						analysisRequestBean.getFilterSeedMappings(), 
+						analysisRequestBean.getReportAll(), 
+						analysisRequestBean.getReportBest(), 
+						analysisRequestBean.getReportNBest(),
+						analysisRequestBean.getReportNHits()
+					)				
+			);
+			
+			String successMessage = FacesContextUtils.geti18nMessage("analysis.detail.updateParametersSuccessfully");
+			FacesContextUtils.setMessageInComponent(this.updateAnalysisParametersComponent, FacesMessage.SEVERITY_INFO, successMessage, successMessage);
+			
+		} catch (DuplicatedIdentifier e) {
+			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.duplicatedIdentifier");
+			FacesContextUtils.setMessageInComponent(this.updateAnalysisParametersComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
+		} catch (AnalysisRequestNotFound | UpdateMethylationAnalysisException e) {
+			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
+			FacesContextUtils.setMessageInComponent(this.updateAnalysisParametersComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
+		}
+				
 		return null;
 	}
 }
