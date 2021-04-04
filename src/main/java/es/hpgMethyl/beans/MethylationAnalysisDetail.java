@@ -13,6 +13,7 @@ import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
+import es.hpgMethyl.exceptions.AnalysisRequestProcessed;
 import es.hpgMethyl.exceptions.DuplicatedIdentifier;
 import es.hpgMethyl.exceptions.GetObjectException;
 import es.hpgMethyl.exceptions.UpdateMethylationAnalysisException;
@@ -208,7 +209,7 @@ public class MethylationAnalysisDetail implements Serializable {
 		} catch (DuplicatedIdentifier e) {
 			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.duplicatedIdentifier");
 			FacesContextUtils.setMessageInComponent(this.updateAnalysisParametersComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
-		} catch (AnalysisRequestNotFound | UpdateMethylationAnalysisException e) {
+		} catch (AnalysisRequestNotFound | AnalysisRequestProcessed | UpdateMethylationAnalysisException e) {
 			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.updateAnalysisParametersComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
 		}

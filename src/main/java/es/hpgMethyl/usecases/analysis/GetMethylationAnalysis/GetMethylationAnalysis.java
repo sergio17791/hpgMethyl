@@ -6,7 +6,6 @@ import es.hpgMethyl.dao.AnalysisRequestDAO;
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
 import es.hpgMethyl.exceptions.GetObjectException;
-import es.hpgMethyl.exceptions.HpgMethylException;
 
 public class GetMethylationAnalysis {
 
@@ -23,7 +22,7 @@ public class GetMethylationAnalysis {
 		AnalysisRequest analysisRequest = this.analysisRequestDAO.get(id);
 			
 		if(analysisRequest == null) {
-			throw new AnalysisRequestNotFound("Analysis Request " + id + " not found ");
+			throw new AnalysisRequestNotFound("Analysis Request " + id + " not found");
 		}
 			
 		return new GetMethylationAnalysisResponse(analysisRequest);	

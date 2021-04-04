@@ -6,10 +6,12 @@ import es.hpgMethyl.dao.AnalysisRequestDAO;
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
+import es.hpgMethyl.exceptions.AnalysisRequestProcessed;
 import es.hpgMethyl.exceptions.DuplicatedIdentifier;
 import es.hpgMethyl.exceptions.GetObjectException;
 import es.hpgMethyl.exceptions.SaveObjectException;
 import es.hpgMethyl.exceptions.UpdateMethylationAnalysisException;
+import es.hpgMethyl.types.AnalysisStatus;
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysis;
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysisRequest;
 
@@ -21,7 +23,7 @@ public class UpdateMethylationAnalysisParameters {
 		this.analysisRequestDAO = analysisRequestDAO;
 	}
 	
-	public UpdateMethylationAnalysisParametersResponse execute(UpdateMethylationAnalysisParametersRequest request) throws AnalysisRequestNotFound, DuplicatedIdentifier, UpdateMethylationAnalysisException {
+	public UpdateMethylationAnalysisParametersResponse execute(UpdateMethylationAnalysisParametersRequest request) throws AnalysisRequestNotFound, AnalysisRequestProcessed, DuplicatedIdentifier, UpdateMethylationAnalysisException {
 		
 		UUID id = request.getId();
 		
@@ -32,6 +34,10 @@ public class UpdateMethylationAnalysisParameters {
 			).getAnalysisRequest();
 		} catch (GetObjectException e) {
 			throw new UpdateMethylationAnalysisException(e);
+		}
+		
+		if(!analysisRequest.getStatus().equals(AnalysisStatus.CREATED)) {
+			throw new AnalysisRequestProcessed("Analysis Request " + id + " has already been processed");
 		}
 		
 		String newIdentifier = request.getIdentifier();
