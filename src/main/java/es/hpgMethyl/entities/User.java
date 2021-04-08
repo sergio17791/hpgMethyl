@@ -38,9 +38,13 @@ public class User extends BaseEntity {
 	@Column(name = "active", nullable = false)
 	private Boolean active;
 	
+	@Column(name = "default_language", nullable = false)
+	private String defaultLanguage;
+	
 	public User() {
 		super();
 		this.active = true;
+		this.defaultLanguage = "es";
 	}
 	
 	public User(
@@ -55,7 +59,8 @@ public class User extends BaseEntity {
 			String passwordRecoveryQuestion,
 			String passwordRecoveryResponse,
 			String passwordRecoveryResponseSalt,
-			Boolean active
+			Boolean active,
+			String defaultLanguage
 	) {
 		super(id, createdAt, updatedAt);
 		this.firstName = firstName;
@@ -67,6 +72,7 @@ public class User extends BaseEntity {
 		this.passwordRecoveryResponse = passwordRecoveryResponse;
 		this.passwordRecoveryResponseSalt = passwordRecoveryResponseSalt;
 		this.active = active;
+		this.defaultLanguage = defaultLanguage;
 	}
 
 	/**
@@ -193,6 +199,20 @@ public class User extends BaseEntity {
 	 */
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	/**
+	 * @return the defaultLanguage
+	 */
+	public String getDefaultLanguage() {
+		return defaultLanguage;
+	}
+
+	/**
+	 * @param defaultLanguage the defaultLanguage to set
+	 */
+	public void setDefaultLanguage(String defaultLanguage) {
+		this.defaultLanguage = defaultLanguage;
 	}
 
 	@Override
