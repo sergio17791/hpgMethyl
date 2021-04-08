@@ -203,7 +203,7 @@ public class MethylationAnalysisDetail implements Serializable {
 					)				
 			);
 			
-			String successMessage = FacesContextUtils.geti18nMessage("analysis.detail.updateParametersSuccessfully");
+			String successMessage = FacesContextUtils.geti18nMessage("general.updateSuccessfully");
 			FacesContextUtils.setMessageInComponent(this.updateAnalysisParametersComponent, FacesMessage.SEVERITY_INFO, successMessage, successMessage);
 			
 		} catch (DuplicatedIdentifier e) {

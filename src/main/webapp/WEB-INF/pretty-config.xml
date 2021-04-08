@@ -27,4 +27,8 @@
 		<pattern value="/#{ id }"/>
 		<view-id value="/faces/user/analysis/detail.xhtml"/>
 	</url-mapping>
+	<url-mapping id="userConfiguration" parentId="home">
+		<pattern value="configuration"/>
+		<view-id value="/faces/user/configuration.xhtml"/>
+	</url-mapping>
 </pretty-config>
