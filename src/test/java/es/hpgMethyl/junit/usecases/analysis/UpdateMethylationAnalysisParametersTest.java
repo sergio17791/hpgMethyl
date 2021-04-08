@@ -78,7 +78,7 @@ public class UpdateMethylationAnalysisParametersTest {
 	}
 	
 	@Test(expected = UpdateMethylationAnalysisException.class)
-	public void test_execute_givenAnErrorWhenGetAnalysisRequestObject_expectThrowGetObjectException() throws HpgMethylException {
+	public void test_execute_givenAnErrorWhenGetAnalysisRequestObject_expectThrowUpdateMethylationAnalysisException() throws HpgMethylException {
 		
 		UUID id = analysisRequest.getId();
 		
