@@ -8,6 +8,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 
 import es.hpgMethyl.dao.hibernate.UserDAOHibernate;
+import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.InvalidCredentials;
 import es.hpgMethyl.usecases.user.LoginUser.LoginUser;
 import es.hpgMethyl.usecases.user.LoginUser.LoginUserRequest;
@@ -82,7 +83,12 @@ public class UserLogin implements Serializable {
 				)
 			);
 			
-			FacesContextUtils.setParameterFacesContextSession(FacesContextUtils.SESSION_USER, loginUserResponse.getUser());
+			User user = loginUserResponse.getUser();
+			
+			LanguageSelector languageSelector = (LanguageSelector) FacesContextUtils.getBean("languageSelector");		
+			languageSelector.changeLanguage(user.getDefaultLanguage());
+			
+			FacesContextUtils.setParameterFacesContextSession(FacesContextUtils.SESSION_USER, user);
 			
 			return "pretty:home";	
 		} catch (InvalidCredentials e) {

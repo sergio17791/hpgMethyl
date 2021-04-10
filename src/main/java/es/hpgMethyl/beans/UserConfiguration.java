@@ -1,6 +1,5 @@
 package es.hpgMethyl.beans;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
@@ -8,7 +7,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
 
 import es.hpgMethyl.dao.hibernate.UserDAOHibernate;
 import es.hpgMethyl.entities.User;
