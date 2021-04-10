@@ -7,11 +7,21 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.ComponentSystemEvent;
 
 import es.hpgMethyl.dao.hibernate.UserDAOHibernate;
 import es.hpgMethyl.entities.User;
+import es.hpgMethyl.exceptions.ChangePasswordException;
+import es.hpgMethyl.exceptions.InvalidCredentials;
 import es.hpgMethyl.exceptions.UpdateUserException;
 import es.hpgMethyl.exceptions.UserNotFound;
+import es.hpgMethyl.usecases.user.ChangePassword.ChangePassword;
+import es.hpgMethyl.usecases.user.ChangePassword.ChangePasswordRequest;
+import es.hpgMethyl.usecases.user.ChangePassword.ChangePasswordResponse;
+import es.hpgMethyl.usecases.user.LoginUser.LoginUser;
+import es.hpgMethyl.usecases.user.LoginUser.LoginUserRequest;
 import es.hpgMethyl.usecases.user.UpdateUserPersonalInformation.UpdateUserPersonalInformation;
 import es.hpgMethyl.usecases.user.UpdateUserPersonalInformation.UpdateUserPersonalInformationRequest;
 import es.hpgMethyl.usecases.user.UpdateUserPersonalInformation.UpdateUserPersonalInformationResponse;
@@ -34,6 +44,7 @@ private static final long serialVersionUID = 4323418201301711899L;
     private String passwordRecoveryQuestion;
     private String newPasswordRecoveryResponse;
 	private UIComponent updatePersonalInformationComponent;
+	private UIComponent changePasswordComponent;
 		
 	public UserConfiguration() {
 		this.email = null;
@@ -216,6 +227,20 @@ private static final long serialVersionUID = 4323418201301711899L;
 		this.updatePersonalInformationComponent = updatePersonalInformationComponent;
 	}	
 	
+	/**
+	 * @return the changePasswordComponent
+	 */
+	public UIComponent getChangePasswordComponent() {
+		return changePasswordComponent;
+	}
+
+	/**
+	 * @param changePasswordComponent the changePasswordComponent to set
+	 */
+	public void setChangePasswordComponent(UIComponent changePasswordComponent) {
+		this.changePasswordComponent = changePasswordComponent;
+	}
+
 	public String updatePersonalInformation() {
 		
 		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
@@ -247,5 +272,48 @@ private static final long serialVersionUID = 4323418201301711899L;
         }   
         
         return null;
+	}
+	
+	public String changePassword() {
+		
+		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
+        
+        if(user == null) {
+            return "pretty:home";   
+        }
+        
+        try {
+			new LoginUser(new UserDAOHibernate()).execute(
+					new LoginUserRequest(user.getEmail(), oldPassword)
+			);
+		} catch (InvalidCredentials e1) {
+			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.invalidCredentials");
+			FacesContextUtils.setMessageInComponent(this.changePasswordComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
+			return null;
+		}
+        
+		try {
+			ChangePasswordResponse response = new ChangePassword(new UserDAOHibernate()).execute(
+					new ChangePasswordRequest(user.getId(), newPassword)
+			);
+			
+			FacesContextUtils.setParameterFacesContextSession(FacesContextUtils.SESSION_USER, response.getUser());
+			
+			String successMessage = FacesContextUtils.geti18nMessage("general.updateSuccessfully");
+            FacesContextUtils.setMessageInComponent(this.changePasswordComponent, FacesMessage.SEVERITY_INFO, successMessage, successMessage);
+						
+		} catch (ChangePasswordException e) {
+			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
+			FacesContextUtils.setMessageInComponent(this.changePasswordComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);						
+		} catch (UserNotFound e) {
+			return "pretty:home";  
+		}
+		
+		return null;
+	}
+	
+	public void cleanInputComponent(ComponentSystemEvent event) throws AbortProcessingException {
+		UIInput input = (UIInput) event.getComponent();
+		input.setValue("");
 	}
 }

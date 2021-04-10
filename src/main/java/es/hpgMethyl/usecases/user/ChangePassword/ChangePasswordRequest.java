@@ -1,30 +1,30 @@
 package es.hpgMethyl.usecases.user.ChangePassword;
 
-import es.hpgMethyl.entities.User;
+import java.util.UUID;
 
 public class ChangePasswordRequest {
 	
-	private User user;
+	private UUID id;
 	
 	private String newPassword;
 
-	public ChangePasswordRequest(User user, String newPassword) {
-		this.user = user;
+	public ChangePasswordRequest(UUID id, String newPassword) {
+		this.id = id;
 		this.newPassword = newPassword;
 	}
 
 	/**
-	 * @return the user
+	 * @return the id
 	 */
-	public User getUser() {
-		return user;
+	public UUID getId() {
+		return id;
 	}
 
 	/**
-	 * @param user the user to set
+	 * @param id the id to set
 	 */
-	public void setUser(User user) {
-		this.user = user;
+	public void setId(UUID id) {
+		this.id = id;
 	}
 
 	/**

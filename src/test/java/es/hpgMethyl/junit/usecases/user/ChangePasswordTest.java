@@ -11,7 +11,10 @@ import org.mockito.Mockito;
 import es.hpgMethyl.dao.UserDAO;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.ChangePasswordException;
+import es.hpgMethyl.exceptions.GetObjectException;
+import es.hpgMethyl.exceptions.HpgMethylException;
 import es.hpgMethyl.exceptions.SaveObjectException;
+import es.hpgMethyl.exceptions.UserNotFound;
 import es.hpgMethyl.usecases.user.ChangePassword.ChangePassword;
 import es.hpgMethyl.usecases.user.ChangePassword.ChangePasswordRequest;
 import es.hpgMethyl.usecases.user.ChangePassword.ChangePasswordResponse;
@@ -22,12 +25,12 @@ public class ChangePasswordTest {
 	
 	private ChangePassword changePassword;
 	
-	private UserDAO userDao;
+	private UserDAO userDAO;
 	
 	@Before
 	public void setUp() {
-		this.userDao = Mockito.mock(UserDAO.class);
-		this.changePassword = new ChangePassword(this.userDao);
+		this.userDAO = Mockito.mock(UserDAO.class);
+		this.changePassword = new ChangePassword(userDAO);
 		this.user = new User(
 			UUID.randomUUID(), 
 			new Date(), 
@@ -46,28 +49,53 @@ public class ChangePasswordTest {
 	}
 	
 	@Test(expected = ChangePasswordException.class)
-	public void test_execute_givenConstraintViolation_expectThrowChangePasswordException() throws ChangePasswordException, SaveObjectException {
+	public void test_execute_givenAnErrorWhenGetUserObject_expectThrowChangePasswordException() throws HpgMethylException {
 		
-		String newPassword = "newpasswordtest";
+		UUID id = user.getId();
 		
-		ChangePasswordRequest request = new ChangePasswordRequest(this.user, newPassword);
+		ChangePasswordRequest request = new ChangePasswordRequest(user.getId(), "newpasswordtest");
 		
-		Mockito.doThrow(SaveObjectException.class).when(userDao).save(Mockito.any(User.class));
+		Mockito.doThrow(GetObjectException.class).when(userDAO).get(id);
+		
+		this.changePassword.execute(request);
+	}
+	
+	@Test(expected = UserNotFound.class)
+	public void test_execute_givenNonExistenUser_expectThrowUserNotFound() throws HpgMethylException {
+		
+		UUID id = user.getId();
+		
+		ChangePasswordRequest request = new ChangePasswordRequest(user.getId(), "newpasswordtest");
+		
+		Mockito.doReturn(null).when(userDAO).get(id);
+		
+		this.changePassword.execute(request);
+	}
+	
+	@Test(expected = ChangePasswordException.class)
+	public void test_execute_givenConstraintViolation_expectThrowChangePasswordException() throws HpgMethylException {
+		
+		UUID id = user.getId();
+		
+		ChangePasswordRequest request = new ChangePasswordRequest(id, "newpasswordtest");
+		
+		Mockito.doReturn(user).when(userDAO).get(id);
+		Mockito.doThrow(SaveObjectException.class).when(userDAO).save(Mockito.any(User.class));
 		
 		this.changePassword.execute(request);
 	}
 	
 	@Test
-	public void test_execute_givenValidRequest_expectUser() throws ChangePasswordException, SaveObjectException {
+	public void test_execute_givenValidRequest_expectUser() throws HpgMethylException {
 		
-		String newPassword = "changedpasswordtest";
+		UUID id = user.getId();
+		String email = user.getEmail();
+		String oldHashedPassword = user.getPassword();
 		
-		String email = this.user.getEmail();
-		String oldHashedPassword = this.user.getPassword();
+		ChangePasswordRequest request = new ChangePasswordRequest(user.getId(), "changedpasswordtest");
 		
-		ChangePasswordRequest request = new ChangePasswordRequest(this.user, newPassword);
-		
-		Mockito.doNothing().when(userDao).save(Mockito.any(User.class));
+		Mockito.doReturn(user).when(userDAO).get(id);
+		Mockito.doNothing().when(userDAO).save(Mockito.any(User.class));
 		
 		ChangePasswordResponse response = this.changePassword.execute(request);
 		

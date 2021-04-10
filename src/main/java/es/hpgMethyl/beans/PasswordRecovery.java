@@ -210,13 +210,13 @@ public class PasswordRecovery implements Serializable {
 		
 		try {
 			ChangePasswordResponse response = new ChangePassword(new UserDAOHibernate()).execute(
-					new ChangePasswordRequest(this.user, this.getNewPassword())
+					new ChangePasswordRequest(this.user.getId(), this.getNewPassword())
 			);
 			
 			FacesContextUtils.setParameterFacesContextSession(FacesContextUtils.SESSION_USER, response.getUser());
 			
 			return "pretty:home";				
-		} catch (ChangePasswordException e) {
+		} catch (ChangePasswordException | UserNotFound e) {
 			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.getChangePasswordComponent(), FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
 			

@@ -91,7 +91,7 @@ public class UserLogin implements Serializable {
 			
 			return "pretty:home";	
 		} catch (InvalidCredentials e) {
-			String invalidCredentialsMessage = FacesContextUtils.geti18nMessage("login.invalidCredentials");
+			String invalidCredentialsMessage = FacesContextUtils.geti18nMessage("error.invalidCredentials");
 			FacesContextUtils.setMessageInComponent(this.loginComponent, FacesMessage.SEVERITY_ERROR, invalidCredentialsMessage, invalidCredentialsMessage);
 			return null;
 		}			
