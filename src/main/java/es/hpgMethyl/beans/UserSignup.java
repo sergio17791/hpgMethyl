@@ -1,7 +1,9 @@
 package es.hpgMethyl.beans;
 
 import java.io.Serializable;
+import java.util.Locale;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -11,6 +13,7 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ComponentSystemEvent;
 
 import es.hpgMethyl.dao.hibernate.UserDAOHibernate;
+import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.DuplicatedEmail;
 import es.hpgMethyl.exceptions.SignupUserException;
 import es.hpgMethyl.usecases.user.SignupUser.SignupUser;
@@ -32,18 +35,26 @@ public class UserSignup implements Serializable {
     private String passwordRecoveryQuestion;
     private String passwordRecoveryResponse;
     private String passwordVerification;
+    private String defaultLanguage;
     private UIComponent signupComponent;
     
     public UserSignup() {
-    	this.email = "";
-    	this.emailVerification = "";
-    	this.firstName = "";
-    	this.lastName = "";
-    	this.password = "";
-    	this.passwordRecoveryQuestion = "";
-    	this.passwordRecoveryResponse = "";
-    	this.passwordVerification = "";
-    	this.signupComponent = null;
+    	this.email = null;
+    	this.emailVerification = null;
+    	this.firstName = null;
+    	this.lastName = null;
+    	this.password = null;
+    	this.passwordRecoveryQuestion = null;
+    	this.passwordRecoveryResponse = null;
+    	this.passwordVerification = null;
+    	this.defaultLanguage = null;
+    }
+    
+    @PostConstruct
+    public void init() {
+    	LanguageSelector languageSelector = (LanguageSelector) FacesContextUtils.getBean("languageSelector");		
+		Locale language = languageSelector.getLanguage();
+		this.defaultLanguage = language.getLanguage();
     }
 
 	/**
@@ -157,6 +168,20 @@ public class UserSignup implements Serializable {
 	public void setPasswordVerification(String passwordVerification) {
 		this.passwordVerification = passwordVerification;
 	}
+	
+	/**
+     * @return the defaultLanguage
+     */
+    public String getDefaultLanguage() {
+        return defaultLanguage;
+    }
+
+    /**
+     * @param defaultLanguage the defaultLanguage to set
+     */
+    public void setDefaultLanguage(String defaultLanguage) {
+        this.defaultLanguage = defaultLanguage;
+    }
 
 	/**
 	 * @return the signupComponent
@@ -182,11 +207,17 @@ public class UserSignup implements Serializable {
 					this.getFirstName(),
 					this.getLastName(),
 					this.getPasswordRecoveryQuestion(),
-					this.getPasswordRecoveryResponse().replaceAll("\\s","").toLowerCase()
+					this.getPasswordRecoveryResponse().replaceAll("\\s","").toLowerCase(),
+					this.getDefaultLanguage()
 				)				
 			);
 			
-			FacesContextUtils.setParameterFacesContextSession(FacesContextUtils.SESSION_USER, signupUserResponse.getUser());
+			User user = signupUserResponse.getUser();
+			
+			LanguageSelector languageSelector = (LanguageSelector) FacesContextUtils.getBean("languageSelector");		
+			languageSelector.changeLanguage(user.getDefaultLanguage());
+			
+			FacesContextUtils.setParameterFacesContextSession(FacesContextUtils.SESSION_USER, user);
 			
 			return "pretty:home";				
 		} catch (DuplicatedEmail e) {

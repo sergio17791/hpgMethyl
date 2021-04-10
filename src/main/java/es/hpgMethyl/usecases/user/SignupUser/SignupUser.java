@@ -8,7 +8,6 @@ import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.DuplicatedEmail;
 import es.hpgMethyl.exceptions.SaveObjectException;
 import es.hpgMethyl.exceptions.SignupUserException;
-import es.hpgMethyl.exceptions.UserNotFound;
 import es.hpgMethyl.utils.PasswordUtils;
 
 public class SignupUser {
@@ -43,6 +42,7 @@ public class SignupUser {
 		user.setPasswordRecoveryQuestion(request.getPasswordRecoveryQuestion());
 		user.setPasswordRecoveryResponse(passwordRecoveryResponse);
 		user.setPasswordRecoveryResponseSalt(passwordRecoveryResponseSalt);
+		user.setDefaultLanguage(request.getDefaultLanguage());
 		
 		try {
 			this.userDAO.save(user);

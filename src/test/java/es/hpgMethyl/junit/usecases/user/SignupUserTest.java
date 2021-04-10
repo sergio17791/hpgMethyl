@@ -31,13 +31,16 @@ public class SignupUserTest {
 	public void test_execute_givenDuplicateEmail_expectThrowDuplicatedEmail() throws DuplicatedEmail, SignupUserException, SaveObjectException, UserNotFound {	
 		
 		String email = "test@email.com";
-		String password = "passwordtest";
-		String firstName = "First name";
-		String lastName = "Last name";
-		String passwordRecoveryQuestion = "Recovery question";
-		String passwordRecoveryResponse = "Recovery response";
 		
-		SignupUserRequest request = new SignupUserRequest(email, password, firstName, lastName, passwordRecoveryQuestion, passwordRecoveryResponse);
+		SignupUserRequest request = new SignupUserRequest(
+				email, 
+				"passwordtest", 
+				"First name", 
+				"Last name", 
+				"Recovery question", 
+				"Recovery response", 
+				"en"
+		);
 		
 		Mockito.doReturn(new User()).when(userDao).findByEmail(email);
 		
@@ -48,13 +51,16 @@ public class SignupUserTest {
 	public void test_execute_givenConstraintViolation_expectThrowSignupUserException() throws DuplicatedEmail, SignupUserException, SaveObjectException, UserNotFound {	
 		
 		String email = "test@email.com";
-		String password = "passwordtest";
-		String firstName = "First name";
-		String lastName = "Last name";
-		String passwordRecoveryQuestion = "Recovery question";
-		String passwordRecoveryResponse = "Recovery response";
 		
-		SignupUserRequest request = new SignupUserRequest(email, password, firstName, lastName, passwordRecoveryQuestion, passwordRecoveryResponse);
+		SignupUserRequest request = new SignupUserRequest(
+				email, 
+				"passwordtest", 
+				"First name", 
+				"Last name", 
+				"Recovery question", 
+				"Recovery response", 
+				"en"
+		);
 		
 		Mockito.doReturn(null).when(userDao).findByEmail(email);
 		
@@ -67,13 +73,16 @@ public class SignupUserTest {
 	public void test_execute_givenValidRequest_expectUser() throws DuplicatedEmail, SignupUserException, SaveObjectException, UserNotFound {	
 		
 		String email = "test@email.com";
-		String password = "passwordtest";
-		String firstName = "First name";
-		String lastName = "Last name";
-		String passwordRecoveryQuestion = "Recovery question";
-		String passwordRecoveryResponse = "Recovery response";
 		
-		SignupUserRequest request = new SignupUserRequest(email, password, firstName, lastName, passwordRecoveryQuestion, passwordRecoveryResponse);
+		SignupUserRequest request = new SignupUserRequest(
+				email, 
+				"passwordtest", 
+				"First name", 
+				"Last name", 
+				"Recovery question", 
+				"Recovery response", 
+				"en"
+		);
 		
 		Mockito.doReturn(null).when(userDao).findByEmail(email);
 		
@@ -81,9 +90,11 @@ public class SignupUserTest {
 		
 		SignupUserResponse response = this.signupUser.execute(request);
 
-		Assert.assertEquals(email, response.getUser().getEmail());
-		Assert.assertEquals(firstName, response.getUser().getFirstName());
-		Assert.assertEquals(lastName, response.getUser().getLastName());
+		Assert.assertEquals(request.getEmail(), response.getUser().getEmail());
+		Assert.assertEquals(request.getFirstName(), response.getUser().getFirstName());
+		Assert.assertEquals(request.getLastName(), response.getUser().getLastName());
+		Assert.assertEquals(request.getPasswordRecoveryQuestion(), response.getUser().getPasswordRecoveryQuestion());
+		Assert.assertEquals(request.getDefaultLanguage(), response.getUser().getDefaultLanguage());
 		Assert.assertTrue(response.getUser().isActive());
 	}
 }

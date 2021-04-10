@@ -25,9 +25,7 @@ public class SendMethylationAnalysisRequest implements Serializable {
 	private static final long serialVersionUID = -589016682649578821L;
 
 	private Part inputReadFile;
-	
 	private Part pairedEndModeFile;
-
 	private UIComponent sendAnalysisComponent;
 	
 	public SendMethylationAnalysisRequest() {

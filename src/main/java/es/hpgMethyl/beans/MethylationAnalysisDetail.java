@@ -32,9 +32,7 @@ public class MethylationAnalysisDetail implements Serializable {
 	private static final long serialVersionUID = 929869883425786237L;
 
 	private String id;	
-	
 	private AnalysisRequest analysisRequest;
-	
 	private UIComponent updateAnalysisParametersComponent;
 		
 	public MethylationAnalysisDetail() {

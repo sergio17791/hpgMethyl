@@ -158,6 +158,20 @@
                 		<b:column col-md="6">
 	                		<h:message for="passwordRecoveryResponseSignup" styleClass="alert alert-danger errorMessageWithTopLabel"/>
                 		</b:column>
+                	</b:row>
+                	<b:row>
+                		<b:column col-md="6">
+                        	<b:selectOneMenu id ="defaultLanguage" 
+                                         	 value="#{userSignup.defaultLanguage}"
+                                        	 styleClass="form-control"
+                                        	 label="#{msg['user.attribute.defaultLanguage']}" 
+                                    	     required="true" 
+                                	         requiredMessage="#{msg['error.form.requiredField']}">    
+                            	<f:selectItem itemLabel="#{msg['menu.language.english']}" itemValue="en"/> 
+                            	<f:selectItem itemLabel="#{msg['menu.language.spanish']}" itemValue="es"/> 
+                            	<f:selectItem itemLabel="#{msg['menu.language.valencian']}" itemValue="ca"/>         
+                        	</b:selectOneMenu>
+                    	</b:column>
                 	</b:row>              
                     <b:row>
                     	<b:column col-md="6">

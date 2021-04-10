@@ -24,25 +24,15 @@ public class UserConfiguration implements Serializable {
 private static final long serialVersionUID = 4323418201301711899L;
     
     private String email;
-    
     private String defaultLanguage;
-    
     private String firstName;
-    
     private String lastName;    
-    
     private String oldPassword;
-    
     private String newPassword;
-    
     private String newPasswordVerification;
-    
     private String password;
-    
     private String passwordRecoveryQuestion;
-    
     private String newPasswordRecoveryResponse;
-	
 	private UIComponent updatePersonalInformationComponent;
 		
 	public UserConfiguration() {

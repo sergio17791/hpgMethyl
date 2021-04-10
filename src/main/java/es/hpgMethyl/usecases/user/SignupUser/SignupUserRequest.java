@@ -13,6 +13,8 @@ public class SignupUserRequest {
 	private String passwordRecoveryQuestion;
 	
 	private String passwordRecoveryResponse;
+	
+	private String defaultLanguage;
 
 	public SignupUserRequest(
 			String email, 
@@ -20,7 +22,8 @@ public class SignupUserRequest {
 			String firstName, 
 			String lastName,
 			String passwordRecoveryQuestion,
-			String passwordRecoveryResponse
+			String passwordRecoveryResponse,
+			String defaultLanguage
 	) {
 		this.email = email;
 		this.password = password;
@@ -28,6 +31,7 @@ public class SignupUserRequest {
 		this.lastName = lastName;
 		this.passwordRecoveryQuestion = passwordRecoveryQuestion;
 		this.passwordRecoveryResponse = passwordRecoveryResponse;
+		this.defaultLanguage = defaultLanguage;
 	}
 
 	/**
@@ -112,5 +116,19 @@ public class SignupUserRequest {
 	 */
 	public void setPasswordRecoveryResponse(String passwordRecoveryResponse) {
 		this.passwordRecoveryResponse = passwordRecoveryResponse;
+	}
+	
+	/**
+	 * @return the defaultLanguage
+	 */
+	public String getDefaultLanguage() {
+		return defaultLanguage;
+	}
+
+	/**
+	 * @param defaultLanguage the defaultLanguage to set
+	 */
+	public void setDefaultLanguage(String defaultLanguage) {
+		this.defaultLanguage = defaultLanguage;
 	}
 }

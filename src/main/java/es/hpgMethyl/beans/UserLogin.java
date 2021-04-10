@@ -28,7 +28,6 @@ public class UserLogin implements Serializable {
 	public UserLogin() {
 		this.email = "";
         this.password = "";
-        this.loginComponent = null;
 	}
 
 	/**

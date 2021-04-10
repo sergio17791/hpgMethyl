@@ -32,23 +32,14 @@ public class PasswordRecovery implements Serializable {
 	private static final long serialVersionUID = 7364661395117841439L;
 
 	private User user;
-	
 	private String email;
-	
 	private String question;
-	
 	private String response;
-	
 	private Boolean correctResponse;
-	
 	private String newPassword;
-	
 	private String newPasswordVerification;
-	
 	private UIComponent passwordRecoveryComponent;
-	
 	private UIComponent responseQuestionComponent;
-	
 	private UIComponent changePasswordComponent;
 
 	public PasswordRecovery() {
@@ -58,9 +49,6 @@ public class PasswordRecovery implements Serializable {
 		this.correctResponse = false;
 		this.newPassword = null;
 		this.newPasswordVerification = null;
-		this.passwordRecoveryComponent = null;
-		this.responseQuestionComponent = null;
-		this.changePasswordComponent = null;
 	}
 
 	/**
