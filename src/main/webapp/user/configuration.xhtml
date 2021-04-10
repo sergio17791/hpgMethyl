@@ -6,10 +6,7 @@
                 xmlns:components="http://java.sun.com/jsf/composite/components"
                 template="../WEB-INF/templates/mainTemplate.xhtml">
     <ui:define name="content">
-    	<f:metadata>
-			<f:viewAction action="#{userConfiguration.loadUserInformation}"/>
-		</f:metadata>  
-		<b:form id="personalInformationForm">  	
+		<b:form id="userConfigurationForm">  	
          	<b:row>
          		<b:column col-md="6">
             		<legend><h:outputText value="#{msg['configuration.personalInformationLegend']}"/></legend>      
@@ -19,35 +16,35 @@
          		<b:row>
             		<components:inputTextWithErrorMessage inputId="email"
             											  value="#{userConfiguration.email}"
-            											  label="#{msg['user.attribute.email']}"
-            											  required="true"
+                                                          label="#{msg['user.attribute.email']}"
             											  disabled="true"/>
 					<b:column col-md="6">
-						<b:selectOneMenu id ="defaultLanguage" 
-	               				 	 	 value="#{userConfiguration.defaultLanguage}"
-		                       	 	 	 styleClass="form-control"
-		                           		 label="#{msg['user.attribute.defaultLanguage']}" 
-			                    	   	 required="true" 
-		                    	       	 requiredMessage="#{msg['error.form.requiredField']}">    
-		             		<f:selectItem itemLabel="#{msg['menu.language.english']}" itemValue="en"/> 
-		             		<f:selectItem itemLabel="#{msg['menu.language.spanish']}" itemValue="es"/> 
-		             		<f:selectItem itemLabel="#{msg['menu.language.valencian']}" itemValue="ca"/>         
-	               		</b:selectOneMenu>
-					</b:column>					            											  
-				</b:row>
-         		<b:row>
-            		<components:inputTextWithErrorMessage inputId="firstName"
-            											  value="#{userConfiguration.firstName}"
-            											  label="#{msg['user.attribute.firstName']}"
-            											  required="true"/>
-					<components:inputTextWithErrorMessage inputId="lastName"
-            											  value="#{userConfiguration.lastName}"
-            											  label="#{msg['user.attribute.lastName']}"
-            											  required="true"/>              											  
-				</b:row>
-				<b:row>
+                        <b:selectOneMenu id ="defaultLanguage" 
+                                         value="#{userConfiguration.defaultLanguage}"
+                                         styleClass="form-control"
+                                         label="#{msg['user.attribute.defaultLanguage']}" 
+                                         required="true" 
+                                         requiredMessage="#{msg['error.form.requiredField']}">    
+                            <f:selectItem itemLabel="#{msg['menu.language.english']}" itemValue="en"/> 
+                            <f:selectItem itemLabel="#{msg['menu.language.spanish']}" itemValue="es"/> 
+                            <f:selectItem itemLabel="#{msg['menu.language.valencian']}" itemValue="ca"/>         
+                        </b:selectOneMenu>
+                    </b:column>                											  
+            	</b:row>
+            	<b:row>
+                    <components:inputTextWithErrorMessage inputId="firstName"
+                                                          value="#{userConfiguration.firstName}"
+                                                          label="#{msg['user.attribute.firstName']}"
+                                                          required="true"/>
+                    <components:inputTextWithErrorMessage inputId="lastName"
+                                                          value="#{userConfiguration.lastName}"
+                                                          label="#{msg['user.attribute.lastName']}"
+                                                          required="true"/>                                                           
+                </b:row>
+            	<b:row>
                 	<b:column col-md="6">
-	                	<b:commandButton value="#{msg['general.reset']}" 
+	                	<b:commandButton id="resetAnalysisButton"
+		                                 value="#{msg['general.reset']}" 
 		                                 type="reset"
 		                                 look="light"
 		                                 styleClass="btn-block"/>
@@ -56,17 +53,17 @@
 	                	<b:commandButton id="updatePersonalInformationButton"
 		                                 binding="#{userConfiguration.updatePersonalInformationComponent}"
 		                                 value="#{msg['general.update']}" 
-		                                 action="#{userConfiguration.updatePersonalInformation}"
+		                                 action="#{userConfiguration.updatePersonalInformation()}"
 		                                 look="primary"
 		                                 styleClass="btn-block"/>     
                 	</b:column>                    	
                 </b:row>                 
                 <b:row style="margin-top: 10px">             
                 	<b:column col-md="12">
-	                	<h:message for="sendAnalysisButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
+	                	<h:message for="updatePersonalInformationButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
                 	</b:column>
                 </b:row>
          	</b:panel>
-         </b:form>       
+         </b:form>
     </ui:define>
 </ui:composition>
