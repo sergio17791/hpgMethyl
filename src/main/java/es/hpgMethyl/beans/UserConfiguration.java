@@ -22,6 +22,9 @@ import es.hpgMethyl.usecases.user.ChangePassword.ChangePasswordRequest;
 import es.hpgMethyl.usecases.user.ChangePassword.ChangePasswordResponse;
 import es.hpgMethyl.usecases.user.LoginUser.LoginUser;
 import es.hpgMethyl.usecases.user.LoginUser.LoginUserRequest;
+import es.hpgMethyl.usecases.user.UpdatePasswordRecovery.UpdatePasswordRecovery;
+import es.hpgMethyl.usecases.user.UpdatePasswordRecovery.UpdatePasswordRecoveryRequest;
+import es.hpgMethyl.usecases.user.UpdatePasswordRecovery.UpdatePasswordRecoveryResponse;
 import es.hpgMethyl.usecases.user.UpdateUserPersonalInformation.UpdateUserPersonalInformation;
 import es.hpgMethyl.usecases.user.UpdateUserPersonalInformation.UpdateUserPersonalInformationRequest;
 import es.hpgMethyl.usecases.user.UpdateUserPersonalInformation.UpdateUserPersonalInformationResponse;
@@ -302,8 +305,8 @@ private static final long serialVersionUID = 4323418201301711899L;
 					new LoginUserRequest(user.getEmail(), oldPassword)
 			);
 		} catch (InvalidCredentials e1) {
-			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.invalidCredentials");
-			FacesContextUtils.setMessageInComponent(this.changePasswordComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
+			String invalidCredentialsMessage = FacesContextUtils.geti18nMessage("error.invalidCredentials");
+			FacesContextUtils.setMessageInComponent(this.changePasswordComponent, FacesMessage.SEVERITY_ERROR, invalidCredentialsMessage, invalidCredentialsMessage);
 			return null;
 		}
         
@@ -329,10 +332,44 @@ private static final long serialVersionUID = 4323418201301711899L;
 	
 	public String updatePasswordRecovery() {
 		
-		String successMessage = FacesContextUtils.geti18nMessage("general.updateSuccessfully");
-        FacesContextUtils.setMessageInComponent(this.updatePasswordRecoveryComponent, FacesMessage.SEVERITY_INFO, successMessage, successMessage);
+		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
         
-        return null;
+        if(user == null) {
+            return "pretty:home";   
+        }
+        
+        try {
+			new LoginUser(new UserDAOHibernate()).execute(
+					new LoginUserRequest(user.getEmail(), password)
+			);
+		} catch (InvalidCredentials e1) {
+			String invalidCredentialsMessage = FacesContextUtils.geti18nMessage("error.invalidCredentials");
+			FacesContextUtils.setMessageInComponent(this.updatePasswordRecoveryComponent, FacesMessage.SEVERITY_ERROR, invalidCredentialsMessage, invalidCredentialsMessage);
+			return null;
+		}
+        
+		try {
+			UpdatePasswordRecoveryResponse response = new UpdatePasswordRecovery(new UserDAOHibernate()).execute(
+					new UpdatePasswordRecoveryRequest(
+							user.getId(), 
+							passwordRecoveryQuestion, 
+							passwordRecoveryResponse.replaceAll("\\s","").toLowerCase()
+					)
+			);
+			
+			FacesContextUtils.setParameterFacesContextSession(FacesContextUtils.SESSION_USER, response.getUser());
+			
+			String successMessage = FacesContextUtils.geti18nMessage("general.updateSuccessfully");
+            FacesContextUtils.setMessageInComponent(this.updatePasswordRecoveryComponent, FacesMessage.SEVERITY_INFO, successMessage, successMessage);
+						
+		} catch (UpdateUserException e) {
+			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
+			FacesContextUtils.setMessageInComponent(this.updatePasswordRecoveryComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);						
+		} catch (UserNotFound e) {
+			return "pretty:home";  
+		}
+		
+		return null;
 	}
 	
 	public void cleanInputComponent(ComponentSystemEvent event) throws AbortProcessingException {
