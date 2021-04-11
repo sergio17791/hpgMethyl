@@ -42,9 +42,10 @@ private static final long serialVersionUID = 4323418201301711899L;
     private String newPasswordVerification;
     private String password;
     private String passwordRecoveryQuestion;
-    private String newPasswordRecoveryResponse;
+    private String passwordRecoveryResponse;
 	private UIComponent updatePersonalInformationComponent;
 	private UIComponent changePasswordComponent;
+	private UIComponent updatePasswordRecoveryComponent;
 		
 	public UserConfiguration() {
 		this.email = null;
@@ -56,7 +57,7 @@ private static final long serialVersionUID = 4323418201301711899L;
         this.newPasswordVerification = null;
         this.password = null;
         this.passwordRecoveryQuestion = null;
-        this.newPasswordRecoveryResponse = null;
+        this.passwordRecoveryResponse = null;
 	}
 	
 	@PostConstruct
@@ -68,8 +69,8 @@ private static final long serialVersionUID = 4323418201301711899L;
 	    	this.email = user.getEmail();
 		    this.firstName = user.getFirstName();
 		    this.lastName = user.getLastName();
-		    this.passwordRecoveryQuestion = user.getPasswordRecoveryQuestion();
 		    this.defaultLanguage = user.getDefaultLanguage();
+		    this.passwordRecoveryQuestion = user.getPasswordRecoveryQuestion();
 	    }	     					
 	}
 
@@ -200,17 +201,17 @@ private static final long serialVersionUID = 4323418201301711899L;
     }
 
     /**
-     * @return the newPasswordRecoveryResponse
+     * @return the passwordRecoveryResponse
      */
-    public String getNewPasswordRecoveryResponse() {
-        return newPasswordRecoveryResponse;
+    public String getPasswordRecoveryResponse() {
+        return passwordRecoveryResponse;
     }
 
     /**
-     * @param newPasswordRecoveryResponse the newPasswordRecoveryResponse to set
+     * @param passwordRecoveryResponse the passwordRecoveryResponse to set
      */
-    public void setNewPasswordRecoveryResponse(String newPasswordRecoveryResponse) {
-        this.newPasswordRecoveryResponse = newPasswordRecoveryResponse;
+    public void setPasswordRecoveryResponse(String passwordRecoveryResponse) {
+        this.passwordRecoveryResponse = passwordRecoveryResponse;
     }
 
 	/**
@@ -239,6 +240,20 @@ private static final long serialVersionUID = 4323418201301711899L;
 	 */
 	public void setChangePasswordComponent(UIComponent changePasswordComponent) {
 		this.changePasswordComponent = changePasswordComponent;
+	}
+
+	/**
+	 * @return the updatePasswordRecoveryComponent
+	 */
+	public UIComponent getUpdatePasswordRecoveryComponent() {
+		return updatePasswordRecoveryComponent;
+	}
+
+	/**
+	 * @param updatePasswordRecoveryComponent the updatePasswordRecoveryComponent to set
+	 */
+	public void setUpdatePasswordRecoveryComponent(UIComponent updatePasswordRecoveryComponent) {
+		this.updatePasswordRecoveryComponent = updatePasswordRecoveryComponent;
 	}
 
 	public String updatePersonalInformation() {
@@ -310,6 +325,14 @@ private static final long serialVersionUID = 4323418201301711899L;
 		}
 		
 		return null;
+	}
+	
+	public String updatePasswordRecovery() {
+		
+		String successMessage = FacesContextUtils.geti18nMessage("general.updateSuccessfully");
+        FacesContextUtils.setMessageInComponent(this.updatePasswordRecoveryComponent, FacesMessage.SEVERITY_INFO, successMessage, successMessage);
+        
+        return null;
 	}
 	
 	public void cleanInputComponent(ComponentSystemEvent event) throws AbortProcessingException {

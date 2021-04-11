@@ -90,7 +90,7 @@
 	                		<b:inputSecret id ="passwordSignup"
 	                					   binding ="#{passwordSignupComponent}"
 		                                   value="#{userSignup.password}" 
-		                                   label="#{msg['signup.password']}" 
+		                                   label="#{msg['user.attribute.password']}" 
 		                                   class="passwordInput"
 		                                   maxlength="60" 
 		                                   required="true" 
@@ -133,7 +133,7 @@
 	                		<b:inputText id ="passwordRecoveryQuestionSignup" 
 	                					 value="#{userSignup.passwordRecoveryQuestion}"
 		                                 styleClass="form-control-plaintext"
-		                                 label="#{msg['signup.passwordRecoveryQuestion']}" 
+		                                 label="#{msg['user.attribute.passwordRecoveryQuestion']}" 
 		                                 maxlength="60" 
 		                                 required="true" 
 		                                 requiredMessage="#{msg['error.form.requiredField']}">
@@ -148,7 +148,7 @@
 	                		<b:inputText id ="passwordRecoveryResponseSignup"
 	                					 value="#{userSignup.passwordRecoveryResponse}"
 		                                 styleClass="form-control-plaintext"
-		                                 label="#{msg['signup.passwordRecoveryResponse']}" 
+		                                 label="#{msg['user.attribute.passwordRecoveryResponse']}" 
 		                                 maxlength="60" 
 		                                 required="true" 
 		                                 requiredMessage="#{msg['error.form.requiredField']}">
