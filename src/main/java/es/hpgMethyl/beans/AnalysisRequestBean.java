@@ -2,6 +2,7 @@ package es.hpgMethyl.beans;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -15,6 +16,7 @@ public class AnalysisRequestBean implements Serializable {
 	
 	private static final long serialVersionUID = -6282901190770748985L;
 	
+	private UUID id;
 	private String identifier;
 	private AnalysisStatus status;
 	private PairedMode pairedMode;
@@ -49,6 +51,7 @@ public class AnalysisRequestBean implements Serializable {
 	private Integer number;
 
 	public AnalysisRequestBean() {
+		this.id = null;
 		this.identifier = "";
 		this.pairedMode = PairedMode.SINGLE_END_MODE;
 		this.status = null;
@@ -82,6 +85,22 @@ public class AnalysisRequestBean implements Serializable {
 		this.reportNHits = null;
 		this.number = null;
 	}
+
+	/**
+	 * @return the id
+	 */
+	public UUID getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
+
 
 	/**
 	 * @return the identifier

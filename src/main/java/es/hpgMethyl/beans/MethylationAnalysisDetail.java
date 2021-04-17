@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.Part;
 
 import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
 import es.hpgMethyl.entities.AnalysisRequest;
@@ -33,11 +34,13 @@ public class MethylationAnalysisDetail implements Serializable {
 
 	private String id;	
 	private AnalysisRequest analysisRequest;
+	private Part pairedEndModeFile;
 	private UIComponent updateAnalysisParametersComponent;
 		
 	public MethylationAnalysisDetail() {
 		this.id = null;
 		this.analysisRequest = null;
+		this.pairedEndModeFile = null;
 	}
 
 	/**
@@ -66,6 +69,20 @@ public class MethylationAnalysisDetail implements Serializable {
 	 */
 	public void setAnalysisRequest(AnalysisRequest analysisRequest) {
 		this.analysisRequest = analysisRequest;
+	}
+
+	/**
+	 * @return the pairedEndModeFile
+	 */
+	public Part getPairedEndModeFile() {
+		return pairedEndModeFile;
+	}
+
+	/**
+	 * @param pairedEndModeFile the pairedEndModeFile to set
+	 */
+	public void setPairedEndModeFile(Part pairedEndModeFile) {
+		this.pairedEndModeFile = pairedEndModeFile;
 	}
 
 	/**
@@ -115,6 +132,7 @@ public class MethylationAnalysisDetail implements Serializable {
 				}
 					
 				AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
+				analysisRequestBean.setId(analysisRequest.getId());
 				analysisRequestBean.setIdentifier(analysisRequest.getIdentifier());
 				analysisRequestBean.setStatus(analysisRequest.getStatus());
 				analysisRequestBean.setPairedMode(analysisRequest.getPairedMode());

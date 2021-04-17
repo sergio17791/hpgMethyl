@@ -50,7 +50,8 @@
 		                       	 	 styleClass="form-control"
 		                           	 label="#{msg['analysis.attribute.pairedMode']}" 
 			                       	 required="true" 
-		                           	 requiredMessage="#{msg['error.form.requiredField']}">    
+		                           	 requiredMessage="#{msg['error.form.requiredField']}"
+		                           	 disabled="#{analysisBean.id != null}">    
 		             	<f:selectItems value="#{analysisDetail.pairedModes}" 
 		                   			   var="pairedModeValue" 
 		                   			   itemValue="#{pairedModeValue}" 
