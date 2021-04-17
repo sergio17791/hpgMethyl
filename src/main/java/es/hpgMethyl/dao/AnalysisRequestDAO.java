@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.User;
-import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
 
 public interface AnalysisRequestDAO extends BaseDAO<AnalysisRequest, UUID> {
 	AnalysisRequest findByIdentifier(User user, String identifier);

@@ -12,7 +12,6 @@ import org.hibernate.query.Query;
 
 import es.hpgMethyl.dao.UserDAO;
 import es.hpgMethyl.entities.User;
-import es.hpgMethyl.exceptions.UserNotFound;
 import es.hpgMethyl.utils.HibernateUtils;
 
 public class UserDAOHibernate extends BaseDAOHibernate<User, UUID> implements UserDAO {

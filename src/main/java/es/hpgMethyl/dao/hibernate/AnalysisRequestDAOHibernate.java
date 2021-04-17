@@ -15,7 +15,6 @@ import org.hibernate.query.Query;
 import es.hpgMethyl.dao.AnalysisRequestDAO;
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.User;
-import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
 import es.hpgMethyl.utils.HibernateUtils;
 
 public class AnalysisRequestDAOHibernate extends BaseDAOHibernate<AnalysisRequest, UUID> implements AnalysisRequestDAO {
