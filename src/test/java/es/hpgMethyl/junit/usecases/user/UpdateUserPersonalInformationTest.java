@@ -15,6 +15,7 @@ import es.hpgMethyl.exceptions.HpgMethylException;
 import es.hpgMethyl.exceptions.SaveObjectException;
 import es.hpgMethyl.exceptions.UpdateUserException;
 import es.hpgMethyl.exceptions.UserNotFound;
+import es.hpgMethyl.types.UserRole;
 import es.hpgMethyl.usecases.user.UpdateUserPersonalInformation.UpdateUserPersonalInformation;
 import es.hpgMethyl.usecases.user.UpdateUserPersonalInformation.UpdateUserPersonalInformationRequest;
 import es.hpgMethyl.usecases.user.UpdateUserPersonalInformation.UpdateUserPersonalInformationResponse;
@@ -44,7 +45,8 @@ public class UpdateUserPersonalInformationTest {
 				"uKjTIA2jD1XUhcL2IcYC52FMS5ahYHcpwrt2qyDefsNOTx68reYWiu57ExBIq0KUJHmmeWh6n/bxfpnJ7PouZdaanp3NthhFN6pFMuvvBPWRcfdcpkuL54fntJskAIfMXrsOyEbVLbOuegPi3q0zmQxM3BTB27lKal6k2ZjVcu8=",
 				"HYq3kHHP0mcFia25J5qp8YYN8TE",
 				true,
-				"es"
+				"es",
+				UserRole.USER
 		);
 	}
 	

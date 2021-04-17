@@ -12,6 +12,7 @@ import es.hpgMethyl.dao.UserDAO;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.InvalidCredentials;
 import es.hpgMethyl.exceptions.UserNotFound;
+import es.hpgMethyl.types.UserRole;
 import es.hpgMethyl.usecases.user.LoginUser.LoginUser;
 import es.hpgMethyl.usecases.user.LoginUser.LoginUserRequest;
 import es.hpgMethyl.usecases.user.LoginUser.LoginUserResponse;
@@ -41,7 +42,8 @@ public class LoginUserTest {
 			"uKjTIA2jD1XUhcL2IcYC52FMS5ahYHcpwrt2qyDefsNOTx68reYWiu57ExBIq0KUJHmmeWh6n/bxfpnJ7PouZdaanp3NthhFN6pFMuvvBPWRcfdcpkuL54fntJskAIfMXrsOyEbVLbOuegPi3q0zmQxM3BTB27lKal6k2ZjVcu8=",
 			"HYq3kHHP0mcFia25J5qp8YYN8TE",
 			true,
-			"es"
+			"es",
+			UserRole.USER
 		);
 	}
 

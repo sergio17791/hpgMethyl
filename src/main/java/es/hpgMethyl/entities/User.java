@@ -5,7 +5,11 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
+
+import es.hpgMethyl.types.UserRole;
 
 @Entity
 @Table(name = "\"user\"")
@@ -41,10 +45,15 @@ public class User extends BaseEntity {
 	@Column(name = "default_language", nullable = false)
 	private String defaultLanguage;
 	
+	@Column(name = "role", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private UserRole role;
+	
 	public User() {
 		super();
 		this.active = true;
 		this.defaultLanguage = "es";
+		this.role = UserRole.USER;
 	}
 	
 	public User(
@@ -60,7 +69,8 @@ public class User extends BaseEntity {
 			String passwordRecoveryResponse,
 			String passwordRecoveryResponseSalt,
 			Boolean active,
-			String defaultLanguage
+			String defaultLanguage,
+			UserRole role
 	) {
 		super(id, createdAt, updatedAt);
 		this.firstName = firstName;
@@ -73,6 +83,7 @@ public class User extends BaseEntity {
 		this.passwordRecoveryResponseSalt = passwordRecoveryResponseSalt;
 		this.active = active;
 		this.defaultLanguage = defaultLanguage;
+		this.role = role;
 	}
 
 	/**
@@ -213,6 +224,20 @@ public class User extends BaseEntity {
 	 */
 	public void setDefaultLanguage(String defaultLanguage) {
 		this.defaultLanguage = defaultLanguage;
+	}
+
+	/**
+	 * @return the role
+	 */
+	public UserRole getRole() {
+		return role;
+	}
+
+	/**
+	 * @param role the role to set
+	 */
+	public void setRole(UserRole role) {
+		this.role = role;
 	}
 
 	@Override
