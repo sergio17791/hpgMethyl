@@ -13,20 +13,20 @@ import javax.faces.event.ComponentSystemEvent;
 import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.User;
-import es.hpgMethyl.usecases.analysis.ListMethylationAnalysis.ListMethylationAnalysis;
-import es.hpgMethyl.usecases.analysis.ListMethylationAnalysis.ListMethylationAnalysisRequest;
-import es.hpgMethyl.usecases.analysis.ListMethylationAnalysis.ListMethylationAnalysisResponse;
+import es.hpgMethyl.usecases.analysis.ListUserMethylationAnalysis.ListUserMethylationAnalysis;
+import es.hpgMethyl.usecases.analysis.ListUserMethylationAnalysis.ListUserMethylationAnalysisRequest;
+import es.hpgMethyl.usecases.analysis.ListUserMethylationAnalysis.ListUserMethylationAnalysisResponse;
 import es.hpgMethyl.utils.FacesContextUtils;
 
 @ManagedBean(name="listUserAnalysis")
 @RequestScoped
-public class ListUserMethylationAnalysis implements Serializable {
+public class ListUserMethylationAnalysisBean implements Serializable {
 
 	private static final long serialVersionUID = 6123081117058258476L;
 	
 	private List<AnalysisRequest> analysisRequestLists;
 	
-	public ListUserMethylationAnalysis() {
+	public ListUserMethylationAnalysisBean() {
 		this.analysisRequestLists = new ArrayList<AnalysisRequest>();
 	}
 
@@ -49,8 +49,8 @@ public class ListUserMethylationAnalysis implements Serializable {
 		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
 		
 		if(user != null) {
-			ListMethylationAnalysisResponse response = new ListMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
-					new ListMethylationAnalysisRequest(user)
+			ListUserMethylationAnalysisResponse response = new ListUserMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
+					new ListUserMethylationAnalysisRequest(user)
 			);
 			
 			this.analysisRequestLists = response.getAnalysisRequestList();

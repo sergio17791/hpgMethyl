@@ -13,13 +13,13 @@ import es.hpgMethyl.dao.AnalysisRequestDAO;
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.types.UserRole;
-import es.hpgMethyl.usecases.analysis.ListMethylationAnalysis.ListMethylationAnalysis;
-import es.hpgMethyl.usecases.analysis.ListMethylationAnalysis.ListMethylationAnalysisRequest;
-import es.hpgMethyl.usecases.analysis.ListMethylationAnalysis.ListMethylationAnalysisResponse;
+import es.hpgMethyl.usecases.analysis.ListUserMethylationAnalysis.ListUserMethylationAnalysis;
+import es.hpgMethyl.usecases.analysis.ListUserMethylationAnalysis.ListUserMethylationAnalysisRequest;
+import es.hpgMethyl.usecases.analysis.ListUserMethylationAnalysis.ListUserMethylationAnalysisResponse;
 
-public class ListMethylationAnalysisTest {
+public class ListUserMethylationAnalysisTest {
 
-	private ListMethylationAnalysis listMethylationAnalysis;
+	private ListUserMethylationAnalysis listMethylationAnalysis;
 	
 	private AnalysisRequestDAO analysisRequestDAO;
 	
@@ -28,7 +28,7 @@ public class ListMethylationAnalysisTest {
 	@Before
 	public void setUp() {
 		this.analysisRequestDAO = Mockito.mock(AnalysisRequestDAO.class);
-		this.listMethylationAnalysis = new ListMethylationAnalysis(this.analysisRequestDAO);		
+		this.listMethylationAnalysis = new ListUserMethylationAnalysis(this.analysisRequestDAO);		
 		
 		this.user = new User(
 				UUID.randomUUID(), 
@@ -50,18 +50,18 @@ public class ListMethylationAnalysisTest {
 	
 	public void test_execute_givenUserWithoutAnalysis_expectEmptyList() {
 		
-		ListMethylationAnalysisRequest request = new ListMethylationAnalysisRequest(user);
+		ListUserMethylationAnalysisRequest request = new ListUserMethylationAnalysisRequest(user);
 		
 		Mockito.doReturn(new ArrayList<AnalysisRequest>()).when(analysisRequestDAO).list(user);
 		
-		ListMethylationAnalysisResponse response = this.listMethylationAnalysis.execute(request);
+		ListUserMethylationAnalysisResponse response = this.listMethylationAnalysis.execute(request);
 		
 		Assert.assertTrue(response.getAnalysisRequestList().isEmpty());
 	}
 	
 	public void test_execute_givenUserWithAnalysis_expectList() {
 		
-		ListMethylationAnalysisRequest request = new ListMethylationAnalysisRequest(user);
+		ListUserMethylationAnalysisRequest request = new ListUserMethylationAnalysisRequest(user);
 		
 		List<AnalysisRequest> analysisRequestList = new ArrayList<AnalysisRequest>();
 		analysisRequestList.add(new AnalysisRequest());
@@ -70,7 +70,7 @@ public class ListMethylationAnalysisTest {
 		
 		Mockito.doReturn(analysisRequestList).when(analysisRequestDAO).list(user);
 		
-		ListMethylationAnalysisResponse response = this.listMethylationAnalysis.execute(request);
+		ListUserMethylationAnalysisResponse response = this.listMethylationAnalysis.execute(request);
 		
 		Assert.assertFalse(response.getAnalysisRequestList().isEmpty());
 	}

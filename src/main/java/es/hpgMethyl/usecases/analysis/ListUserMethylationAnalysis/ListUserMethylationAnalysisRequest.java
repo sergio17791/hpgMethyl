@@ -1,12 +1,12 @@
-package es.hpgMethyl.usecases.analysis.ListMethylationAnalysis;
+package es.hpgMethyl.usecases.analysis.ListUserMethylationAnalysis;
 
 import es.hpgMethyl.entities.User;
 
-public class ListMethylationAnalysisRequest {
+public class ListUserMethylationAnalysisRequest {
 
 	User user;
 
-	public ListMethylationAnalysisRequest(User user) {
+	public ListUserMethylationAnalysisRequest(User user) {
 		this.user = user;
 	}
 
