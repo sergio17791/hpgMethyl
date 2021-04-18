@@ -13,8 +13,6 @@
   		<param-value>bootstrap</param-value>
 	</context-param>
     <filter>
-    	<description>
-    	</description>
     	<display-name>LoginFilter</display-name>
     	<filter-name>LoginFilter</filter-name>
     	<filter-class>es.hpgMethyl.filters.LoginFilter</filter-class>
@@ -24,6 +22,16 @@
     	<url-pattern>/faces/user/*</url-pattern>
     	<url-pattern>/analysis</url-pattern>
     	<url-pattern>/configuration</url-pattern>
+    </filter-mapping>
+    <filter>
+    	<display-name>AdminFilter</display-name>
+    	<filter-name>AdminFilter</filter-name>
+    	<filter-class>es.hpgMethyl.filters.AdminFilter</filter-class>
+    </filter>
+    <filter-mapping>
+    	<filter-name>AdminFilter</filter-name>
+    	<url-pattern>/faces/admin/*</url-pattern>
+    	<url-pattern>/admin</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>Faces_Servlet</servlet-name>
