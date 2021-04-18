@@ -201,7 +201,7 @@ public class User extends BaseEntity {
 	/**
 	 * @return the active
 	 */
-	public Boolean isActive() {
+	public Boolean getActive() {
 		return active;
 	}
 

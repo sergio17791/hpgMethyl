@@ -24,7 +24,7 @@
 	    					  sticky="true" 
 	    					  inverse="false">
 	    				<b:navbarLinks>
-	    					<b:navLink value="#{msg['admin.menu.users']}" outcome=""></b:navLink>
+	    					<b:navLink value="#{msg['admin.menu.users']}" outcome="pretty:users"></b:navLink>
 	    				</b:navbarLinks>
 	    				<b:navbarLinks pull="right">
     						<b:dropMenu value="#{msg['menu.language']}" iconAwesome="globe" iconAlign="left">    							
@@ -32,7 +32,7 @@
     							<b:navCommandLink value="#{msg['menu.language.spanish']}" actionListener="#{languageSelector.changeLanguage('es')}"></b:navCommandLink> 
     							<b:navCommandLink value="#{msg['menu.language.valencian']}" actionListener="#{languageSelector.changeLanguage('ca')}"></b:navCommandLink>
     						</b:dropMenu>
-    						<b:dropMenu value="#{sessionUser.toString()}" iconAwesome="user" iconAlign="left" rendered="#{sessionUser != null}">
+    						<b:dropMenu value="#{sessionUser.toString()}" iconAwesome="user" iconAlign="left">
     							<b:navLink value="#{msg['admin.menu.goBack']}" outcome="pretty:home" iconAwesome="arrow-circle-left" iconAlign="left"></b:navLink>
     							<b:navCommandLink value="#{msg['menu.logout']}" actionListener="#{userLogout.closeSession()}" iconAwesome="sign-out" iconAlign="left"></b:navCommandLink> 
     						</b:dropMenu>

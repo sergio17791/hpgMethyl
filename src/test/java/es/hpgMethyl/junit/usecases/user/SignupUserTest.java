@@ -95,6 +95,6 @@ public class SignupUserTest {
 		Assert.assertEquals(request.getLastName(), response.getUser().getLastName());
 		Assert.assertEquals(request.getPasswordRecoveryQuestion(), response.getUser().getPasswordRecoveryQuestion());
 		Assert.assertEquals(request.getDefaultLanguage(), response.getUser().getDefaultLanguage());
-		Assert.assertTrue(response.getUser().isActive());
+		Assert.assertTrue(response.getUser().getActive());
 	}
 }

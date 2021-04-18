@@ -35,4 +35,8 @@
 		<pattern value="admin"/>
 		<view-id value="/faces/admin/index.xhtml"/>
 	</url-mapping>
+	<url-mapping id="users" parentId="admin">
+		<pattern value="/users"/>
+		<view-id value="/faces/admin/users/list.xhtml"/>
+	</url-mapping>
 </pretty-config>
