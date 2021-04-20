@@ -32,6 +32,7 @@
     	<filter-name>AdminFilter</filter-name>
     	<url-pattern>/faces/admin/*</url-pattern>
     	<url-pattern>/admin</url-pattern>
+    	<url-pattern>/admin/*</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>Faces_Servlet</servlet-name>

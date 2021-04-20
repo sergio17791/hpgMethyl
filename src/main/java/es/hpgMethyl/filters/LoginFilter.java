@@ -10,7 +10,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import es.hpgMethyl.dao.hibernate.UserDAOHibernate;
 import es.hpgMethyl.entities.User;
+import es.hpgMethyl.exceptions.GetObjectException;
+import es.hpgMethyl.exceptions.UserNotFound;
+import es.hpgMethyl.usecases.user.GetUser.GetUser;
+import es.hpgMethyl.usecases.user.GetUser.GetUserRequest;
 import es.hpgMethyl.utils.FacesContextUtils;
 
 public class LoginFilter implements Filter {
@@ -23,10 +28,27 @@ public class LoginFilter implements Filter {
 		HttpServletResponse res = (HttpServletResponse) response;
 		
 		User user = (User) req.getSession().getAttribute(FacesContextUtils.SESSION_USER);
-
-		if(user == null) {
+		
+		Boolean authorized = false;
+		
+		if(user != null && user.getActive()) {
+			try {
+				user = new GetUser(new UserDAOHibernate()).execute(
+						new GetUserRequest(user.getId())
+				).getUser();
+				
+				if(user.getActive()) {
+					authorized = true;
+				}
+				
+			} catch (GetObjectException | UserNotFound e) {
+				authorized = false;
+			}				
+		}
+						
+		if(!authorized) {
 			res.sendRedirect(req.getContextPath() + LOGIN_URL);    
-			return; 			
+			return;
 		}
 		
 		chain.doFilter(request, response);
