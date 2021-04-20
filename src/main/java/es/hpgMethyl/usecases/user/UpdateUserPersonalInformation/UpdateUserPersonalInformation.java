@@ -8,6 +8,7 @@ import es.hpgMethyl.exceptions.GetObjectException;
 import es.hpgMethyl.exceptions.SaveObjectException;
 import es.hpgMethyl.exceptions.UpdateUserException;
 import es.hpgMethyl.exceptions.UserNotFound;
+import es.hpgMethyl.types.UserRole;
 import es.hpgMethyl.usecases.user.GetUser.GetUser;
 import es.hpgMethyl.usecases.user.GetUser.GetUserRequest;
 
@@ -34,6 +35,12 @@ public class UpdateUserPersonalInformation {
 		user.setFirstName(request.getFirstName());
 		user.setLastName(request.getLastName());
 		user.setDefaultLanguage(request.getDefaultLanguage());
+		
+		UserRole role = request.getRole();
+		
+		if(role != null) {
+			user.setRole(role);
+		}
 		
 		try {
 			this.userDAO.save(user);

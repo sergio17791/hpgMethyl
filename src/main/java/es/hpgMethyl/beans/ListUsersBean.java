@@ -3,10 +3,12 @@ package es.hpgMethyl.beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 import es.hpgMethyl.dao.hibernate.UserDAOHibernate;
 import es.hpgMethyl.entities.User;
@@ -48,4 +50,15 @@ public class ListUsersBean implements Serializable {
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
+	
+	public String customLanguageTranslation() {
+		
+		Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+		
+		if ("ca".equals(locale.getLanguage())) {
+			return "//cdn.datatables.net/plug-ins/1.10.12/i18n/Catalan.json";
+		}
+			
+	    return null;
+	 }
 }

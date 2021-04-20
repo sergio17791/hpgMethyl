@@ -2,6 +2,8 @@ package es.hpgMethyl.usecases.user.UpdateUserPersonalInformation;
 
 import java.util.UUID;
 
+import es.hpgMethyl.types.UserRole;
+
 public class UpdateUserPersonalInformationRequest {
 
 	private UUID id;
@@ -11,12 +13,15 @@ public class UpdateUserPersonalInformationRequest {
 	private String lastName;
 	
 	private String defaultLanguage;
+	
+	private UserRole role;
 
-	public UpdateUserPersonalInformationRequest(UUID id, String firstName, String lastName, String defaultLanguage) {
+	public UpdateUserPersonalInformationRequest(UUID id, String firstName, String lastName, String defaultLanguage, UserRole role) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.defaultLanguage = defaultLanguage;
+		this.role = role;
 	}
 
 	/**
@@ -73,5 +78,19 @@ public class UpdateUserPersonalInformationRequest {
 	 */
 	public void setDefaultLanguage(String defaultLanguage) {
 		this.defaultLanguage = defaultLanguage;
+	}
+
+	/**
+	 * @return the role
+	 */
+	public UserRole getRole() {
+		return role;
+	}
+
+	/**
+	 * @param role the role to set
+	 */
+	public void setRole(UserRole role) {
+		this.role = role;
 	}
 }

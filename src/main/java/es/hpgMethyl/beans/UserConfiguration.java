@@ -273,7 +273,8 @@ private static final long serialVersionUID = 4323418201301711899L;
                         user.getId(),
                         firstName,
                         lastName,
-                        defaultLanguage
+                        defaultLanguage,
+                        null
                     )
             );
             

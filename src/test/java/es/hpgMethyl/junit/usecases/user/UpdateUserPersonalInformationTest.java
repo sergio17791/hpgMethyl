@@ -59,7 +59,8 @@ public class UpdateUserPersonalInformationTest {
 				id,
 				user.getFirstName(),
 				user.getLastName(),
-				user.getDefaultLanguage()
+				user.getDefaultLanguage(),
+				null
 		);
 		
 		Mockito.doThrow(GetObjectException.class).when(userDAO).get(id);
@@ -76,7 +77,8 @@ public class UpdateUserPersonalInformationTest {
 				id,
 				user.getFirstName(),
 				user.getLastName(),
-				user.getDefaultLanguage()
+				user.getDefaultLanguage(),
+				null
 		);
 		
 		Mockito.doReturn(null).when(userDAO).get(id);
@@ -93,7 +95,8 @@ public class UpdateUserPersonalInformationTest {
 				id,
 				user.getFirstName(),
 				user.getLastName(),
-				user.getDefaultLanguage()
+				user.getDefaultLanguage(),
+				null
 		);
 		
 		Mockito.doReturn(user).when(userDAO).get(id);		
@@ -112,7 +115,8 @@ public class UpdateUserPersonalInformationTest {
 				id,
 				"Updated First Name",
 				user.getLastName(),
-				user.getDefaultLanguage()
+				user.getDefaultLanguage(),
+				null
 		);
 		
 		Mockito.doReturn(user).when(userDAO).get(id);
