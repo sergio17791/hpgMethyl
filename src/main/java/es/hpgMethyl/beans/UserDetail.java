@@ -16,6 +16,9 @@ import es.hpgMethyl.exceptions.GetObjectException;
 import es.hpgMethyl.exceptions.UpdateUserException;
 import es.hpgMethyl.exceptions.UserNotFound;
 import es.hpgMethyl.types.UserRole;
+import es.hpgMethyl.usecases.user.DeactivateUser.DeactivateUser;
+import es.hpgMethyl.usecases.user.DeactivateUser.DeactivateUserRequest;
+import es.hpgMethyl.usecases.user.DeactivateUser.DeactivateUserResponse;
 import es.hpgMethyl.usecases.user.GetUser.GetUser;
 import es.hpgMethyl.usecases.user.GetUser.GetUserRequest;
 import es.hpgMethyl.usecases.user.GetUser.GetUserResponse;
@@ -41,6 +44,7 @@ public class UserDetail implements Serializable {
 	private Date updatedAt;
 	private Boolean enabledEdition;
 	private UIComponent updateUserComponent;
+	private UIComponent deactivateUserComponent;
 	
 	public UserDetail() {
 		this.id = null;
@@ -209,6 +213,20 @@ public class UserDetail implements Serializable {
 		this.updateUserComponent = updateUserComponent;
 	}
 
+	/**
+	 * @return the deactivateUserComponent
+	 */
+	public UIComponent getDeactivateUserComponent() {
+		return deactivateUserComponent;
+	}
+
+	/**
+	 * @param deactivateUserComponent the deactivateUserComponent to set
+	 */
+	public void setDeactivateUserComponent(UIComponent deactivateUserComponent) {
+		this.deactivateUserComponent = deactivateUserComponent;
+	}
+
 	public String loadUserDetail() {
 		
 		if (!FacesContext.getCurrentInstance().isPostback()) { 
@@ -294,5 +312,38 @@ public class UserDetail implements Serializable {
         }   
         
         return null;
+	}
+	
+	public String deactivateUser() {
+		
+		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
+        
+        if(user == null || !enabledEdition) {
+            return "pretty:admin";   
+        }
+        
+        try {
+        	DeactivateUserResponse response = new DeactivateUser(new UserDAOHibernate()).execute(
+                    new DeactivateUserRequest(UUID.fromString(id))
+            );
+        	
+        	User deactivateUser = response.getUser();
+        	
+        	if(user.getId().equals(deactivateUser.getId())) {
+        		FacesContextUtils.invalidateSession();	
+        		return "pretty:login"; 
+        	}
+        	
+        	this.active = deactivateUser.getActive();
+                        
+            String successMessage = FacesContextUtils.geti18nMessage("admin.users.detail.deactivate.successfully");
+            FacesContextUtils.setMessageInComponent(this.deactivateUserComponent, FacesMessage.SEVERITY_INFO, successMessage, successMessage);
+            
+        } catch (UserNotFound | UpdateUserException e) {
+            String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
+            FacesContextUtils.setMessageInComponent(this.deactivateUserComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
+        } 
+		
+		return null;
 	}
 }

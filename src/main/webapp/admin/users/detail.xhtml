@@ -12,7 +12,7 @@
 		</f:metadata>
 		<b:form id="userDetailForm">  	
          	<b:row>
-         		<b:column col-md="6">
+         		<b:column col-xs="6">
             		<legend><h:outputText value="#{msg['admin.users.detail.legend']}"/></legend>      
             	</b:column>                 
 	        </b:row>
@@ -97,5 +97,32 @@
                 </b:row>
          	</b:panel>
          </b:form>
+         <h:panelGroup id="userManagementSection">
+         	<b:form id="userManagementForm">  	
+         		<b:row>
+         			<b:column col-xs="6">
+            			<legend><h:outputText value="#{msg['admin.users.detail.management']}"/></legend>      
+            		</b:column>                 
+	        	</b:row>
+         		<b:panel>
+         			<b:row>
+	                	<b:column col-md="6" rendered="#{userDetail.active == true}">
+	                		<b:commandButton id="deactivateUserButton"
+		                    	             binding="#{userDetail.deactivateUserComponent}"
+		                        	         value="#{msg['admin.users.detail.deactivate']}" 
+		                            	     action="#{userDetail.deactivateUser()}"
+		                            	     iconAwesome="user-times"
+		                                	 look="warning"
+		                                 	 styleClass="btn-block"/>     
+                		</b:column>                    	
+                	</b:row>
+                	<b:row style="margin-top: 10px">             
+                		<b:column col-md="12">
+	                		<h:message for="deactivateUserButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
+                		</b:column>
+                	</b:row>
+	         	</b:panel>
+    	     </b:form>
+         </h:panelGroup>         
 	</ui:define>
 </ui:composition>
