@@ -1,12 +1,12 @@
-package es.hpgMethyl.usecases.user.DeactivateUser;
+package es.hpgMethyl.usecases.user.ActivateUser;
 
 import java.util.UUID;
 
-public class DeactivateUserRequest {
+public class ActivateUserRequest {
 
 	private UUID id;
 	
-	public DeactivateUserRequest(UUID id) {
+	public ActivateUserRequest(UUID id) {
 		this.id = id;
 	}
 

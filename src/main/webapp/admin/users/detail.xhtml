@@ -114,11 +114,21 @@
 		                            	     iconAwesome="user-times"
 		                                	 look="warning"
 		                                 	 styleClass="btn-block"/>     
+                		</b:column> 
+                		<b:column col-md="6" rendered="#{userDetail.active == false}">
+	                		<b:commandButton id="activateUserButton"
+		                    	             binding="#{userDetail.activateUserComponent}"
+		                        	         value="#{msg['admin.users.detail.activate']}" 
+		                            	     action="#{userDetail.activateUser()}"
+		                            	     iconAwesome="user-plus"
+		                                	 look="success"
+		                                 	 styleClass="btn-block"/>     
                 		</b:column>                    	
                 	</b:row>
                 	<b:row style="margin-top: 10px">             
                 		<b:column col-md="12">
 	                		<h:message for="deactivateUserButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
+	                		<h:message for="activateUserButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
                 		</b:column>
                 	</b:row>
 	         	</b:panel>

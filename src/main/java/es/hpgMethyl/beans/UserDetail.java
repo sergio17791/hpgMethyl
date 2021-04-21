@@ -16,6 +16,9 @@ import es.hpgMethyl.exceptions.GetObjectException;
 import es.hpgMethyl.exceptions.UpdateUserException;
 import es.hpgMethyl.exceptions.UserNotFound;
 import es.hpgMethyl.types.UserRole;
+import es.hpgMethyl.usecases.user.ActivateUser.ActivateUser;
+import es.hpgMethyl.usecases.user.ActivateUser.ActivateUserRequest;
+import es.hpgMethyl.usecases.user.ActivateUser.ActivateUserResponse;
 import es.hpgMethyl.usecases.user.DeactivateUser.DeactivateUser;
 import es.hpgMethyl.usecases.user.DeactivateUser.DeactivateUserRequest;
 import es.hpgMethyl.usecases.user.DeactivateUser.DeactivateUserResponse;
@@ -45,6 +48,7 @@ public class UserDetail implements Serializable {
 	private Boolean enabledEdition;
 	private UIComponent updateUserComponent;
 	private UIComponent deactivateUserComponent;
+	private UIComponent activateUserComponent;
 	
 	public UserDetail() {
 		this.id = null;
@@ -227,6 +231,20 @@ public class UserDetail implements Serializable {
 		this.deactivateUserComponent = deactivateUserComponent;
 	}
 
+	/**
+	 * @return the activateUserComponent
+	 */
+	public UIComponent getActivateUserComponent() {
+		return activateUserComponent;
+	}
+
+	/**
+	 * @param activateUserComponent the activateUserComponent to set
+	 */
+	public void setActivateUserComponent(UIComponent activateUserComponent) {
+		this.activateUserComponent = activateUserComponent;
+	}
+
 	public String loadUserDetail() {
 		
 		if (!FacesContext.getCurrentInstance().isPostback()) { 
@@ -327,16 +345,44 @@ public class UserDetail implements Serializable {
                     new DeactivateUserRequest(UUID.fromString(id))
             );
         	
-        	User deactivateUser = response.getUser();
+        	User deactivatedUser = response.getUser();
         	
-        	if(user.getId().equals(deactivateUser.getId())) {
+        	if(user.getId().equals(deactivatedUser.getId())) {
         		FacesContextUtils.invalidateSession();	
         		return "pretty:login"; 
         	}
         	
-        	this.active = deactivateUser.getActive();
+        	this.active = deactivatedUser.getActive();
                         
             String successMessage = FacesContextUtils.geti18nMessage("admin.users.detail.deactivate.successfully");
+            FacesContextUtils.setMessageInComponent(this.deactivateUserComponent, FacesMessage.SEVERITY_INFO, successMessage, successMessage);
+            
+        } catch (UserNotFound | UpdateUserException e) {
+            String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
+            FacesContextUtils.setMessageInComponent(this.deactivateUserComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
+        } 
+		
+		return null;
+	}
+	
+	public String activateUser() {
+		
+		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
+        
+        if(user == null || !enabledEdition) {
+            return "pretty:admin";   
+        }
+        
+        try {
+        	ActivateUserResponse response = new ActivateUser(new UserDAOHibernate()).execute(
+                    new ActivateUserRequest(UUID.fromString(id))
+            );
+        	
+        	User activatedUser = response.getUser();
+        	        	
+        	this.active = activatedUser.getActive();
+                        
+            String successMessage = FacesContextUtils.geti18nMessage("admin.users.detail.activate.successfully");
             FacesContextUtils.setMessageInComponent(this.deactivateUserComponent, FacesMessage.SEVERITY_INFO, successMessage, successMessage);
             
         } catch (UserNotFound | UpdateUserException e) {
