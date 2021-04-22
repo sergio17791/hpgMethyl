@@ -1,5 +1,6 @@
 package es.hpgMethyl.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -13,7 +14,9 @@ import es.hpgMethyl.types.UserRole;
 
 @Entity
 @Table(name = "\"user\"")
-public class User extends BaseEntity {
+public class User extends BaseEntity implements Serializable {
+
+	private static final long serialVersionUID = -9124445970382533495L;
 
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
