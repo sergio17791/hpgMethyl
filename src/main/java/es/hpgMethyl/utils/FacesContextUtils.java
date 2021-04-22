@@ -12,8 +12,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
-import es.hpgMethyl.beans.AnalysisRequestBean;
-
 public final class FacesContextUtils {
 
 	 final public static String SESSION_USER = "sessionUser";

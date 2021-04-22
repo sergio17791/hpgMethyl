@@ -14,6 +14,7 @@ import javax.faces.event.ComponentSystemEvent;
 import es.hpgMethyl.dao.hibernate.UserDAOHibernate;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.ChangePasswordException;
+import es.hpgMethyl.exceptions.DisabledUser;
 import es.hpgMethyl.exceptions.InvalidCredentials;
 import es.hpgMethyl.exceptions.UpdateUserException;
 import es.hpgMethyl.exceptions.UserNotFound;
@@ -309,6 +310,10 @@ private static final long serialVersionUID = 4323418201301711899L;
 			String invalidCredentialsMessage = FacesContextUtils.geti18nMessage("error.invalidCredentials");
 			FacesContextUtils.setMessageInComponent(this.changePasswordComponent, FacesMessage.SEVERITY_ERROR, invalidCredentialsMessage, invalidCredentialsMessage);
 			return null;
+		} catch (DisabledUser e) {
+			String invalidCredentialsMessage = FacesContextUtils.geti18nMessage("error.disabledUser");
+			FacesContextUtils.setMessageInComponent(this.changePasswordComponent, FacesMessage.SEVERITY_ERROR, invalidCredentialsMessage, invalidCredentialsMessage);
+			return null;
 		}
         
 		try {
@@ -343,8 +348,12 @@ private static final long serialVersionUID = 4323418201301711899L;
 			new LoginUser(new UserDAOHibernate()).execute(
 					new LoginUserRequest(user.getEmail(), password)
 			);
-		} catch (InvalidCredentials e1) {
+		} catch (InvalidCredentials e) {
 			String invalidCredentialsMessage = FacesContextUtils.geti18nMessage("error.invalidCredentials");
+			FacesContextUtils.setMessageInComponent(this.updatePasswordRecoveryComponent, FacesMessage.SEVERITY_ERROR, invalidCredentialsMessage, invalidCredentialsMessage);
+			return null;
+		} catch (DisabledUser e) {
+			String invalidCredentialsMessage = FacesContextUtils.geti18nMessage("error.disabledUser");
 			FacesContextUtils.setMessageInComponent(this.updatePasswordRecoveryComponent, FacesMessage.SEVERITY_ERROR, invalidCredentialsMessage, invalidCredentialsMessage);
 			return null;
 		}

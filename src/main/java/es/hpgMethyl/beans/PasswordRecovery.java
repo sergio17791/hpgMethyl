@@ -179,8 +179,15 @@ public class PasswordRecovery implements Serializable {
 					new GetUserByEmailRequest(this.getEmail())
 			);
 			
-			this.user = response.getUser();
-			this.setQuestion(this.user.getPasswordRecoveryQuestion());
+			User user = response.getUser();
+			
+			if(user.getActive()) {
+				this.user = user;
+				this.setQuestion(this.user.getPasswordRecoveryQuestion());
+			} else {
+				String userNotFoundMessage = FacesContextUtils.geti18nMessage("error.disabledUser");
+				FacesContextUtils.setMessageInComponent(this.getPasswordRecoveryComponent(), FacesMessage.SEVERITY_ERROR, userNotFoundMessage, userNotFoundMessage);
+			}
 			
 		} catch(UserNotFound e) {
 			String userNotFoundMessage = FacesContextUtils.geti18nMessage("passwordRecovery.userNotFound");

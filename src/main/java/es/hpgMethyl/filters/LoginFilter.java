@@ -39,6 +39,8 @@ public class LoginFilter implements Filter {
 				
 				if(user.getActive()) {
 					authorized = true;
+				} else {
+					req.getSession().setAttribute(FacesContextUtils.SESSION_USER, null);
 				}
 				
 			} catch (GetObjectException | UserNotFound e) {

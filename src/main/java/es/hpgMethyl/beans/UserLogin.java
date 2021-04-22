@@ -9,6 +9,7 @@ import javax.faces.component.UIComponent;
 
 import es.hpgMethyl.dao.hibernate.UserDAOHibernate;
 import es.hpgMethyl.entities.User;
+import es.hpgMethyl.exceptions.DisabledUser;
 import es.hpgMethyl.exceptions.InvalidCredentials;
 import es.hpgMethyl.usecases.user.LoginUser.LoginUser;
 import es.hpgMethyl.usecases.user.LoginUser.LoginUserRequest;
@@ -92,6 +93,10 @@ public class UserLogin implements Serializable {
 			return "pretty:home";	
 		} catch (InvalidCredentials e) {
 			String invalidCredentialsMessage = FacesContextUtils.geti18nMessage("error.invalidCredentials");
+			FacesContextUtils.setMessageInComponent(this.loginComponent, FacesMessage.SEVERITY_ERROR, invalidCredentialsMessage, invalidCredentialsMessage);
+			return null;
+		} catch (DisabledUser e) {
+			String invalidCredentialsMessage = FacesContextUtils.geti18nMessage("error.disabledUser");
 			FacesContextUtils.setMessageInComponent(this.loginComponent, FacesMessage.SEVERITY_ERROR, invalidCredentialsMessage, invalidCredentialsMessage);
 			return null;
 		}			

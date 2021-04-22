@@ -10,8 +10,9 @@ import org.mockito.Mockito;
 
 import es.hpgMethyl.dao.UserDAO;
 import es.hpgMethyl.entities.User;
+import es.hpgMethyl.exceptions.DisabledUser;
+import es.hpgMethyl.exceptions.HpgMethylException;
 import es.hpgMethyl.exceptions.InvalidCredentials;
-import es.hpgMethyl.exceptions.UserNotFound;
 import es.hpgMethyl.types.UserRole;
 import es.hpgMethyl.usecases.user.LoginUser.LoginUser;
 import es.hpgMethyl.usecases.user.LoginUser.LoginUserRequest;
@@ -48,7 +49,7 @@ public class LoginUserTest {
 	}
 
 	@Test(expected = InvalidCredentials.class)
-	public void test_execute_givenNullEmail_expectThrowUserNotFoundException() throws InvalidCredentials {
+	public void test_execute_givenNullEmail_expectThrowUserNotFoundException() throws HpgMethylException {
 		
 		String email = null;
 		String password = "fakeemailpassword";
@@ -59,7 +60,7 @@ public class LoginUserTest {
 	}
 	
 	@Test(expected = InvalidCredentials.class)
-	public void test_execute_givenInvalidEmail_expectThrowUserNotFoundException() throws InvalidCredentials, UserNotFound {
+	public void test_execute_givenInvalidEmail_expectThrowUserNotFoundException() throws HpgMethylException {
 		
 		String email = "fake@email.com";
 		String password = "fakeemailpassword";
@@ -72,7 +73,7 @@ public class LoginUserTest {
 	}
 	
 	@Test(expected = InvalidCredentials.class)
-	public void test_execute_givenNullPassword_expectThrowUserNotFoundException() throws InvalidCredentials {
+	public void test_execute_givenNullPassword_expectThrowUserNotFoundException() throws HpgMethylException {
 		
 		String email = "test@test.com";
 		String password = null;
@@ -83,7 +84,7 @@ public class LoginUserTest {
 	}
 	
 	@Test(expected = InvalidCredentials.class)
-	public void test_execute_givenInvalidPassword_expectThrowUserNotFoundException() throws InvalidCredentials, UserNotFound {
+	public void test_execute_givenInvalidPassword_expectThrowUserNotFoundException() throws HpgMethylException {
 		
 		String email = "test@test.com";
 		String password = "fakeemailpassword";
@@ -96,7 +97,7 @@ public class LoginUserTest {
 	}
 	
 	@Test
-	public void test_execute_givenValidCredentials_expectUser() throws InvalidCredentials, UserNotFound {
+	public void test_execute_givenValidCredentials_expectUser() throws HpgMethylException {
 		
 		String email = "test@test.com";
 		String password = "passwordtest";
@@ -108,5 +109,20 @@ public class LoginUserTest {
 		LoginUserResponse response = this.loginUser.execute(request);
 		
 		Assert.assertEquals(email, response.getUser().getEmail());
+	}
+	
+	@Test(expected = DisabledUser.class)
+	public void test_execute_givenDisabledUser_expectThrowDisabledUserException() throws HpgMethylException {
+		
+		String email = "test@test.com";
+		String password = "passwordtest";
+		
+		this.user.setActive(false);
+		
+		Mockito.doReturn(this.user).when(userDao).findByEmail(email);
+		
+		LoginUserRequest request = new LoginUserRequest(email, password);
+		
+		this.loginUser.execute(request);
 	}
 }

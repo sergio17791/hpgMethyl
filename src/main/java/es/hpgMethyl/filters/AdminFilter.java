@@ -38,7 +38,9 @@ public class AdminFilter implements Filter {
 						new GetUserRequest(user.getId())
 				).getUser();
 				
-				if(user.getActive() && !user.getRole().equals(UserRole.USER)) {
+				if(!user.getActive()) {
+					req.getSession().setAttribute(FacesContextUtils.SESSION_USER, null);
+				} else if(!user.getRole().equals(UserRole.USER)) {
 					authorized = true;
 				}
 				
