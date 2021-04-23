@@ -4,38 +4,25 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:b="http://bootsfaces.net/ui"
                 xmlns:components="http://java.sun.com/jsf/composite/components"
-                template="../../WEB-INF/templates/mainTemplate.xhtml">
+                template="../../WEB-INF/templates/adminTemplate.xhtml">
     <ui:define name="content">
-    	<f:event type="preRenderView" listener="#{listUserAnalysis.loadAnalysisList}"/>
     	<b:row>
         	<b:column col-xs="6">
-            	<legend><h:outputText value="#{msg['analysis.list.legend']}"/></legend>      
-            </b:column>
-            <b:column col-xs="6" col-sm="3" offset-sm="3">
-            	<b:link value="#{msg['analysis.list.button.analysisRequest']}" 
-	    				outcome="/user/analysis/send"
-	    				iconAwesome="plus-circle" 
-	  					look="success" 
-	  					size="md"/>   
-            </b:column>                  
+            	<legend><h:outputText value="#{msg['admin.analysis.list']}"/></legend>      
+            </b:column>                 
         </b:row>
-    	<b:dataTable value="#{listUserAnalysis.analysisRequestLists}" 
+    	<b:dataTable value="#{listAnalysis.analysisRequestLists}" 
     				 var="analysisRequest"
     				 responsive="true"
     				 select="false"
     				 searching="true"
     				 mark-search-results="true"
            	   		 page-length-menu="5,10,20,50"
-    				 custom-lang-url="#{listUserAnalysis.customLanguageTranslation()}">
+    				 custom-lang-url="#{listAnalysis.customLanguageTranslation()}">
     		<b:dataTableColumn value="#{analysisRequest.identifier}" 
     						   label="#{msg['analysis.attribute.identifier']}"/>
-	    	<b:dataTableColumn label="#{msg['analysis.list.column.files']}">
-				<h:outputText value="#{analysisRequest.inputReadFile}"/>
-				<br/>
-				<h:outputText value="#{analysisRequest.pairedEndModeFile}"/>		    					
-			</b:dataTableColumn>	    						  
-			<b:dataTableColumn value="#{msg['analysis.attribute.pairedMode.' += analysisRequest.pairedMode]}"
-	    					   label="#{msg['analysis.attribute.pairedMode']}"/>	    						   
+			<b:dataTableColumn value="#{analysisRequest.user.email}" 
+    						   label="#{msg['user']}"/>    						     						   
 	    	<b:dataTableColumn value="#{msg['analysis.attribute.status.' += analysisRequest.status]}"
 	    					   label="#{msg['analysis.attribute.status']}"/>
 	    	<b:dataTableColumn value="#{analysisRequest.number}"

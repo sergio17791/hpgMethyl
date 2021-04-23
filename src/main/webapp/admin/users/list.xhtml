@@ -20,20 +20,15 @@
            	   		 page-length-menu="5,10,20,50"
     				 custom-lang-url="#{listUserAnalysis.customLanguageTranslation()}">
     		<b:dataTableColumn value="#{user.firstName}" 
-    						   label="#{msg['user.attribute.firstName']}"
-    						   data-type="string"/>
+    						   label="#{msg['user.attribute.firstName']}"/>
 			<b:dataTableColumn value="#{user.lastName}" 
-    						   label="#{msg['user.attribute.lastName']}"
-    						   data-type="string"/>
+    						   label="#{msg['user.attribute.lastName']}"/>
 			<b:dataTableColumn value="#{user.email}" 
-    						   label="#{msg['user.attribute.email']}"
-    						   data-type="string"/>
+    						   label="#{msg['user.attribute.email']}"/>
 			<b:dataTableColumn value="#{msg['user.attribute.role.' += user.role]}"
-    						   label="#{msg['user.attribute.role']}"
-    						   data-type="string"/> 
+    						   label="#{msg['user.attribute.role']}"/> 
 			<b:dataTableColumn value="#{msg['user.attribute.active.' += user.active]}" 
-    						   label="#{msg['user.attribute.active']}"
-    						   data-type="string"/>    						      						     						       						  	    						   
+    						   label="#{msg['user.attribute.active']}"/>    						      						     						       						  	    						   
 	    	<b:dataTableColumn label=""
 	    					   searchable="false"
 	    					   orderable="false">
