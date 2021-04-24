@@ -2,11 +2,13 @@ package es.hpgMethyl.beans;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import es.hpgMethyl.entities.User;
 import es.hpgMethyl.types.AnalysisStatus;
 import es.hpgMethyl.types.PairedMode;
 
@@ -17,6 +19,7 @@ public class AnalysisRequestBean implements Serializable {
 	private static final long serialVersionUID = -6282901190770748985L;
 	
 	private UUID id;
+	private User user;
 	private String identifier;
 	private AnalysisStatus status;
 	private PairedMode pairedMode;
@@ -49,9 +52,12 @@ public class AnalysisRequestBean implements Serializable {
 	private BigDecimal reportNBest;
 	private BigDecimal reportNHits;
 	private Integer number;
+	private Date createdAt;
+	private Date updatedAt;
 
 	public AnalysisRequestBean() {
 		this.id = null;
+		this.user = null;
 		this.identifier = "";
 		this.pairedMode = PairedMode.SINGLE_END_MODE;
 		this.status = null;
@@ -84,6 +90,8 @@ public class AnalysisRequestBean implements Serializable {
 		this.reportNBest = null;
 		this.reportNHits = null;
 		this.number = null;
+		this.createdAt = null;
+		this.updatedAt = null;
 	}
 
 	/**
@@ -101,6 +109,20 @@ public class AnalysisRequestBean implements Serializable {
 	}
 
 
+
+	/**
+	 * @return the user
+	 */
+	public User getUser() {
+		return user;
+	}
+
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	/**
 	 * @return the identifier
@@ -548,5 +570,33 @@ public class AnalysisRequestBean implements Serializable {
 	 */
 	public void setNumber(Integer number) {
 		this.number = number;
+	}
+
+	/**
+	 * @return the createdAt
+	 */
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	/**
+	 * @param createdAt the createdAt to set
+	 */
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	/**
+	 * @return the updatedAt
+	 */
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	/**
+	 * @param updatedAt the updatedAt to set
+	 */
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 }

@@ -1,6 +1,7 @@
   package es.hpgMethyl.beans;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.faces.application.FacesMessage;
@@ -19,6 +20,7 @@ import es.hpgMethyl.exceptions.DuplicatedIdentifier;
 import es.hpgMethyl.exceptions.GetObjectException;
 import es.hpgMethyl.exceptions.UpdateMethylationAnalysisException;
 import es.hpgMethyl.types.PairedMode;
+import es.hpgMethyl.types.UserRole;
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysis;
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysisRequest;
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysisResponse;
@@ -127,12 +129,13 @@ public class MethylationAnalysisDetail implements Serializable {
 					return "pretty:home";	
 				}
 				
-				if(!this.analysisRequest.getUser().getId().equals(user.getId())) {
+				if(user.getRole() == UserRole.USER && !this.analysisRequest.getUser().getId().equals(user.getId())) {
 					return "pretty:home";
 				}
 					
 				AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
 				analysisRequestBean.setId(analysisRequest.getId());
+				analysisRequestBean.setUser(analysisRequest.getUser());
 				analysisRequestBean.setIdentifier(analysisRequest.getIdentifier());
 				analysisRequestBean.setStatus(analysisRequest.getStatus());
 				analysisRequestBean.setPairedMode(analysisRequest.getPairedMode());
@@ -164,7 +167,9 @@ public class MethylationAnalysisDetail implements Serializable {
 				analysisRequestBean.setReportBest(analysisRequest.getReportBest());
 				analysisRequestBean.setReportNBest(analysisRequest.getReportNBest());
 				analysisRequestBean.setReportNHits(analysisRequest.getReportNHits());
-				analysisRequestBean.setNumber(analysisRequest.getNumber());				
+				analysisRequestBean.setNumber(analysisRequest.getNumber());		
+				analysisRequestBean.setCreatedAt(analysisRequest.getCreatedAt());
+				analysisRequestBean.setUpdatedAt(analysisRequest.getUpdatedAt());
 				
 			} catch (AnalysisRequestNotFound | GetObjectException e) {
 				return "pretty:home";
@@ -218,6 +223,8 @@ public class MethylationAnalysisDetail implements Serializable {
 						analysisRequestBean.getReportNHits()
 					)				
 			);
+			
+			analysisRequestBean.setUpdatedAt(new Date());
 			
 			String successMessage = FacesContextUtils.geti18nMessage("general.updateSuccessfully");
 			FacesContextUtils.setMessageInComponent(this.updateAnalysisParametersComponent, FacesMessage.SEVERITY_INFO, successMessage, successMessage);
