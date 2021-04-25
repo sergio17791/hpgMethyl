@@ -118,7 +118,7 @@ public class BaseDAOHibernate<T, ID extends Serializable> implements BaseDAO<T, 
 	public List<T> listAll() throws ListObjectsException {
 		
 		Session session = HibernateUtils.getSessionFactory().openSession();
-		String queryStr = "from " + getPersistentClass().getName() + " entity";
+		String queryStr = "from " + getPersistentClass().getName() + " entity ORDER BY entity.createdAt DESC";
 		
 		try {
 			Query<T> query = session.createQuery(queryStr);
