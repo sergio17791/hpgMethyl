@@ -18,9 +18,6 @@ import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
 import org.primefaces.model.charts.bar.BarChartDataSet;
 import org.primefaces.model.charts.bar.BarChartModel;
 import org.primefaces.model.charts.bar.BarChartOptions;
-import org.primefaces.model.charts.line.LineChartDataSet;
-import org.primefaces.model.charts.line.LineChartModel;
-import org.primefaces.model.charts.line.LineChartOptions;
 import org.primefaces.model.charts.optionconfig.animation.Animation;
 import org.primefaces.model.charts.optionconfig.legend.Legend;
 import org.primefaces.model.charts.optionconfig.title.Title;
@@ -39,7 +36,7 @@ public class AdminDashboard {
 
 	private PieChartModel usersByRole;
 	private BarChartModel usersByStatus;
-	private LineChartModel signupsByMonth;
+	private BarChartModel signupsByMonth;
 	
 	private Integer totalAdminUsers;
 	private Integer totalModeratorUsers;
@@ -135,14 +132,14 @@ public class AdminDashboard {
 	/**
 	 * @return the signupsByMonth
 	 */
-	public LineChartModel getSignupsByMonth() {
+	public BarChartModel getSignupsByMonth() {
 		return signupsByMonth;
 	}
 
 	/**
 	 * @param signupsByMonth the signupsByMonth to set
 	 */
-	public void setSignupsByMonth(LineChartModel signupsByMonth) {
+	public void setSignupsByMonth(BarChartModel signupsByMonth) {
 		this.signupsByMonth = signupsByMonth;
 	}
 
@@ -246,9 +243,11 @@ public class AdminDashboard {
 	
 	public void loadSignupsByMonth() {
 		
-		this.signupsByMonth = new LineChartModel();			        
+		this.signupsByMonth = new BarChartModel();        
         
-        List<Object> dataSetValues = new ArrayList<>();
+        List<Number> dataSetValues = new ArrayList<>();
+        List<String> backgroundColors = new ArrayList<>();        
+        List<String> borderColor = new ArrayList<>();                            
         List<String> labels = new ArrayList<>();
         
         Calendar calendarReference = Calendar.getInstance();
@@ -258,27 +257,31 @@ public class AdminDashboard {
         	calendarReference.add(Calendar.MONTH, 1);
         	String signupMonth = monthFormat.format(calendarReference.getTime());
         	labels.add(signupMonth);
+        	backgroundColors.add("rgb(0, 70, 170)");
+        	borderColor.add("rgb(0, 70, 150)");
         	dataSetValues.add(usersByMonth.getOrDefault(signupMonth, 0));        	
-        }      
+        }   
         
-        LineChartDataSet dataSet = new LineChartDataSet();                        
-        dataSet.setData(dataSetValues);
-        dataSet.setFill(false);
-        dataSet.setBorderColor("rgb(0, 71, 171)");
-        dataSet.setLineTension(0.3);
-        
+        BarChartDataSet dataSet = new BarChartDataSet();
+        dataSet.setData(dataSetValues);        
+        dataSet.setBackgroundColor(backgroundColors);        
+        dataSet.setBorderColor(borderColor);
+        dataSet.setBorderWidth(1);
+
         ChartData data = new ChartData();
-        data.addChartDataSet(dataSet);        
+        data.addChartDataSet(dataSet);               
         data.setLabels(labels);
         
-        Title title = new Title();
-        title.setDisplay(false);
+        this.signupsByMonth.setData(data);   
         
+        Title title = new Title();
+        title.setDisplay(false);      
+
         Legend legend = new Legend();
         legend.setDisplay(false);
         
         CartesianLinearAxes linearAxes = new CartesianLinearAxes();
-        linearAxes.setOffset(true);
+        linearAxes.setOffset(false);
         
         CartesianLinearTicks ticks = new CartesianLinearTicks();
         ticks.setBeginAtZero(false);
@@ -290,14 +293,13 @@ public class AdminDashboard {
         
         Animation animation = new Animation();
         animation.setDuration(10);
-
-        LineChartOptions options = new LineChartOptions();        
+        
+        BarChartOptions options = new BarChartOptions();
         options.setTitle(title);
         options.setLegend(legend);
         options.setScales(cartesianScales);
         options.setAnimation(animation);
 
         this.signupsByMonth.setOptions(options);
-        this.signupsByMonth.setData(data);
 	}
 }
