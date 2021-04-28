@@ -5,7 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -18,15 +21,21 @@ import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
 import org.primefaces.model.charts.bar.BarChartDataSet;
 import org.primefaces.model.charts.bar.BarChartModel;
 import org.primefaces.model.charts.bar.BarChartOptions;
+import org.primefaces.model.charts.hbar.HorizontalBarChartDataSet;
+import org.primefaces.model.charts.hbar.HorizontalBarChartModel;
 import org.primefaces.model.charts.optionconfig.animation.Animation;
 import org.primefaces.model.charts.optionconfig.legend.Legend;
 import org.primefaces.model.charts.optionconfig.title.Title;
 import org.primefaces.model.charts.pie.PieChartDataSet;
 import org.primefaces.model.charts.pie.PieChartModel;
 
+import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
 import es.hpgMethyl.dao.hibernate.UserDAOHibernate;
+import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.ListObjectsException;
+import es.hpgMethyl.types.AnalysisStatus;
+import es.hpgMethyl.usecases.analysis.ListMethylationAnalysis.ListMethylationAnalysis;
 import es.hpgMethyl.usecases.user.ListUsers.ListUsers;
 import es.hpgMethyl.utils.FacesContextUtils;
 
@@ -37,6 +46,10 @@ public class AdminDashboard {
 	private PieChartModel usersByRole;
 	private BarChartModel usersByStatus;
 	private BarChartModel signupsByMonth;
+	private PieChartModel analysisByStatus;
+	private PieChartModel analysisByMode;
+	private HorizontalBarChartModel topRequestingUsers;
+	private BarChartModel analysisByMonth;
 	
 	private Integer totalAdminUsers;
 	private Integer totalModeratorUsers;
@@ -44,6 +57,14 @@ public class AdminDashboard {
 	private Integer totalEnabledUsers;
 	private Integer totalDisabledUsers;
 	private HashMap<String, Integer> usersByMonth;	
+	private Integer queuedAnalysis;
+	private Integer completedAnalysis;
+	private Integer totalSingleEndModeAnalysis;
+	private Integer totalPairedEndModeAnalysis;
+	private HashMap<String, Integer> analysisByUsers;
+	private HashMap<String, Integer> queuedAnalysisByMonth;
+	private HashMap<String, Integer> completedAnalysisByMonth;
+	
 	private DateFormat monthFormat;
 	
 	@PostConstruct
@@ -94,11 +115,84 @@ public class AdminDashboard {
 			} else {
 				usersByMonth.put(signupMonth, 1);
 			}
+		}	
+		
+		List<AnalysisRequest> analysisRequestList;
+		
+		try {
+			analysisRequestList = new ListMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute().getAnalysisRequestList();
+		} catch (ListObjectsException e) {
+			analysisRequestList = new ArrayList<AnalysisRequest>();
+		}
+		
+		queuedAnalysis = 0;
+		completedAnalysis = 0;
+		totalSingleEndModeAnalysis = 0;
+		totalPairedEndModeAnalysis = 0;
+		
+		analysisByUsers = new HashMap<String, Integer>();
+		queuedAnalysisByMonth = new HashMap<String, Integer>();
+		completedAnalysisByMonth = new HashMap<String, Integer>();
+		
+		for(AnalysisRequest analysisRequest : analysisRequestList) {
+			switch (analysisRequest.getStatus()) {
+				case COMPLETED:
+					completedAnalysis++;
+					break;
+				case PROCESSING:
+					queuedAnalysis++;
+					break;
+				default:
+					queuedAnalysis++;
+					break;
+			}
+			
+			switch (analysisRequest.getPairedMode()) {
+				case PAIRED_END_MODE:
+					totalPairedEndModeAnalysis++;
+					break;
+				default:
+					totalSingleEndModeAnalysis++;
+					break;				
+			}
+			
+			String userEmail = analysisRequest.getUser().getEmail();
+			if(analysisByUsers.containsKey(userEmail)) {
+				Integer userAnalysis = analysisByUsers.get(userEmail);
+				userAnalysis++;
+				analysisByUsers.put(userEmail, userAnalysis);
+			} else {
+				analysisByUsers.put(userEmail, 1);
+			}
+			
+			String analysisRequestMonth = monthFormat.format(analysisRequest.getCreatedAt());  	
+			if(queuedAnalysisByMonth.containsKey(analysisRequestMonth)) {
+				Integer queuedAnalysisInMonth = queuedAnalysisByMonth.get(analysisRequestMonth);
+				queuedAnalysisInMonth++;
+				queuedAnalysisByMonth.put(analysisRequestMonth, queuedAnalysisInMonth);
+			} else {
+				queuedAnalysisByMonth.put(analysisRequestMonth, 1);
+			}
+			
+			if(analysisRequest.getStatus() == AnalysisStatus.COMPLETED) {
+				String analysisCompletedMonth = monthFormat.format(analysisRequest.getUpdatedAt()); 
+				if(completedAnalysisByMonth.containsKey(analysisCompletedMonth)) {
+					Integer completedAnalysisInMonth = completedAnalysisByMonth.get(analysisCompletedMonth);
+					completedAnalysisInMonth++;
+					completedAnalysisByMonth.put(analysisCompletedMonth, completedAnalysisInMonth);
+				} else {
+					completedAnalysisByMonth.put(analysisCompletedMonth, 1);
+				}
+			}		
 		}
 		
 		loadUsersByRole();
 		loadUsersByStatus();	
 		loadSignupsByMonth();
+		loadAnalysisByStatus();
+		loadTopRequestingUsers();
+		loadAnalysisByMode();
+		loadAnalysisByMonth();
     }
 
 	/**
@@ -141,6 +235,62 @@ public class AdminDashboard {
 	 */
 	public void setSignupsByMonth(BarChartModel signupsByMonth) {
 		this.signupsByMonth = signupsByMonth;
+	}
+
+	/**
+	 * @return the analysisByStatus
+	 */
+	public PieChartModel getAnalysisByStatus() {
+		return analysisByStatus;
+	}
+
+	/**
+	 * @param analysisByStatus the analysisByStatus to set
+	 */
+	public void setAnalysisByStatus(PieChartModel analysisByStatus) {
+		this.analysisByStatus = analysisByStatus;
+	}
+
+	/**
+	 * @return the topRequestingUsers
+	 */
+	public HorizontalBarChartModel getTopRequestingUsers() {
+		return topRequestingUsers;
+	}
+
+	/**
+	 * @param topRequestingUsers the topRequestingUsers to set
+	 */
+	public void setTopRequestingUsers(HorizontalBarChartModel topRequestingUsers) {
+		this.topRequestingUsers = topRequestingUsers;
+	}
+
+	/**
+	 * @return the analysisByMode
+	 */
+	public PieChartModel getAnalysisByMode() {
+		return analysisByMode;
+	}
+
+	/**
+	 * @param analysisByMode the analysisByMode to set
+	 */
+	public void setAnalysisByMode(PieChartModel analysisByMode) {
+		this.analysisByMode = analysisByMode;
+	}
+
+	/**
+	 * @return the analysisByMonth
+	 */
+	public BarChartModel getAnalysisByMonth() {
+		return analysisByMonth;
+	}
+
+	/**
+	 * @param analysisByMonth the analysisByMonth to set
+	 */
+	public void setAnalysisByMonth(BarChartModel analysisByMonth) {
+		this.analysisByMonth = analysisByMonth;
 	}
 
 	public void loadUsersByRole() {
@@ -245,9 +395,7 @@ public class AdminDashboard {
 		
 		this.signupsByMonth = new BarChartModel();        
         
-        List<Number> dataSetValues = new ArrayList<>();
-        List<String> backgroundColors = new ArrayList<>();        
-        List<String> borderColor = new ArrayList<>();                            
+        List<Number> dataSetValues = new ArrayList<>();                          
         List<String> labels = new ArrayList<>();
         
         Calendar calendarReference = Calendar.getInstance();
@@ -257,15 +405,16 @@ public class AdminDashboard {
         	calendarReference.add(Calendar.MONTH, 1);
         	String signupMonth = monthFormat.format(calendarReference.getTime());
         	labels.add(signupMonth);
-        	backgroundColors.add("rgb(0, 70, 170)");
-        	borderColor.add("rgb(0, 70, 150)");
         	dataSetValues.add(usersByMonth.getOrDefault(signupMonth, 0));        	
         }   
         
+        String user = FacesContextUtils.geti18nMessage("user");
+        
         BarChartDataSet dataSet = new BarChartDataSet();
+        dataSet.setLabel(user);
         dataSet.setData(dataSetValues);        
-        dataSet.setBackgroundColor(backgroundColors);        
-        dataSet.setBorderColor(borderColor);
+        dataSet.setBackgroundColor("rgb(0, 70, 170)");        
+        dataSet.setBorderColor("rgb(0, 70, 150)");
         dataSet.setBorderWidth(1);
 
         ChartData data = new ChartData();
@@ -301,5 +450,198 @@ public class AdminDashboard {
         options.setAnimation(animation);
 
         this.signupsByMonth.setOptions(options);
+	}
+	
+	public void loadAnalysisByStatus() {
+		
+		this.analysisByStatus = new PieChartModel();     		
+		
+        List<Number> dataSetValues = new ArrayList<>();
+        dataSetValues.add(queuedAnalysis);
+        dataSetValues.add(completedAnalysis);                
+
+        List<String> backgroundColors = new ArrayList<>();
+        backgroundColors.add("rgb(125, 255, 125)");
+        backgroundColors.add("rgb(125, 125, 255)");
+        
+        String queuedAnalysisLabel = FacesContextUtils.geti18nMessage("analysis.attribute.status.CREATED");
+        String completedAnalysisLabel = FacesContextUtils.geti18nMessage("analysis.attribute.status.COMPLETED");
+        
+        List<String> labels = new ArrayList<>();
+        labels.add(queuedAnalysisLabel);
+        labels.add(completedAnalysisLabel);
+        
+        PieChartDataSet dataSet = new PieChartDataSet();
+        dataSet.setData(dataSetValues);
+        dataSet.setBackgroundColor(backgroundColors);               
+
+        ChartData data = new ChartData();
+        data.addChartDataSet(dataSet);        
+        data.setLabels(labels);
+
+        this.analysisByStatus.setData(data);
+    }
+	
+	public void loadAnalysisByMode() {
+		
+		this.analysisByMode = new PieChartModel();     		
+		
+        List<Number> dataSetValues = new ArrayList<>();
+        dataSetValues.add(totalSingleEndModeAnalysis);
+        dataSetValues.add(totalPairedEndModeAnalysis);                
+
+        List<String> backgroundColors = new ArrayList<>();
+        backgroundColors.add("rgb(125, 255, 125)");
+        backgroundColors.add("rgb(255, 125, 125)");
+        
+        String singleEndModeLabel = FacesContextUtils.geti18nMessage("analysis.attribute.pairedMode.SINGLE_END_MODE");
+        String pairedEndModeLabel = FacesContextUtils.geti18nMessage("analysis.attribute.pairedMode.PAIRED_END_MODE");
+        
+        List<String> labels = new ArrayList<>();
+        labels.add(singleEndModeLabel);
+        labels.add(pairedEndModeLabel);
+        
+        PieChartDataSet dataSet = new PieChartDataSet();
+        dataSet.setData(dataSetValues);
+        dataSet.setBackgroundColor(backgroundColors);               
+
+        ChartData data = new ChartData();
+        data.addChartDataSet(dataSet);        
+        data.setLabels(labels);
+
+        this.analysisByMode.setData(data);
+    }
+	
+	public void loadTopRequestingUsers() {
+		
+        this.topRequestingUsers = new HorizontalBarChartModel();    
+        
+        LinkedHashMap<String, Integer> orderedAnalysisByUsers = analysisByUsers.entrySet()
+        		  .stream()
+        		  .sorted(Map.Entry.comparingByValue())
+        		  .collect(Collectors.toMap(
+        		    Map.Entry::getKey, 
+        		    Map.Entry::getValue, 
+        		    (o, n) -> o, LinkedHashMap::new));
+        
+        List<Number> dataSetValues = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+        
+        for (Map.Entry<String, Integer> entry : orderedAnalysisByUsers.entrySet()) {
+            labels.add(entry.getKey());
+            dataSetValues.add(entry.getValue());
+        }
+        
+        String analysis = FacesContextUtils.geti18nMessage("analysis");
+        
+        HorizontalBarChartDataSet dataSet = new HorizontalBarChartDataSet();
+        dataSet.setLabel(analysis);
+        dataSet.setData(dataSetValues);
+        dataSet.setBackgroundColor("rgb(0, 70, 170)");
+        dataSet.setBorderColor("rgb(0, 70, 150)");
+        dataSet.setBorderWidth(1);
+
+        ChartData data = new ChartData(); 
+        data.addChartDataSet(dataSet);        
+        data.setLabels(labels);
+        
+        this.topRequestingUsers.setData(data);        
+                
+        CartesianLinearTicks ticks = new CartesianLinearTicks();
+        ticks.setBeginAtZero(false);
+        ticks.setPrecision(0);
+        
+        CartesianLinearAxes linearAxes = new CartesianLinearAxes();
+        linearAxes.setOffset(true);                        
+        linearAxes.setTicks(ticks);
+        
+        CartesianScales cartesianScales = new CartesianScales();
+        cartesianScales.addXAxesData(linearAxes);        
+
+        Title title = new Title();
+        title.setDisplay(false);
+        
+        Legend legend = new Legend();
+        legend.setDisplay(false);
+        
+        BarChartOptions options = new BarChartOptions();
+        options.setTitle(title);
+        options.setLegend(legend);
+        options.setScales(cartesianScales);
+
+        this.topRequestingUsers.setOptions(options);
+    }
+	
+	public void loadAnalysisByMonth() {
+		
+		this.analysisByMonth = new BarChartModel();        
+        
+        List<Number> queuedAnalysisDataSetValues = new ArrayList<>();  
+        List<Number> completedAnalysisDataSetValues = new ArrayList<>();  
+        List<String> labels = new ArrayList<>();
+        
+        Calendar calendarReference = Calendar.getInstance();
+        calendarReference.add(Calendar.YEAR, -1);
+        
+        for(int i = 0; i < 12; i++) {
+        	calendarReference.add(Calendar.MONTH, 1);
+        	String signupMonth = monthFormat.format(calendarReference.getTime());
+        	labels.add(signupMonth);
+        	queuedAnalysisDataSetValues.add(queuedAnalysisByMonth.getOrDefault(signupMonth, 0));  
+        	completedAnalysisDataSetValues.add(completedAnalysisByMonth.getOrDefault(signupMonth, 0));  
+        }   
+        
+        String createdAnalysis = FacesContextUtils.geti18nMessage("analysis.attribute.status.CREATED");
+        
+        BarChartDataSet queuedAnalysisDataSet = new BarChartDataSet();
+        queuedAnalysisDataSet.setLabel(createdAnalysis);
+        queuedAnalysisDataSet.setData(queuedAnalysisDataSetValues);        
+        queuedAnalysisDataSet.setBackgroundColor("rgb(0, 70, 170)");        
+        queuedAnalysisDataSet.setBorderColor("rgb(0, 70, 150)");
+        queuedAnalysisDataSet.setBorderWidth(1);
+        
+        String completedAnalysis = FacesContextUtils.geti18nMessage("analysis.attribute.status.COMPLETED");
+        
+        BarChartDataSet completedAnalysisDataSet = new BarChartDataSet();
+        completedAnalysisDataSet.setLabel(completedAnalysis);
+        completedAnalysisDataSet.setData(completedAnalysisDataSetValues);        
+        completedAnalysisDataSet.setBackgroundColor("rgb(255, 125, 125)");        
+        completedAnalysisDataSet.setBorderColor("rgb(255, 125, 105)");
+        completedAnalysisDataSet.setBorderWidth(1);
+
+        ChartData data = new ChartData();
+        data.addChartDataSet(queuedAnalysisDataSet); 
+        data.addChartDataSet(completedAnalysisDataSet); 
+        data.setLabels(labels);
+        
+        this.analysisByMonth.setData(data);   
+        
+        Title title = new Title();
+        title.setDisplay(false);      
+
+        Legend legend = new Legend();
+        legend.setDisplay(true);
+        
+        CartesianLinearAxes linearAxes = new CartesianLinearAxes();
+        linearAxes.setOffset(false);
+        
+        CartesianLinearTicks ticks = new CartesianLinearTicks();
+        ticks.setBeginAtZero(false);
+        ticks.setPrecision(0);
+        linearAxes.setTicks(ticks);
+        
+        CartesianScales cartesianScales = new CartesianScales();
+        cartesianScales.addYAxesData(linearAxes);
+        
+        Animation animation = new Animation();
+        animation.setDuration(10);
+        
+        BarChartOptions options = new BarChartOptions();
+        options.setTitle(title);
+        options.setLegend(legend);
+        options.setScales(cartesianScales);
+        options.setAnimation(animation);
+
+        this.analysisByMonth.setOptions(options);
 	}
 }

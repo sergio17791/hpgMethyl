@@ -34,5 +34,43 @@
 				</p:card>    			
     		</b:column>	
 		</b:row>
+		<b:row>
+        	<b:column col-md="6">
+        		<p:card styleClass="dashboardCard">
+    				<f:facet name="title">
+        				<h:outputText value="#{msg['admin.dashboard.analysis.analysisByStatus']}"/>
+    				</f:facet>
+					<p:pieChart model="#{adminDashboard.analysisByStatus}"/>
+				</p:card>    			
+    		</b:column>	
+    		<b:column col-md="6">
+        		<p:card styleClass="dashboardCard">
+    				<f:facet name="title">
+        				<h:outputText value="#{msg['admin.dashboard.analysis.analysisByMode']}"/>
+    				</f:facet>
+					<p:pieChart model="#{adminDashboard.analysisByMode}"/>
+				</p:card>    			
+    		</b:column>	    		
+		</b:row>
+		<b:row>
+    		<b:column col-md="12">
+        		<p:card styleClass="dashboardCard">
+    				<f:facet name="title">
+        				<h:outputText value="#{msg['admin.dashboard.analysis.analysisByUsers']}"/>
+    				</f:facet>
+					<p:barChart model="#{adminDashboard.topRequestingUsers}"/>
+				</p:card>    			
+    		</b:column>	    		
+		</b:row>
+		<b:row>
+    		<b:column col-md="12">
+        		<p:card styleClass="dashboardCard">
+    				<f:facet name="title">
+        				<h:outputText value="#{msg['admin.dashboard.analysis.analysisByMonth']}"/>
+    				</f:facet>
+					<p:barChart model="#{adminDashboard.analysisByMonth}"/>
+				</p:card>    			
+    		</b:column>	    		
+		</b:row>
 	</ui:define>               
 </ui:composition>
