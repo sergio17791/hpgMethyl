@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -514,23 +515,18 @@ public class AdminDashboard {
 	
 	public void loadTopRequestingUsers() {
 		
-        this.topRequestingUsers = new HorizontalBarChartModel();    
-        
-        LinkedHashMap<String, Integer> orderedAnalysisByUsers = analysisByUsers.entrySet()
-        		  .stream()
-        		  .sorted(Map.Entry.comparingByValue())
-        		  .collect(Collectors.toMap(
-        		    Map.Entry::getKey, 
-        		    Map.Entry::getValue, 
-        		    (o, n) -> o, LinkedHashMap::new));
+        this.topRequestingUsers = new HorizontalBarChartModel();           
         
         List<Number> dataSetValues = new ArrayList<>();
         List<String> labels = new ArrayList<>();
         
-        for (Map.Entry<String, Integer> entry : orderedAnalysisByUsers.entrySet()) {
-            labels.add(entry.getKey());
-            dataSetValues.add(entry.getValue());
-        }
+        analysisByUsers.entrySet()
+        .stream()
+        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+        .forEachOrdered(analysis -> {
+        	labels.add(analysis.getKey());
+            dataSetValues.add(analysis.getValue());
+        });       
         
         String analysis = FacesContextUtils.geti18nMessage("analysis");
         
