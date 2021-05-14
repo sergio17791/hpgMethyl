@@ -9,5 +9,6 @@
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <mapping class="es.hpgMethyl.entities.User"/>
         <mapping class="es.hpgMethyl.entities.AnalysisRequest"/>
+        <mapping class="es.hpgMethyl.entities.File"/>
     </session-factory>
 </hibernate-configuration>

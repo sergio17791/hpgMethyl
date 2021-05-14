@@ -17,6 +17,9 @@ public class File extends BaseEntity {
 	@Column(name = "file_name", nullable = false)
 	private String fileName;
 	
+	@Column(name = "folder", nullable = false)
+	private String folder;
+	
 	@Column(name = "size", nullable = false)
 	private Long size;
 	
@@ -31,10 +34,11 @@ public class File extends BaseEntity {
 		this.stored = true;
 	}
 
-	public File(User user, String fileName, Long size, String contentType, Boolean stored) {
+	public File(User user, String fileName, String folder, Long size, String contentType, Boolean stored) {
 		super();
 		this.user = user;
 		this.fileName = fileName;
+		this.folder = folder;
 		this.size = size;
 		this.contentType = contentType;
 		this.stored = stored;
@@ -66,6 +70,20 @@ public class File extends BaseEntity {
 	 */
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	/**
+	 * @return the folder
+	 */
+	public String getFolder() {
+		return folder;
+	}
+
+	/**
+	 * @param folder the folder to set
+	 */
+	public void setFolder(String folder) {
+		this.folder = folder;
 	}
 
 	/**
