@@ -3,12 +3,12 @@ CREATE TABLE "analysis_request" (
     id uuid DEFAULT uuid_generate_v4(),
     "user" uuid NOT NULL,
     identifier VARCHAR(60) NOT NULL,
-    input_read_file VARCHAR(255) NOT NULL,
+    input_read_file uuid NOT NULL,
     write_methylation_context BOOLEAN NOT NULL DEFAULT false,
     read_batch_size BOOLEAN NOT NULL DEFAULT false,
     write_batch_size BOOLEAN NOT NULL DEFAULT false,
     paired_mode smallint NOT NULL DEFAULT 0,
-    paired_end_mode_file VARCHAR(255),
+    paired_end_mode_file uuid,
     paired_max_distance integer,
     paired_min_distance integer,
     swa_minimun_score numeric,
@@ -39,6 +39,14 @@ CREATE TABLE "analysis_request" (
     CONSTRAINT analysis_request_pkey PRIMARY KEY (id),
     CONSTRAINT analysis_request_user_fkey FOREIGN KEY ("user") 
     	REFERENCES "user"(id) MATCH SIMPLE 
+    	ON UPDATE CASCADE 
+    	ON DELETE CASCADE,
+    CONSTRAINT analysis_request_input_file_fkey FOREIGN KEY ("input_read_file") 
+    	REFERENCES "file"(id) MATCH SIMPLE 
+    	ON UPDATE CASCADE 
+    	ON DELETE CASCADE,
+    CONSTRAINT analysis_request_paired_file_fkey FOREIGN KEY ("paired_end_mode_file") 
+    	REFERENCES "file"(id) MATCH SIMPLE 
     	ON UPDATE CASCADE 
     	ON DELETE CASCADE,
     CONSTRAINT paired_mode_values CHECK (paired_mode IN (0, 1)),
