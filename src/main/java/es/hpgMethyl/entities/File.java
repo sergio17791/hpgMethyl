@@ -1,5 +1,8 @@
 package es.hpgMethyl.entities;
 
+import java.util.Date;
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -34,8 +37,18 @@ public class File extends BaseEntity {
 		this.stored = true;
 	}
 
-	public File(User user, String fileName, String folder, Long size, String contentType, Boolean stored) {
-		super();
+	public File(
+			UUID id, 
+			Date createdAt, 
+			Date updatedAt,
+			User user, 
+			String fileName, 
+			String folder, 
+			Long size, 
+			String contentType, 
+			Boolean stored
+	) {
+		super(id, createdAt, updatedAt);
 		this.user = user;
 		this.fileName = fileName;
 		this.folder = folder;
@@ -127,4 +140,9 @@ public class File extends BaseEntity {
 	public void setStored(Boolean stored) {
 		this.stored = stored;
 	}
+	
+	@Override
+	public String toString() {
+		return fileName;
+	}	
 }
