@@ -17,16 +17,16 @@ public class CreateFile {
 	public CreateFileResponse execute(CreateFileRequest request) throws CreateFileException, DuplicatedFile {
 		
 		String fileName = request.getFileName();
-		String folder = request.getFolder();
+		String path = request.getPath();
 		
-		if(this.fileDAO.existsFile(fileName, folder)) {
+		if(this.fileDAO.existsFile(path)) {
 			throw new DuplicatedFile();
 		}
 		
 		HPGMethylFile file = new HPGMethylFile();
 		file.setUser(request.getUser());
 		file.setFileName(fileName);
-		file.setFolder(folder);
+		file.setPath(path);
 		file.setSize(request.getSize());
 		file.setContentType(request.getContentType());
 		

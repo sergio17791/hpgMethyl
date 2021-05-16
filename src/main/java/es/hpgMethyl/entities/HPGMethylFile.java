@@ -20,8 +20,8 @@ public class HPGMethylFile extends BaseEntity {
 	@Column(name = "file_name", nullable = false)
 	private String fileName;
 	
-	@Column(name = "folder", nullable = false)
-	private String folder;
+	@Column(name = "path", nullable = false)
+	private String path;
 	
 	@Column(name = "size", nullable = false)
 	private Long size;
@@ -43,7 +43,7 @@ public class HPGMethylFile extends BaseEntity {
 			Date updatedAt,
 			User user, 
 			String fileName, 
-			String folder, 
+			String path, 
 			Long size, 
 			String contentType, 
 			Boolean stored
@@ -51,7 +51,7 @@ public class HPGMethylFile extends BaseEntity {
 		super(id, createdAt, updatedAt);
 		this.user = user;
 		this.fileName = fileName;
-		this.folder = folder;
+		this.path = path;
 		this.size = size;
 		this.contentType = contentType;
 		this.stored = stored;
@@ -86,17 +86,17 @@ public class HPGMethylFile extends BaseEntity {
 	}
 
 	/**
-	 * @return the folder
+	 * @return the path
 	 */
-	public String getFolder() {
-		return folder;
+	public String getPath() {
+		return path;
 	}
 
 	/**
-	 * @param folder the folder to set
+	 * @param path the path to set
 	 */
-	public void setFolder(String folder) {
-		this.folder = folder;
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	/**

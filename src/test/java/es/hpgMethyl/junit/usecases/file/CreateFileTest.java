@@ -1,5 +1,6 @@
 package es.hpgMethyl.junit.usecases.file;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -12,6 +13,7 @@ import es.hpgMethyl.exceptions.DuplicatedFile;
 import es.hpgMethyl.exceptions.SaveObjectException;
 import es.hpgMethyl.usecases.file.CreateFile.CreateFile;
 import es.hpgMethyl.usecases.file.CreateFile.CreateFileRequest;
+import es.hpgMethyl.usecases.file.CreateFile.CreateFileResponse;
 
 public class CreateFileTest {
 	
@@ -29,14 +31,14 @@ public class CreateFileTest {
 	public void test_execute_givenAnExistingFile_expectThrowDuplicatedFile() throws CreateFileException, DuplicatedFile {
 		
 		String fileName = "test_4M_100nt_n3_r010.bwa.read1.fastq_convert.fastq";
-		String folder = "/files/users/03711b01-5812-4a00-a039-e8eee346fb6b/";
+		String path = "/files/users/03711b01-5812-4a00-a039-e8eee346fb6b/test_4M_100nt_n3_r010.bwa.read1.fastq_convert.fastq";
 		
-		Mockito.doReturn(true).when(fileDAO).existsFile(fileName, folder);
+		Mockito.doReturn(true).when(fileDAO).existsFile(path);
 		
 		CreateFileRequest request = new CreateFileRequest(
 				new User(),
 				fileName,
-				folder,
+				path,
 				Long.valueOf(123),
 				"text/plain"
 		);
@@ -48,16 +50,16 @@ public class CreateFileTest {
 	public void test_execute_givenConstraintViolation_expectThrowCreateFileException() throws CreateFileException, DuplicatedFile, SaveObjectException {
 		
 		String fileName = "test_4M_100nt_n3_r010.bwa.read1.fastq_convert.fastq";
-		String folder = "/files/users/03711b01-5812-4a00-a039-e8eee346fb6b/";
+		String path = "/files/users/03711b01-5812-4a00-a039-e8eee346fb6b/test_4M_100nt_n3_r010.bwa.read1.fastq_convert.fastq";
 		
-		Mockito.doReturn(false).when(fileDAO).existsFile(fileName, folder);
+		Mockito.doReturn(false).when(fileDAO).existsFile(path);
 		
 		Mockito.doThrow(SaveObjectException.class).when(fileDAO).save(Mockito.any(HPGMethylFile.class));
 		
 		CreateFileRequest request = new CreateFileRequest(
 				new User(),
 				fileName,
-				folder,
+				path,
 				Long.valueOf(123),
 				"text/plain"
 		);
@@ -69,22 +71,29 @@ public class CreateFileTest {
 		
 		User user = new User();
 		String fileName = "test_4M_100nt_n3_r010.bwa.read1.fastq_convert.fastq";
-		String folder = "/files/users/03711b01-5812-4a00-a039-e8eee346fb6b/";
+		String path = "/files/users/03711b01-5812-4a00-a039-e8eee346fb6b/test_4M_100nt_n3_r010.bwa.read1.fastq_convert.fastq";
 		Long size = Long.valueOf(123);
 		String contentType = "text/plain";
 		
-		Mockito.doReturn(false).when(fileDAO).existsFile(fileName, folder);
+		Mockito.doReturn(false).when(fileDAO).existsFile(path);
 		
 		Mockito.doNothing().when(fileDAO).save(Mockito.any(HPGMethylFile.class));
 		
 		CreateFileRequest request = new CreateFileRequest(
 				user,
 				fileName,
-				folder,
+				path,
 				size,
 				contentType				
 		);
 		
-		this.createFile.execute(request);
+		CreateFileResponse useCaseResponse = this.createFile.execute(request);
+		
+		HPGMethylFile response = useCaseResponse.getFile();
+		
+		Assert.assertEquals(request.getFileName(), response.getFileName());
+		Assert.assertEquals(request.getPath(), response.getPath());
+		Assert.assertEquals(request.getSize(), response.getSize());
+		Assert.assertEquals(request.getContentType(), response.getContentType());
 	}
 }

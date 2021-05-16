@@ -17,7 +17,7 @@ import es.hpgMethyl.utils.HibernateUtils;
 public class HPGMethylFileDAOHibernate extends BaseDAOHibernate<HPGMethylFile, UUID> implements HPGMethylFileDAO {
 
 	@Override
-	public Boolean existsFile(String fileName, String folder) {
+	public Boolean existsFile(String path) {
 		
 		Session session = HibernateUtils.getSessionFactory().openSession();
 		
@@ -26,8 +26,7 @@ public class HPGMethylFileDAOHibernate extends BaseDAOHibernate<HPGMethylFile, U
 			CriteriaQuery<HPGMethylFile> criteriaQuery = criteriaBuilder.createQuery(HPGMethylFile.class);
 			
 			Root<HPGMethylFile> root = criteriaQuery.from(HPGMethylFile.class);
-			criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("fileName"), fileName));
-			criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("folder"), folder));
+			criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("path"), path));
 			
 			Query<HPGMethylFile> query = session.createQuery(criteriaQuery);	
 			

@@ -8,16 +8,16 @@ public class CreateFileRequest {
 	
 	private String fileName;
 	
-	private String folder;
+	private String path;
 	
 	private Long size;
 	
 	private String contentType;
 
-	public CreateFileRequest(User user, String fileName, String folder, Long size, String contentType) {
+	public CreateFileRequest(User user, String fileName, String path, Long size, String contentType) {
 		this.user = user;
 		this.fileName = fileName;
-		this.folder = folder;
+		this.path = path;
 		this.size = size;
 		this.contentType = contentType;
 	}
@@ -51,17 +51,17 @@ public class CreateFileRequest {
 	}
 
 	/**
-	 * @return the folder
+	 * @return the path
 	 */
-	public String getFolder() {
-		return folder;
+	public String getPath() {
+		return path;
 	}
 
 	/**
-	 * @param folder the folder to set
+	 * @param path the path to set
 	 */
-	public void setFolder(String folder) {
-		this.folder = folder;
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	/**

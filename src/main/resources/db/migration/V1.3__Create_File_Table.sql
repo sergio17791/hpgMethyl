@@ -2,7 +2,7 @@ CREATE TABLE "file" (
     id uuid DEFAULT uuid_generate_v4(),
     "user" uuid NOT NULL,
     file_name VARCHAR(255) NOT NULL,
-    folder VARCHAR(255) NOT NULL,
+    path VARCHAR(255) NOT NULL,
     size integer,
     content_type VARCHAR(100) NOT NULL,
     stored BOOLEAN NOT NULL DEFAULT true,
