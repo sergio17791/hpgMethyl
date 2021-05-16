@@ -4,8 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import es.hpgMethyl.dao.FileDAO;
-import es.hpgMethyl.entities.File;
+import es.hpgMethyl.dao.HPGMethylFileDAO;
+import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.CreateFileException;
 import es.hpgMethyl.exceptions.DuplicatedFile;
@@ -17,11 +17,11 @@ public class CreateFileTest {
 	
 	private CreateFile createFile;
 	
-	private FileDAO fileDAO;
+	private HPGMethylFileDAO fileDAO;
 	
 	@Before
 	public void setUp() {
-		this.fileDAO = Mockito.mock(FileDAO.class);
+		this.fileDAO = Mockito.mock(HPGMethylFileDAO.class);
 		this.createFile = new CreateFile(this.fileDAO);
 	}
 	
@@ -38,7 +38,7 @@ public class CreateFileTest {
 				fileName,
 				folder,
 				Long.valueOf(123),
-				"Content-Type"
+				"text/plain"
 		);
 		
 		this.createFile.execute(request);
@@ -52,14 +52,14 @@ public class CreateFileTest {
 		
 		Mockito.doReturn(false).when(fileDAO).existsFile(fileName, folder);
 		
-		Mockito.doThrow(SaveObjectException.class).when(fileDAO).save(Mockito.any(File.class));
+		Mockito.doThrow(SaveObjectException.class).when(fileDAO).save(Mockito.any(HPGMethylFile.class));
 		
 		CreateFileRequest request = new CreateFileRequest(
 				new User(),
 				fileName,
 				folder,
 				Long.valueOf(123),
-				"Content-Type"
+				"text/plain"
 		);
 		
 		this.createFile.execute(request);
@@ -71,11 +71,11 @@ public class CreateFileTest {
 		String fileName = "test_4M_100nt_n3_r010.bwa.read1.fastq_convert.fastq";
 		String folder = "/files/users/03711b01-5812-4a00-a039-e8eee346fb6b/";
 		Long size = Long.valueOf(123);
-		String contentType = "Content-Type";
+		String contentType = "text/plain";
 		
 		Mockito.doReturn(false).when(fileDAO).existsFile(fileName, folder);
 		
-		Mockito.doNothing().when(fileDAO).save(Mockito.any(File.class));
+		Mockito.doNothing().when(fileDAO).save(Mockito.any(HPGMethylFile.class));
 		
 		CreateFileRequest request = new CreateFileRequest(
 				user,

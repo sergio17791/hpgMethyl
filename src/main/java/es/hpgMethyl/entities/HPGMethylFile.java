@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "file")
-public class File extends BaseEntity {
+public class HPGMethylFile extends BaseEntity {
 
 	@ManyToOne
 	@JoinColumn(name="\"user\"", nullable=false)
@@ -32,12 +32,12 @@ public class File extends BaseEntity {
 	@Column(name = "stored", nullable = false)
 	private Boolean stored;
 	
-	public File() {
+	public HPGMethylFile() {
 		super();
 		this.stored = true;
 	}
 
-	public File(
+	public HPGMethylFile(
 			UUID id, 
 			Date createdAt, 
 			Date updatedAt,

@@ -10,11 +10,11 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import es.hpgMethyl.dao.FileDAO;
-import es.hpgMethyl.entities.File;
+import es.hpgMethyl.dao.HPGMethylFileDAO;
+import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.utils.HibernateUtils;
 
-public class FileDAOHibernate extends BaseDAOHibernate<File, UUID> implements FileDAO {
+public class HPGMethylFileDAOHibernate extends BaseDAOHibernate<HPGMethylFile, UUID> implements HPGMethylFileDAO {
 
 	@Override
 	public Boolean existsFile(String fileName, String folder) {
@@ -23,13 +23,13 @@ public class FileDAOHibernate extends BaseDAOHibernate<File, UUID> implements Fi
 		
 		try {		
 			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-			CriteriaQuery<File> criteriaQuery = criteriaBuilder.createQuery(File.class);
+			CriteriaQuery<HPGMethylFile> criteriaQuery = criteriaBuilder.createQuery(HPGMethylFile.class);
 			
-			Root<File> root = criteriaQuery.from(File.class);
+			Root<HPGMethylFile> root = criteriaQuery.from(HPGMethylFile.class);
 			criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("fileName"), fileName));
 			criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("folder"), folder));
 			
-			Query<File> query = session.createQuery(criteriaQuery);	
+			Query<HPGMethylFile> query = session.createQuery(criteriaQuery);	
 			
 			return !query.list().isEmpty();
 		} catch(NoResultException exception) {
@@ -38,5 +38,4 @@ public class FileDAOHibernate extends BaseDAOHibernate<File, UUID> implements Fi
 			session.close();
 		}
 	}
-
 }

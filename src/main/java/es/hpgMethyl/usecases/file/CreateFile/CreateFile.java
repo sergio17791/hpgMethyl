@@ -1,16 +1,16 @@
 package es.hpgMethyl.usecases.file.CreateFile;
 
-import es.hpgMethyl.dao.FileDAO;
-import es.hpgMethyl.entities.File;
+import es.hpgMethyl.dao.HPGMethylFileDAO;
+import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.exceptions.CreateFileException;
 import es.hpgMethyl.exceptions.DuplicatedFile;
 import es.hpgMethyl.exceptions.SaveObjectException;
 
 public class CreateFile {
 
-	private FileDAO fileDAO;
+	private HPGMethylFileDAO fileDAO;
 
-	public CreateFile(FileDAO fileDAO) {
+	public CreateFile(HPGMethylFileDAO fileDAO) {
 		this.fileDAO = fileDAO;
 	}
 	
@@ -23,7 +23,7 @@ public class CreateFile {
 			throw new DuplicatedFile();
 		}
 		
-		File file = new File();
+		HPGMethylFile file = new HPGMethylFile();
 		file.setUser(request.getUser());
 		file.setFileName(fileName);
 		file.setFolder(folder);
