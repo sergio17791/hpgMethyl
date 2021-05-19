@@ -16,14 +16,14 @@ public class FileUtils {
 
 	private FileUtils() {};
 	
-	public static void saveFileUploadedByUser(User user, Part filePart, String fileName) throws IOException {
+	public static File saveFileUploadedByUser(User user, Part filePart, String fileName) throws IOException {
 		
 		String directoryPath = USERS_FILES_BASE_PATH + user.getId();
 		
-		saveFile(filePart, directoryPath, fileName);
+		return saveFile(filePart, directoryPath, fileName);
 	}
 	
-	public static void saveFile(Part filePart, String directoryPath, String fileName) throws IOException {
+	public static File saveFile(Part filePart, String directoryPath, String fileName) throws IOException {
 		
 		OutputStream out = null;
 		InputStream filecontent = null;
@@ -45,6 +45,8 @@ public class FileUtils {
 		    while ((read = filecontent.read(bytes)) != -1) {
 		    	out.write(bytes, 0, read);
 		    }
+		    
+		    return newFile;
 			
 		} catch (IOException e) {
 			throw e;

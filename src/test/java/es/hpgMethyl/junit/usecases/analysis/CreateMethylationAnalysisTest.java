@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 
 import es.hpgMethyl.dao.AnalysisRequestDAO;
 import es.hpgMethyl.entities.AnalysisRequest;
+import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
 import es.hpgMethyl.exceptions.CreateMethylationAnalysisException;
@@ -29,6 +30,8 @@ public class CreateMethylationAnalysisTest {
 	private AnalysisRequestDAO analysisRequestDAO;
 	
 	private User user;
+	
+	private HPGMethylFile file;
 	
 	@Before
 	public void setUp() {
@@ -50,7 +53,19 @@ public class CreateMethylationAnalysisTest {
 				true,
 				"es",
 				UserRole.USER
-			);
+		);
+		
+		this.file = new HPGMethylFile(
+				UUID.randomUUID(),
+				new Date(), 
+				new Date(),
+				user,
+				"test_4M_100nt_n3_r010.bwa.read1.fastq_convert.fastq",
+				"/files/users/03711b01-5812-4a00-a039-e8eee346fb6b/",
+				Long.valueOf(1234),
+				"text/plain",
+				true
+		);
 	}
 	
 	@Test(expected = DuplicatedIdentifier.class)
@@ -59,9 +74,9 @@ public class CreateMethylationAnalysisTest {
 		String identifier = "DuplicatedIdentifier";
 		
 		CreateMethylationAnalysisRequest request = new CreateMethylationAnalysisRequest(
-				this.user, 
+				user, 
 				identifier,
-				"inputReadFile",
+				file,
 				false, 
 				false, 
 				false, 
@@ -103,14 +118,14 @@ public class CreateMethylationAnalysisTest {
 		String identifier = "GreatIdentifier";
 		
 		CreateMethylationAnalysisRequest request = new CreateMethylationAnalysisRequest(
-				this.user, 
+				user, 
 				identifier,
-				"inputReadFile",
+				file,
 				false, 
 				true, 
 				false, 
 				PairedMode.PAIRED_END_MODE,
-				"pairedEndModeFile", 
+				file, 
 				new BigDecimal("1"), 
 				new BigDecimal("2"),
 				new BigDecimal("0.8"),

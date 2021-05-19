@@ -34,7 +34,7 @@ public class CreateFileTest {
 		String fileName = "test_4M_100nt_n3_r010.bwa.read1.fastq_convert.fastq";
 		String path = "/files/users/03711b01-5812-4a00-a039-e8eee346fb6b/test_4M_100nt_n3_r010.bwa.read1.fastq_convert.fastq";
 		
-		Mockito.doReturn(true).when(fileDAO).existsFile(user, fileName);
+		Mockito.doReturn(true).when(fileDAO).existsFile(user, fileName, true);
 		
 		CreateFileRequest request = new CreateFileRequest(
 				user,
@@ -54,7 +54,7 @@ public class CreateFileTest {
 		String fileName = "test_4M_100nt_n3_r010.bwa.read1.fastq_convert.fastq";
 		String path = "/files/users/03711b01-5812-4a00-a039-e8eee346fb6b/test_4M_100nt_n3_r010.bwa.read1.fastq_convert.fastq";
 		
-		Mockito.doReturn(false).when(fileDAO).existsFile(user, fileName);
+		Mockito.doReturn(false).when(fileDAO).existsFile(user, fileName, true);
 		
 		Mockito.doThrow(SaveObjectException.class).when(fileDAO).save(Mockito.any(HPGMethylFile.class));
 		
@@ -77,7 +77,7 @@ public class CreateFileTest {
 		Long size = Long.valueOf(123);
 		String contentType = "text/plain";
 		
-		Mockito.doReturn(false).when(fileDAO).existsFile(user, fileName);
+		Mockito.doReturn(false).when(fileDAO).existsFile(user, fileName, true);
 		
 		Mockito.doNothing().when(fileDAO).save(Mockito.any(HPGMethylFile.class));
 		

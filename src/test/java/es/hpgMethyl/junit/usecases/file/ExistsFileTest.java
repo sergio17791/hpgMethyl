@@ -51,7 +51,7 @@ public class ExistsFileTest {
 		
 		ExistsFileRequest request = new ExistsFileRequest(user, fileName);
 		
-		Mockito.doReturn(false).when(fileDAO).existsFile(user, fileName);
+		Mockito.doReturn(false).when(fileDAO).existsFile(user, fileName, true);
 		
 		ExistsFileResponse response = this.existsFile.execute(request);
 		
@@ -64,7 +64,7 @@ public class ExistsFileTest {
 		
 		ExistsFileRequest request = new ExistsFileRequest(user, fileName);
 		
-		Mockito.doReturn(true).when(fileDAO).existsFile(user, fileName);
+		Mockito.doReturn(true).when(fileDAO).existsFile(user, fileName, true);
 		
 		ExistsFileResponse response = this.existsFile.execute(request);
 		

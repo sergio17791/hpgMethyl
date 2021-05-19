@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.types.AnalysisStatus;
 import es.hpgMethyl.types.PairedMode;
@@ -23,11 +24,11 @@ public class AnalysisRequestBean implements Serializable {
 	private String identifier;
 	private AnalysisStatus status;
 	private PairedMode pairedMode;
-	private String inputReadFile;
+	private HPGMethylFile inputReadFile;
 	private Boolean writeMethylationContext;
 	private Boolean readBatchSize;
 	private Boolean writeBatchSize;
-	private String pairedEndModeFile;
+	private HPGMethylFile pairedEndModeFile;
 	private BigDecimal pairedMaxDistance;
 	private BigDecimal pairedMinDistance;
 	private BigDecimal swaMinimunScore;
@@ -169,14 +170,14 @@ public class AnalysisRequestBean implements Serializable {
 	/**
 	 * @return the inputReadFile
 	 */
-	public String getInputReadFile() {
+	public HPGMethylFile getInputReadFile() {
 		return inputReadFile;
 	}
 
 	/**
 	 * @param inputReadFile the readInputFile to set
 	 */
-	public void setInputReadFile(String inputReadFile) {
+	public void setInputReadFile(HPGMethylFile inputReadFile) {
 		this.inputReadFile = inputReadFile;
 	}
 
@@ -225,14 +226,14 @@ public class AnalysisRequestBean implements Serializable {
 	/**
 	 * @return the pairedEndModeFile
 	 */
-	public String getPairedEndModeFile() {
+	public HPGMethylFile getPairedEndModeFile() {
 		return pairedEndModeFile;
 	}
 
 	/**
 	 * @param pairedEndModeFile the pairedEndModeFile to set
 	 */
-	public void setPairedEndModeFile(String pairedEndModeFile) {
+	public void setPairedEndModeFile(HPGMethylFile pairedEndModeFile) {
 		this.pairedEndModeFile = pairedEndModeFile;
 	}
 

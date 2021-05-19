@@ -1,5 +1,6 @@
 package es.hpgMethyl.beans;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -10,11 +11,20 @@ import javax.faces.component.UIComponent;
 import javax.servlet.http.Part;
 
 import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
+import es.hpgMethyl.dao.hibernate.HPGMethylFileDAOHibernate;
+import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
+import es.hpgMethyl.exceptions.CreateFileException;
 import es.hpgMethyl.exceptions.CreateMethylationAnalysisException;
+import es.hpgMethyl.exceptions.DuplicatedFile;
 import es.hpgMethyl.exceptions.DuplicatedIdentifier;
+import es.hpgMethyl.types.PairedMode;
 import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysis;
 import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysisRequest;
+import es.hpgMethyl.usecases.file.CreateFile.CreateFile;
+import es.hpgMethyl.usecases.file.CreateFile.CreateFileRequest;
+import es.hpgMethyl.usecases.file.ExistsFile.ExistsFile;
+import es.hpgMethyl.usecases.file.ExistsFile.ExistsFileRequest;
 import es.hpgMethyl.utils.FacesContextUtils;
 import es.hpgMethyl.utils.FileUtils;
 
@@ -81,31 +91,33 @@ public class SendMethylationAnalysisRequest implements Serializable {
 		
 		if(user == null) {
 			return "pretty:home";	
-		}
-		
-		String inputReadFileName = this.getInputReadFile().getSubmittedFileName();
-		
-		String pairedEndModeFile = null;
-		
-		if(this.getPairedEndModeFile() != null) {
-			pairedEndModeFile = this.getPairedEndModeFile().getSubmittedFileName();
-		}
+		}								
 		
 		AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
 		
 		try {
-			FileUtils.saveFileUploadedByUser(user, this.getInputReadFile(), inputReadFileName);
+			String inputReadFileName = inputReadFile.getSubmittedFileName();
+			
+			HPGMethylFile inputHPGMethylFile = saveFile(user, inputReadFile, inputReadFileName);
+			
+			HPGMethylFile pairedEndHPGMethylFile = null;
+			if(analysisRequestBean.getPairedMode() == PairedMode.PAIRED_END_MODE) {					
+				if(pairedEndModeFile != null) {
+					String pairedEndModeFileName = pairedEndModeFile.getSubmittedFileName();					
+					pairedEndHPGMethylFile = saveFile(user, pairedEndModeFile, pairedEndModeFileName);
+				}
+			}
 			
 			new CreateMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
 				new CreateMethylationAnalysisRequest(
 					user,
 					analysisRequestBean.getIdentifier(),
-					inputReadFileName,
+					inputHPGMethylFile,
 					analysisRequestBean.getWriteMethylationContext(), 
 					analysisRequestBean.getReadBatchSize(), 
 					analysisRequestBean.getWriteBatchSize(), 
 					analysisRequestBean.getPairedMode(),
-					pairedEndModeFile, 
+					pairedEndHPGMethylFile, 
 					analysisRequestBean.getPairedMaxDistance(), 
 					analysisRequestBean.getPairedMinDistance(),
 					analysisRequestBean.getSwaMinimunScore(), 
@@ -135,17 +147,42 @@ public class SendMethylationAnalysisRequest implements Serializable {
 			String successMessage = FacesContextUtils.geti18nMessage("analysis.send.requestSentSuccessfully");
 			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_INFO, successMessage, successMessage);
 
-		} catch (CreateMethylationAnalysisException e) {
-			String defaultErrorMessage = e.getMessage();//FacesContextUtils.geti18nMessage("error.default");
-			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
+		} catch (DuplicatedFile e) {
+			String duplicatedFileMessage = FacesContextUtils.geti18nMessage("error.duplicatedFile");
+			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, duplicatedFileMessage, duplicatedFileMessage);
 		} catch (DuplicatedIdentifier e) {
-			String duplicatedIdentifierErrorMessage = e.getMessage();//FacesContextUtils.geti18nMessage("error.default");
+			String duplicatedIdentifierErrorMessage = FacesContextUtils.geti18nMessage("error.duplicatedIdentifier");
 			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, duplicatedIdentifierErrorMessage, duplicatedIdentifierErrorMessage);
-		} catch (IOException e) {
-			String defaultErrorMessage = e.getMessage();//FacesContextUtils.geti18nMessage("error.default");
+		} catch (CreateFileException | CreateMethylationAnalysisException | IOException e) {
+			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
-		}
+		} 
 		
 		return null;
+	}
+	
+	private HPGMethylFile saveFile(User user, Part inputFile, String inputFileName) throws CreateFileException, DuplicatedFile, IOException {
+		
+		Boolean duplicatedFile = new ExistsFile(new HPGMethylFileDAOHibernate()).execute(
+				new ExistsFileRequest(user, inputFileName)
+		).getExists();
+		
+		if(duplicatedFile) {
+			throw new DuplicatedFile();
+		}
+		
+		File uploadedFile = FileUtils.saveFileUploadedByUser(user, inputFile, inputFileName);
+
+		HPGMethylFile hpgMethylFile = new CreateFile(new HPGMethylFileDAOHibernate()).execute(
+			new CreateFileRequest(
+				user,
+				uploadedFile.getName(),
+				uploadedFile.getAbsolutePath(),
+				inputFile.getSize(),
+				inputFile.getContentType()
+			)	
+		).getFile();	
+		
+		return hpgMethylFile;
 	}
 }

@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 
 import es.hpgMethyl.dao.AnalysisRequestDAO;
 import es.hpgMethyl.entities.AnalysisRequest;
+import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
 import es.hpgMethyl.exceptions.AnalysisRequestProcessed;
@@ -44,7 +45,7 @@ public class UpdateMethylationAnalysisParametersTest {
 				new User(),
 				"Update Methylation Analysis Parameters Test", 
 				AnalysisStatus.CREATED,
-				"test_input_read_file.test", 
+				new HPGMethylFile(), 
 				false,
 				false, 
 				false, 
@@ -173,7 +174,7 @@ public class UpdateMethylationAnalysisParametersTest {
 				new User(),
 				"Processed Analysis Request Test", 
 				AnalysisStatus.COMPLETED,
-				"test_input_read_file.test", 
+				new HPGMethylFile(), 
 				false,
 				false, 
 				false, 

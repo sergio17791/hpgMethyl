@@ -12,7 +12,7 @@ public class ExistsFile {
 	
 	public ExistsFileResponse execute(ExistsFileRequest request) {
 		
-		Boolean exists = this.fileDAO.existsFile(request.getUser(), request.getFileName());
+		Boolean exists = this.fileDAO.existsFile(request.getUser(), request.getFileName(), true);
 		
 		return new ExistsFileResponse(exists);
 	}

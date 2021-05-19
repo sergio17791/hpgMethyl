@@ -32,8 +32,9 @@ public class AnalysisRequest extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private AnalysisStatus status;
 	
-	@Column(name = "input_read_file", nullable = false)
-	private String inputReadFile;
+	@ManyToOne
+	@JoinColumn(name = "input_read_file", nullable = false)
+	private HPGMethylFile inputReadFile;
 	
 	@Column(name = "write_methylation_context", nullable = false)
 	private Boolean writeMethylationContext;
@@ -48,8 +49,9 @@ public class AnalysisRequest extends BaseEntity {
 	@Enumerated(EnumType.ORDINAL)
 	private PairedMode pairedMode;
 	
-	@Column(name = "paired_end_mode_file", nullable = true)
-	private String pairedEndModeFile;
+	@ManyToOne
+	@JoinColumn(name = "paired_end_mode_file", nullable = true)
+	private HPGMethylFile pairedEndModeFile;
 	
 	@Column(name = "paired_max_distance", nullable = true)
 	private BigDecimal pairedMaxDistance;
@@ -141,12 +143,12 @@ public class AnalysisRequest extends BaseEntity {
 			User user,
 			String identifier, 
 			AnalysisStatus status,
-			String inputReadFile, 
+			HPGMethylFile inputReadFile, 
 			Boolean writeMethylationContext,
 			Boolean readBatchSize, 
 			Boolean writeBatchSize, 
 			PairedMode pairedMode, 
-			String pairedEndModeFile,
+			HPGMethylFile pairedEndModeFile,
 			BigDecimal pairedMaxDistance, 
 			BigDecimal pairedMinDistance, 
 			BigDecimal swaMinimunScore,
@@ -253,14 +255,14 @@ public class AnalysisRequest extends BaseEntity {
 	/**
 	 * @return the inputReadFile
 	 */
-	public String getInputReadFile() {
+	public HPGMethylFile getInputReadFile() {
 		return inputReadFile;
 	}
 
 	/**
 	 * @param inputReadFile the inputReadFile to set
 	 */
-	public void setInputReadFile(String inputReadFile) {
+	public void setInputReadFile(HPGMethylFile inputReadFile) {
 		this.inputReadFile = inputReadFile;
 	}
 
@@ -323,14 +325,14 @@ public class AnalysisRequest extends BaseEntity {
 	/**
 	 * @return the pairedEndModeFile
 	 */
-	public String getPairedEndModeFile() {
+	public HPGMethylFile getPairedEndModeFile() {
 		return pairedEndModeFile;
 	}
 
 	/**
 	 * @param pairedEndModeFile the pairedEndModeFile to set
 	 */
-	public void setPairedEndModeFile(String pairedEndModeFile) {
+	public void setPairedEndModeFile(HPGMethylFile pairedEndModeFile) {
 		this.pairedEndModeFile = pairedEndModeFile;
 	}
 

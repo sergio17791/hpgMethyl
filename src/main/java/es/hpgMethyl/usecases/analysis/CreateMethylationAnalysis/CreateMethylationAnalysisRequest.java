@@ -2,6 +2,7 @@ package es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis;
 
 import java.math.BigDecimal;
 
+import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.types.PairedMode;
 
@@ -11,7 +12,7 @@ public class CreateMethylationAnalysisRequest {
 	
 	private String identifier; 
 	
-	private String inputReadFile; 
+	private HPGMethylFile inputReadFile; 
 	
 	private Boolean writeMethylationContext;
 	
@@ -21,7 +22,7 @@ public class CreateMethylationAnalysisRequest {
 	
 	private PairedMode pairedMode; 
 	
-	private String pairedEndModeFile;
+	private HPGMethylFile pairedEndModeFile;
 	
 	private BigDecimal pairedMaxDistance; 
 	
@@ -72,12 +73,12 @@ public class CreateMethylationAnalysisRequest {
 	public CreateMethylationAnalysisRequest(
 			User user, 
 			String identifier, 
-			String inputReadFile,
+			HPGMethylFile inputReadFile,
 			Boolean writeMethylationContext, 
 			Boolean readBatchSize, 
 			Boolean writeBatchSize, 
 			PairedMode pairedMode,
-			String pairedEndModeFile, 
+			HPGMethylFile pairedEndModeFile, 
 			BigDecimal pairedMaxDistance, 
 			BigDecimal pairedMinDistance,
 			BigDecimal swaMinimunScore, 
@@ -166,14 +167,14 @@ public class CreateMethylationAnalysisRequest {
 	/**
 	 * @return the inputReadFile
 	 */
-	public String getInputReadFile() {
+	public HPGMethylFile getInputReadFile() {
 		return inputReadFile;
 	}
 
 	/**
 	 * @param inputReadFile the inputReadFile to set
 	 */
-	public void setInputReadFile(String inputReadFile) {
+	public void setInputReadFile(HPGMethylFile inputReadFile) {
 		this.inputReadFile = inputReadFile;
 	}
 
@@ -236,14 +237,14 @@ public class CreateMethylationAnalysisRequest {
 	/**
 	 * @return the pairedEndModeFile
 	 */
-	public String getPairedEndModeFile() {
+	public HPGMethylFile getPairedEndModeFile() {
 		return pairedEndModeFile;
 	}
 
 	/**
 	 * @param pairedEndModeFile the pairedEndModeFile to set
 	 */
-	public void setPairedEndModeFile(String pairedEndModeFile) {
+	public void setPairedEndModeFile(HPGMethylFile pairedEndModeFile) {
 		this.pairedEndModeFile = pairedEndModeFile;
 	}
 

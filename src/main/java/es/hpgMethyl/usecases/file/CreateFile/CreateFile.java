@@ -20,7 +20,7 @@ public class CreateFile {
 		User user = request.getUser();
 		String fileName = request.getFileName();
 		
-		if(this.fileDAO.existsFile(user, fileName)) {
+		if(this.fileDAO.existsFile(user, fileName, true)) {
 			throw new DuplicatedFile();
 		}
 		
