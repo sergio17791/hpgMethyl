@@ -30,13 +30,14 @@ public class CreateFileTest {
 	@Test(expected = DuplicatedFile.class)
 	public void test_execute_givenAnExistingFile_expectThrowDuplicatedFile() throws CreateFileException, DuplicatedFile {
 		
+		User user = new User();
 		String fileName = "test_4M_100nt_n3_r010.bwa.read1.fastq_convert.fastq";
 		String path = "/files/users/03711b01-5812-4a00-a039-e8eee346fb6b/test_4M_100nt_n3_r010.bwa.read1.fastq_convert.fastq";
 		
-		Mockito.doReturn(true).when(fileDAO).existsFile(path);
+		Mockito.doReturn(true).when(fileDAO).existsFile(user, fileName);
 		
 		CreateFileRequest request = new CreateFileRequest(
-				new User(),
+				user,
 				fileName,
 				path,
 				Long.valueOf(123),
@@ -49,15 +50,16 @@ public class CreateFileTest {
 	@Test(expected = CreateFileException.class)
 	public void test_execute_givenConstraintViolation_expectThrowCreateFileException() throws CreateFileException, DuplicatedFile, SaveObjectException {
 		
+		User user = new User();
 		String fileName = "test_4M_100nt_n3_r010.bwa.read1.fastq_convert.fastq";
 		String path = "/files/users/03711b01-5812-4a00-a039-e8eee346fb6b/test_4M_100nt_n3_r010.bwa.read1.fastq_convert.fastq";
 		
-		Mockito.doReturn(false).when(fileDAO).existsFile(path);
+		Mockito.doReturn(false).when(fileDAO).existsFile(user, fileName);
 		
 		Mockito.doThrow(SaveObjectException.class).when(fileDAO).save(Mockito.any(HPGMethylFile.class));
 		
 		CreateFileRequest request = new CreateFileRequest(
-				new User(),
+				user,
 				fileName,
 				path,
 				Long.valueOf(123),
@@ -75,7 +77,7 @@ public class CreateFileTest {
 		Long size = Long.valueOf(123);
 		String contentType = "text/plain";
 		
-		Mockito.doReturn(false).when(fileDAO).existsFile(path);
+		Mockito.doReturn(false).when(fileDAO).existsFile(user, fileName);
 		
 		Mockito.doNothing().when(fileDAO).save(Mockito.any(HPGMethylFile.class));
 		

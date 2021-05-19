@@ -1,5 +1,7 @@
 package es.hpgMethyl.dao.hibernate;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.NoResultException;
@@ -35,6 +37,30 @@ public class HPGMethylFileDAOHibernate extends BaseDAOHibernate<HPGMethylFile, U
 			return !query.list().isEmpty();
 		} catch(NoResultException exception) {
 			return false;
+		} finally {
+			session.close();
+		}
+	}
+
+	@Override
+	public List<HPGMethylFile> list(User user) {
+		
+		Session session = HibernateUtils.getSessionFactory().openSession();
+		
+		try {		
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<HPGMethylFile> criteriaQuery = criteriaBuilder.createQuery(HPGMethylFile.class);
+			
+			Root<HPGMethylFile> root = criteriaQuery.from(HPGMethylFile.class);
+			if(user != null) {
+				criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("user"), user));
+			}
+
+			Query<HPGMethylFile> query = session.createQuery(criteriaQuery);	
+			
+			return query.getResultList();
+		} catch(NoResultException exception) {
+			return new ArrayList<HPGMethylFile>();
 		} finally {
 			session.close();
 		}
