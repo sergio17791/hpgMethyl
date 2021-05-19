@@ -12,12 +12,13 @@ import org.hibernate.query.Query;
 
 import es.hpgMethyl.dao.HPGMethylFileDAO;
 import es.hpgMethyl.entities.HPGMethylFile;
+import es.hpgMethyl.entities.User;
 import es.hpgMethyl.utils.HibernateUtils;
 
 public class HPGMethylFileDAOHibernate extends BaseDAOHibernate<HPGMethylFile, UUID> implements HPGMethylFileDAO {
 
 	@Override
-	public Boolean existsFile(String path) {
+	public Boolean existsFile(User user, String fileName) {
 		
 		Session session = HibernateUtils.getSessionFactory().openSession();
 		
@@ -26,7 +27,8 @@ public class HPGMethylFileDAOHibernate extends BaseDAOHibernate<HPGMethylFile, U
 			CriteriaQuery<HPGMethylFile> criteriaQuery = criteriaBuilder.createQuery(HPGMethylFile.class);
 			
 			Root<HPGMethylFile> root = criteriaQuery.from(HPGMethylFile.class);
-			criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("path"), path));
+			criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("user"), user));
+			criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("fileName"), fileName));
 			
 			Query<HPGMethylFile> query = session.createQuery(criteriaQuery);	
 			
