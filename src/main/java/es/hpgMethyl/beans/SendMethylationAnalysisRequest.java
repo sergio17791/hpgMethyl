@@ -103,8 +103,12 @@ public class SendMethylationAnalysisRequest implements Serializable {
 			HPGMethylFile pairedEndHPGMethylFile = null;
 			if(analysisRequestBean.getPairedMode() == PairedMode.PAIRED_END_MODE) {					
 				if(pairedEndModeFile != null) {
-					String pairedEndModeFileName = pairedEndModeFile.getSubmittedFileName();					
-					pairedEndHPGMethylFile = saveFile(user, pairedEndModeFile, pairedEndModeFileName);
+					String pairedEndModeFileName = pairedEndModeFile.getSubmittedFileName();
+					if(pairedEndModeFileName.equals(inputReadFileName)) {
+						pairedEndHPGMethylFile = inputHPGMethylFile;
+					} else {
+						pairedEndHPGMethylFile = saveFile(user, pairedEndModeFile, pairedEndModeFileName);
+					}
 				}
 			}
 			
