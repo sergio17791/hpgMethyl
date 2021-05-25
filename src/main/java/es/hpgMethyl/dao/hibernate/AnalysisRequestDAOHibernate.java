@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
@@ -29,10 +30,16 @@ public class AnalysisRequestDAOHibernate extends BaseDAOHibernate<AnalysisReques
 			CriteriaQuery<AnalysisRequest> criteriaQuery = criteriaBuilder.createQuery(AnalysisRequest.class);
 			
 			Root<AnalysisRequest> root = criteriaQuery.from(AnalysisRequest.class);
-			criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("user"), user));
-			criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("identifier"), identifier));
+			criteriaQuery.select(root);
+			
+			List<Predicate> predicates = new ArrayList<Predicate>();
+			predicates.add(criteriaBuilder.equal(root.get("user"), user));
+			predicates.add(criteriaBuilder.equal(root.get("identifier"), identifier));
+			
+			criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
 			
 			Query<AnalysisRequest> query = session.createQuery(criteriaQuery);	
+			query.setMaxResults(1);
 			
 			return query.getSingleResult();
 		} catch(NoResultException exception) {
@@ -52,8 +59,15 @@ public class AnalysisRequestDAOHibernate extends BaseDAOHibernate<AnalysisReques
 			CriteriaQuery<AnalysisRequest> criteriaQuery = criteriaBuilder.createQuery(AnalysisRequest.class);
 			
 			Root<AnalysisRequest> root = criteriaQuery.from(AnalysisRequest.class);
+			criteriaQuery.select(root);
+			
+			List<Predicate> predicates = new ArrayList<Predicate>();
 			if(user != null) {
-				criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("user"), user));
+				predicates.add(criteriaBuilder.equal(root.get("user"), user));
+			}
+			
+			if(!predicates.isEmpty()) {
+				criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
 			}
 
 			Query<AnalysisRequest> query = session.createQuery(criteriaQuery);	

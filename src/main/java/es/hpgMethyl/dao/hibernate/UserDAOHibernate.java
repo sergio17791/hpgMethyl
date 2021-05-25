@@ -26,7 +26,8 @@ public class UserDAOHibernate extends BaseDAOHibernate<User, UUID> implements Us
 			CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
 			
 			Root<User> root = criteriaQuery.from(User.class);
-			criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("email"), email));
+			criteriaQuery.select(root);
+			criteriaQuery.where(criteriaBuilder.equal(root.get("email"), email));
 			
 			Query<User> query = session.createQuery(criteriaQuery);	
 			

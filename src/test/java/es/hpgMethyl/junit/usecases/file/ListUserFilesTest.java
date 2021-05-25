@@ -50,9 +50,9 @@ public class ListUserFilesTest {
 	
 	public void test_execute_givenUserWithoutFiles_expectEmptyList() {
 		
-		ListUserFilesRequest request = new ListUserFilesRequest(user);
+		ListUserFilesRequest request = new ListUserFilesRequest(user, true);
 		
-		Mockito.doReturn(new ArrayList<HPGMethylFile>()).when(fileDAO).list(user);
+		Mockito.doReturn(new ArrayList<HPGMethylFile>()).when(fileDAO).list(user, true);
 		
 		ListUserFilesResponse response = this.listUserFiles.execute(request);
 		
@@ -61,14 +61,14 @@ public class ListUserFilesTest {
 	
 	public void test_execute_givenUserWithFiles_expectList() {
 		
-		ListUserFilesRequest request = new ListUserFilesRequest(user);
+		ListUserFilesRequest request = new ListUserFilesRequest(user, true);
 		
 		List<HPGMethylFile> filesList = new ArrayList<HPGMethylFile>();
 		filesList.add(new HPGMethylFile());
 		filesList.add(new HPGMethylFile());
 		filesList.add(new HPGMethylFile());
 		
-		Mockito.doReturn(filesList).when(fileDAO).list(user);
+		Mockito.doReturn(filesList).when(fileDAO).list(user, true);
 		
 		ListUserFilesResponse response = this.listUserFiles.execute(request);
 		

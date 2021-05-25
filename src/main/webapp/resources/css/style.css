@@ -82,3 +82,12 @@ div.dashboardCard {
 	font-weight: bold;
     font-size: x-large;
 }
+
+div.booleanColumn{
+    margin-top: 25px;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}

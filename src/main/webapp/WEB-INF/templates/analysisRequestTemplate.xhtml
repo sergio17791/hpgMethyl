@@ -14,14 +14,23 @@
                 									  maxlength="60"
                 									  required="true" 
                 									  focus="true"/>
-				<ui:insert name="inputReadFile">
-					<components:inputTextWithErrorMessage inputId="inputReadFile"
-                										  value="#{analysisBean.inputReadFile}"
-                										  label="#{msg['analysis.attribute.inputReadFile']}"
-                										  maxlength="60"
-                										  required="true"
-                										  disabled="true"/>
-				</ui:insert>                									                 			                
+				<b:column col-md="6">
+               		<b:selectOneMenu id ="pairedMode" 
+	               				 	 value="#{analysisBean.pairedMode}"
+		                       	 	 styleClass="form-control"
+		                           	 label="#{msg['analysis.attribute.pairedMode']}" 
+			                       	 required="true" 
+		                           	 requiredMessage="#{msg['error.form.requiredField']}"
+		                           	 disabled="#{analysisBean.id != null}">    
+		             	<f:selectItems value="#{analysisDetail.pairedModes}" 
+		                   			   var="pairedModeValue" 
+		                   			   itemValue="#{pairedModeValue}" 
+		                   			   itemLabel="#{msg['analysis.attribute.pairedMode.' += pairedModeValue]}"/>
+    					<f:ajax render="pairedEndModeSection" /> 
+    					<f:ajax render="mappedReadFilteringSection" />                        
+	               	</b:selectOneMenu>
+               		<h:message for="pairedMode" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+               	</b:column>              									  				              									                 			                
             </b:row>
             <b:row>
 				<b:column col-md="4">
@@ -43,24 +52,15 @@
 					<h:message for="writeBatchSize" styleClass="alert alert-danger errorMessageWithTopLabel"/>
 				</b:column>
 			</b:row>
-            <b:row>
-               	<b:column col-md="6">
-               		<b:selectOneMenu id ="pairedMode" 
-	               				 	 value="#{analysisBean.pairedMode}"
-		                       	 	 styleClass="form-control"
-		                           	 label="#{msg['analysis.attribute.pairedMode']}" 
-			                       	 required="true" 
-		                           	 requiredMessage="#{msg['error.form.requiredField']}"
-		                           	 disabled="#{analysisBean.id != null}">    
-		             	<f:selectItems value="#{analysisDetail.pairedModes}" 
-		                   			   var="pairedModeValue" 
-		                   			   itemValue="#{pairedModeValue}" 
-		                   			   itemLabel="#{msg['analysis.attribute.pairedMode.' += pairedModeValue]}"/>
-    					<f:ajax render="pairedEndModeSection" /> 
-    					<f:ajax render="mappedReadFilteringSection" />                        
-	               	</b:selectOneMenu>
-               		<h:message for="pairedMode" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-               	</b:column>
+            <b:row style="margin-bottom: 10px">
+            	<ui:insert name="inputReadFile">
+					<components:inputTextWithErrorMessage inputId="inputReadFile"
+                										  value="#{analysisBean.inputReadFile}"
+                										  label="#{msg['analysis.attribute.inputReadFile']}"
+                										  maxlength="60"
+                										  required="true"
+                										  disabled="true"/>
+				</ui:insert>                 	
              </b:row>
         </fieldset>
         <h:panelGroup id="pairedEndModeSection">
@@ -68,28 +68,30 @@
 				<fieldset>
 					<legend><h4><h:outputText value="#{msg['analysis.send.pairedEndModeLegend']}"/></h4></legend>							
 						<h:outputText value="#{msg['analysis.send.pairedEndModeText']}"/>
-						<b:row style="margin-top: 10px">
+						<b:row style="margin-top: 10px; margin-bottom: 10px">
 							<ui:insert name="pairedEndModeFile">
 								<components:inputTextWithErrorMessage inputId="pairedEndModeFile"
                 									  			  	  value="#{analysisBean.pairedEndModeFile}"
                 									  			  	  label="#{msg['analysis.attribute.pairedEndModeFile']}"
                 									  			  	  maxlength="60"
-                									  			  	  colMdSize="4"
+                									  			  	  colMdSize="6"
                 									  			  	  required="#{analysis.pairedMode.value eq 1}"
                 									  			  	  disabled="true"/>
-							</ui:insert>							
+							</ui:insert>
+						</b:row>
+            			<b:row>						
                 			<components:inputTextWithErrorMessage inputId="pairedMaxDistance"
                 												  value="#{analysisBean.pairedMaxDistance}"
                 												  label="#{msg['analysis.attribute.pairedMaxDistance']}"
                 												  type="number"
                 												  required="false"
-                												  colMdSize="4"/>
+                												  colMdSize="6"/>
 							<components:inputTextWithErrorMessage inputId="pairedMinDistance"
                 												  value="#{analysisBean.pairedMinDistance}"
                 												  label="#{msg['analysis.attribute.pairedMinDistance']}"
                 												  type="number"
                 												  required="false"
-                												  colMdSize="4"/>                											  
+                												  colMdSize="6"/>                											  
                 		</b:row>
                 </fieldset>	
 			</h:panelGroup>

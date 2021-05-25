@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
@@ -29,15 +30,21 @@ public class HPGMethylFileDAOHibernate extends BaseDAOHibernate<HPGMethylFile, U
 			CriteriaQuery<HPGMethylFile> criteriaQuery = criteriaBuilder.createQuery(HPGMethylFile.class);
 			
 			Root<HPGMethylFile> root = criteriaQuery.from(HPGMethylFile.class);
-			criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("user"), user));
-			criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("fileName"), fileName));
+			criteriaQuery.select(root);
+			
+			List<Predicate> predicates = new ArrayList<Predicate>();
+			predicates.add(criteriaBuilder.equal(root.get("user"), user));
+			predicates.add(criteriaBuilder.equal(root.get("fileName"), fileName));
 			if(stored != null) {
-				criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("stored"), stored));
-			}
+				predicates.add(criteriaBuilder.equal(root.get("stored"), stored));	
+			}				
 			
+			criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
+
 			Query<HPGMethylFile> query = session.createQuery(criteriaQuery);	
+			query.setMaxResults(1);
 			
-			return !query.list().isEmpty();
+			return query.getSingleResult() != null;
 		} catch(NoResultException exception) {
 			return false;
 		} finally {
@@ -46,7 +53,7 @@ public class HPGMethylFileDAOHibernate extends BaseDAOHibernate<HPGMethylFile, U
 	}
 
 	@Override
-	public List<HPGMethylFile> list(User user) {
+	public List<HPGMethylFile> list(User user, Boolean stored) {
 		
 		Session session = HibernateUtils.getSessionFactory().openSession();
 		
@@ -55,9 +62,21 @@ public class HPGMethylFileDAOHibernate extends BaseDAOHibernate<HPGMethylFile, U
 			CriteriaQuery<HPGMethylFile> criteriaQuery = criteriaBuilder.createQuery(HPGMethylFile.class);
 			
 			Root<HPGMethylFile> root = criteriaQuery.from(HPGMethylFile.class);
+			criteriaQuery.select(root);
+			
+			List<Predicate> predicates = new ArrayList<Predicate>();			
 			if(user != null) {
-				criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("user"), user));
+				predicates.add(criteriaBuilder.equal(root.get("user"), user));
+			}			
+			if(stored != null) {
+				predicates.add(criteriaBuilder.equal(root.get("stored"), stored));
 			}
+			
+			if(!predicates.isEmpty()) {
+				criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
+			}
+			
+			criteriaQuery.orderBy(criteriaBuilder.asc(root.get("fileName")));
 
 			Query<HPGMethylFile> query = session.createQuery(criteriaQuery);	
 			

@@ -15,7 +15,7 @@ public class ListUserFiles {
 	
 	public ListUserFilesResponse execute(ListUserFilesRequest request) {
 		
-		List<HPGMethylFile> files = this.fileDAO.list(request.getUser());
+		List<HPGMethylFile> files = this.fileDAO.list(request.getUser(), request.getStored());
 		
 		return new ListUserFilesResponse(files);
 	}
