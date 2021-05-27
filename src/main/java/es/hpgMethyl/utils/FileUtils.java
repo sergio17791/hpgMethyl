@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
 
 import javax.servlet.http.Part;
 
@@ -58,5 +61,9 @@ public class FileUtils {
 	            filecontent.close();
 	        }
 		}
+	}
+	
+	public static void deleteFile(String path) throws NoSuchFileException, IOException {		
+		Files.deleteIfExists(Paths.get(path));
 	}
 }
