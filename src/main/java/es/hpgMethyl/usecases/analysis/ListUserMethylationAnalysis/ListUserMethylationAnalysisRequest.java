@@ -4,7 +4,7 @@ import es.hpgMethyl.entities.User;
 
 public class ListUserMethylationAnalysisRequest {
 
-	User user;
+	private User user;
 
 	public ListUserMethylationAnalysisRequest(User user) {
 		this.user = user;
