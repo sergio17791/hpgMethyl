@@ -26,8 +26,6 @@ public class AnalysisRequestBean implements Serializable {
 	private PairedMode pairedMode;
 	private HPGMethylFile inputReadFile;
 	private Boolean writeMethylationContext;
-	private Boolean readBatchSize;
-	private Boolean writeBatchSize;
 	private HPGMethylFile pairedEndModeFile;
 	private BigDecimal pairedMaxDistance;
 	private BigDecimal pairedMinDistance;
@@ -64,8 +62,6 @@ public class AnalysisRequestBean implements Serializable {
 		this.status = null;
 		this.inputReadFile = null;
 		this.writeMethylationContext = false;
-		this.readBatchSize = false;
-		this.writeBatchSize = false;
 		this.pairedEndModeFile = null;
 		this.pairedMaxDistance = null;
 		this.pairedMinDistance = null;
@@ -193,34 +189,6 @@ public class AnalysisRequestBean implements Serializable {
 	 */
 	public void setWriteMethylationContext(Boolean writeMethylationContext) {
 		this.writeMethylationContext = writeMethylationContext;
-	}
-
-	/**
-	 * @return the readBatchSize
-	 */
-	public Boolean getReadBatchSize() {
-		return readBatchSize;
-	}
-
-	/**
-	 * @param readBatchSize the readBatchSize to set
-	 */
-	public void setReadBatchSize(Boolean readBatchSize) {
-		this.readBatchSize = readBatchSize;
-	}
-
-	/**
-	 * @return the writeBatchSize
-	 */
-	public Boolean getWriteBatchSize() {
-		return writeBatchSize;
-	}
-
-	/**
-	 * @param writeBatchSize the writeBatchSize to set
-	 */
-	public void setWriteBatchSize(Boolean writeBatchSize) {
-		this.writeBatchSize = writeBatchSize;
 	}
 
 	/**

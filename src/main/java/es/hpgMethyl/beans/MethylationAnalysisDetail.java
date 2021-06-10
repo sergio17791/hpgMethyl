@@ -141,8 +141,6 @@ public class MethylationAnalysisDetail implements Serializable {
 				analysisRequestBean.setPairedMode(analysisRequest.getPairedMode());
 				analysisRequestBean.setInputReadFile(analysisRequest.getInputReadFile());
 				analysisRequestBean.setWriteMethylationContext(analysisRequest.getWriteMethylationContext());
-				analysisRequestBean.setReadBatchSize(analysisRequest.getReadBatchSize());
-				analysisRequestBean.setWriteBatchSize(analysisRequest.getWriteBatchSize());
 				analysisRequestBean.setPairedEndModeFile(analysisRequest.getPairedEndModeFile());
 				analysisRequestBean.setPairedMaxDistance(analysisRequest.getPairedMaxDistance());
 				analysisRequestBean.setPairedMinDistance(analysisRequest.getPairedMinDistance());
@@ -195,8 +193,6 @@ public class MethylationAnalysisDetail implements Serializable {
 						UUID.fromString(this.id),
 						analysisRequestBean.getIdentifier(),
 						analysisRequestBean.getWriteMethylationContext(), 
-						analysisRequestBean.getReadBatchSize(), 
-						analysisRequestBean.getWriteBatchSize(), 
 						analysisRequestBean.getPairedMode(),
 						analysisRequestBean.getPairedMaxDistance(), 
 						analysisRequestBean.getPairedMinDistance(),

@@ -46,8 +46,6 @@ public class UpdateMethylationAnalysisParametersTest {
 				"Update Methylation Analysis Parameters Test", 
 				AnalysisStatus.CREATED,
 				new HPGMethylFile(), 
-				false,
-				false, 
 				false, 
 				PairedMode.SINGLE_END_MODE, 
 				null,
@@ -87,8 +85,6 @@ public class UpdateMethylationAnalysisParametersTest {
 				id,
 				analysisRequest.getIdentifier(),
 				true,
-				analysisRequest.getReadBatchSize(),
-				analysisRequest.getWriteBatchSize(),
 				analysisRequest.getPairedMode(),
 				analysisRequest.getPairedMaxDistance(),
 				analysisRequest.getPairedMinDistance(),
@@ -129,8 +125,6 @@ public class UpdateMethylationAnalysisParametersTest {
 				id,
 				analysisRequest.getIdentifier(),
 				true,
-				analysisRequest.getReadBatchSize(),
-				analysisRequest.getWriteBatchSize(),
 				analysisRequest.getPairedMode(),
 				analysisRequest.getPairedMaxDistance(),
 				analysisRequest.getPairedMinDistance(),
@@ -175,8 +169,6 @@ public class UpdateMethylationAnalysisParametersTest {
 				"Processed Analysis Request Test", 
 				AnalysisStatus.COMPLETED,
 				new HPGMethylFile(), 
-				false,
-				false, 
 				false, 
 				PairedMode.SINGLE_END_MODE, 
 				null,
@@ -210,8 +202,6 @@ public class UpdateMethylationAnalysisParametersTest {
 				id,
 				processedAnalysisRequest.getIdentifier(),
 				true,
-				processedAnalysisRequest.getReadBatchSize(),
-				processedAnalysisRequest.getWriteBatchSize(),
 				processedAnalysisRequest.getPairedMode(),
 				processedAnalysisRequest.getPairedMaxDistance(),
 				processedAnalysisRequest.getPairedMinDistance(),
@@ -253,8 +243,6 @@ public class UpdateMethylationAnalysisParametersTest {
 				id,
 				identifier,
 				true,
-				analysisRequest.getReadBatchSize(),
-				analysisRequest.getWriteBatchSize(),
 				analysisRequest.getPairedMode(),
 				analysisRequest.getPairedMaxDistance(),
 				analysisRequest.getPairedMinDistance(),
@@ -298,8 +286,6 @@ public class UpdateMethylationAnalysisParametersTest {
 				id,
 				identifier,
 				true,
-				analysisRequest.getReadBatchSize(),
-				analysisRequest.getWriteBatchSize(),
 				analysisRequest.getPairedMode(),
 				analysisRequest.getPairedMaxDistance(),
 				analysisRequest.getPairedMinDistance(),
@@ -345,8 +331,6 @@ public class UpdateMethylationAnalysisParametersTest {
 				id,
 				identifier,
 				true,
-				analysisRequest.getReadBatchSize(),
-				analysisRequest.getWriteBatchSize(),
 				analysisRequest.getPairedMode(),
 				analysisRequest.getPairedMaxDistance(),
 				analysisRequest.getPairedMinDistance(),
@@ -385,8 +369,6 @@ public class UpdateMethylationAnalysisParametersTest {
 		
 		Assert.assertEquals(request.getIdentifier(), response.getIdentifier());
 		Assert.assertEquals(request.getWriteMethylationContext(), response.getWriteMethylationContext());
-		Assert.assertEquals(request.getReadBatchSize(), response.getReadBatchSize());
-		Assert.assertEquals(request.getWriteBatchSize(), response.getWriteBatchSize());
 		Assert.assertEquals(request.getPairedMode(), response.getPairedMode());
 		Assert.assertEquals(request.getPairedMaxDistance(), response.getPairedMaxDistance());
 		Assert.assertEquals(request.getPairedMinDistance(), response.getPairedMinDistance());
