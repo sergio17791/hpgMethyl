@@ -193,8 +193,6 @@ public class MethylationAnalysisDetail implements Serializable {
 						UUID.fromString(this.id),
 						analysisRequestBean.getIdentifier(),
 						analysisRequestBean.getWriteMethylationContext(), 
-						analysisRequestBean.getReadBatchSize(), 
-						analysisRequestBean.getWriteBatchSize(), 
 						analysisRequestBean.getPairedMode(),
 						analysisRequestBean.getPairedMaxDistance(), 
 						analysisRequestBean.getPairedMinDistance(),

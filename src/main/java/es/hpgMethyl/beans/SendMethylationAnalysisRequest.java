@@ -226,8 +226,6 @@ public class SendMethylationAnalysisRequest implements Serializable {
 					analysisRequestBean.getIdentifier(),
 					inputHPGMethylFile,
 					analysisRequestBean.getWriteMethylationContext(), 
-					analysisRequestBean.getReadBatchSize(), 
-					analysisRequestBean.getWriteBatchSize(), 
 					analysisRequestBean.getPairedMode(),
 					pairedEndHPGMethylFile, 
 					analysisRequestBean.getPairedMaxDistance(), 
