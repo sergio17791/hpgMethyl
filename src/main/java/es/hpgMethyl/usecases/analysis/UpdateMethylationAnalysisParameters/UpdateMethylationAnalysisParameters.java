@@ -50,8 +50,6 @@ public class UpdateMethylationAnalysisParameters {
 				
 		analysisRequest.setIdentifier(newIdentifier);
 		analysisRequest.setWriteMethylationContext(request.getWriteMethylationContext());
-		analysisRequest.setReadBatchSize(request.getReadBatchSize());
-		analysisRequest.setWriteBatchSize(request.getWriteBatchSize());
 		analysisRequest.setPairedMode(request.getPairedMode());
 		analysisRequest.setPairedMaxDistance(request.getPairedMaxDistance());
 		analysisRequest.setPairedMinDistance(request.getPairedMinDistance());

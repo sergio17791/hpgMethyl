@@ -162,8 +162,6 @@ public class CreateMethylationAnalysisTest {
 		Assert.assertEquals(request.getIdentifier(), response.getIdentifier());
 		Assert.assertEquals(request.getInputReadFile(), response.getInputReadFile());
 		Assert.assertEquals(request.getWriteMethylationContext(), response.getWriteMethylationContext());
-		Assert.assertEquals(request.getReadBatchSize(), response.getReadBatchSize());
-		Assert.assertEquals(request.getWriteBatchSize(), response.getWriteBatchSize());
 		Assert.assertEquals(request.getPairedMode(), response.getPairedMode());
 		Assert.assertEquals(request.getPairedEndModeFile(), response.getPairedEndModeFile());
 		Assert.assertEquals(request.getPairedMaxDistance(), response.getPairedMaxDistance());

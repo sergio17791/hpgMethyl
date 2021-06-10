@@ -39,12 +39,6 @@ public class AnalysisRequest extends BaseEntity {
 	@Column(name = "write_methylation_context", nullable = false)
 	private Boolean writeMethylationContext;
 	
-	@Column(name = "read_batch_size", nullable = false)
-	private Boolean readBatchSize;
-	
-	@Column(name = "write_batch_size", nullable = false)
-	private Boolean writeBatchSize;
-	
 	@Column(name = "paired_mode", nullable = false)
 	@Enumerated(EnumType.ORDINAL)
 	private PairedMode pairedMode;
@@ -130,8 +124,6 @@ public class AnalysisRequest extends BaseEntity {
 		super();
 		this.status = AnalysisStatus.CREATED;
 		this.writeMethylationContext = false;
-		this.readBatchSize = false;
-		this.writeBatchSize = false;
 		this.reportAll = false;
 		this.reportBest = true;
 	}
@@ -145,8 +137,6 @@ public class AnalysisRequest extends BaseEntity {
 			AnalysisStatus status,
 			HPGMethylFile inputReadFile, 
 			Boolean writeMethylationContext,
-			Boolean readBatchSize, 
-			Boolean writeBatchSize, 
 			PairedMode pairedMode, 
 			HPGMethylFile pairedEndModeFile,
 			BigDecimal pairedMaxDistance, 
@@ -180,8 +170,6 @@ public class AnalysisRequest extends BaseEntity {
 		this.status = status;
 		this.inputReadFile = inputReadFile;
 		this.writeMethylationContext = writeMethylationContext;
-		this.readBatchSize = readBatchSize;
-		this.writeBatchSize = writeBatchSize;
 		this.pairedMode = pairedMode;
 		this.pairedEndModeFile = pairedEndModeFile;
 		this.pairedMaxDistance = pairedMaxDistance;
@@ -278,34 +266,6 @@ public class AnalysisRequest extends BaseEntity {
 	 */
 	public void setWriteMethylationContext(Boolean writeMethylationContext) {
 		this.writeMethylationContext = writeMethylationContext;
-	}
-
-	/**
-	 * @return the readBatchSize
-	 */
-	public Boolean getReadBatchSize() {
-		return readBatchSize;
-	}
-
-	/**
-	 * @param readBatchSize the readBatchSize to set
-	 */
-	public void setReadBatchSize(Boolean readBatchSize) {
-		this.readBatchSize = readBatchSize;
-	}
-
-	/**
-	 * @return the writeBatchSize
-	 */
-	public Boolean getWriteBatchSize() {
-		return writeBatchSize;
-	}
-
-	/**
-	 * @param writeBatchSize the writeBatchSize to set
-	 */
-	public void setWriteBatchSize(Boolean writeBatchSize) {
-		this.writeBatchSize = writeBatchSize;
 	}
 
 	/**
