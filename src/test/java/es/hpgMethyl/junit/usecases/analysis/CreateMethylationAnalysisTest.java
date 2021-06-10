@@ -78,8 +78,6 @@ public class CreateMethylationAnalysisTest {
 				identifier,
 				file,
 				false, 
-				false, 
-				false, 
 				PairedMode.SINGLE_END_MODE,
 				null, 
 				null, 
@@ -122,8 +120,6 @@ public class CreateMethylationAnalysisTest {
 				identifier,
 				file,
 				false, 
-				true, 
-				false, 
 				PairedMode.PAIRED_END_MODE,
 				file, 
 				new BigDecimal("1"), 
@@ -162,8 +158,6 @@ public class CreateMethylationAnalysisTest {
 		Assert.assertEquals(request.getIdentifier(), response.getIdentifier());
 		Assert.assertEquals(request.getInputReadFile(), response.getInputReadFile());
 		Assert.assertEquals(request.getWriteMethylationContext(), response.getWriteMethylationContext());
-		Assert.assertEquals(request.getReadBatchSize(), response.getReadBatchSize());
-		Assert.assertEquals(request.getWriteBatchSize(), response.getWriteBatchSize());
 		Assert.assertEquals(request.getPairedMode(), response.getPairedMode());
 		Assert.assertEquals(request.getPairedEndModeFile(), response.getPairedEndModeFile());
 		Assert.assertEquals(request.getPairedMaxDistance(), response.getPairedMaxDistance());

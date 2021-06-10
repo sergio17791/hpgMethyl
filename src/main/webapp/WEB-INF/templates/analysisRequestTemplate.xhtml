@@ -32,26 +32,6 @@
                		<h:message for="pairedMode" styleClass="alert alert-danger errorMessageWithTopLabel"/>
                	</b:column>              									  				              									                 			                
             </b:row>
-            <b:row>
-				<b:column col-md="4">
-					<b:selectBooleanCheckbox id="writeMethylationContext"
-					  				 		 value="#{analysisBean.writeMethylationContext}" 
-											 caption="#{msg['analysis.attribute.writeMethylationContext']}"/>
-					<h:message for="writeMethylationContext" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-				</b:column>
-				<b:column col-md="4">
-					<b:selectBooleanCheckbox id="readBatchSize"
-					  				 		 value="#{analysisBean.readBatchSize}" 
-											 caption="#{msg['analysis.attribute.readBatchSize']}"/>
-					<h:message for="readBatchSize" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-				</b:column>
-				<b:column col-md="4">
-					<b:selectBooleanCheckbox id="writeBatchSize"
-					  				 		 value="#{analysisBean.writeBatchSize}" 
-											 caption="#{msg['analysis.attribute.writeBatchSize']}"/>
-					<h:message for="writeBatchSize" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-				</b:column>
-			</b:row>
             <b:row style="margin-bottom: 10px">
             	<ui:insert name="inputReadFile">
 					<components:inputTextWithErrorMessage inputId="inputReadFile"
@@ -60,7 +40,13 @@
                 										  maxlength="60"
                 										  required="true"
                 										  disabled="true"/>
-				</ui:insert>                 	
+				</ui:insert> 
+				<b:column col-md="3" styleClass="booleanColumn">
+					<b:selectBooleanCheckbox id="writeMethylationContext"
+					  				 		 value="#{analysisBean.writeMethylationContext}" 
+											 caption="#{msg['analysis.attribute.writeMethylationContext']}"/>
+					<h:message for="writeMethylationContext" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+				</b:column>                	
              </b:row>
         </fieldset>
         <h:panelGroup id="pairedEndModeSection">

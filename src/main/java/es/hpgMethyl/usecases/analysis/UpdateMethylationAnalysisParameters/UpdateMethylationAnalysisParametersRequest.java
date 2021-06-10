@@ -13,10 +13,6 @@ public class UpdateMethylationAnalysisParametersRequest {
 	
 	private Boolean writeMethylationContext;
 	
-	private Boolean readBatchSize; 
-	
-	private Boolean writeBatchSize; 
-	
 	private PairedMode pairedMode; 
 	
 	private BigDecimal pairedMaxDistance; 
@@ -69,8 +65,6 @@ public class UpdateMethylationAnalysisParametersRequest {
 			UUID id, 
 			String identifier, 
 			Boolean writeMethylationContext,
-			Boolean readBatchSize, 
-			Boolean writeBatchSize, 
 			PairedMode pairedMode, 
 			BigDecimal pairedMaxDistance,
 			BigDecimal pairedMinDistance, 
@@ -99,8 +93,6 @@ public class UpdateMethylationAnalysisParametersRequest {
 		this.id = id;
 		this.identifier = identifier;
 		this.writeMethylationContext = writeMethylationContext;
-		this.readBatchSize = readBatchSize;
-		this.writeBatchSize = writeBatchSize;
 		this.pairedMode = pairedMode;
 		this.pairedMaxDistance = pairedMaxDistance;
 		this.pairedMinDistance = pairedMinDistance;
@@ -167,34 +159,6 @@ public class UpdateMethylationAnalysisParametersRequest {
 	 */
 	public void setWriteMethylationContext(Boolean writeMethylationContext) {
 		this.writeMethylationContext = writeMethylationContext;
-	}
-
-	/**
-	 * @return the readBatchSize
-	 */
-	public Boolean getReadBatchSize() {
-		return readBatchSize;
-	}
-
-	/**
-	 * @param readBatchSize the readBatchSize to set
-	 */
-	public void setReadBatchSize(Boolean readBatchSize) {
-		this.readBatchSize = readBatchSize;
-	}
-
-	/**
-	 * @return the writeBatchSize
-	 */
-	public Boolean getWriteBatchSize() {
-		return writeBatchSize;
-	}
-
-	/**
-	 * @param writeBatchSize the writeBatchSize to set
-	 */
-	public void setWriteBatchSize(Boolean writeBatchSize) {
-		this.writeBatchSize = writeBatchSize;
 	}
 
 	/**

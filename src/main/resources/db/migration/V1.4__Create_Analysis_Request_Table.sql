@@ -5,8 +5,6 @@ CREATE TABLE "analysis_request" (
     identifier VARCHAR(60) NOT NULL,
     input_read_file uuid NOT NULL,
     write_methylation_context BOOLEAN NOT NULL DEFAULT false,
-    read_batch_size BOOLEAN NOT NULL DEFAULT false,
-    write_batch_size BOOLEAN NOT NULL DEFAULT false,
     paired_mode smallint NOT NULL DEFAULT 0,
     paired_end_mode_file uuid,
     paired_max_distance integer,

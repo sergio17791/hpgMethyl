@@ -16,10 +16,6 @@ public class CreateMethylationAnalysisRequest {
 	
 	private Boolean writeMethylationContext;
 	
-	private Boolean readBatchSize; 
-	
-	private Boolean writeBatchSize; 
-	
 	private PairedMode pairedMode; 
 	
 	private HPGMethylFile pairedEndModeFile;
@@ -75,8 +71,6 @@ public class CreateMethylationAnalysisRequest {
 			String identifier, 
 			HPGMethylFile inputReadFile,
 			Boolean writeMethylationContext, 
-			Boolean readBatchSize, 
-			Boolean writeBatchSize, 
 			PairedMode pairedMode,
 			HPGMethylFile pairedEndModeFile, 
 			BigDecimal pairedMaxDistance, 
@@ -107,8 +101,6 @@ public class CreateMethylationAnalysisRequest {
 		this.identifier = identifier;
 		this.inputReadFile = inputReadFile;
 		this.writeMethylationContext = writeMethylationContext;
-		this.readBatchSize = readBatchSize;
-		this.writeBatchSize = writeBatchSize;
 		this.pairedMode = pairedMode;
 		this.pairedEndModeFile = pairedEndModeFile;
 		this.pairedMaxDistance = pairedMaxDistance;
@@ -190,34 +182,6 @@ public class CreateMethylationAnalysisRequest {
 	 */
 	public void setWriteMethylationContext(Boolean writeMethylationContext) {
 		this.writeMethylationContext = writeMethylationContext;
-	}
-
-	/**
-	 * @return the readBatchSize
-	 */
-	public Boolean getReadBatchSize() {
-		return readBatchSize;
-	}
-
-	/**
-	 * @param readBatchSize the readBatchSize to set
-	 */
-	public void setReadBatchSize(Boolean readBatchSize) {
-		this.readBatchSize = readBatchSize;
-	}
-
-	/**
-	 * @return the writeBatchSize
-	 */
-	public Boolean getWriteBatchSize() {
-		return writeBatchSize;
-	}
-
-	/**
-	 * @param writeBatchSize the writeBatchSize to set
-	 */
-	public void setWriteBatchSize(Boolean writeBatchSize) {
-		this.writeBatchSize = writeBatchSize;
 	}
 
 	/**

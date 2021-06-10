@@ -29,8 +29,6 @@ public class CreateMethylationAnalysis {
 		analysisRequest.setIdentifier(identifier);
 		analysisRequest.setInputReadFile(request.getInputReadFile());
 		analysisRequest.setWriteMethylationContext(request.getWriteMethylationContext());
-		analysisRequest.setReadBatchSize(request.getReadBatchSize());
-		analysisRequest.setWriteBatchSize(request.getWriteBatchSize());
 		analysisRequest.setPairedMode(request.getPairedMode());
 		analysisRequest.setPairedEndModeFile(request.getPairedEndModeFile());
 		analysisRequest.setPairedMaxDistance(request.getPairedMaxDistance());
