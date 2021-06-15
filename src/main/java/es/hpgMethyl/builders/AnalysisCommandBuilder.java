@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.types.PairedMode;
+import es.hpgMethyl.utils.FileUtils;
 
 public class AnalysisCommandBuilder {
 
@@ -32,6 +33,8 @@ public class AnalysisCommandBuilder {
 	private String MINIMUM_SEED_SIZE = "--min-seed-size";
 	
 	private String NUMBER_SEEDS_PER_READ = "--num-seeds";
+	
+	private String OUTDIR = "--outdir";
 	
 	private String PAIRED_MODE = "--paired-mode";
 	
@@ -72,6 +75,10 @@ public class AnalysisCommandBuilder {
 	public String build() {
 		
 		String command = "./opt/hpg-methyl bs " + BWT_INDEX + "  /data/tomcat/genome/bs-index/";
+		
+		String outputDirectory = FileUtils.USERS_FILES_BASE_PATH + analysisRequest.getId();
+		
+		command = command + " " + OUTDIR + " " + outputDirectory;
 		
 		String fastqFilePath = analysisRequest.getInputReadFile().getPath();
 		
