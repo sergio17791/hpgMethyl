@@ -30,6 +30,10 @@ public class Configuration extends BaseEntity {
 	
 	@Column(name = "write_batch_size", nullable = true)
 	private Integer writeBatchSize;
+	
+	public Configuration() {
+		super();
+	}
 
 	public Configuration(
 			UUID id, 
