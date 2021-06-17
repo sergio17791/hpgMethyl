@@ -51,4 +51,8 @@
 		<pattern value="/#{ id }"/>
 		<view-id value="/faces/admin/analysis/detail.xhtml"/>
 	</url-mapping>
+	<url-mapping id="adminConfiguration" parentId="admin">
+		<pattern value="/configuration"/>
+		<view-id value="/faces/admin/configuration.xhtml"/>
+	</url-mapping>
 </pretty-config>

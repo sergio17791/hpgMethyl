@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:components="http://java.sun.com/jsf/composite/components"
+                template="../WEB-INF/templates/adminTemplate.xhtml">
+    <ui:define name="content">
+    	<b:form id="applicationConfigurationForm">
+    		<b:row>
+	        	<b:column col-xs="6">
+    	        	<legend><h:outputText value="#{msg['admin.configuration.legend']}"/></legend>      
+        	    </b:column>              
+        	</b:row>
+        	<b:panel>
+        		<fieldset>
+        			<b:row>
+        				<components:inputTextWithErrorMessage inputId="userAbsolutePath"
+                	                                          value="#{applicationConfiguration.userAbsolutePath}"
+            	                                              label="#{msg['admin.configuration.userAbsolutePath']}"
+        	                                                  colMdSize="12"
+    	                                                      required="true"
+    	                                                      focus="true"/>
+        			</b:row>
+        			<b:row>
+						<components:inputTextWithErrorMessage inputId="maximumUserAnalysis"
+                									  		  value="#{applicationConfiguration.maximumUserAnalysis}"
+                									  		  label="#{msg['admin.configuration.maximumUserAnalysis']}"
+		                									  type="number"
+        		        									  colMdSize="6"/> 
+						<components:inputTextWithErrorMessage inputId="maximumUserFiles"
+                									  		  value="#{applicationConfiguration.maximumUserFiles}"
+                									  		  label="#{msg['admin.configuration.maximumUserFiles']}"
+		                									  type="number"
+        		        									  colMdSize="6"/>               											                   											   
+            		</b:row>
+        		</fieldset>
+        		<fieldset>
+        			<legend><h4><h:outputText value="#{msg['admin.configuration.command']}"/></h4></legend>
+        			<b:row>
+        				<components:inputTextWithErrorMessage inputId="hpgMethylAbsolutePath"
+                	                                          value="#{applicationConfiguration.hpgMethylAbsolutePath}"
+            	                                              label="#{msg['admin.configuration.hpgMethylAbsolutePath']}"
+        	                                                  colMdSize="12"
+    	                                                      required="true"/>
+						<components:inputTextWithErrorMessage inputId="bwtIndexAbsolutePath"
+                                	                          value="#{applicationConfiguration.bwtIndexAbsolutePath}"
+                            	                              label="#{msg['admin.configuration.bwtIndexAbsolutePath']}"
+                        	                                  colMdSize="12"
+                    	                                      required="true"/>                                                          
+	        		</b:row>
+	        		<b:row>
+	        			<components:inputTextWithErrorMessage inputId="cpuThreads"
+                									  		  value="#{applicationConfiguration.cpuThreads}"
+                									  		  label="#{msg['admin.configuration.cpuThreads']}"
+		                									  type="number"
+        		        									  colMdSize="6"
+        		        									  required="true"/> 
+						<components:inputTextWithErrorMessage inputId="readBatchSize"
+                									  		  value="#{applicationConfiguration.readBatchSize}"
+                									  		  label="#{msg['admin.configuration.readBatchSize']}"
+		                									  type="number"
+        		        									  colMdSize="6"/> 						               											                   											   
+            		</b:row>
+            		<b:row>
+						<components:inputTextWithErrorMessage inputId="writeBatchSize"
+                									  		  value="#{applicationConfiguration.writeBatchSize}"
+                									  		  label="#{msg['admin.configuration.writeBatchSize']}"
+		                									  type="number"
+        		        									  colMdSize="6"/>             											                   											   
+            		</b:row>
+        		</fieldset>
+        		<b:row>
+                	<b:column col-md="6">
+	                	<b:commandButton value="#{msg['general.reset']}" 
+		                                 type="reset"
+		                                 look="light"
+		                                 styleClass="btn-block"/>
+                	</b:column>
+                	<b:column col-md="6">
+	                	<b:commandButton id="sendApplicationConfiguration"
+		                                 binding="#{applicationConfiguration.sendApplicationConfigurationComponent}"
+		                                 value="#{msg['admin.configuration.send']}" 
+		                                 action="#{sendAnalysis.sendNewConfiguration()}"
+		                                 look="primary"
+		                                 styleClass="btn-block"/>     
+                	</b:column>                    	
+                </b:row>        		
+        	</b:panel>
+    	</b:form>    	
+    </ui:define>
+</ui:composition>
