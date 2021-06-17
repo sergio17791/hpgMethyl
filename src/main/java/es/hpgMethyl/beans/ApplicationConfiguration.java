@@ -253,7 +253,7 @@ public class ApplicationConfiguration implements Serializable {
 			
 			this.updatedAt = new Date();
 			
-			String successMessage = FacesContextUtils.geti18nMessage("general.updateSuccessfully");
+			String successMessage = FacesContextUtils.geti18nMessage("admin.configuration.updated");
 			FacesContextUtils.setMessageInComponent(this.sendApplicationConfigurationComponent, FacesMessage.SEVERITY_INFO, successMessage, successMessage);
 			
 		} catch (SaveApplicationConfigurationException e) {
