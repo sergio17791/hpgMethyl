@@ -81,11 +81,16 @@
 	                	<b:commandButton id="sendApplicationConfiguration"
 		                                 binding="#{applicationConfiguration.sendApplicationConfigurationComponent}"
 		                                 value="#{msg['admin.configuration.send']}" 
-		                                 action="#{sendAnalysis.sendNewConfiguration()}"
+		                                 action="#{applicationConfiguration.sendNewConfiguration()}"
 		                                 look="primary"
 		                                 styleClass="btn-block"/>     
                 	</b:column>                    	
-                </b:row>        		
+                </b:row>   
+                <b:row style="margin-top: 10px">             
+                	<b:column col-md="12">
+	                	<h:message for="sendApplicationConfiguration" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
+                	</b:column>
+                </b:row>      		
         	</b:panel>
     	</b:form>    	
     </ui:define>

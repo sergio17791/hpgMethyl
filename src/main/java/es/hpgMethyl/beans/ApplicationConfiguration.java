@@ -1,10 +1,25 @@
 package es.hpgMethyl.beans;
 
 import java.io.Serializable;
+import java.util.Date;
 
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
+
+import es.hpgMethyl.dao.hibernate.ConfigurationDAOHibernate;
+import es.hpgMethyl.entities.Configuration;
+import es.hpgMethyl.entities.User;
+import es.hpgMethyl.exceptions.ConfigurationNotFound;
+import es.hpgMethyl.exceptions.SaveApplicationConfigurationException;
+import es.hpgMethyl.types.UserRole;
+import es.hpgMethyl.usecases.configuration.GetApplicationConfiguration.GetApplicationConfiguration;
+import es.hpgMethyl.usecases.configuration.GetApplicationConfiguration.GetApplicationConfigurationResponse;
+import es.hpgMethyl.usecases.configuration.SaveApplicationConfiguration.SaveApplicationConfiguration;
+import es.hpgMethyl.usecases.configuration.SaveApplicationConfiguration.SaveApplicationConfigurationRequest;
+import es.hpgMethyl.utils.FacesContextUtils;
 
 @ManagedBean(name="applicationConfiguration")
 @RequestScoped
@@ -20,6 +35,8 @@ public class ApplicationConfiguration implements Serializable {
 	private Integer maximumUserFiles;
 	private Integer readBatchSize;
 	private Integer writeBatchSize;
+	private Date createdAt;
+	private Date updatedAt;
 	private UIComponent sendApplicationConfigurationComponent;
 
 	public ApplicationConfiguration() {
@@ -31,6 +48,31 @@ public class ApplicationConfiguration implements Serializable {
 		this.maximumUserFiles = null;
 		this.readBatchSize = null;
 		this.writeBatchSize = null;
+		this.createdAt = null;
+		this.updatedAt = null;
+	}
+	
+	@PostConstruct
+	public void init() {
+		
+		try {
+			GetApplicationConfigurationResponse response = new GetApplicationConfiguration(new ConfigurationDAOHibernate()).execute();
+			
+			Configuration configuration = response.getConfiguration();
+			this.bwtIndexAbsolutePath = configuration.getBwtIndexAbsolutePath();
+			this.hpgMethylAbsolutePath = configuration.getHpgMethylAbsolutePath();
+			this.userAbsolutePath = configuration.getUsersDirectoryAbsolutePath();
+			this.cpuThreads = configuration.getCpuThreads();
+			this.maximumUserAnalysis = configuration.getMaximumUserAnalysisPending();
+			this.maximumUserFiles = configuration.getMaximumUserFilesStored();
+			this.readBatchSize = configuration.getReadBatchSize();
+			this.writeBatchSize = configuration.getWriteBatchSize();
+			this.createdAt = configuration.getCreatedAt();
+			this.updatedAt = configuration.getUpdatedAt();
+			
+		} catch (ConfigurationNotFound e) {
+
+		}
 	}
 
 	/**
@@ -146,6 +188,34 @@ public class ApplicationConfiguration implements Serializable {
 	}
 	
 	/**
+	 * @return the createdAt
+	 */
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	/**
+	 * @param createdAt the createdAt to set
+	 */
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	/**
+	 * @return the updatedAt
+	 */
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	/**
+	 * @param updatedAt the updatedAt to set
+	 */
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	/**
 	 * @return the sendApplicationConfigurationComponent
 	 */
 	public UIComponent getSendApplicationConfigurationComponent() {
@@ -160,6 +230,36 @@ public class ApplicationConfiguration implements Serializable {
 	}
 
 	public String sendNewConfiguration() {
+		
+		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
+		
+		if(user == null || user.getRole().equals(UserRole.USER)) {
+			return "pretty:home";	
+		}
+		
+		try {
+			new SaveApplicationConfiguration(new ConfigurationDAOHibernate()).execute(
+					new SaveApplicationConfigurationRequest(
+							userAbsolutePath, 
+							hpgMethylAbsolutePath,
+							bwtIndexAbsolutePath, 
+							cpuThreads, 
+							maximumUserAnalysis, 
+							maximumUserFiles, 
+							readBatchSize, 
+							writeBatchSize						
+					)
+			);
+			
+			this.updatedAt = new Date();
+			
+			String successMessage = FacesContextUtils.geti18nMessage("general.updateSuccessfully");
+			FacesContextUtils.setMessageInComponent(this.sendApplicationConfigurationComponent, FacesMessage.SEVERITY_INFO, successMessage, successMessage);
+			
+		} catch (SaveApplicationConfigurationException e) {
+			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
+			FacesContextUtils.setMessageInComponent(this.sendApplicationConfigurationComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
+		}
 		
 		return null;
 	}
