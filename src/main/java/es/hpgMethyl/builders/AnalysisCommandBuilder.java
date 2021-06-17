@@ -3,18 +3,18 @@ package es.hpgMethyl.builders;
 import java.math.BigDecimal;
 
 import es.hpgMethyl.entities.AnalysisRequest;
+import es.hpgMethyl.entities.Configuration;
 import es.hpgMethyl.types.PairedMode;
-import es.hpgMethyl.utils.FileUtils;
 
 public class AnalysisCommandBuilder {
-
-	private AnalysisRequest analysisRequest;
 	
 	private String BWT_INDEX = "--bwt-index";
 	
 	private String CAL_FLANK_SIZE = "--cal-flank-size";
 	
-	private String CAL_UMBRAL_LENGTH_FACTOR = "--umbral-cal-length-factor"; 
+	private String CAL_UMBRAL_LENGTH_FACTOR = "--umbral-cal-length-factor";
+	
+	private String CPU_THREADS = "--cpu-threads";
 	
 	private String FASTQ_FILE_PATH = "--fastq";
 	
@@ -42,6 +42,8 @@ public class AnalysisCommandBuilder {
 	
 	private String PAIRED_MIN_DISTANCE = "--paired-min-distance";
 	
+	private String READ_BATCH_SIZE = "--read-batch-size";
+	
 	private String READ_MAXIMUM_INNER_GAP = "--max-inner-gap";
 	
 	private String READ_MINIMUM_DISCARD_LENGTH = "--min-read-discard";
@@ -66,19 +68,31 @@ public class AnalysisCommandBuilder {
 	
 	private String SMITH_WATERMAN_MINIMUM_SCORE = "--sw-min-score";
 	
+	private String WRITE_BATCH_SIZE = "--write-batch-size";
+	
 	private String WRITE_MCONTEXT = "--write-mcontext";
 	
-	public AnalysisCommandBuilder(AnalysisRequest analysisRequest) {
-		this.analysisRequest = analysisRequest;
-	}
-	
-	public String build() {
+	public String build(Configuration configuration, AnalysisRequest analysisRequest) {
 		
-		String command = "./opt/hpg-methyl bs " + BWT_INDEX + "  /data/tomcat/genome/bs-index/";
+		String hpgMethylAbsolutePath = configuration.getHpgMethylAbsolutePath();
 		
-		String outputDirectory = FileUtils.USERS_FILES_BASE_PATH + analysisRequest.getId();
+		String bwtIndexAbsolutePath = configuration.getBwtIndexAbsolutePath();
 		
-		command = command + " " + OUTDIR + " " + outputDirectory;
+		String command = "." + hpgMethylAbsolutePath + " bs " + BWT_INDEX + "  " + bwtIndexAbsolutePath;
+		
+		String outputDirectory = configuration.getUsersDirectoryAbsolutePath() + analysisRequest.getId();
+		
+		command = command + " " + OUTDIR + " " + outputDirectory + " " + CPU_THREADS + " " + configuration.getCpuThreads();
+		
+		Integer readBatchSize = configuration.getReadBatchSize();
+		if(readBatchSize != null) {
+			command = command + " " + READ_BATCH_SIZE + " " + readBatchSize;
+		}
+		
+		Integer writeBatchSize = configuration.getWriteBatchSize();
+		if(writeBatchSize != null) {
+			command = command + " " + WRITE_BATCH_SIZE + " " + writeBatchSize;
+		}
 		
 		String fastqFilePath = analysisRequest.getInputReadFile().getPath();
 		
