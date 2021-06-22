@@ -91,3 +91,9 @@ div.booleanColumn{
     align-content: center;
     flex-direction: column;
 }
+
+div.contactColumn{
+    padding-right: 5% !important;
+    padding-left: 5% !important;
+    margin-bottom: 3% !important;
+}
