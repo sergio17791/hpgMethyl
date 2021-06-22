@@ -83,11 +83,37 @@ div.dashboardCard {
     font-size: x-large;
 }
 
-div.booleanColumn{
+div.booleanColumn {
     margin-top: 25px;
     height: 34px;
     display: flex;
     justify-content: center;
     align-content: center;
     flex-direction: column;
+}
+
+div.contactColumn{
+    padding-right: 5% !important;
+    padding-left: 5% !important;
+    margin-bottom: 3% !important;
+}
+
+div.iconLink {
+    text-align: center;
+}
+
+div.iconLink a:link {
+	color: #000000; 
+}
+
+div.iconLink a:visited {
+	color: #000000; 
+}
+
+div.iconLink a:hover {
+	color: #000000; 
+}
+
+div.iconLink a:active {
+	color: #000000;
 }

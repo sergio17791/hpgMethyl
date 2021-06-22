@@ -3,6 +3,10 @@
 		<pattern value="/"/>
 		<view-id value="/faces/index.xhtml"/>
 	</url-mapping>
+	<url-mapping id="contact" parentId="home">
+		<pattern value="contact"/>
+		<view-id value="/faces/contact.xhtml"/>
+	</url-mapping>
 	<url-mapping id="login" parentId="home">
 		<pattern value="login"/>
 		<view-id value="/faces/login.xhtml"/>
