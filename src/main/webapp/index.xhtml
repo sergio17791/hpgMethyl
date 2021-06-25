@@ -1,4 +1,75 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
                 template="./WEB-INF/templates/mainTemplate.xhtml">
+	<ui:define name="pre-content">
+		<b:jumbotron styleClass="centered jumbotron iconLink">
+			<b:row>
+				<b:column col-xs="12">					
+					<h1>
+						<b:image value="/resources/images/dna_icon.png" width="75" height="75"/> 
+						<h:outputText value=" #{msg['general.hpgMethyl']}"/>
+					</h1>
+				</b:column>
+			</b:row>  			
+  			<p><small><h:outputText value="#{msg['index.jumbo']}"/></small></p>
+			<h:outputLink value="https://github.com/grev-uv/hpg-methyl">
+        		<b:iconAwesome value="github" size="4x"/>
+        	</h:outputLink>
+		</b:jumbotron>
+	</ui:define>
+	<ui:define name="content">
+		<b:row>
+  			<b:column col-md="4">
+    			<b:thumbnail styleClass="centered thumbnail">   
+    				<b:iconAwesome value="dna" solid="true" size="3x"/>  				
+      				<f:facet name="caption">
+	        			<h3><h:outputText value="#{msg['index.why']}"/></h3>
+        				<p><h:outputText value="#{msg['index.why.text']}"/></p>
+        				<p>
+        					<b:link value="#{msg['index.why.button']}" 
+	    							href="https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-017-1574-3"
+	    							iconAwesome="arrow-right" 
+	  								look="info" 
+	  								size="md"/>
+	  					</p>
+      				</f:facet>
+    			</b:thumbnail>
+			</b:column>
+			<b:column col-md="4">
+    			<b:thumbnail styleClass="centered thumbnail">   
+    				<b:iconAwesome value="cloud-upload-alt" solid="true" size="3x"/>  				
+      				<f:facet name="caption">
+	        			<h3><h:outputText value="#{msg['index.upload']}"/></h3>
+        				<p><h:outputText value="#{msg['index.upload.text']}"/></p>
+        				<p>
+        					<b:link value="#{msg['index.upload.button']}" 
+	    							outcome="pretty:login"
+	    							iconAwesome="arrow-up" 
+	  								look="info" 
+	  								size="md"/>
+	  					</p>
+      				</f:facet>
+    			</b:thumbnail>
+			</b:column>
+			<b:column col-md="4">
+    			<b:thumbnail styleClass="centered thumbnail">   
+    				<b:iconAwesome value="download" solid="true" size="3x"/>  				
+      				<f:facet name="caption">
+	        			<h3><h:outputText value="#{msg['index.download']}"/></h3>
+        				<p><h:outputText value="#{msg['index.download.text']}"/></p>
+        				<p>
+        					<b:link value="#{msg['index.download.button']}" 
+	    							href="https://github.com/grev-uv/hpg-methyl/releases/"
+	    							iconAwesome="arrow-down" 
+	  								look="info" 
+	  								size="md"/>
+	  					</p>
+      				</f:facet>
+    			</b:thumbnail>
+			</b:column>
+		</b:row>
+	</ui:define>                
 </ui:composition>

@@ -98,7 +98,15 @@ div.contactColumn{
     margin-bottom: 3% !important;
 }
 
-div.iconLink {
+div.jumbotron {
+	margin: 0px !important;
+}
+
+div.thumbnail {
+	padding: 5% !important;
+}
+
+div.centered {
     text-align: center;
 }
 
