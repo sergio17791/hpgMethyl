@@ -4,8 +4,8 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:b="http://bootsfaces.net/ui"
                 template="./WEB-INF/templates/mainTemplate.xhtml">
-	<ui:define name="pre-content">
-		<b:jumbotron styleClass="centered jumbotron iconLink">
+	<ui:define name="content">
+		<b:jumbotron styleClass="centered jumbotronContainer iconLink">
 			<b:row>
 				<b:column col-xs="12">					
 					<h1>
@@ -17,10 +17,8 @@
   			<p><small><h:outputText value="#{msg['index.jumbo']}"/></small></p>
 			<h:outputLink value="https://github.com/grev-uv/hpg-methyl">
         		<b:iconAwesome value="github" size="4x"/>
-        	</h:outputLink>
-		</b:jumbotron>
-	</ui:define>
-	<ui:define name="content">
+			</h:outputLink>
+		</b:jumbotron>		
 		<b:row>
   			<b:column col-md="4">
     			<b:thumbnail styleClass="centered thumbnail">   

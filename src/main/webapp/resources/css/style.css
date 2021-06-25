@@ -98,8 +98,14 @@ div.contactColumn{
     margin-bottom: 3% !important;
 }
 
-div.jumbotron {
-	margin: 0px !important;
+div.jumbotronContainer {
+	margin-top: -15px !important;
+	margin-right: -15px !important;
+	margin-left: -15px !important;
+	border-bottom-right-radius: 0px !important;
+	border-bottom-left-radius: 0px !important;
+	border-top-right-radius: 0px !important;
+	border-top-left-radius: 0px !important;
 }
 
 div.thumbnail {
