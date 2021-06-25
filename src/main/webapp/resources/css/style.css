@@ -133,10 +133,12 @@ div.iconLink a:active {
 
 footer {
 	padding-top: 10px;
+	padding-bottom: 10px;
 	text-align: center;
 	background-color: #404040;
 	color: #FFFFFF;
 	height: 5% !important;
+	min-height: 40px;
 }
 
 footer a:link {
