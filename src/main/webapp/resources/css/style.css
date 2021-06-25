@@ -21,10 +21,9 @@ body{
 }
 
 .content {
-    min-height: 100%;
+    min-height: 95%;
     display: flex;
     flex-direction: column;
-    height: 100% !important;
     background-color: white !important;
     padding-top: 15px;
     overflow: auto;
@@ -130,4 +129,28 @@ div.iconLink a:hover {
 
 div.iconLink a:active {
 	color: #000000;
+}
+
+footer {
+	padding-top: 10px;
+	text-align: center;
+	background-color: #404040;
+	color: #FFFFFF;
+	height: 5% !important;
+}
+
+footer a:link {
+	color: #FFFFFF; 
+}
+
+footer a:visited {
+	color: #FFFFFF; 
+}
+
+footer a:hover {
+	color: #FFFFFF; 
+}
+
+footer a:active {
+	color: #FFFFFF;
 }
