@@ -16,6 +16,7 @@ import org.hibernate.query.Query;
 import es.hpgMethyl.dao.AnalysisRequestDAO;
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.User;
+import es.hpgMethyl.types.AnalysisStatus;
 import es.hpgMethyl.utils.HibernateUtils;
 
 public class AnalysisRequestDAOHibernate extends BaseDAOHibernate<AnalysisRequest, UUID> implements AnalysisRequestDAO {
@@ -38,6 +39,35 @@ public class AnalysisRequestDAOHibernate extends BaseDAOHibernate<AnalysisReques
 			
 			criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
 			
+			Query<AnalysisRequest> query = session.createQuery(criteriaQuery);	
+			query.setMaxResults(1);
+			
+			return query.getSingleResult();
+		} catch(NoResultException exception) {
+			return null;
+		} finally {
+			session.close();
+		}
+	}
+	
+	@Override
+	public AnalysisRequest getNextPendingAnalysis() {
+		
+		Session session = HibernateUtils.getSessionFactory().openSession();
+		
+		try {		
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<AnalysisRequest> criteriaQuery = criteriaBuilder.createQuery(AnalysisRequest.class);
+			
+			Root<AnalysisRequest> root = criteriaQuery.from(AnalysisRequest.class);
+			criteriaQuery.select(root);
+			criteriaQuery.orderBy(criteriaBuilder.asc(root.get("createdAt")));
+			
+			List<Predicate> predicates = new ArrayList<Predicate>();
+			predicates.add(criteriaBuilder.equal(root.get("status"), AnalysisStatus.CREATED));
+
+			criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
+
 			Query<AnalysisRequest> query = session.createQuery(criteriaQuery);	
 			query.setMaxResults(1);
 			
@@ -79,5 +109,4 @@ public class AnalysisRequestDAOHibernate extends BaseDAOHibernate<AnalysisReques
 			session.close();
 		}
 	}
-
 }
