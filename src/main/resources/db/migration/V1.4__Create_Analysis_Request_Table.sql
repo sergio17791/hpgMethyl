@@ -48,5 +48,5 @@ CREATE TABLE "analysis_request" (
     	ON UPDATE CASCADE 
     	ON DELETE CASCADE,
     CONSTRAINT paired_mode_values CHECK (paired_mode IN (0, 1)),
-    CONSTRAINT status_values CHECK (status IN ('CREATED','PROCESSING','COMPLETED'))
+    CONSTRAINT status_values CHECK (status IN ('CREATED','PROCESSING','COMPLETED','FAILED'))
 );

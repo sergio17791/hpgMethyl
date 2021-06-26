@@ -14,6 +14,7 @@ import javax.faces.component.UIComponent;
 import javax.servlet.http.Part;
 
 import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
+import es.hpgMethyl.dao.hibernate.ConfigurationDAOHibernate;
 import es.hpgMethyl.dao.hibernate.HPGMethylFileDAOHibernate;
 import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
@@ -21,6 +22,7 @@ import es.hpgMethyl.exceptions.CreateFileException;
 import es.hpgMethyl.exceptions.CreateMethylationAnalysisException;
 import es.hpgMethyl.exceptions.DuplicatedFile;
 import es.hpgMethyl.exceptions.DuplicatedIdentifier;
+import es.hpgMethyl.services.HPGMethylProcessor;
 import es.hpgMethyl.types.PairedMode;
 import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysis;
 import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysisRequest;
@@ -256,6 +258,10 @@ public class SendMethylationAnalysisRequest implements Serializable {
 			
 			String successMessage = FacesContextUtils.geti18nMessage("analysis.send.requestSentSuccessfully");
 			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_INFO, successMessage, successMessage);
+			
+			new Thread(() -> {
+			    new HPGMethylProcessor(new AnalysisRequestDAOHibernate(), new ConfigurationDAOHibernate()).start();
+			}).start();
 
 		} catch (DuplicatedFile e) {
 			String duplicatedFileMessage = FacesContextUtils.geti18nMessage("error.duplicatedFile");
