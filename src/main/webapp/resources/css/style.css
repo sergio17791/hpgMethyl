@@ -26,6 +26,7 @@ body{
     flex-direction: column;
     background-color: white !important;
     padding-top: 15px;
+    padding-bottom: 15px;
     overflow: auto;
 }
 
