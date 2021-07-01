@@ -20,7 +20,7 @@ import es.hpgMethyl.utils.FacesContextUtils;
 
 public class LoginFilter implements Filter {
 	
-	final private String LOGIN_URL = "/login";
+	final private String LOGIN_URL = "/faces/login.xhtml";
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		

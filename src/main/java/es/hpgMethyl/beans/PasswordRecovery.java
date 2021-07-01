@@ -222,7 +222,7 @@ public class PasswordRecovery implements Serializable {
 			
 			FacesContextUtils.setParameterFacesContextSession(FacesContextUtils.SESSION_USER, response.getUser());
 			
-			return "pretty:home";				
+			return "/index";				
 		} catch (ChangePasswordException | UserNotFound e) {
 			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.getChangePasswordComponent(), FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);

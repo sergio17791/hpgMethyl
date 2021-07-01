@@ -250,7 +250,7 @@ public class UserDetail implements Serializable {
 		if (!FacesContext.getCurrentInstance().isPostback()) { 
 			
 			if(this.id == null) {
-				return "pretty:admin";
+				return "/admin/index";
 			}
 			
 			try {
@@ -272,7 +272,7 @@ public class UserDetail implements Serializable {
 				this.updatedAt = user.getUpdatedAt();
 				
 			} catch (GetObjectException | UserNotFound e) {
-				return "pretty:admin";
+				return "/admin/index";
 			}
 		}
 		
@@ -299,7 +299,7 @@ public class UserDetail implements Serializable {
 		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
         
         if(user == null || !enabledEdition) {
-            return "pretty:admin";   
+            return "admin";   
         }
         
         try {
@@ -337,7 +337,7 @@ public class UserDetail implements Serializable {
 		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
         
         if(user == null || !enabledEdition) {
-            return "pretty:admin";   
+            return "/admin/index";   
         }
         
         try {
@@ -349,7 +349,7 @@ public class UserDetail implements Serializable {
         	
         	if(user.getId().equals(deactivatedUser.getId())) {
         		FacesContextUtils.invalidateSession();	
-        		return "pretty:login"; 
+        		return "login"; 
         	}
         	
         	this.active = deactivatedUser.getActive();
@@ -370,7 +370,7 @@ public class UserDetail implements Serializable {
 		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
         
         if(user == null || !enabledEdition) {
-            return "pretty:admin";   
+            return "/admin/index";   
         }
         
         try {

@@ -234,7 +234,7 @@ public class ApplicationConfiguration implements Serializable {
 		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
 		
 		if(user == null || user.getRole().equals(UserRole.USER)) {
-			return "pretty:home";	
+			return "/index";	
 		}
 		
 		try {

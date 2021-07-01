@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
@@ -29,7 +29,7 @@ import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisParameters.Update
 import es.hpgMethyl.utils.FacesContextUtils;
 
 @ManagedBean(name="analysisDetail")
-@RequestScoped
+@ViewScoped
 public class MethylationAnalysisDetail implements Serializable {
 
 	private static final long serialVersionUID = 929869883425786237L;
@@ -113,7 +113,7 @@ public class MethylationAnalysisDetail implements Serializable {
 		if (!FacesContext.getCurrentInstance().isPostback()) { 
 			
 			if(this.id == null) {
-				return "pretty:home";
+				return "/index";
 			}
 			
 			try {
@@ -126,11 +126,11 @@ public class MethylationAnalysisDetail implements Serializable {
 				User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
 				
 				if(user == null) {
-					return "pretty:home";	
+					return "/index";	
 				}
 				
 				if(user.getRole() == UserRole.USER && !this.analysisRequest.getUser().getId().equals(user.getId())) {
-					return "pretty:home";
+					return "/index";
 				}
 					
 				AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
@@ -170,21 +170,15 @@ public class MethylationAnalysisDetail implements Serializable {
 				analysisRequestBean.setUpdatedAt(analysisRequest.getUpdatedAt());
 				
 			} catch (AnalysisRequestNotFound | GetObjectException e) {
-				return "pretty:home";
+				return "/index";
 			}						
 		}
 		
 		return null;	
 	}
 	
-	public String updateAnalysisParameters() {
+	public void updateAnalysisParameters() {
 		
-		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
-		
-		if(user == null) {
-			return "pretty:home";	
-		}
-				
 		AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
 		
 		try {
@@ -232,7 +226,5 @@ public class MethylationAnalysisDetail implements Serializable {
 			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.updateAnalysisParametersComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
 		}
-				
-		return null;
 	}
 }

@@ -57,9 +57,9 @@
 	                	<b:commandButton id="updateAnalysisParametersButton"
 		                                 binding="#{analysisDetail.updateAnalysisParametersComponent}"
 		                                 value="#{msg['general.update']}" 
-		                                 action="#{analysisDetail.updateAnalysisParameters()}"
+		                                 actionListener="#{analysisDetail.updateAnalysisParameters}"
 		                                 look="primary"
-		                                 styleClass="btn-block"/>     
+		                                 styleClass="btn-block"/> 
                 	</b:column>                    	
                 </b:row>                 
                 <b:row style="margin-top: 10px">             

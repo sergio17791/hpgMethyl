@@ -78,7 +78,7 @@ public class AnalysisCommandBuilder {
 		
 		String bwtIndexAbsolutePath = configuration.getBwtIndexAbsolutePath();
 		
-		String command = "." + hpgMethylAbsolutePath + " bs " + BWT_INDEX + "  " + bwtIndexAbsolutePath;
+		String command = hpgMethylAbsolutePath + " bs " + BWT_INDEX + "  " + bwtIndexAbsolutePath;
 		
 		String outputDirectory = configuration.getUsersDirectoryAbsolutePath() + analysisRequest.getId();
 		
