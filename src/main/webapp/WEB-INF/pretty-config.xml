@@ -27,6 +27,10 @@
 		<pattern value="/send"/>
 		<view-id value="/faces/user/analysis/send.xhtml"/>
 	</url-mapping>
+	<url-mapping id="userFiles" parentId="analysis">
+		<pattern value="/files"/>
+		<view-id value="/faces/user/analysis/files.xhtml"/>
+	</url-mapping>
 	<url-mapping id="analysisDetail" parentId="analysis">
 		<pattern value="/#{ id }"/>
 		<view-id value="/faces/user/analysis/detail.xhtml"/>

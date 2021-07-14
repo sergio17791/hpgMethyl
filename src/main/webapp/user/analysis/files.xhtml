@@ -1,0 +1,99 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                template="../../WEB-INF/templates/mainTemplate.xhtml">
+    <ui:define name="content">
+    	<b:form enctype="multipart/form-data">
+    		<b:row>
+                <b:column col-md="6">
+                    <legend><h:outputText value="#{msg['files.upload.legend']}"/></legend>      
+                </b:column>   
+                <b:column col-xs="6" col-sm="3" offset-sm="3">
+            		<b:link value="#{msg['general.goBack']}" 
+	    					outcome="pretty:analysisSend"
+	    					iconAwesome="arrow-left" 
+	  						look="success"/>   
+            	</b:column>                
+			</b:row>            	          	
+    		<b:row>
+    			<b:column col-md="12">    			
+        			<p:fileUpload id="uploadFiles"
+        						  binding="#{filesBean.uploadFilesComponent}"
+        				  		  listener="#{filesBean.upload}" 
+        				  		  mode="advanced" 
+        				  		  dragDropSupport="false" 
+        				  		  update="uploadFilesMessage userFilesTable" 
+        				  		  allowTypes="/(\.|\/)(fastq)$/"
+        				  		  multiple="true"
+        				  		  sequential="true"
+        				  		  label="#{msg['files.upload.choose']}"
+        				  		  chooseIcon="ui-icon-plusthick"
+        				  		  uploadLabel="#{msg['files.upload.upload']}"
+        				  		  uploadIcon="ui-icon-arrowthickstop-1-n"
+        				  		  cancelLabel="#{msg['files.upload.cancel']}"
+        				  		  cancelIcon="ui-icon-closethick"
+        				  		  invalidFileMessage="#{msg['files.upload.filesType']}"
+        				  		  disabled="#{filesBean.fileLimit == 0}">
+						<c:if test="#{filesBean.fileLimit != null}">
+							<f:attribute name="fileLimit" value="#{filesBean.fileLimit}"/>	
+							<f:attribute name="fileLimitMessage" value ="#{msg['files.upload.filesLimit']} #{filesBean.fileLimit}"/> 
+						</c:if> 
+						<c:if test="#{filesBean.fileBytesLimit != null}">
+							<f:attribute name="sizeLimit" value="#{filesBean.fileBytesLimit}"/>	
+							<f:attribute name="invalidSizeMessage" value ="#{msg['files.upload.sizeLimit']} #{filesBean.fileBytesLimitStr}"/> 
+						</c:if>        				  		  
+       				</p:fileUpload>     
+	    		</b:column>
+    		</b:row>
+    		<b:row>
+    			<b:column col-md="12">
+    				<c:if test="#{filesBean.fileLimit == 0}">
+    					<b:alert severity="warning" value="#{msg['files.upload.disabled']}" closable="true"/>
+    				</c:if> 
+    				<c:if test="#{filesBean.fileLimit > 0}">    		
+    					<h:outputFormat value="· #{msg['files.upload.unique']}"/>
+    					<br/><h:outputFormat value="· #{msg['files.upload.filesType']}"/>
+    					<c:if test="#{filesBean.fileLimit != null}">
+    						<br/><h:outputFormat value="· #{msg['files.upload.filesLimit']} #{filesBean.fileLimit}"/>
+    					</c:if>
+    					<c:if test="#{filesBean.fileBytesLimit != null}">
+    						<br/><h:outputFormat value="· #{msg['files.upload.sizeLimit']} #{filesBean.fileBytesLimitStr}"/>
+    					</c:if>	    			
+    				</c:if>
+    			</b:column>
+    		</b:row>     		
+    		<b:row style="margin-top: 10px">             
+        		<b:column col-md="12">
+        			<p:messages id="uploadFilesMessage" for="uploadFiles" escape="false"/>
+            	</b:column>
+			</b:row> 
+		</b:form>
+		<p:separator/>
+		<b:row>
+            <b:column col-md="6">
+            	<legend><h:outputText value="#{msg['files.list.legend']}"/></legend>      
+        	</b:column>                 
+        </b:row>
+		<b:dataTable id="userFilesTable"
+					 value="#{filesBean.userFiles}" 
+    				 var="userFile"
+    				 responsive="true"
+    				 select="false"
+    				 searching="true"
+    				 mark-search-results="true"
+           	   		 page-length-menu="10"
+    				 custom-lang-url="#{filesBean.customLanguageTranslation()}">
+    		<b:dataTableColumn value="#{userFile.fileName}" 
+    						   label="#{msg['file.attribute.fileName']}"/>	    		    						  
+			<b:dataTableColumn label="#{msg['general.attribute.createdAt']}" order="desc">
+				<h:outputText value="#{userFile.createdAt}" >
+    				<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+				</h:outputText>	    					
+			</b:dataTableColumn>	    					   
+  		</b:dataTable>		
+    </ui:define>
+</ui:composition>

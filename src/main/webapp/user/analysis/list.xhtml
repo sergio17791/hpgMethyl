@@ -13,10 +13,9 @@
             </b:column>
             <b:column col-xs="6" col-sm="3" offset-sm="3">
             	<b:link value="#{msg['analysis.list.button.analysisRequest']}" 
-	    				outcome="/user/analysis/send"
+	    				outcome="pretty:analysisSend"
 	    				iconAwesome="plus-circle" 
-	  					look="success" 
-	  					size="md"/>   
+	  					look="success"/>   
             </b:column>                  
         </b:row>
     	<b:dataTable value="#{listUserAnalysis.analysisRequestLists}" 
@@ -47,8 +46,7 @@
 	    		<b:link value="#{msg['general.list.button.detail']}" 
 	    				outcome="pretty:analysisDetail"
 	    				iconAwesome="arrow-right" 
-	  					look="info" 
-	  					size="md">
+	  					look="info">
 	  				<f:param name="id" value="#{analysisRequest.id}"/>
 	  			</b:link>
 	    	</b:dataTableColumn>

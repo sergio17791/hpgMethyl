@@ -120,7 +120,8 @@ public class HPGMethylProcessor extends Thread {
 		Runtime runtime = Runtime.getRuntime();
 		
 		Process process = runtime.exec(command);
-		process.waitFor();
+		
+		process.wait();
 			
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			

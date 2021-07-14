@@ -6,6 +6,7 @@ import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.CreateMethylationAnalysisException;
 import es.hpgMethyl.exceptions.DuplicatedIdentifier;
 import es.hpgMethyl.exceptions.SaveObjectException;
+import es.hpgMethyl.types.PairedMode;
 
 public class CreateMethylationAnalysis {
 	
@@ -28,11 +29,7 @@ public class CreateMethylationAnalysis {
 		analysisRequest.setUser(user);
 		analysisRequest.setIdentifier(identifier);
 		analysisRequest.setInputReadFile(request.getInputReadFile());
-		analysisRequest.setWriteMethylationContext(request.getWriteMethylationContext());
-		analysisRequest.setPairedMode(request.getPairedMode());
-		analysisRequest.setPairedEndModeFile(request.getPairedEndModeFile());
-		analysisRequest.setPairedMaxDistance(request.getPairedMaxDistance());
-		analysisRequest.setPairedMinDistance(request.getPairedMinDistance());
+		analysisRequest.setWriteMethylationContext(request.getWriteMethylationContext());		
 		analysisRequest.setSwaMinimunScore(request.getSwaMinimunScore());
 		analysisRequest.setSwaMatchScore(request.getSwaMatchScore());
 		analysisRequest.setSwaMismatchScore(request.getSwaMismatchScore());
@@ -54,6 +51,14 @@ public class CreateMethylationAnalysis {
 		analysisRequest.setReportBest(request.getReportBest());
 		analysisRequest.setReportNBest(request.getReportNBest());
 		analysisRequest.setReportNHits(request.getReportNHits());
+		
+		PairedMode pairedMode = request.getPairedMode();
+		analysisRequest.setPairedMode(pairedMode);
+		if(pairedMode.equals(PairedMode.PAIRED_END_MODE)) {
+			analysisRequest.setPairedEndModeFile(request.getPairedEndModeFile());
+			analysisRequest.setPairedMaxDistance(request.getPairedMaxDistance());
+			analysisRequest.setPairedMinDistance(request.getPairedMinDistance());
+		}
 		
 		try {
 			this.analysisRequestDAO.save(analysisRequest);
