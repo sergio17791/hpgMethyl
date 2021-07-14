@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 
-import javax.servlet.http.Part;
+import org.primefaces.model.file.UploadedFile;
 
 import es.hpgMethyl.entities.User;
 
@@ -20,14 +20,14 @@ public class FileUtils {
 	private FileUtils() {
 	};
 
-	public static File saveFileUploadedByUser(User user, Part filePart, String fileName) throws IOException {
+	public static File saveFileUploadedByUser(User user, UploadedFile file, String fileName) throws IOException {
 
 		String directoryPath = USERS_FILES_BASE_PATH + user.getId();
 
-		return saveFile(filePart, directoryPath, fileName);
+		return saveFile(file, directoryPath, fileName);
 	}
 
-	public static File saveFile(Part filePart, String directoryPath, String fileName) throws IOException {
+	public static File saveFile(UploadedFile file, String directoryPath, String fileName) throws IOException {
 
 		OutputStream out = null;
 		InputStream filecontent = null;
@@ -42,7 +42,7 @@ public class FileUtils {
 
 			out = new FileOutputStream(newFile);
 
-			filecontent = filePart.getInputStream();
+			filecontent = file.getInputStream();
 			int read = 0;
 			final byte[] bytes = new byte[1024];
 
@@ -63,7 +63,7 @@ public class FileUtils {
 			}
 		}
 	}
-
+	
 	public static void deleteFile(String path) throws NoSuchFileException, IOException {
 		Files.deleteIfExists(Paths.get(path));
 	}

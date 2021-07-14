@@ -4,6 +4,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:b="http://bootsfaces.net/ui"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:components="http://java.sun.com/jsf/composite/components"
                 template="../../WEB-INF/templates/mainTemplate.xhtml">
     <ui:define name="content">
@@ -11,83 +12,56 @@
             <b:row>
                 <b:column col-md="6">
                     <legend><h:outputText value="#{msg['analysis.send.legend']}"/></legend>      
-                </b:column>                 
+                </b:column>
+                <b:column col-xs="6" col-sm="3" offset-sm="3">
+            		<b:link value="#{msg['analysis.send.uploadFiles']}" 
+	    					outcome="files"
+	    					iconAwesome="upload" 
+	  						look="success"/>   
+            	</b:column>                   
             </b:row>
+            <c:if test="#{sendAnalysis.userFiles.size() == 0}">
+	            <b:row>
+    				<b:column col-md="12">    			
+    					<b:alert severity="warning" value="#{msg['analysis.send.withoutFiles']}" closable="true"/>    				
+	    			</b:column>
+    			</b:row>	
+        	</c:if>
             <b:panel>
             	<ui:decorate template="../../WEB-INF/templates/analysisRequestTemplate.xhtml">
             		<ui:define name="inputReadFile">
-            			<h:panelGroup id="inputReadFileSection">
-            				<b:column col-md="6" rendered="#{sendAnalysis.newInputReadFile == true}">
-                				<h:outputLabel styleClass="control-label" for="inputReadFile">#{msg['analysis.attribute.inputReadFile']} *</h:outputLabel>
-                				<h:inputFile id="inputReadFile" 
-  	                                         value="#{sendAnalysis.inputReadFile}" 
-       		                                 styleClass="form-control"
-                                             required="true"
-                 	                         requiredMessage="#{msg['error.form.requiredField']}">
-									<f:validator validatorId="fileValidator"/>
-                            	</h:inputFile>
-                				<h:message for="inputReadFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-                			</b:column>
-                			<b:column col-md="6" rendered="#{sendAnalysis.newInputReadFile == false}">
-               					<b:selectOneMenu id ="selectInputReadFile" 
-	               							 	 value="#{sendAnalysis.selectedInputReadFile}"
-		                       	 	 			 styleClass="form-control"
-		                           	 			 label="#{msg['analysis.attribute.inputReadFile']}" 
-			                       	 			 required="true"
-		                           	 			 requiredMessage="#{msg['error.form.requiredField']}">  
-		                           	<f:selectItem noSelectionOption="true"/>  
-		             				<f:selectItems value="#{sendAnalysis.userFiles}" 
-		                   			   			   var="userFile" 
-		                   			   			   itemValue="#{userFile}" 
-		                   			   			   itemLabel="#{userFile.fileName}"/>                        
-	               				</b:selectOneMenu>
-               					<h:message for="selectInputReadFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-               				</b:column>
-                			<b:column col-md="3" styleClass="booleanColumn">
-								<b:selectBooleanCheckbox id="newInputReadFile"
-					  							 		 value="#{sendAnalysis.newInputReadFile}" 
-											  			 caption="#{msg['analysis.send.newFile']}">
-									<f:ajax render="inputReadFileSection" /> 
-								</b:selectBooleanCheckbox>										  			 
-							</b:column>
-            			</h:panelGroup>            			            			
+            			<b:column col-md="6">
+               				<b:selectOneMenu id ="inputReadFile" 
+	               						 	 value="#{sendAnalysis.inputReadFile}"
+		                     	 	 	     styleClass="form-control"
+		                           	 		 label="#{msg['analysis.attribute.inputReadFile']}" 
+			                       	 		 required="true"
+		                           	 		 requiredMessage="#{msg['error.form.requiredField']}">  
+		                    	<f:selectItem noSelectionOption="true"/>  
+		             			<f:selectItems value="#{sendAnalysis.userFiles}" 
+		                   			   		   var="userFile" 
+		                   			   		   itemValue="#{userFile}" 
+		                   			   		   itemLabel="#{userFile.fileName}"/>                        
+	               			</b:selectOneMenu>
+               				<h:message for="inputReadFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+               			</b:column>            			
             		</ui:define>
             		<ui:define name="pairedEndModeFile">
-            			<h:panelGroup id="pairedReadFileSection">
-            				<b:column col-md="6" rendered="#{sendAnalysis.newPairedReadFile == true}">
-            					<h:outputLabel styleClass="control-label" for="pairedEndModeFile">#{msg['analysis.attribute.pairedEndModeFile']} *</h:outputLabel>
-                				<h:inputFile id="pairedEndModeFile" 
-                                	   	 	 value="#{sendAnalysis.pairedEndModeFile}" 
-                                   		 	 styleClass="form-control"
-                                   	 		 required="#{analysisBean.pairedMode.value eq 1}"
-                                   	 	 	 requiredMessage="#{msg['error.form.requiredField']}">
-									<f:validator validatorId="fileValidator"/>                                   	 
-                            	</h:inputFile>
-                				<h:message for="pairedEndModeFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-            				</b:column>
-            				<b:column col-md="6" rendered="#{sendAnalysis.newPairedReadFile == false}">
-               					<b:selectOneMenu id ="selectPairedReadFile" 
-	               							 	 value="#{sendAnalysis.selectedPairedEndModeFile}"
-		                       	 	 			 styleClass="form-control"
-		                           	 			 label="#{msg['analysis.attribute.pairedEndModeFile']}" 
-			                       	 			 required="#{analysisBean.pairedMode.value eq 1}" 
-		                           	 			 requiredMessage="#{msg['error.form.requiredField']}">   
-		                           	<f:selectItem noSelectionOption="true"/> 
-		             				<f:selectItems value="#{sendAnalysis.userFiles}" 
-		                   			   			   var="userFile" 
-		                   			   			   itemValue="#{userFile}" 
-		                   			   			   itemLabel="#{userFile.fileName}"/>                        
-	               				</b:selectOneMenu>
-               					<h:message for="selectPairedReadFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-               				</b:column>
-            				<b:column col-md="6" styleClass="booleanColumn">
-								<b:selectBooleanCheckbox id="newPairedReadFile"
-					  							 		 value="#{sendAnalysis.newPairedReadFile}" 
-											  			 caption="#{msg['analysis.send.newFile']}">
-									<f:ajax render="pairedReadFileSection" /> 
-								</b:selectBooleanCheckbox>											  			 
-							</b:column>
-            			</h:panelGroup>            			                		                		
+            			<b:column col-md="6">
+               				<b:selectOneMenu id ="pairedReadFile" 
+	               						 	 value="#{sendAnalysis.pairedEndModeFile}"
+		                     	 	 	     styleClass="form-control"
+		                           	 		 label="#{msg['analysis.attribute.pairedEndModeFile']}" 
+			                       	 		 required="#{analysisBean.pairedMode.value eq 1}" 
+		                           	 	     requiredMessage="#{msg['error.form.requiredField']}">   
+		                    	<f:selectItem noSelectionOption="true"/> 
+		             			<f:selectItems value="#{sendAnalysis.userFiles}" 
+		                   		   			   var="userFile" 
+		                   		   			   itemValue="#{userFile}" 
+		                   		   			   itemLabel="#{userFile.fileName}"/>                        
+	               			</b:selectOneMenu>
+               				<h:message for="pairedReadFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+               			</b:column>          			                		                		
             		</ui:define>
             	</ui:decorate>
                 <b:row>
@@ -104,7 +78,8 @@
 		                                 value="#{msg['analysis.send.submit']}" 
 		                                 action="#{sendAnalysis.sendAnalysis()}"
 		                                 look="primary"
-		                                 styleClass="btn-block"/>     
+		                                 styleClass="btn-block"
+		                                 disabled="#{sendAnalysis.userFiles.size() == 0}"/>     
                 	</b:column>                    	
                 </b:row>                 
                 <b:row style="margin-top: 10px">             

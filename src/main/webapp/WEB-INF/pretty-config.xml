@@ -1,0 +1,10 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces">
+	<url-mapping id="home">
+		<pattern value="/"/>
+		<view-id value="/faces/index.xhtml"/>
+	</url-mapping>
+	<url-mapping id="uploadFile" parentId="home">
+		<pattern value="uploadFile"/>
+		<view-id value="/faces/uploadFile.xhtml"/>
+	</url-mapping>
+</pretty-config>
