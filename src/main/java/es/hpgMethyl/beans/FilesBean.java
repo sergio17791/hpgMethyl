@@ -143,23 +143,25 @@ public class FilesBean {
 
 	public void upload(FileUploadEvent event) {
        				
-		UploadedFile file = event.getFile();
-		String fileName = file.getFileName();
-		
-		Boolean validated = validateUploadedFile(fileName);
-		
-		if(validated) {
-			try {
-				saveFile(user, file, fileName);
-		    	this.successUploadedFilesNames.add(fileName);
-		    } catch (CreateFileException | DuplicatedFile | IOException e) {
-		    	this.errorUploadedFilesNames.add(fileName);
-		    }
-		} else {
-			this.errorUploadedFilesNames.add(fileName);
-		}	
+		if(user != null) {
+			UploadedFile file = event.getFile();
+			String fileName = file.getFileName();
+			
+			Boolean validated = validateUploadedFile(fileName);
+			
+			if(validated) {
+				try {
+					saveFile(user, file, fileName);
+			    	this.successUploadedFilesNames.add(fileName);
+			    } catch (CreateFileException | DuplicatedFile | IOException e) {
+			    	this.errorUploadedFilesNames.add(fileName);
+			    }
+			} else {
+				this.errorUploadedFilesNames.add(fileName);
+			}	
 
-	    setUploadSuccessMessage();					
+		    setUploadSuccessMessage();	
+		}						
     }
 	
 	private void saveFile(User user, UploadedFile file, String inputFileName) throws CreateFileException, DuplicatedFile, IOException {

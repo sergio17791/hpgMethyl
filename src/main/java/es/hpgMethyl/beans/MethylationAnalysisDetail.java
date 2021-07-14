@@ -113,7 +113,7 @@ public class MethylationAnalysisDetail implements Serializable {
 		if (!FacesContext.getCurrentInstance().isPostback()) { 
 			
 			if(this.id == null) {
-				return "/index";
+				return "pretty:home";
 			}
 			
 			try {
@@ -126,11 +126,11 @@ public class MethylationAnalysisDetail implements Serializable {
 				User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
 				
 				if(user == null) {
-					return "/index";	
+					return "pretty:home";	
 				}
 				
 				if(user.getRole() == UserRole.USER && !this.analysisRequest.getUser().getId().equals(user.getId())) {
-					return "/index";
+					return "pretty:home";
 				}
 					
 				AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
@@ -170,7 +170,7 @@ public class MethylationAnalysisDetail implements Serializable {
 				analysisRequestBean.setUpdatedAt(analysisRequest.getUpdatedAt());
 				
 			} catch (AnalysisRequestNotFound | GetObjectException e) {
-				return "/index";
+				return "pretty:home";
 			}						
 		}
 		

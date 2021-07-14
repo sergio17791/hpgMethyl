@@ -13,7 +13,7 @@
             </b:column>
             <b:column col-xs="6" col-sm="3" offset-sm="3">
             	<b:link value="#{msg['analysis.list.button.analysisRequest']}" 
-	    				outcome="send"
+	    				outcome="pretty:analysisSend"
 	    				iconAwesome="plus-circle" 
 	  					look="success"/>   
             </b:column>                  
@@ -44,7 +44,7 @@
 	    					   searchable="false"
 	    					   orderable="false">
 	    		<b:link value="#{msg['general.list.button.detail']}" 
-	    				outcome="detail"
+	    				outcome="pretty:analysisDetail"
 	    				iconAwesome="arrow-right" 
 	  					look="info">
 	  				<f:param name="id" value="#{analysisRequest.id}"/>

@@ -117,7 +117,7 @@ public class SendMethylationAnalysisRequest implements Serializable {
 		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
 		
 		if(user == null) {
-			return "/index";	
+			return "pretty:home";	
 		}								
 		
 		AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");

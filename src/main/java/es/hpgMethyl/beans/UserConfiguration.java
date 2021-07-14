@@ -265,7 +265,7 @@ private static final long serialVersionUID = 4323418201301711899L;
 		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
         
         if(user == null) {
-            return "/index";   
+            return "pretty:home";   
         }
         
         try {
@@ -299,7 +299,7 @@ private static final long serialVersionUID = 4323418201301711899L;
 		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
         
         if(user == null) {
-            return "/index";   
+            return "pretty:home";   
         }
         
         try {
@@ -330,7 +330,7 @@ private static final long serialVersionUID = 4323418201301711899L;
 			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.changePasswordComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);						
 		} catch (UserNotFound e) {
-			return "/index";  
+			return "pretty:home";  
 		}
 		
 		return null;
@@ -341,7 +341,7 @@ private static final long serialVersionUID = 4323418201301711899L;
 		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
         
         if(user == null) {
-            return "/index";   
+            return "pretty:home";   
         }
         
         try {
@@ -376,7 +376,7 @@ private static final long serialVersionUID = 4323418201301711899L;
 			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.updatePasswordRecoveryComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);						
 		} catch (UserNotFound e) {
-			return "/index";  
+			return "pretty:home";  
 		}
 		
 		return null;

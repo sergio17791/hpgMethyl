@@ -219,7 +219,7 @@ public class UserSignup implements Serializable {
 			
 			FacesContextUtils.setParameterFacesContextSession(FacesContextUtils.SESSION_USER, user);
 			
-			return "/index";				
+			return "pretty:home";				
 		} catch (DuplicatedEmail e) {
 			String duplicatedEmailMessage = FacesContextUtils.geti18nMessage("signup.duplicatedEmail");
 			FacesContextUtils.setMessageInComponent(this.getSignupComponent(), FacesMessage.SEVERITY_ERROR, duplicatedEmailMessage, duplicatedEmailMessage);			
