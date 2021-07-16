@@ -7,6 +7,8 @@ import java.util.UUID;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -14,8 +16,10 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import es.hpgMethyl.dao.HPGMethylFileDAO;
+import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
+import es.hpgMethyl.types.AnalysisStatus;
 import es.hpgMethyl.utils.HibernateUtils;
 
 public class HPGMethylFileDAOHibernate extends BaseDAOHibernate<HPGMethylFile, UUID> implements HPGMethylFileDAO {
@@ -38,6 +42,52 @@ public class HPGMethylFileDAOHibernate extends BaseDAOHibernate<HPGMethylFile, U
 			if(stored != null) {
 				predicates.add(criteriaBuilder.equal(root.get("stored"), stored));	
 			}				
+			
+			criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
+
+			Query<HPGMethylFile> query = session.createQuery(criteriaQuery);	
+			query.setMaxResults(1);
+			
+			return query.getSingleResult() != null;
+		} catch(NoResultException exception) {
+			return false;
+		} finally {
+			session.close();
+		}
+	}
+	
+	@Override
+	public Boolean checkFileIsPending(User user, String fileName) {
+		
+		Session session = HibernateUtils.getSessionFactory().openSession();
+		
+		try {		
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<HPGMethylFile> criteriaQuery = criteriaBuilder.createQuery(HPGMethylFile.class);
+			
+			Root<HPGMethylFile> root = criteriaQuery.from(HPGMethylFile.class);
+			criteriaQuery.select(root);					
+			
+			List<Predicate> predicates = new ArrayList<Predicate>();
+			predicates.add(criteriaBuilder.equal(root.get("user"), user));
+			predicates.add(criteriaBuilder.equal(root.get("fileName"), fileName));
+			predicates.add(criteriaBuilder.equal(root.get("stored"), true));
+			
+			Join<HPGMethylFile, AnalysisRequest> inputFileJoin = root.join("inputReadFile", JoinType.LEFT);
+			Join<HPGMethylFile, AnalysisRequest> pairedFileJoin = root.join("pairedEndModeFile", JoinType.LEFT);
+			
+			predicates.add(
+					criteriaBuilder.or(
+							criteriaBuilder.or(
+									criteriaBuilder.equal(inputFileJoin.get("status"), AnalysisStatus.CREATED),
+									criteriaBuilder.equal(inputFileJoin.get("status"), AnalysisStatus.PROCESSING)
+							),
+							criteriaBuilder.or(
+									criteriaBuilder.equal(pairedFileJoin.get("status"), AnalysisStatus.CREATED),
+									criteriaBuilder.equal(pairedFileJoin.get("status"), AnalysisStatus.PROCESSING)
+							)
+					)
+			);
 			
 			criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
 
@@ -86,5 +136,5 @@ public class HPGMethylFileDAOHibernate extends BaseDAOHibernate<HPGMethylFile, U
 		} finally {
 			session.close();
 		}
-	}
+	}	
 }
