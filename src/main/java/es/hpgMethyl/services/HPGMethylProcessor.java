@@ -1,3 +1,4 @@
+
 package es.hpgMethyl.services;
 
 import java.io.BufferedReader;
@@ -10,16 +11,22 @@ import java.util.logging.Logger;
 import es.hpgMethyl.builders.AnalysisCommandBuilder;
 import es.hpgMethyl.dao.AnalysisRequestDAO;
 import es.hpgMethyl.dao.ConfigurationDAO;
+import es.hpgMethyl.dao.HPGMethylFileDAO;
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.Configuration;
+import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
 import es.hpgMethyl.exceptions.ConfigurationNotFound;
 import es.hpgMethyl.exceptions.UpdateMethylationAnalysisException;
 import es.hpgMethyl.types.AnalysisStatus;
+import es.hpgMethyl.types.PairedMode;
 import es.hpgMethyl.usecases.analysis.GetNextPendingMethylationAnalysis.GetNextPendingMethylationAnalysis;
 import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisStatus.UpdateMethylationAnalysisStatus;
 import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisStatus.UpdateMethylationAnalysisStatusRequest;
 import es.hpgMethyl.usecases.configuration.GetApplicationConfiguration.GetApplicationConfiguration;
+import es.hpgMethyl.usecases.file.CheckFileIsPending.CheckFileIsPending;
+import es.hpgMethyl.usecases.file.CheckFileIsPending.CheckFileIsPendingRequest;
+import es.hpgMethyl.utils.FileUtils;
 
 public class HPGMethylProcessor extends Thread {
 	
@@ -27,11 +34,14 @@ public class HPGMethylProcessor extends Thread {
 
 	private AnalysisRequestDAO analysisRequestDAO;
 	
+	private HPGMethylFileDAO hpgMethylFileDAO;
+	
 	private ConfigurationDAO configurationDAO;
 	
-	public HPGMethylProcessor(AnalysisRequestDAO analysisRequestDAO, ConfigurationDAO configurationDAO) {
+	public HPGMethylProcessor(AnalysisRequestDAO analysisRequestDAO, HPGMethylFileDAO hpgMethylFileDAO, ConfigurationDAO configurationDAO) {
 		super("HPGMethylProcessor");
 		this.analysisRequestDAO = analysisRequestDAO;
+		this.hpgMethylFileDAO = hpgMethylFileDAO;
 		this.configurationDAO = configurationDAO;
 	}
 	
@@ -104,6 +114,12 @@ public class HPGMethylProcessor extends Thread {
 				} catch (AnalysisRequestNotFound | UpdateMethylationAnalysisException e) {
 					Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.SEVERE, e.getMessage());
 				}
+				
+				deleteFileFromSystem(analysisRequest.getInputReadFile());
+				
+				if(analysisRequest.getPairedMode().equals(PairedMode.PAIRED_END_MODE)) {
+					deleteFileFromSystem(analysisRequest.getPairedEndModeFile());
+				}
 			}
 									
 			semaphore.release();
@@ -128,6 +144,21 @@ public class HPGMethylProcessor extends Thread {
 		String output = "";
 		while ((output = bufferedReader.readLine()) != null) {
 			Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.INFO, output);
+		}
+	}
+	
+	private void deleteFileFromSystem(HPGMethylFile file) {
+		
+		Boolean pending = new CheckFileIsPending(hpgMethylFileDAO).execute(
+				new CheckFileIsPendingRequest(file.getUser(), file.getFileName())
+		).getPending();
+		
+		if(!pending && file.getStored()) {
+			try {
+				FileUtils.deleteFile(file.getPath());
+			} catch (IOException e) {
+				Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.SEVERE, e.getMessage());
+			} 
 		}
 	}
 }
