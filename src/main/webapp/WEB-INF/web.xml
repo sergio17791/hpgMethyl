@@ -14,7 +14,7 @@
 	</context-param>
 	<context-param>
     	<param-name>primefaces.UPLOADER</param-name>
-    	<param-value>auto</param-value>
+    	<param-value>commons</param-value>
 	</context-param>
 	<filter>
     	<filter-name>PrimeFaces FileUpload Filter</filter-name>
