@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import javax.faces.application.FacesMessage;
@@ -12,12 +13,18 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
+import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
 import es.hpgMethyl.dao.hibernate.HPGMethylFileDAOHibernate;
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.HPGMethylFile;
+import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.FileNotFound;
 import es.hpgMethyl.exceptions.GetObjectException;
 import es.hpgMethyl.exceptions.UpdateFileException;
+import es.hpgMethyl.types.UserRole;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile.ListPendingMethylationAnalysisWithFile;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile.ListPendingMethylationAnalysisWithFileRequest;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile.ListPendingMethylationAnalysisWithFileResponse;
 import es.hpgMethyl.usecases.file.CheckFileIsPending.CheckFileIsPending;
 import es.hpgMethyl.usecases.file.CheckFileIsPending.CheckFileIsPendingRequest;
 import es.hpgMethyl.usecases.file.GetFile.GetFile;
@@ -110,11 +117,23 @@ public class FileDetail implements Serializable {
 			}
 			
 			try {
-				GetFileResponse response = new GetFile(new HPGMethylFileDAOHibernate()).execute(
+				this.file = new GetFile(new HPGMethylFileDAOHibernate()).execute(
 						new GetFileRequest(UUID.fromString(id))
-				);
-					
-				this.file = response.getFile();
+				).getFile();				
+				
+				User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
+				
+				if(user == null) {
+					return "pretty:home";	
+				}
+				
+				if(user.getRole() == UserRole.USER && !file.getUser().getId().equals(user.getId())) {
+					return "pretty:home";
+				}
+				
+				this.analysisRequestWithFile = new ListPendingMethylationAnalysisWithFile(new AnalysisRequestDAOHibernate()).execute(
+						new ListPendingMethylationAnalysisWithFileRequest(file.getUser(), file)
+				).getAnalysisRequestList();
 					
 			} catch (GetObjectException | FileNotFound e) {
 				return "pretty:home";
@@ -126,11 +145,11 @@ public class FileDetail implements Serializable {
 	
 	public String removeFile() {
 		
-		Boolean pending = new CheckFileIsPending(new HPGMethylFileDAOHibernate()).execute(
-				new CheckFileIsPendingRequest(file.getUser(), file.getFileName())
-		).getPending();
+		this.analysisRequestWithFile = new ListPendingMethylationAnalysisWithFile(new AnalysisRequestDAOHibernate()).execute(
+				new ListPendingMethylationAnalysisWithFileRequest(file.getUser(), file)
+		).getAnalysisRequestList();
 		
-		if(pending) {
+		if(!analysisRequestWithFile.isEmpty()) {
 			String pendingFileError = FacesContextUtils.geti18nMessage("file.detail.remove.pending");
 			FacesContextUtils.setMessageInComponent(this.getDeleteComponent(), FacesMessage.SEVERITY_ERROR, pendingFileError, pendingFileError);
 			return null;
@@ -151,4 +170,15 @@ public class FileDetail implements Serializable {
 		
 		return "pretty:userFiles";
 	}
+	
+	public String customLanguageTranslation() {
+		
+		Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+		
+		if ("ca".equals(locale.getLanguage())) {
+			return "//cdn.datatables.net/plug-ins/1.10.12/i18n/Catalan.json";
+		}
+			
+	    return null;
+	 }
 }

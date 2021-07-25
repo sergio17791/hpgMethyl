@@ -15,7 +15,13 @@
          	<b:row>         	
          		<b:column col-md="6">
             		<legend><h:outputText value="#{msg['file.detail.legend']}"/></legend>      
-             	</b:column>                 
+             	</b:column>  
+             	<b:column col-xs="6" col-sm="3" offset-sm="3">
+            		<b:link value="#{msg['general.goBack']}" 
+	    					outcome="pretty:userFiles"
+	    					iconAwesome="arrow-left" 
+	  						look="success"/>   
+            	</b:column>                  
          	</b:row>
             <b:panel>
 				<b:row>
@@ -57,7 +63,8 @@
 		                                 action="#{fileDetail.removeFile}"
 		                                 look="danger"
 		                                 styleClass="btn-block"
-		                                 disabled="#{fileDetail.analysisRequestWithFile.size() > 0}"/>     
+		                                 disabled="#{fileDetail.analysisRequestWithFile.size() > 0}"/>
+						<i><h:outputFormat value="#{msg['file.detail.remove']}"/></i>		                                      
                 	</b:column>                    	
                 </b:row>
                 <b:row style="margin-top: 10px">             
@@ -67,5 +74,38 @@
                 </b:row>  
             </b:panel>                                          
         </b:form>
+        <b:row>
+        	<b:column col-xs="6">
+            	<legend><h:outputText value="#{msg['file.detail.analysis']}"/></legend>      
+            </b:column>               
+        </b:row>
+        <b:dataTable value="#{fileDetail.analysisRequestWithFile}" 
+    				 var="analysisRequest"
+    				 responsive="true"
+    				 select="false"
+    				 searching="true"
+    				 mark-search-results="true"
+           	   		 page-length-menu="5,10,20,50"
+    				 custom-lang-url="#{listUserAnalysis.customLanguageTranslation()}">
+    		<b:dataTableColumn value="#{analysisRequest.identifier}" 
+    						   label="#{msg['analysis.attribute.identifier']}"/>	  	    						  
+			<b:dataTableColumn value="#{msg['analysis.attribute.pairedMode.' += analysisRequest.pairedMode]}"
+	    					   label="#{msg['analysis.attribute.pairedMode']}"/>	    						   
+	    	<b:dataTableColumn value="#{msg['analysis.attribute.status.' += analysisRequest.status]}"
+	    					   label="#{msg['analysis.attribute.status']}"/>
+	    	<b:dataTableColumn value="#{analysisRequest.number}"
+	    					   label="#{msg['analysis.attribute.number']}"
+	    					   order="desc"/>
+	    	<b:dataTableColumn label=""
+	    					   searchable="false"
+	    					   orderable="false">
+	    		<b:link value="#{msg['general.list.button.detail']}" 
+	    				outcome="pretty:analysisDetail"
+	    				iconAwesome="arrow-right" 
+	  					look="info">
+	  				<f:param name="id" value="#{analysisRequest.id}"/>
+	  			</b:link>
+	    	</b:dataTableColumn>
+  		</b:dataTable>
     </ui:define>
 </ui:composition>
