@@ -29,11 +29,15 @@
 	</url-mapping>
 	<url-mapping id="userFiles" parentId="analysis">
 		<pattern value="/files"/>
-		<view-id value="/faces/user/analysis/files.xhtml"/>
+		<view-id value="/faces/user/analysis/files/upload.xhtml"/>
 	</url-mapping>
 	<url-mapping id="analysisDetail" parentId="analysis">
 		<pattern value="/#{ id }"/>
 		<view-id value="/faces/user/analysis/detail.xhtml"/>
+	</url-mapping>
+	<url-mapping id="userFilesDetail" parentId="userFiles">
+		<pattern value="/#{ id }"/>
+		<view-id value="/faces/user/analysis/files/detail.xhtml"/>
 	</url-mapping>
 	<url-mapping id="userConfiguration" parentId="home">
 		<pattern value="configuration"/>

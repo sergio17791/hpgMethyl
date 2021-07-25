@@ -2,6 +2,7 @@ package es.hpgMethyl.beans;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -34,8 +35,10 @@ import es.hpgMethyl.utils.FileUtils;
 
 @ManagedBean(name = "filesBean")
 @ViewScoped
-public class FilesBean {
+public class FilesBean implements Serializable {
 	
+	private static final long serialVersionUID = 4428801113377392788L;
+
 	private List<HPGMethylFile> userFiles;
 	private Integer fileLimit;
 	private Long fileBytesLimit;

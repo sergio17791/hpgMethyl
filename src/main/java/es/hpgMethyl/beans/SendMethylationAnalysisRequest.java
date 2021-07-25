@@ -162,7 +162,7 @@ public class SendMethylationAnalysisRequest implements Serializable {
 			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_INFO, successMessage, successMessage);
 			
 			new Thread(() -> {
-			    new HPGMethylProcessor(new AnalysisRequestDAOHibernate(), new ConfigurationDAOHibernate()).start();
+			    new HPGMethylProcessor(new AnalysisRequestDAOHibernate(), new HPGMethylFileDAOHibernate(), new ConfigurationDAOHibernate()).start();
 			}).start();
 
 		} catch (DuplicatedIdentifier e) {
