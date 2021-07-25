@@ -5,7 +5,7 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:b="http://bootsfaces.net/ui"
                 xmlns:p="http://primefaces.org/ui"
-                template="../../WEB-INF/templates/mainTemplate.xhtml">
+                template="../../../WEB-INF/templates/mainTemplate.xhtml">
     <ui:define name="content">
     	<b:form enctype="multipart/form-data">
     		<b:row>
@@ -77,23 +77,31 @@
             <b:column col-md="6">
             	<legend><h:outputText value="#{msg['files.list.legend']}"/></legend>      
         	</b:column>                 
-        </b:row>
+        </b:row>        
 		<b:dataTable id="userFilesTable"
 					 value="#{filesBean.userFiles}" 
-    				 var="userFile"
-    				 responsive="true"
-    				 select="false"
-    				 searching="true"
-    				 mark-search-results="true"
-           	   		 page-length-menu="10"
-    				 custom-lang-url="#{filesBean.customLanguageTranslation()}">
+    			 	 var="userFile"
+    			 	 responsive="true"
+    			 	 select="false"
+    			 	 searching="true"
+    			 	 mark-search-results="true"
+           		 	 page-length-menu="10"
+    			 	 custom-lang-url="#{filesBean.customLanguageTranslation()}">
     		<b:dataTableColumn value="#{userFile.fileName}" 
-    						   label="#{msg['file.attribute.fileName']}"/>	    		    						  
+    					   	   label="#{msg['file.attribute.fileName']}"/>	    		    						  
 			<b:dataTableColumn label="#{msg['general.attribute.createdAt']}" order="desc">
 				<h:outputText value="#{userFile.createdAt}" >
-    				<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+    				<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
 				</h:outputText>	    					
-			</b:dataTableColumn>	    					   
-  		</b:dataTable>		
+			</b:dataTableColumn>
+			<b:dataTableColumn label="" searchable="false" orderable="false">				
+	    		<b:link value="#{msg['general.list.button.detail']}" 
+	    				outcome="pretty:userFilesDetail"
+	    				iconAwesome="arrow-right" 
+	  					look="info">
+	  				<f:param name="id" value="#{userFile.id}"/>
+	  			</b:link>					
+	    	</b:dataTableColumn>	    					   
+  		</b:dataTable>				
     </ui:define>
 </ui:composition>

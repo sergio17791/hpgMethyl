@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:components="http://java.sun.com/jsf/composite/components"
+                template="../../../WEB-INF/templates/mainTemplate.xhtml">
+    <ui:define name="content">
+    	<f:metadata>
+  			<f:viewParam name="id" value="#{fileDetail.id}"/>
+			<f:viewAction action="#{fileDetail.loadFile}"/>
+		</f:metadata>  
+         <b:form>
+         	<b:row>         	
+         		<b:column col-md="6">
+            		<legend><h:outputText value="#{msg['file.detail.legend']}"/></legend>      
+             	</b:column>                 
+         	</b:row>
+            <b:panel>
+				<b:row>
+         			<b:column col-md="6">
+						<b:inputText value ="#{fileDetail.file.fileName}"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['file.attribute.fileName']}" 
+			             		 	 disabled="true"/>
+					</b:column>	
+					<b:column col-md="6">
+						<b:inputText value ="#{fileDetail.file.size}"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['file.attribute.size']}" 
+		                 			 a:type  ="number"
+			             		 	 disabled="true"/>
+					</b:column>	              											  
+            	</b:row>
+            	<b:row>
+         			<b:column col-md="6">
+						<b:inputText value ="#{fileDetail.file.contentType}"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['file.attribute.contentType']}" 
+			             		 	 disabled="true"/>
+					</b:column>	
+					<b:column col-md="6">
+						<b:inputText value ="#{fileDetail.file.createdAt}"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['general.attribute.createdAt']}" 
+			             		 	 disabled="true">
+			             	<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>	 	 
+			             </b:inputText>
+					</b:column>	              											  
+            	</b:row>
+            	<b:row>
+                	<b:column col-md="12">
+	                	<b:commandButton id="deleteFileButton"
+	                					 binding="#{fileDetail.deleteComponent}"
+		                                 value="#{msg['general.remove']}" 
+		                                 action="#{fileDetail.removeFile}"
+		                                 look="danger"
+		                                 styleClass="btn-block"
+		                                 disabled="#{fileDetail.analysisRequestWithFile.size() > 0}"/>     
+                	</b:column>                    	
+                </b:row>
+                <b:row style="margin-top: 10px">             
+                	<b:column col-md="12">
+	                	<h:message for="deleteFileButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
+                	</b:column>
+                </b:row>  
+            </b:panel>                                          
+        </b:form>
+    </ui:define>
+</ui:composition>
