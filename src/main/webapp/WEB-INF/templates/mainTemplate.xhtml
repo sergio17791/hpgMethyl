@@ -26,6 +26,7 @@
 	    				<b:navbarLinks>
 	    					<b:navLink value="#{msg['menu.contact']}" outcome="pretty:contact"/>
 	    					<b:navLink value="#{msg['menu.analysis']}" outcome="pretty:analysis" rendered="#{sessionUser != null}"/>
+	    					<b:navLink value="#{msg['menu.files']}" outcome="pretty:userFiles" rendered="#{sessionUser != null}"/>
 	    					<b:navLink value="GitHub" href="https://github.com/grev-uv/hpg-methyl" iconAwesome="github" iconAlign="left"/>
 	    				</b:navbarLinks>
 	    				<b:navbarLinks pull="right">
