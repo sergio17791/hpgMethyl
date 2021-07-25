@@ -15,6 +15,7 @@ import org.hibernate.query.Query;
 
 import es.hpgMethyl.dao.AnalysisRequestDAO;
 import es.hpgMethyl.entities.AnalysisRequest;
+import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.types.AnalysisStatus;
 import es.hpgMethyl.utils.HibernateUtils;
@@ -95,6 +96,53 @@ public class AnalysisRequestDAOHibernate extends BaseDAOHibernate<AnalysisReques
 			if(user != null) {
 				predicates.add(criteriaBuilder.equal(root.get("user"), user));
 			}
+			
+			if(!predicates.isEmpty()) {
+				criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
+			}
+
+			Query<AnalysisRequest> query = session.createQuery(criteriaQuery);	
+			
+			return query.getResultList();
+		} catch(NoResultException exception) {
+			return new ArrayList<AnalysisRequest>();
+		} finally {
+			session.close();
+		}
+	}
+	
+	@Override
+	public List<AnalysisRequest> listPendingAnalysisWithFile(User user, HPGMethylFile file) {
+		
+		Session session = HibernateUtils.getSessionFactory().openSession();
+		
+		try {		
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<AnalysisRequest> criteriaQuery = criteriaBuilder.createQuery(AnalysisRequest.class);
+			
+			Root<AnalysisRequest> root = criteriaQuery.from(AnalysisRequest.class);
+			criteriaQuery.select(root);
+			
+			List<Predicate> predicates = new ArrayList<Predicate>();
+			if(user != null) {
+				predicates.add(criteriaBuilder.equal(root.get("user"), user));
+			}
+			
+			if(file != null) {
+				predicates.add(
+						criteriaBuilder.or(
+								criteriaBuilder.equal(root.get("inputReadFile"), file),
+								criteriaBuilder.equal(root.get("pairedEndModeFile"), file)
+						)
+				);
+			}
+			
+			predicates.add(
+					criteriaBuilder.or(
+							criteriaBuilder.equal(root.get("status"), AnalysisStatus.CREATED),
+							criteriaBuilder.equal(root.get("status"), AnalysisStatus.PROCESSING)
+					)
+			);
 			
 			if(!predicates.isEmpty()) {
 				criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
