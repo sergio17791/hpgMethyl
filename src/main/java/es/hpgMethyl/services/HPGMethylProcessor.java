@@ -4,6 +4,7 @@ package es.hpgMethyl.services;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,15 +18,19 @@ import es.hpgMethyl.entities.Configuration;
 import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
 import es.hpgMethyl.exceptions.ConfigurationNotFound;
+import es.hpgMethyl.exceptions.FileNotFound;
+import es.hpgMethyl.exceptions.UpdateFileException;
 import es.hpgMethyl.exceptions.UpdateMethylationAnalysisException;
 import es.hpgMethyl.types.AnalysisStatus;
 import es.hpgMethyl.types.PairedMode;
 import es.hpgMethyl.usecases.analysis.GetNextPendingMethylationAnalysis.GetNextPendingMethylationAnalysis;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile.ListPendingMethylationAnalysisWithFile;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile.ListPendingMethylationAnalysisWithFileRequest;
 import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisStatus.UpdateMethylationAnalysisStatus;
 import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisStatus.UpdateMethylationAnalysisStatusRequest;
 import es.hpgMethyl.usecases.configuration.GetApplicationConfiguration.GetApplicationConfiguration;
-import es.hpgMethyl.usecases.file.CheckFileIsPending.CheckFileIsPending;
-import es.hpgMethyl.usecases.file.CheckFileIsPending.CheckFileIsPendingRequest;
+import es.hpgMethyl.usecases.file.UnstoreFile.UnstoreFile;
+import es.hpgMethyl.usecases.file.UnstoreFile.UnstoreFileRequest;
 import es.hpgMethyl.utils.FileUtils;
 
 public class HPGMethylProcessor extends Thread {
@@ -149,14 +154,18 @@ public class HPGMethylProcessor extends Thread {
 	
 	private void deleteFileFromSystem(HPGMethylFile file) {
 		
-		Boolean pending = new CheckFileIsPending(hpgMethylFileDAO).execute(
-				new CheckFileIsPendingRequest(file.getUser(), file.getFileName())
-		).getPending();
+		List<AnalysisRequest> analysisRequestWithFileList = new ListPendingMethylationAnalysisWithFile(analysisRequestDAO).execute(
+				new ListPendingMethylationAnalysisWithFileRequest(file.getUser(), file)
+		).getAnalysisRequestList();
 		
-		if(!pending && file.getStored()) {
+		if(analysisRequestWithFileList.isEmpty() && file.getStored()) {
 			try {
+				new UnstoreFile(hpgMethylFileDAO).execute(
+						new UnstoreFileRequest(file.getId())
+				);
+				
 				FileUtils.deleteFile(file.getPath());
-			} catch (IOException e) {
+			} catch (FileNotFound | UpdateFileException | IOException e) {
 				Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.SEVERE, e.getMessage());
 			} 
 		}

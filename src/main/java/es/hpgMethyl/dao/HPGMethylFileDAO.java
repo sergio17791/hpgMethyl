@@ -8,6 +8,5 @@ import es.hpgMethyl.entities.User;
 
 public interface HPGMethylFileDAO extends BaseDAO<HPGMethylFile, UUID> {
 	Boolean existsFile(User user, String fileName, Boolean stored);
-	Boolean checkFileIsPending(User user, String fileName);
 	List<HPGMethylFile> list(User user, Boolean stored);	
 }
