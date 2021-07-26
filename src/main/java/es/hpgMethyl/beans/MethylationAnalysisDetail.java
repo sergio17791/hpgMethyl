@@ -184,15 +184,31 @@ public class MethylationAnalysisDetail implements Serializable {
 			analysisRequestBean.setPairedMinDistance(null);
 		}
 		
+		HPGMethylFile inputReadFile = analysisRequestBean.getInputReadFile();		
+		Boolean validInputReadFile = analysisRequestBean.checkFile(inputReadFile);
+		if(!validInputReadFile) {
+			String fileNotFoundErrorMessage = FacesContextUtils.geti18nMessage("error.fileNotFound") + " " + inputReadFile.getFileName();
+			FacesContextUtils.setMessageInComponent(this.getUpdateAnalysisParametersComponent(), FacesMessage.SEVERITY_ERROR, fileNotFoundErrorMessage, fileNotFoundErrorMessage);
+		}
+		
+		HPGMethylFile pairedEndModeFile = analysisRequestBean.getPairedEndModeFile();		
+		if(pairedEndModeFile != null) {
+			Boolean validPairedEndModeFile = analysisRequestBean.checkFile(pairedEndModeFile);
+			if(!validPairedEndModeFile) {
+				String fileNotFoundErrorMessage = FacesContextUtils.geti18nMessage("error.fileNotFound") + " " + pairedEndModeFile.getFileName();
+				FacesContextUtils.setMessageInComponent(this.getUpdateAnalysisParametersComponent(), FacesMessage.SEVERITY_ERROR, fileNotFoundErrorMessage, fileNotFoundErrorMessage);
+			}
+		}
+		
 		try {
 			new UpdateMethylationAnalysisParameters(new AnalysisRequestDAOHibernate()).execute(
 					new UpdateMethylationAnalysisParametersRequest(
 						UUID.fromString(this.id),
 						analysisRequestBean.getIdentifier(),
-						analysisRequestBean.getInputReadFile(),
+						inputReadFile,
 						analysisRequestBean.getWriteMethylationContext(), 
 						analysisRequestBean.getPairedMode(),
-						analysisRequestBean.getPairedEndModeFile(),
+						pairedEndModeFile,
 						analysisRequestBean.getPairedMaxDistance(), 
 						analysisRequestBean.getPairedMinDistance(),
 						analysisRequestBean.getSwaMinimunScore(), 

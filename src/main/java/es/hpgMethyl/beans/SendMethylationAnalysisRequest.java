@@ -10,10 +10,12 @@ import javax.faces.component.UIComponent;
 import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
 import es.hpgMethyl.dao.hibernate.ConfigurationDAOHibernate;
 import es.hpgMethyl.dao.hibernate.HPGMethylFileDAOHibernate;
+import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.CreateMethylationAnalysisException;
 import es.hpgMethyl.exceptions.DuplicatedIdentifier;
 import es.hpgMethyl.services.HPGMethylProcessor;
+import es.hpgMethyl.types.PairedMode;
 import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysis;
 import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysisRequest;
 import es.hpgMethyl.utils.FacesContextUtils;
@@ -65,16 +67,40 @@ public class SendMethylationAnalysisRequest implements Serializable {
 		
 		AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
 		
+		PairedMode pairedMode = analysisRequestBean.getPairedMode();
+		
+		if(pairedMode.equals(PairedMode.SINGLE_END_MODE)) {
+			analysisRequestBean.setPairedEndModeFile(null);
+			analysisRequestBean.setPairedMaxDistance(null);
+			analysisRequestBean.setPairedMinDistance(null);
+		}
+		
+		HPGMethylFile inputReadFile = analysisRequestBean.getInputReadFile();		
+		Boolean validInputReadFile = analysisRequestBean.checkFile(inputReadFile);
+		if(!validInputReadFile) {
+			String fileNotFoundErrorMessage = FacesContextUtils.geti18nMessage("error.fileNotFound") + " " + inputReadFile.getFileName();
+			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, fileNotFoundErrorMessage, fileNotFoundErrorMessage);
+		}
+		
+		HPGMethylFile pairedEndModeFile = analysisRequestBean.getPairedEndModeFile();		
+		if(pairedEndModeFile != null) {
+			Boolean validPairedEndModeFile = analysisRequestBean.checkFile(pairedEndModeFile);
+			if(!validPairedEndModeFile) {
+				String fileNotFoundErrorMessage = FacesContextUtils.geti18nMessage("error.fileNotFound") + " " + pairedEndModeFile.getFileName();
+				FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, fileNotFoundErrorMessage, fileNotFoundErrorMessage);
+			}
+		}
+	
 		try {
 			
 			new CreateMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
 				new CreateMethylationAnalysisRequest(
 					user,
 					analysisRequestBean.getIdentifier(),
-					analysisRequestBean.getInputReadFile(),
+					inputReadFile,
 					analysisRequestBean.getWriteMethylationContext(), 
 					analysisRequestBean.getPairedMode(),
-					analysisRequestBean.getPairedEndModeFile(), 
+					pairedEndModeFile, 
 					analysisRequestBean.getPairedMaxDistance(), 
 					analysisRequestBean.getPairedMinDistance(),
 					analysisRequestBean.getSwaMinimunScore(), 

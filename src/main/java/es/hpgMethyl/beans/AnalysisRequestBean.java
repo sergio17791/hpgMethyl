@@ -13,8 +13,13 @@ import javax.faces.bean.ViewScoped;
 import es.hpgMethyl.dao.hibernate.HPGMethylFileDAOHibernate;
 import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
+import es.hpgMethyl.exceptions.FileNotFound;
+import es.hpgMethyl.exceptions.GetObjectException;
 import es.hpgMethyl.types.AnalysisStatus;
 import es.hpgMethyl.types.PairedMode;
+import es.hpgMethyl.usecases.file.GetFile.GetFile;
+import es.hpgMethyl.usecases.file.GetFile.GetFileRequest;
+import es.hpgMethyl.usecases.file.GetFile.GetFileResponse;
 import es.hpgMethyl.usecases.file.ListUserFiles.ListUserFiles;
 import es.hpgMethyl.usecases.file.ListUserFiles.ListUserFilesRequest;
 import es.hpgMethyl.usecases.file.ListUserFiles.ListUserFilesResponse;
@@ -600,5 +605,23 @@ public class AnalysisRequestBean implements Serializable {
 			
 			this.userFiles = listUserFilesResponse.getFiles();
 		}		
+	}
+	
+	public Boolean checkFile(HPGMethylFile file) {
+		
+		Boolean validated;
+		
+		try {
+			GetFileResponse response = new GetFile(new HPGMethylFileDAOHibernate()).execute(
+					new GetFileRequest(file.getId())
+			);
+				
+			validated = response.getFile().getStored();
+			
+		} catch (GetObjectException | FileNotFound e) {
+			validated = Boolean.FALSE;
+		}
+		
+		return validated;
 	}
 }
