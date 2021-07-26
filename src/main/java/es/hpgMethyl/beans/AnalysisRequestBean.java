@@ -2,7 +2,9 @@ package es.hpgMethyl.beans;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.faces.bean.ManagedBean;
@@ -53,6 +55,7 @@ public class AnalysisRequestBean implements Serializable {
 	private Integer number;
 	private Date createdAt;
 	private Date updatedAt;
+	private List<HPGMethylFile> userFiles;
 
 	public AnalysisRequestBean() {
 		this.id = null;
@@ -89,6 +92,7 @@ public class AnalysisRequestBean implements Serializable {
 		this.number = null;
 		this.createdAt = null;
 		this.updatedAt = null;
+		this.userFiles = new ArrayList<HPGMethylFile>();
 	}
 
 	/**
@@ -567,5 +571,19 @@ public class AnalysisRequestBean implements Serializable {
 	 */
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	/**
+	 * @return the userFiles
+	 */
+	public List<HPGMethylFile> getUserFiles() {
+		return userFiles;
+	}
+
+	/**
+	 * @param userFiles the userFiles to set
+	 */
+	public void setUserFiles(List<HPGMethylFile> userFiles) {
+		this.userFiles = userFiles;
 	}
 }

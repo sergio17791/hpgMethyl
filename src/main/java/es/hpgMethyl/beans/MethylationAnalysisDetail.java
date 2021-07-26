@@ -9,9 +9,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.Part;
-
 import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
+import es.hpgMethyl.dao.hibernate.HPGMethylFileDAOHibernate;
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
@@ -26,6 +25,9 @@ import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnaly
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysisResponse;
 import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisParameters.UpdateMethylationAnalysisParameters;
 import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisParameters.UpdateMethylationAnalysisParametersRequest;
+import es.hpgMethyl.usecases.file.ListUserFiles.ListUserFiles;
+import es.hpgMethyl.usecases.file.ListUserFiles.ListUserFilesRequest;
+import es.hpgMethyl.usecases.file.ListUserFiles.ListUserFilesResponse;
 import es.hpgMethyl.utils.FacesContextUtils;
 
 @ManagedBean(name="analysisDetail")
@@ -36,13 +38,11 @@ public class MethylationAnalysisDetail implements Serializable {
 
 	private String id;	
 	private AnalysisRequest analysisRequest;
-	private Part pairedEndModeFile;
 	private UIComponent updateAnalysisParametersComponent;
 		
 	public MethylationAnalysisDetail() {
 		this.id = null;
 		this.analysisRequest = null;
-		this.pairedEndModeFile = null;
 	}
 
 	/**
@@ -71,20 +71,6 @@ public class MethylationAnalysisDetail implements Serializable {
 	 */
 	public void setAnalysisRequest(AnalysisRequest analysisRequest) {
 		this.analysisRequest = analysisRequest;
-	}
-
-	/**
-	 * @return the pairedEndModeFile
-	 */
-	public Part getPairedEndModeFile() {
-		return pairedEndModeFile;
-	}
-
-	/**
-	 * @param pairedEndModeFile the pairedEndModeFile to set
-	 */
-	public void setPairedEndModeFile(Part pairedEndModeFile) {
-		this.pairedEndModeFile = pairedEndModeFile;
 	}
 
 	/**
@@ -117,11 +103,11 @@ public class MethylationAnalysisDetail implements Serializable {
 			}
 			
 			try {
-				GetMethylationAnalysisResponse response = new GetMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
+				GetMethylationAnalysisResponse getAnalysisResponse = new GetMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
 						new GetMethylationAnalysisRequest(UUID.fromString(this.id))
 				);
 					
-				this.analysisRequest = response.getAnalysisRequest();
+				this.analysisRequest = getAnalysisResponse.getAnalysisRequest();
 				
 				User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
 				
@@ -132,14 +118,19 @@ public class MethylationAnalysisDetail implements Serializable {
 				if(user.getRole() == UserRole.USER && !this.analysisRequest.getUser().getId().equals(user.getId())) {
 					return "pretty:home";
 				}
+				
+				ListUserFilesResponse listUserFilesResponse = new ListUserFiles(new HPGMethylFileDAOHibernate()).execute(
+						new ListUserFilesRequest(analysisRequest.getUser(), true)
+				);
 					
 				AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
+				analysisRequestBean.setUserFiles(listUserFilesResponse.getFiles());
 				analysisRequestBean.setId(analysisRequest.getId());
 				analysisRequestBean.setUser(analysisRequest.getUser());
 				analysisRequestBean.setIdentifier(analysisRequest.getIdentifier());
+				analysisRequestBean.setInputReadFile(analysisRequest.getInputReadFile());
 				analysisRequestBean.setStatus(analysisRequest.getStatus());
 				analysisRequestBean.setPairedMode(analysisRequest.getPairedMode());
-				analysisRequestBean.setInputReadFile(analysisRequest.getInputReadFile());
 				analysisRequestBean.setWriteMethylationContext(analysisRequest.getWriteMethylationContext());
 				analysisRequestBean.setPairedEndModeFile(analysisRequest.getPairedEndModeFile());
 				analysisRequestBean.setPairedMaxDistance(analysisRequest.getPairedMaxDistance());

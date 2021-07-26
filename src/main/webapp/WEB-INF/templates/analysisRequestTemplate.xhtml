@@ -4,6 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:b="http://bootsfaces.net/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:components="http://java.sun.com/jsf/composite/components">
 	<h:body>
 		<fieldset>
@@ -20,8 +21,7 @@
 		                       	 	 styleClass="form-control"
 		                           	 label="#{msg['analysis.attribute.pairedMode']}" 
 			                       	 required="true" 
-		                           	 requiredMessage="#{msg['error.form.requiredField']}"
-		                           	 disabled="#{analysisBean.id != null}">    
+		                           	 requiredMessage="#{msg['error.form.requiredField']}">    
 		             	<f:selectItems value="#{analysisDetail.pairedModes}" 
 		                   			   var="pairedModeValue" 
 		                   			   itemValue="#{pairedModeValue}" 
@@ -33,14 +33,23 @@
                	</b:column>              									  				              									                 			                
             </b:row>
             <b:row style="margin-bottom: 10px">
-            	<ui:insert name="inputReadFile">
-					<components:inputTextWithErrorMessage inputId="inputReadFile"
-                										  value="#{analysisBean.inputReadFile}"
-                										  label="#{msg['analysis.attribute.inputReadFile']}"
-                										  maxlength="60"
-                										  required="true"
-                										  disabled="true"/>
-				</ui:insert> 
+            	<b:column col-md="6">
+               		<b:selectOneMenu id ="inputReadFile" 
+	               					 value="#{analysisBean.inputReadFile}"
+		                     	 	 styleClass="form-control"
+		                           	 label="#{msg['analysis.attribute.inputReadFile']}" 
+			                       	 required="true"
+		                           	 requiredMessage="#{msg['error.form.requiredField']}">  
+		                <c:if test="#{analysisBean.inputReadFile == null}">
+		                	<f:selectItem noSelectionOption="true"/>  
+		                </c:if>           	 		            	
+		             	<f:selectItems value="#{analysisBean.userFiles}" 
+		                			   var="userFile" 
+		                   			   itemValue="#{userFile}" 
+		                   			   itemLabel="#{userFile.fileName}"/>                        
+	               	</b:selectOneMenu>
+               		<h:message for="inputReadFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+               	</b:column>
 				<b:column col-md="3" styleClass="booleanColumn">
 					<b:selectBooleanCheckbox id="writeMethylationContext"
 					  				 		 value="#{analysisBean.writeMethylationContext}" 
@@ -55,15 +64,24 @@
 					<legend><h4><h:outputText value="#{msg['analysis.send.pairedEndModeLegend']}"/></h4></legend>							
 						<h:outputText value="#{msg['analysis.send.pairedEndModeText']}"/>
 						<b:row style="margin-top: 10px; margin-bottom: 10px">
-							<ui:insert name="pairedEndModeFile">
-								<components:inputTextWithErrorMessage inputId="pairedEndModeFile"
-                									  			  	  value="#{analysisBean.pairedEndModeFile}"
-                									  			  	  label="#{msg['analysis.attribute.pairedEndModeFile']}"
-                									  			  	  maxlength="60"
-                									  			  	  colMdSize="6"
-                									  			  	  required="#{analysis.pairedMode.value eq 1}"
-                									  			  	  disabled="true"/>
-							</ui:insert>
+							<b:column col-md="6">
+               					<b:selectOneMenu id ="pairedReadFile" 
+	               							 	 value="#{analysisBean.pairedEndModeFile}"
+		                     	 		 	     styleClass="form-control"
+		                           	 			 label="#{msg['analysis.attribute.pairedEndModeFile']}" 
+			                       	 			 required="#{analysisBean.pairedMode.value eq 1}" 
+		                           	 	     	 requiredMessage="#{msg['error.form.requiredField']}"> 
+		                           	<c:if test="#{analysisBean.pairedEndModeFile == null}">
+		                				<f:selectItem noSelectionOption="true"/>  
+		                			</c:if>  	     	   
+		                    		<f:selectItem noSelectionOption="#{analysisBean.pairedEndModeFile == null}"/> 
+		             				<f:selectItems value="#{analysisBean.userFiles}" 
+		                   		   				   var="userFile" 
+		                   		   				   itemValue="#{userFile}" 
+		                   		   				   itemLabel="#{userFile.fileName}"/>                        
+	               				</b:selectOneMenu>
+               					<h:message for="pairedReadFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+               				</b:column>
 						</b:row>
             			<b:row>						
                 			<components:inputTextWithErrorMessage inputId="pairedMaxDistance"

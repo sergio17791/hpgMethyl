@@ -8,6 +8,9 @@
                 xmlns:components="http://java.sun.com/jsf/composite/components"
                 template="../../WEB-INF/templates/mainTemplate.xhtml">
     <ui:define name="content">
+    	<f:metadata>
+			<f:viewAction action="#{sendAnalysis.loadFiles}"/>
+		</f:metadata> 
         <b:form id="analysisForm" enctype="multipart/form-data">
             <b:row>
                 <b:column col-md="6">
@@ -20,7 +23,7 @@
 	  						look="success"/>   
             	</b:column>                   
             </b:row>
-            <c:if test="#{sendAnalysis.userFiles.size() == 0}">
+            <c:if test="#{analysisBean.userFiles.size() == 0}">
 	            <b:row>
     				<b:column col-md="12">    			
     					<b:alert severity="warning" value="#{msg['analysis.send.withoutFiles']}" closable="true"/>    				
@@ -28,42 +31,7 @@
     			</b:row>	
         	</c:if>
             <b:panel>
-            	<ui:decorate template="../../WEB-INF/templates/analysisRequestTemplate.xhtml">
-            		<ui:define name="inputReadFile">
-            			<b:column col-md="6">
-               				<b:selectOneMenu id ="inputReadFile" 
-	               						 	 value="#{sendAnalysis.inputReadFile}"
-		                     	 	 	     styleClass="form-control"
-		                           	 		 label="#{msg['analysis.attribute.inputReadFile']}" 
-			                       	 		 required="true"
-		                           	 		 requiredMessage="#{msg['error.form.requiredField']}">  
-		                    	<f:selectItem noSelectionOption="true"/>  
-		             			<f:selectItems value="#{sendAnalysis.userFiles}" 
-		                   			   		   var="userFile" 
-		                   			   		   itemValue="#{userFile}" 
-		                   			   		   itemLabel="#{userFile.fileName}"/>                        
-	               			</b:selectOneMenu>
-               				<h:message for="inputReadFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-               			</b:column>            			
-            		</ui:define>
-            		<ui:define name="pairedEndModeFile">
-            			<b:column col-md="6">
-               				<b:selectOneMenu id ="pairedReadFile" 
-	               						 	 value="#{sendAnalysis.pairedEndModeFile}"
-		                     	 	 	     styleClass="form-control"
-		                           	 		 label="#{msg['analysis.attribute.pairedEndModeFile']}" 
-			                       	 		 required="#{analysisBean.pairedMode.value eq 1}" 
-		                           	 	     requiredMessage="#{msg['error.form.requiredField']}">   
-		                    	<f:selectItem noSelectionOption="true"/> 
-		             			<f:selectItems value="#{sendAnalysis.userFiles}" 
-		                   		   			   var="userFile" 
-		                   		   			   itemValue="#{userFile}" 
-		                   		   			   itemLabel="#{userFile.fileName}"/>                        
-	               			</b:selectOneMenu>
-               				<h:message for="pairedReadFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-               			</b:column>          			                		                		
-            		</ui:define>
-            	</ui:decorate>
+            	<ui:decorate template="../../WEB-INF/templates/analysisRequestTemplate.xhtml"/>
                 <b:row>
                 	<b:column col-md="6">
 	                	<b:commandButton id="resetAnalysisButton"
@@ -79,7 +47,7 @@
 		                                 action="#{sendAnalysis.sendAnalysis()}"
 		                                 look="primary"
 		                                 styleClass="btn-block"
-		                                 disabled="#{sendAnalysis.userFiles.size() == 0}"/>     
+		                                 disabled="#{analysisBean.userFiles.size() == 0}"/>     
                 	</b:column>                    	
                 </b:row>                 
                 <b:row style="margin-top: 10px">             

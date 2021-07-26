@@ -1,10 +1,7 @@
 package es.hpgMethyl.beans;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -13,7 +10,6 @@ import javax.faces.component.UIComponent;
 import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
 import es.hpgMethyl.dao.hibernate.ConfigurationDAOHibernate;
 import es.hpgMethyl.dao.hibernate.HPGMethylFileDAOHibernate;
-import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.CreateMethylationAnalysisException;
 import es.hpgMethyl.exceptions.DuplicatedIdentifier;
@@ -31,57 +27,24 @@ public class SendMethylationAnalysisRequest implements Serializable {
 	
 	private static final long serialVersionUID = -589016682649578821L;
 
-	private HPGMethylFile inputReadFile;
-	private HPGMethylFile pairedEndModeFile;
 	private UIComponent sendAnalysisComponent;
-	private List<HPGMethylFile> userFiles;
-	
-	public SendMethylationAnalysisRequest() {
-		this.inputReadFile = null;
-		this.pairedEndModeFile = null;
-		this.userFiles = new ArrayList<HPGMethylFile>();
-	}
-	
-	@PostConstruct
-	public void init() {
+		
+	public String loadFiles() {
 		
 		User user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
 		
-		if(user != null) {
-			ListUserFilesResponse response = new ListUserFiles(new HPGMethylFileDAOHibernate()).execute(
-					new ListUserFilesRequest(user, true)
-			);
+		if(user == null) {
+			return "pretty:home";	
+		}
+		
+		ListUserFilesResponse response = new ListUserFiles(new HPGMethylFileDAOHibernate()).execute(
+				new ListUserFilesRequest(user, true)
+		);
 			
-			this.userFiles = response.getFiles();
-		}				
-	}
-
-	/**
-	 * @return the inputReadFile
-	 */
-	public HPGMethylFile getInputReadFile() {
-		return inputReadFile;
-	}
-
-	/**
-	 * @param inputReadFile the inputReadFile to set
-	 */
-	public void setInputReadFile(HPGMethylFile inputReadFile) {
-		this.inputReadFile = inputReadFile;
-	}
-
-	/**
-	 * @return the pairedEndModeFile
-	 */
-	public HPGMethylFile getPairedEndModeFile() {
-		return pairedEndModeFile;
-	}
-
-	/**
-	 * @param pairedEndModeFile the pairedEndModeFile to set
-	 */
-	public void setPairedEndModeFile(HPGMethylFile pairedEndModeFile) {
-		this.pairedEndModeFile = pairedEndModeFile;
+		AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
+		analysisRequestBean.setUserFiles(response.getFiles());
+		
+		return null;			
 	}
 
 	/**
@@ -96,20 +59,6 @@ public class SendMethylationAnalysisRequest implements Serializable {
 	 */
 	public void setSendAnalysisComponent(UIComponent sendAnalysisComponent) {
 		this.sendAnalysisComponent = sendAnalysisComponent;
-	}
-
-	/**
-	 * @return the userFiles
-	 */
-	public List<HPGMethylFile> getUserFiles() {
-		return userFiles;
-	}
-
-	/**
-	 * @param userFiles the userFiles to set
-	 */
-	public void setUserFiles(List<HPGMethylFile> userFiles) {
-		this.userFiles = userFiles;
 	}
 
 	public String sendAnalysis() {
@@ -128,10 +77,10 @@ public class SendMethylationAnalysisRequest implements Serializable {
 				new CreateMethylationAnalysisRequest(
 					user,
 					analysisRequestBean.getIdentifier(),
-					inputReadFile,
+					analysisRequestBean.getInputReadFile(),
 					analysisRequestBean.getWriteMethylationContext(), 
 					analysisRequestBean.getPairedMode(),
-					pairedEndModeFile, 
+					analysisRequestBean.getPairedEndModeFile(), 
 					analysisRequestBean.getPairedMaxDistance(), 
 					analysisRequestBean.getPairedMinDistance(),
 					analysisRequestBean.getSwaMinimunScore(), 
