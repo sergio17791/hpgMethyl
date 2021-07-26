@@ -84,8 +84,10 @@ public class UpdateMethylationAnalysisParametersTest {
 		UpdateMethylationAnalysisParametersRequest request = new UpdateMethylationAnalysisParametersRequest(
 				id,
 				analysisRequest.getIdentifier(),
+				analysisRequest.getInputReadFile(),
 				true,
 				analysisRequest.getPairedMode(),
+				analysisRequest.getPairedEndModeFile(),
 				analysisRequest.getPairedMaxDistance(),
 				analysisRequest.getPairedMinDistance(),
 				analysisRequest.getSwaMinimunScore(),
@@ -124,8 +126,10 @@ public class UpdateMethylationAnalysisParametersTest {
 		UpdateMethylationAnalysisParametersRequest request = new UpdateMethylationAnalysisParametersRequest(
 				id,
 				analysisRequest.getIdentifier(),
+				analysisRequest.getInputReadFile(),
 				true,
 				analysisRequest.getPairedMode(),
+				analysisRequest.getPairedEndModeFile(),
 				analysisRequest.getPairedMaxDistance(),
 				analysisRequest.getPairedMinDistance(),
 				analysisRequest.getSwaMinimunScore(),
@@ -201,8 +205,10 @@ public class UpdateMethylationAnalysisParametersTest {
 		UpdateMethylationAnalysisParametersRequest request = new UpdateMethylationAnalysisParametersRequest(
 				id,
 				processedAnalysisRequest.getIdentifier(),
+				processedAnalysisRequest.getInputReadFile(),
 				true,
 				processedAnalysisRequest.getPairedMode(),
+				processedAnalysisRequest.getPairedEndModeFile(),
 				processedAnalysisRequest.getPairedMaxDistance(),
 				processedAnalysisRequest.getPairedMinDistance(),
 				processedAnalysisRequest.getSwaMinimunScore(),
@@ -242,8 +248,10 @@ public class UpdateMethylationAnalysisParametersTest {
 		UpdateMethylationAnalysisParametersRequest request = new UpdateMethylationAnalysisParametersRequest(
 				id,
 				identifier,
+				analysisRequest.getInputReadFile(),
 				true,
 				analysisRequest.getPairedMode(),
+				analysisRequest.getPairedEndModeFile(),
 				analysisRequest.getPairedMaxDistance(),
 				analysisRequest.getPairedMinDistance(),
 				analysisRequest.getSwaMinimunScore(),
@@ -285,8 +293,10 @@ public class UpdateMethylationAnalysisParametersTest {
 		UpdateMethylationAnalysisParametersRequest request = new UpdateMethylationAnalysisParametersRequest(
 				id,
 				identifier,
+				analysisRequest.getInputReadFile(),
 				true,
 				analysisRequest.getPairedMode(),
+				analysisRequest.getPairedEndModeFile(),
 				analysisRequest.getPairedMaxDistance(),
 				analysisRequest.getPairedMinDistance(),
 				analysisRequest.getSwaMinimunScore(),
@@ -330,8 +340,10 @@ public class UpdateMethylationAnalysisParametersTest {
 		UpdateMethylationAnalysisParametersRequest request = new UpdateMethylationAnalysisParametersRequest(
 				id,
 				identifier,
+				analysisRequest.getInputReadFile(),
 				true,
 				analysisRequest.getPairedMode(),
+				analysisRequest.getPairedEndModeFile(),
 				analysisRequest.getPairedMaxDistance(),
 				analysisRequest.getPairedMinDistance(),
 				analysisRequest.getSwaMinimunScore(),
@@ -368,8 +380,10 @@ public class UpdateMethylationAnalysisParametersTest {
 		AnalysisRequest response = useCaseResponse.getAnalysisRequest();
 		
 		Assert.assertEquals(request.getIdentifier(), response.getIdentifier());
+		Assert.assertEquals(request.getInputReadFile(), response.getInputReadFile());
 		Assert.assertEquals(request.getWriteMethylationContext(), response.getWriteMethylationContext());
 		Assert.assertEquals(request.getPairedMode(), response.getPairedMode());
+		Assert.assertEquals(request.getPairedEndModeFile(), response.getPairedEndModeFile());
 		Assert.assertEquals(request.getPairedMaxDistance(), response.getPairedMaxDistance());
 		Assert.assertEquals(request.getPairedMinDistance(), response.getPairedMinDistance());
 		Assert.assertEquals(request.getSwaMinimunScore(), response.getSwaMinimunScore());

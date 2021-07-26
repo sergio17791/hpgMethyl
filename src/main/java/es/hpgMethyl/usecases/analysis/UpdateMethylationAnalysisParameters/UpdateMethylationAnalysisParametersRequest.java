@@ -3,6 +3,7 @@ package es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisParameters;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.types.PairedMode;
 
 public class UpdateMethylationAnalysisParametersRequest {
@@ -11,9 +12,13 @@ public class UpdateMethylationAnalysisParametersRequest {
 	
 	private String identifier; 
 	
+	private HPGMethylFile inputReadFile; 
+	
 	private Boolean writeMethylationContext;
 	
 	private PairedMode pairedMode; 
+	
+	private HPGMethylFile pairedEndModeFile;
 	
 	private BigDecimal pairedMaxDistance; 
 	
@@ -64,8 +69,10 @@ public class UpdateMethylationAnalysisParametersRequest {
 	public UpdateMethylationAnalysisParametersRequest(
 			UUID id, 
 			String identifier, 
+			HPGMethylFile inputReadFile,
 			Boolean writeMethylationContext,
 			PairedMode pairedMode, 
+			HPGMethylFile pairedEndModeFile,
 			BigDecimal pairedMaxDistance,
 			BigDecimal pairedMinDistance, 
 			BigDecimal swaMinimunScore, 
@@ -92,8 +99,10 @@ public class UpdateMethylationAnalysisParametersRequest {
 	) {
 		this.id = id;
 		this.identifier = identifier;
+		this.inputReadFile = inputReadFile;
 		this.writeMethylationContext = writeMethylationContext;
 		this.pairedMode = pairedMode;
+		this.pairedEndModeFile = pairedEndModeFile;
 		this.pairedMaxDistance = pairedMaxDistance;
 		this.pairedMinDistance = pairedMinDistance;
 		this.swaMinimunScore = swaMinimunScore;
@@ -148,6 +157,20 @@ public class UpdateMethylationAnalysisParametersRequest {
 	}
 
 	/**
+	 * @return the inputReadFile
+	 */
+	public HPGMethylFile getInputReadFile() {
+		return inputReadFile;
+	}
+
+	/**
+	 * @param inputReadFile the inputReadFile to set
+	 */
+	public void setInputReadFile(HPGMethylFile inputReadFile) {
+		this.inputReadFile = inputReadFile;
+	}
+
+	/**
 	 * @return the writeMethylationContext
 	 */
 	public Boolean getWriteMethylationContext() {
@@ -173,6 +196,20 @@ public class UpdateMethylationAnalysisParametersRequest {
 	 */
 	public void setPairedMode(PairedMode pairedMode) {
 		this.pairedMode = pairedMode;
+	}
+
+	/**
+	 * @return the pairedEndModeFile
+	 */
+	public HPGMethylFile getPairedEndModeFile() {
+		return pairedEndModeFile;
+	}
+
+	/**
+	 * @param pairedEndModeFile the pairedEndModeFile to set
+	 */
+	public void setPairedEndModeFile(HPGMethylFile pairedEndModeFile) {
+		this.pairedEndModeFile = pairedEndModeFile;
 	}
 
 	/**

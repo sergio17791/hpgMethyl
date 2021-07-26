@@ -49,8 +49,10 @@ public class UpdateMethylationAnalysisParameters {
 		}
 				
 		analysisRequest.setIdentifier(newIdentifier);
+		analysisRequest.setInputReadFile(request.getInputReadFile());
 		analysisRequest.setWriteMethylationContext(request.getWriteMethylationContext());
 		analysisRequest.setPairedMode(request.getPairedMode());
+		analysisRequest.setPairedEndModeFile(request.getPairedEndModeFile());
 		analysisRequest.setPairedMaxDistance(request.getPairedMaxDistance());
 		analysisRequest.setPairedMinDistance(request.getPairedMinDistance());
 		analysisRequest.setSwaMinimunScore(request.getSwaMinimunScore());

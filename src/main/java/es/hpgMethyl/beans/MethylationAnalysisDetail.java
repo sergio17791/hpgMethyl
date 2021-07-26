@@ -177,8 +177,10 @@ public class MethylationAnalysisDetail implements Serializable {
 					new UpdateMethylationAnalysisParametersRequest(
 						UUID.fromString(this.id),
 						analysisRequestBean.getIdentifier(),
+						analysisRequestBean.getInputReadFile(),
 						analysisRequestBean.getWriteMethylationContext(), 
 						analysisRequestBean.getPairedMode(),
+						analysisRequestBean.getPairedEndModeFile(),
 						analysisRequestBean.getPairedMaxDistance(), 
 						analysisRequestBean.getPairedMinDistance(),
 						analysisRequestBean.getSwaMinimunScore(), 
