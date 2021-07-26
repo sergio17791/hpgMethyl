@@ -145,4 +145,17 @@ public class HPGMethylFile extends BaseEntity {
 	public String toString() {
 		return fileName;
 	}	
+	
+	
+	@Override
+    public boolean equals(Object o) {
+  
+        if (o == this) {
+            return true;
+        }
+         
+        HPGMethylFile other = (HPGMethylFile) o;
+
+        return this.getId().equals(other.getId());
+    }
 }

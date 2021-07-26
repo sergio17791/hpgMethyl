@@ -40,13 +40,10 @@
 		                           	 label="#{msg['analysis.attribute.inputReadFile']}" 
 			                       	 required="true"
 		                           	 requiredMessage="#{msg['error.form.requiredField']}">  
-		                <c:if test="#{analysisBean.inputReadFile == null}">
-		                	<f:selectItem noSelectionOption="true"/>  
-		                </c:if>           	 		            	
+		                <f:selectItem noSelectionOption="true"/>        	 		            	
 		             	<f:selectItems value="#{analysisBean.userFiles}" 
 		                			   var="userFile" 
-		                   			   itemValue="#{userFile}" 
-		                   			   itemLabel="#{userFile.fileName}"/>                        
+		                   			   itemValue="#{userFile}"/>                        
 	               	</b:selectOneMenu>
                		<h:message for="inputReadFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
                	</b:column>
@@ -71,14 +68,10 @@
 		                           	 			 label="#{msg['analysis.attribute.pairedEndModeFile']}" 
 			                       	 			 required="#{analysisBean.pairedMode.value eq 1}" 
 		                           	 	     	 requiredMessage="#{msg['error.form.requiredField']}"> 
-		                           	<c:if test="#{analysisBean.pairedEndModeFile == null}">
-		                				<f:selectItem noSelectionOption="true"/>  
-		                			</c:if>  	     	   
-		                    		<f:selectItem noSelectionOption="#{analysisBean.pairedEndModeFile == null}"/> 
+		                			<f:selectItem noSelectionOption="true"/>   	     	   
 		             				<f:selectItems value="#{analysisBean.userFiles}" 
 		                   		   				   var="userFile" 
-		                   		   				   itemValue="#{userFile}" 
-		                   		   				   itemLabel="#{userFile.fileName}"/>                        
+		                   		   				   itemValue="#{userFile}"/>                        
 	               				</b:selectOneMenu>
                					<h:message for="pairedReadFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
                				</b:column>
