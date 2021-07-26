@@ -1,7 +1,9 @@
   package es.hpgMethyl.beans;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.faces.application.FacesMessage;
@@ -12,23 +14,28 @@ import javax.faces.context.FacesContext;
 import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
 import es.hpgMethyl.dao.hibernate.HPGMethylFileDAOHibernate;
 import es.hpgMethyl.entities.AnalysisRequest;
+import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
 import es.hpgMethyl.exceptions.AnalysisRequestProcessed;
 import es.hpgMethyl.exceptions.DuplicatedIdentifier;
+import es.hpgMethyl.exceptions.FileNotFound;
 import es.hpgMethyl.exceptions.GetObjectException;
+import es.hpgMethyl.exceptions.UpdateFileException;
 import es.hpgMethyl.exceptions.UpdateMethylationAnalysisException;
 import es.hpgMethyl.types.PairedMode;
 import es.hpgMethyl.types.UserRole;
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysis;
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysisRequest;
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysisResponse;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile.ListPendingMethylationAnalysisWithFile;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile.ListPendingMethylationAnalysisWithFileRequest;
 import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisParameters.UpdateMethylationAnalysisParameters;
 import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisParameters.UpdateMethylationAnalysisParametersRequest;
-import es.hpgMethyl.usecases.file.ListUserFiles.ListUserFiles;
-import es.hpgMethyl.usecases.file.ListUserFiles.ListUserFilesRequest;
-import es.hpgMethyl.usecases.file.ListUserFiles.ListUserFilesResponse;
+import es.hpgMethyl.usecases.file.UnstoreFile.UnstoreFile;
+import es.hpgMethyl.usecases.file.UnstoreFile.UnstoreFileRequest;
 import es.hpgMethyl.utils.FacesContextUtils;
+import es.hpgMethyl.utils.FileUtils;
 
 @ManagedBean(name="analysisDetail")
 @ViewScoped
@@ -117,14 +124,9 @@ public class MethylationAnalysisDetail implements Serializable {
 				
 				if(user.getRole() == UserRole.USER && !this.analysisRequest.getUser().getId().equals(user.getId())) {
 					return "pretty:home";
-				}
-				
-				ListUserFilesResponse listUserFilesResponse = new ListUserFiles(new HPGMethylFileDAOHibernate()).execute(
-						new ListUserFilesRequest(analysisRequest.getUser(), true)
-				);
+				}				
 					
 				AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
-				analysisRequestBean.setUserFiles(listUserFilesResponse.getFiles());
 				analysisRequestBean.setId(analysisRequest.getId());
 				analysisRequestBean.setUser(analysisRequest.getUser());
 				analysisRequestBean.setIdentifier(analysisRequest.getIdentifier());
@@ -160,6 +162,8 @@ public class MethylationAnalysisDetail implements Serializable {
 				analysisRequestBean.setCreatedAt(analysisRequest.getCreatedAt());
 				analysisRequestBean.setUpdatedAt(analysisRequest.getUpdatedAt());
 				
+				analysisRequestBean.loadUserFiles();
+				
 			} catch (AnalysisRequestNotFound | GetObjectException e) {
 				return "pretty:home";
 			}						
@@ -171,6 +175,14 @@ public class MethylationAnalysisDetail implements Serializable {
 	public void updateAnalysisParameters() {
 		
 		AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
+		
+		PairedMode pairedMode = analysisRequestBean.getPairedMode();
+		
+		if(pairedMode.equals(PairedMode.SINGLE_END_MODE)) {
+			analysisRequestBean.setPairedEndModeFile(null);
+			analysisRequestBean.setPairedMaxDistance(null);
+			analysisRequestBean.setPairedMinDistance(null);
+		}
 		
 		try {
 			new UpdateMethylationAnalysisParameters(new AnalysisRequestDAOHibernate()).execute(
@@ -205,9 +217,14 @@ public class MethylationAnalysisDetail implements Serializable {
 						analysisRequestBean.getReportNBest(),
 						analysisRequestBean.getReportNHits()
 					)				
-			);
+			);				
 			
 			analysisRequestBean.setUpdatedAt(new Date());
+			
+			removeFile(analysisRequest.getInputReadFile());
+			removeFile(analysisRequest.getPairedEndModeFile());
+			
+			analysisRequestBean.loadUserFiles();
 			
 			String successMessage = FacesContextUtils.geti18nMessage("general.updateSuccessfully");
 			FacesContextUtils.setMessageInComponent(this.updateAnalysisParametersComponent, FacesMessage.SEVERITY_INFO, successMessage, successMessage);
@@ -218,6 +235,26 @@ public class MethylationAnalysisDetail implements Serializable {
 		} catch (AnalysisRequestNotFound | AnalysisRequestProcessed | UpdateMethylationAnalysisException e) {
 			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.updateAnalysisParametersComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
-		}
+		} catch (FileNotFound | IOException | UpdateFileException e) {
+			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
+			FacesContextUtils.setMessageInComponent(this.updateAnalysisParametersComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
+		} 
+	}
+	
+	private void removeFile(HPGMethylFile file) throws FileNotFound, UpdateFileException, IOException {
+		
+		if(file != null) {
+			List<AnalysisRequest> analysisWithFile = new ListPendingMethylationAnalysisWithFile(new AnalysisRequestDAOHibernate()).execute(
+					new ListPendingMethylationAnalysisWithFileRequest(file.getUser(), file)
+			).getAnalysisRequestList();
+			
+			if(analysisWithFile.isEmpty()) {
+				new UnstoreFile(new HPGMethylFileDAOHibernate()).execute(
+						new UnstoreFileRequest(file.getId())
+				);
+						
+				FileUtils.deleteFile(file.getPath());					
+			}
+		}		
 	}
 }

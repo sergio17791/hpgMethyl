@@ -16,9 +16,6 @@ import es.hpgMethyl.exceptions.DuplicatedIdentifier;
 import es.hpgMethyl.services.HPGMethylProcessor;
 import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysis;
 import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysisRequest;
-import es.hpgMethyl.usecases.file.ListUserFiles.ListUserFiles;
-import es.hpgMethyl.usecases.file.ListUserFiles.ListUserFilesRequest;
-import es.hpgMethyl.usecases.file.ListUserFiles.ListUserFilesResponse;
 import es.hpgMethyl.utils.FacesContextUtils;
 
 @ManagedBean(name="sendAnalysis")
@@ -35,14 +32,11 @@ public class SendMethylationAnalysisRequest implements Serializable {
 		
 		if(user == null) {
 			return "pretty:home";	
-		}
-		
-		ListUserFilesResponse response = new ListUserFiles(new HPGMethylFileDAOHibernate()).execute(
-				new ListUserFilesRequest(user, true)
-		);
+		}		
 			
 		AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
-		analysisRequestBean.setUserFiles(response.getFiles());
+		analysisRequestBean.setUser(user);
+		analysisRequestBean.loadUserFiles();
 		
 		return null;			
 	}
@@ -107,13 +101,12 @@ public class SendMethylationAnalysisRequest implements Serializable {
 				)				
 			);
 			
-			String successMessage = FacesContextUtils.geti18nMessage("analysis.send.requestSentSuccessfully");
-			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_INFO, successMessage, successMessage);
-			
 			new Thread(() -> {
 			    new HPGMethylProcessor(new AnalysisRequestDAOHibernate(), new HPGMethylFileDAOHibernate(), new ConfigurationDAOHibernate()).start();
 			}).start();
 
+			return "pretty:analysis";
+			
 		} catch (DuplicatedIdentifier e) {
 			String duplicatedIdentifierErrorMessage = FacesContextUtils.geti18nMessage("error.duplicatedIdentifier");
 			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, duplicatedIdentifierErrorMessage, duplicatedIdentifierErrorMessage);

@@ -10,10 +10,14 @@ import java.util.UUID;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import es.hpgMethyl.dao.hibernate.HPGMethylFileDAOHibernate;
 import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.types.AnalysisStatus;
 import es.hpgMethyl.types.PairedMode;
+import es.hpgMethyl.usecases.file.ListUserFiles.ListUserFiles;
+import es.hpgMethyl.usecases.file.ListUserFiles.ListUserFilesRequest;
+import es.hpgMethyl.usecases.file.ListUserFiles.ListUserFilesResponse;
 
 @ManagedBean(name="analysisBean")
 @ViewScoped
@@ -585,5 +589,16 @@ public class AnalysisRequestBean implements Serializable {
 	 */
 	public void setUserFiles(List<HPGMethylFile> userFiles) {
 		this.userFiles = userFiles;
+	}
+	
+	public void loadUserFiles() {
+		
+		if(user != null) {
+			ListUserFilesResponse listUserFilesResponse = new ListUserFiles(new HPGMethylFileDAOHibernate()).execute(
+					new ListUserFilesRequest(user, true)
+			);
+			
+			this.userFiles = listUserFilesResponse.getFiles();
+		}		
 	}
 }

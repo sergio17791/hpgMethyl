@@ -46,6 +46,11 @@
             <b:panel contentDisabled="#{analysisBean.status ne 'CREATED'}">
             	 <ui:decorate template="../../WEB-INF/templates/analysisRequestTemplate.xhtml"/>
             	 <b:row rendered="#{analysisBean.status eq 'CREATED'}">
+    				<b:column col-md="12">    			
+    					<b:alert severity="warning" value="#{msg['analysis.detail.upload.warning']}" closable="true"/>    				
+	    			</b:column>
+    			</b:row>
+            	 <b:row rendered="#{analysisBean.status eq 'CREATED'}">
                 	<b:column col-md="6">
 	                	<b:commandButton id="resetAnalysisButton"
 		                                 value="#{msg['general.reset']}" 
