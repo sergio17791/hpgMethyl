@@ -40,6 +40,7 @@ public class SaveApplicationConfigurationTest {
 				4,
 				2,
 				null,
+				null,
 				null
 		);
 	}
@@ -58,6 +59,7 @@ public class SaveApplicationConfigurationTest {
 				5, 
 				6, 
 				1, 
+				Long.valueOf(20),
 				6, 
 				9
 		);
@@ -77,6 +79,7 @@ public class SaveApplicationConfigurationTest {
 		Integer cpuThreads = 2;
 		Integer maximumUserAnalysisPending = 3;
 		Integer maximumUserFilesStored = 2;	
+		Long fileSizeLimit = Long.valueOf(20);
 		Integer readBatchSize = 5;
 		Integer writeBatchSize = 4;
 		
@@ -87,6 +90,7 @@ public class SaveApplicationConfigurationTest {
 				cpuThreads, 
 				maximumUserAnalysisPending, 
 				maximumUserFilesStored, 
+				fileSizeLimit,
 				readBatchSize, 
 				writeBatchSize
 		);
@@ -101,6 +105,7 @@ public class SaveApplicationConfigurationTest {
 		Assert.assertEquals(request.getCpuThreads(), response.getCpuThreads());
 		Assert.assertEquals(request.getMaximumUserAnalysisPending(), response.getMaximumUserAnalysisPending());
 		Assert.assertEquals(request.getMaximumUserFilesStored(), response.getMaximumUserFilesStored());
+		Assert.assertEquals(request.getFileSizeLimit(), response.getFileSizeLimit());
 		Assert.assertEquals(request.getReadBatchSize(), response.getReadBatchSize());
 		Assert.assertEquals(request.getWriteBatchSize(), response.getWriteBatchSize());
 	}	
@@ -117,6 +122,7 @@ public void test_execute_givenExistentConfiguration_expectConfiguration() throws
 		Integer cpuThreads = 8;
 		Integer maximumUserAnalysisPending = 7;
 		Integer maximumUserFilesStored = 9;	
+		Long fileSizeLimit = Long.valueOf(30);
 		Integer readBatchSize = 10000;
 		Integer writeBatchSize = 20000;
 		
@@ -127,6 +133,7 @@ public void test_execute_givenExistentConfiguration_expectConfiguration() throws
 				cpuThreads, 
 				maximumUserAnalysisPending, 
 				maximumUserFilesStored, 
+				fileSizeLimit,
 				readBatchSize, 
 				writeBatchSize
 		);
@@ -141,6 +148,7 @@ public void test_execute_givenExistentConfiguration_expectConfiguration() throws
 		Assert.assertEquals(request.getCpuThreads(), response.getCpuThreads());
 		Assert.assertEquals(request.getMaximumUserAnalysisPending(), response.getMaximumUserAnalysisPending());
 		Assert.assertEquals(request.getMaximumUserFilesStored(), response.getMaximumUserFilesStored());
+		Assert.assertEquals(request.getFileSizeLimit(), response.getFileSizeLimit());
 		Assert.assertEquals(request.getReadBatchSize(), response.getReadBatchSize());
 		Assert.assertEquals(request.getWriteBatchSize(), response.getWriteBatchSize());
 	}

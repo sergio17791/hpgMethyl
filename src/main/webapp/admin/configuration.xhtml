@@ -31,8 +31,13 @@
 						<components:inputTextWithErrorMessage inputId="maximumUserFiles"
                 									  		  value="#{applicationConfiguration.maximumUserFiles}"
                 									  		  label="#{msg['admin.configuration.maximumUserFiles']}"
-		                									  type="number"
-        		        									  colMdSize="6"/>               											                   											   
+		                									  type="number"/>               											                   											   
+            		</b:row>
+            		<b:row>
+						<components:inputTextWithErrorMessage inputId="fileSizeLimit"
+                									  		  value="#{applicationConfiguration.fileSizeLimit}"
+                									  		  label="#{msg['admin.configuration.fileSizeLimit']}"
+		                									  type="number"/>               											                   											   
             		</b:row>
         		</fieldset>
         		<fieldset>

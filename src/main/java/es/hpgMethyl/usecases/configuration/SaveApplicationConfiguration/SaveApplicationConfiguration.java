@@ -27,6 +27,7 @@ public class SaveApplicationConfiguration {
 		configuration.setCpuThreads(request.getCpuThreads());
 		configuration.setMaximumUserAnalysisPending(request.getMaximumUserAnalysisPending());
 		configuration.setMaximumUserFilesStored(request.getMaximumUserFilesStored());
+		configuration.setFileSizeLimit(request.getFileSizeLimit());
 		configuration.setReadBatchSize(request.getReadBatchSize());
 		configuration.setWriteBatchSize(request.getWriteBatchSize());
 		

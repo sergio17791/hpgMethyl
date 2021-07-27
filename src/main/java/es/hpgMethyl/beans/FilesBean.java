@@ -51,6 +51,8 @@ public class FilesBean implements Serializable {
 	private Integer BYTES_IN_GIGABYTES = 1073741824;
 	
 	public FilesBean() {
+		this.fileLimit = null;
+		this.fileBytesLimit = null;
 		this.successUploadedFilesNames = new ArrayList<String>();
 		this.errorUploadedFilesNames = new ArrayList<String>();
 		this.userFiles = new ArrayList<HPGMethylFile>();
@@ -61,6 +63,8 @@ public class FilesBean implements Serializable {
 						
 		this.user = (User) FacesContextUtils.getParameterFacesContextSession(FacesContextUtils.SESSION_USER);
 		
+		ApplicationConfiguration applicationConfiguration = (ApplicationConfiguration) FacesContextUtils.getBean("applicationConfiguration");
+		
 		if(user != null) {
 			ListUserFilesResponse response = new ListUserFiles(new HPGMethylFileDAOHibernate()).execute(
 					new ListUserFilesRequest(user, true)
@@ -69,9 +73,16 @@ public class FilesBean implements Serializable {
 			this.userFiles = response.getFiles();
 		} 
 		
-		this.fileLimit = 3 - userFiles.size();		
-		this.fileBytesLimit = Long.valueOf("10737418240");
-		this.fileBytesLimitStr = String.valueOf(fileBytesLimit/BYTES_IN_GIGABYTES) + " GB";
+		Integer userFileLimit = applicationConfiguration.getMaximumUserFiles();
+		if(userFileLimit != null) {
+			this.fileLimit = userFileLimit - userFiles.size();
+		}
+		
+		Long fileSizeLimit = applicationConfiguration.getFileSizeLimit();
+		if(fileSizeLimit != null) {
+			this.fileBytesLimit = fileSizeLimit * BYTES_IN_GIGABYTES;
+			this.fileBytesLimitStr = String.valueOf(fileSizeLimit) + " GB";
+		}		
 	}
 
 	/**

@@ -14,6 +14,8 @@ public class SaveApplicationConfigurationRequest {
 	
 	private Integer maximumUserFilesStored;
 	
+	private Long fileSizeLimit;
+	
 	private Integer readBatchSize;
 	
 	private Integer writeBatchSize;
@@ -25,6 +27,7 @@ public class SaveApplicationConfigurationRequest {
 			Integer cpuThreads, 
 			Integer maximumUserAnalysisPending,
 			Integer maximumUserFilesStored, 
+			Long fileSizeLimit,
 			Integer readBatchSize, 
 			Integer writeBatchSize
 	) {
@@ -34,6 +37,7 @@ public class SaveApplicationConfigurationRequest {
 		this.cpuThreads = cpuThreads;
 		this.maximumUserAnalysisPending = maximumUserAnalysisPending;
 		this.maximumUserFilesStored = maximumUserFilesStored;
+		this.fileSizeLimit = fileSizeLimit;
 		this.readBatchSize = readBatchSize;
 		this.writeBatchSize = writeBatchSize;
 	}
@@ -120,6 +124,20 @@ public class SaveApplicationConfigurationRequest {
 	 */
 	public void setMaximumUserFilesStored(Integer maximumUserFilesStored) {
 		this.maximumUserFilesStored = maximumUserFilesStored;
+	}
+
+	/**
+	 * @return the fileSizeLimit
+	 */
+	public Long getFileSizeLimit() {
+		return fileSizeLimit;
+	}
+
+	/**
+	 * @param fileSizeLimit the fileSizeLimit to set
+	 */
+	public void setFileSizeLimit(Long fileSizeLimit) {
+		this.fileSizeLimit = fileSizeLimit;
 	}
 
 	/**

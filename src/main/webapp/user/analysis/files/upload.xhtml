@@ -59,11 +59,11 @@
     					<br/><h:outputFormat value="· #{msg['files.upload.filesType']}"/>
     					<c:if test="#{filesBean.fileLimit != null}">
     						<br/><h:outputFormat value="· #{msg['files.upload.filesLimit']} #{filesBean.fileLimit}"/>
-    					</c:if>
-    					<c:if test="#{filesBean.fileBytesLimit != null}">
-    						<br/><h:outputFormat value="· #{msg['files.upload.sizeLimit']} #{filesBean.fileBytesLimitStr}"/>
-    					</c:if>	    			
+    					</c:if>    					    			
     				</c:if>
+    				<c:if test="#{filesBean.fileBytesLimit != null}">
+    					<br/><h:outputFormat value="· #{msg['files.upload.sizeLimit']} #{filesBean.fileBytesLimitStr}"/>
+    				</c:if>	
     			</b:column>
     		</b:row>     		
     		<b:row style="margin-top: 10px">             

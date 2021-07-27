@@ -33,6 +33,7 @@ public class ApplicationConfiguration implements Serializable {
 	private Integer cpuThreads;
 	private Integer maximumUserAnalysis;
 	private Integer maximumUserFiles;
+	private Long fileSizeLimit;
 	private Integer readBatchSize;
 	private Integer writeBatchSize;
 	private Date createdAt;
@@ -46,6 +47,7 @@ public class ApplicationConfiguration implements Serializable {
 		this.cpuThreads = null;
 		this.maximumUserAnalysis = null;
 		this.maximumUserFiles = null;
+		this.fileSizeLimit = null;
 		this.readBatchSize = null;
 		this.writeBatchSize = null;
 		this.createdAt = null;
@@ -65,6 +67,7 @@ public class ApplicationConfiguration implements Serializable {
 			this.cpuThreads = configuration.getCpuThreads();
 			this.maximumUserAnalysis = configuration.getMaximumUserAnalysisPending();
 			this.maximumUserFiles = configuration.getMaximumUserFilesStored();
+			this.fileSizeLimit = configuration.getFileSizeLimit();
 			this.readBatchSize = configuration.getReadBatchSize();
 			this.writeBatchSize = configuration.getWriteBatchSize();
 			this.createdAt = configuration.getCreatedAt();
@@ -160,6 +163,20 @@ public class ApplicationConfiguration implements Serializable {
 	}
 
 	/**
+	 * @return the fileSizeLimit
+	 */
+	public Long getFileSizeLimit() {
+		return fileSizeLimit;
+	}
+
+	/**
+	 * @param fileSizeLimit the fileSizeLimit to set
+	 */
+	public void setFileSizeLimit(Long fileSizeLimit) {
+		this.fileSizeLimit = fileSizeLimit;
+	}
+
+	/**
 	 * @return the readBatchSize
 	 */
 	public Integer getReadBatchSize() {
@@ -246,6 +263,7 @@ public class ApplicationConfiguration implements Serializable {
 							cpuThreads, 
 							maximumUserAnalysis, 
 							maximumUserFiles, 
+							fileSizeLimit,
 							readBatchSize, 
 							writeBatchSize						
 					)

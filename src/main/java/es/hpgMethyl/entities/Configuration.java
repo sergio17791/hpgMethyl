@@ -29,6 +29,9 @@ public class Configuration extends BaseEntity {
 	@Column(name = "maximum_user_files_stored", nullable = true)
 	private Integer maximumUserFilesStored;
 	
+	@Column(name = "file_size_limit", nullable = true)
+	private Long fileSizeLimit;
+	
 	@Column(name = "read_batch_size", nullable = true)
 	private Integer readBatchSize;
 	
@@ -49,6 +52,7 @@ public class Configuration extends BaseEntity {
 			Integer cpuThreads, 
 			Integer maximumUserAnalysisPending, 
 			Integer maximumUserFilesStored,
+			Long fileSizeLimit,
 			Integer readBatchSize, 
 			Integer writeBatchSize
 	) {
@@ -59,6 +63,7 @@ public class Configuration extends BaseEntity {
 		this.cpuThreads = cpuThreads;
 		this.maximumUserAnalysisPending = maximumUserAnalysisPending;
 		this.maximumUserFilesStored = maximumUserFilesStored;
+		this.fileSizeLimit = fileSizeLimit;
 		this.readBatchSize = readBatchSize;
 		this.writeBatchSize = writeBatchSize;
 	}
@@ -145,6 +150,20 @@ public class Configuration extends BaseEntity {
 	 */
 	public void setMaximumUserFilesStored(Integer maximumUserFilesStored) {
 		this.maximumUserFilesStored = maximumUserFilesStored;
+	}
+
+	/**
+	 * @return the fileSizeLimit
+	 */
+	public Long getFileSizeLimit() {
+		return fileSizeLimit;
+	}
+
+	/**
+	 * @param fileSizeLimit the fileSizeLimit to set
+	 */
+	public void setFileSizeLimit(Long fileSizeLimit) {
+		this.fileSizeLimit = fileSizeLimit;
 	}
 
 	/**
