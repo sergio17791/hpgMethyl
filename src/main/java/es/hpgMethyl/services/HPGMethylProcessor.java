@@ -24,8 +24,8 @@ import es.hpgMethyl.exceptions.UpdateMethylationAnalysisException;
 import es.hpgMethyl.types.AnalysisStatus;
 import es.hpgMethyl.types.PairedMode;
 import es.hpgMethyl.usecases.analysis.GetNextPendingMethylationAnalysis.GetNextPendingMethylationAnalysis;
-import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile.ListPendingMethylationAnalysisWithFile;
-import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile.ListPendingMethylationAnalysisWithFileRequest;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysis.ListPendingMethylationAnalysis;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysis.ListPendingMethylationAnalysisRequest;
 import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisStatus.UpdateMethylationAnalysisStatus;
 import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisStatus.UpdateMethylationAnalysisStatusRequest;
 import es.hpgMethyl.usecases.configuration.GetApplicationConfiguration.GetApplicationConfiguration;
@@ -154,8 +154,8 @@ public class HPGMethylProcessor extends Thread {
 	
 	private void deleteFileFromSystem(HPGMethylFile file) {
 		
-		List<AnalysisRequest> analysisRequestWithFileList = new ListPendingMethylationAnalysisWithFile(analysisRequestDAO).execute(
-				new ListPendingMethylationAnalysisWithFileRequest(file.getUser(), file)
+		List<AnalysisRequest> analysisRequestWithFileList = new ListPendingMethylationAnalysis(analysisRequestDAO).execute(
+				new ListPendingMethylationAnalysisRequest(file.getUser(), file)
 		).getAnalysisRequestList();
 		
 		if(analysisRequestWithFileList.isEmpty() && file.getStored()) {

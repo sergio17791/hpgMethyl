@@ -28,8 +28,8 @@ import es.hpgMethyl.types.UserRole;
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysis;
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysisRequest;
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysisResponse;
-import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile.ListPendingMethylationAnalysisWithFile;
-import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile.ListPendingMethylationAnalysisWithFileRequest;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysis.ListPendingMethylationAnalysis;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysis.ListPendingMethylationAnalysisRequest;
 import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisParameters.UpdateMethylationAnalysisParameters;
 import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisParameters.UpdateMethylationAnalysisParametersRequest;
 import es.hpgMethyl.usecases.file.UnstoreFile.UnstoreFile;
@@ -260,8 +260,8 @@ public class MethylationAnalysisDetail implements Serializable {
 	private void removeFile(HPGMethylFile file) throws FileNotFound, UpdateFileException, IOException {
 		
 		if(file != null) {
-			List<AnalysisRequest> analysisWithFile = new ListPendingMethylationAnalysisWithFile(new AnalysisRequestDAOHibernate()).execute(
-					new ListPendingMethylationAnalysisWithFileRequest(file.getUser(), file)
+			List<AnalysisRequest> analysisWithFile = new ListPendingMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
+					new ListPendingMethylationAnalysisRequest(file.getUser(), file)
 			).getAnalysisRequestList();
 			
 			if(analysisWithFile.isEmpty()) {

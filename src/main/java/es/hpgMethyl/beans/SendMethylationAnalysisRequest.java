@@ -1,6 +1,7 @@
 package es.hpgMethyl.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -10,6 +11,7 @@ import javax.faces.component.UIComponent;
 import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
 import es.hpgMethyl.dao.hibernate.ConfigurationDAOHibernate;
 import es.hpgMethyl.dao.hibernate.HPGMethylFileDAOHibernate;
+import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.CreateMethylationAnalysisException;
@@ -18,6 +20,8 @@ import es.hpgMethyl.services.HPGMethylProcessor;
 import es.hpgMethyl.types.PairedMode;
 import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysis;
 import es.hpgMethyl.usecases.analysis.CreateMethylationAnalysis.CreateMethylationAnalysisRequest;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysis.ListPendingMethylationAnalysis;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysis.ListPendingMethylationAnalysisRequest;
 import es.hpgMethyl.utils.FacesContextUtils;
 
 @ManagedBean(name="sendAnalysis")
@@ -63,7 +67,23 @@ public class SendMethylationAnalysisRequest implements Serializable {
 		
 		if(user == null) {
 			return "pretty:home";	
-		}								
+		}					
+		
+		ApplicationConfiguration applicationConfiguration = (ApplicationConfiguration) FacesContextUtils.getBean("applicationConfiguration");
+		
+		Integer maximumUserAnalysis = applicationConfiguration.getMaximumUserAnalysis();
+		
+		if(maximumUserAnalysis != null) {
+			List<AnalysisRequest> pendingUserAnalysis = new ListPendingMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
+					new ListPendingMethylationAnalysisRequest(user, null)
+			).getAnalysisRequestList();
+			
+			if(maximumUserAnalysis.intValue() <= pendingUserAnalysis.size()) {
+				String maximumUserAnalysisErrorMessage = FacesContextUtils.geti18nMessage("analysis.send.maximumUserAnalysisError");
+				FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, maximumUserAnalysisErrorMessage, maximumUserAnalysisErrorMessage);
+				return null;
+			}
+		}
 		
 		AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
 		
@@ -80,6 +100,7 @@ public class SendMethylationAnalysisRequest implements Serializable {
 		if(!validInputReadFile) {
 			String fileNotFoundErrorMessage = FacesContextUtils.geti18nMessage("error.fileNotFound") + " " + inputReadFile.getFileName();
 			FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, fileNotFoundErrorMessage, fileNotFoundErrorMessage);
+			return null;
 		}
 		
 		HPGMethylFile pairedEndModeFile = analysisRequestBean.getPairedEndModeFile();		
@@ -88,6 +109,7 @@ public class SendMethylationAnalysisRequest implements Serializable {
 			if(!validPairedEndModeFile) {
 				String fileNotFoundErrorMessage = FacesContextUtils.geti18nMessage("error.fileNotFound") + " " + pairedEndModeFile.getFileName();
 				FacesContextUtils.setMessageInComponent(this.getSendAnalysisComponent(), FacesMessage.SEVERITY_ERROR, fileNotFoundErrorMessage, fileNotFoundErrorMessage);
+				return null;
 			}
 		}
 	

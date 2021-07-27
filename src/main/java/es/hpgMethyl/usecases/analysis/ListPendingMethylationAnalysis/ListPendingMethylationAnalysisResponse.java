@@ -1,14 +1,14 @@
-package es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile;
+package es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysis;
 
 import java.util.List;
 
 import es.hpgMethyl.entities.AnalysisRequest;
 
-public class ListPendingMethylationAnalysisWithFileResponse {
+public class ListPendingMethylationAnalysisResponse {
 
 	List<AnalysisRequest> analysisRequestList;
 
-	public ListPendingMethylationAnalysisWithFileResponse(List<AnalysisRequest> analysisRequestList) {
+	public ListPendingMethylationAnalysisResponse(List<AnalysisRequest> analysisRequestList) {
 		this.analysisRequestList = analysisRequestList;
 	}
 

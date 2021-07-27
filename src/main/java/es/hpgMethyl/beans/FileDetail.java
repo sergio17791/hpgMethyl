@@ -22,8 +22,8 @@ import es.hpgMethyl.exceptions.FileNotFound;
 import es.hpgMethyl.exceptions.GetObjectException;
 import es.hpgMethyl.exceptions.UpdateFileException;
 import es.hpgMethyl.types.UserRole;
-import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile.ListPendingMethylationAnalysisWithFile;
-import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile.ListPendingMethylationAnalysisWithFileRequest;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysis.ListPendingMethylationAnalysis;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysis.ListPendingMethylationAnalysisRequest;
 import es.hpgMethyl.usecases.file.GetFile.GetFile;
 import es.hpgMethyl.usecases.file.GetFile.GetFileRequest;
 import es.hpgMethyl.usecases.file.UnstoreFile.UnstoreFile;
@@ -127,8 +127,8 @@ public class FileDetail implements Serializable {
 					return "pretty:home";
 				}
 				
-				this.analysisRequestWithFile = new ListPendingMethylationAnalysisWithFile(new AnalysisRequestDAOHibernate()).execute(
-						new ListPendingMethylationAnalysisWithFileRequest(file.getUser(), file)
+				this.analysisRequestWithFile = new ListPendingMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
+						new ListPendingMethylationAnalysisRequest(file.getUser(), file)
 				).getAnalysisRequestList();
 					
 			} catch (GetObjectException | FileNotFound e) {
@@ -141,8 +141,8 @@ public class FileDetail implements Serializable {
 	
 	public String removeFile() {
 		
-		this.analysisRequestWithFile = new ListPendingMethylationAnalysisWithFile(new AnalysisRequestDAOHibernate()).execute(
-				new ListPendingMethylationAnalysisWithFileRequest(file.getUser(), file)
+		this.analysisRequestWithFile = new ListPendingMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
+				new ListPendingMethylationAnalysisRequest(file.getUser(), file)
 		).getAnalysisRequestList();
 		
 		if(!analysisRequestWithFile.isEmpty()) {

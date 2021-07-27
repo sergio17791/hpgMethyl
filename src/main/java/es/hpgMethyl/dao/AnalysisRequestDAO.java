@@ -11,5 +11,5 @@ public interface AnalysisRequestDAO extends BaseDAO<AnalysisRequest, UUID> {
 	AnalysisRequest findByIdentifier(User user, String identifier);
 	AnalysisRequest getNextPendingAnalysis();
 	List<AnalysisRequest> list(User user);
-	List<AnalysisRequest> listPendingAnalysisWithFile(User user, HPGMethylFile file);
+	List<AnalysisRequest> listPendingAnalysis(User user, HPGMethylFile file);
 }

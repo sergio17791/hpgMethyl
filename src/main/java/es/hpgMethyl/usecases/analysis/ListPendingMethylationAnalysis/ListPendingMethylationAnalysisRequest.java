@@ -1,15 +1,15 @@
-package es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile;
+package es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysis;
 
 import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
 
-public class ListPendingMethylationAnalysisWithFileRequest {
+public class ListPendingMethylationAnalysisRequest {
 
 	private User user;
 	
 	private HPGMethylFile file;
 
-	public ListPendingMethylationAnalysisWithFileRequest(User user, HPGMethylFile file) {
+	public ListPendingMethylationAnalysisRequest(User user, HPGMethylFile file) {
 		this.user = user;
 		this.file = file;
 	}

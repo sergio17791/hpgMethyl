@@ -112,7 +112,7 @@ public class AnalysisRequestDAOHibernate extends BaseDAOHibernate<AnalysisReques
 	}
 	
 	@Override
-	public List<AnalysisRequest> listPendingAnalysisWithFile(User user, HPGMethylFile file) {
+	public List<AnalysisRequest> listPendingAnalysis(User user, HPGMethylFile file) {
 		
 		Session session = HibernateUtils.getSessionFactory().openSession();
 		

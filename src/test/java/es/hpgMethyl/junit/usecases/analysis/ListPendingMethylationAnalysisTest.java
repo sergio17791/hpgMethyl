@@ -14,13 +14,13 @@ import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.types.UserRole;
-import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile.ListPendingMethylationAnalysisWithFile;
-import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile.ListPendingMethylationAnalysisWithFileRequest;
-import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysisWithFile.ListPendingMethylationAnalysisWithFileResponse;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysis.ListPendingMethylationAnalysis;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysis.ListPendingMethylationAnalysisRequest;
+import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysis.ListPendingMethylationAnalysisResponse;
 
-public class ListPendingMethylationAnalysisWithFileTest {
+public class ListPendingMethylationAnalysisTest {
 
-	private ListPendingMethylationAnalysisWithFile listPendingMethylationAnalysisWithFile;
+	private ListPendingMethylationAnalysis listPendingMethylationAnalysis;
 	
 	private AnalysisRequestDAO analysisRequestDAO;
 	
@@ -31,7 +31,7 @@ public class ListPendingMethylationAnalysisWithFileTest {
 	@Before
 	public void setUp() {
 		this.analysisRequestDAO = Mockito.mock(AnalysisRequestDAO.class);
-		this.listPendingMethylationAnalysisWithFile = new ListPendingMethylationAnalysisWithFile(this.analysisRequestDAO);		
+		this.listPendingMethylationAnalysis = new ListPendingMethylationAnalysis(this.analysisRequestDAO);		
 		
 		this.user = new User(
 				UUID.randomUUID(), 
@@ -63,29 +63,29 @@ public class ListPendingMethylationAnalysisWithFileTest {
 		);
 	}
 	
-	public void test_execute_givenNonExistingPendingAnalysisWithFile_expectEmptyList() {
+	public void test_execute_givenNonExistingPendingAnalysis_expectEmptyList() {
 		
-		ListPendingMethylationAnalysisWithFileRequest request = new ListPendingMethylationAnalysisWithFileRequest(user, file);
+		ListPendingMethylationAnalysisRequest request = new ListPendingMethylationAnalysisRequest(user, file);
 		
-		Mockito.doReturn(new ArrayList<AnalysisRequest>()).when(analysisRequestDAO).list(user);
+		Mockito.doReturn(new ArrayList<AnalysisRequest>()).when(analysisRequestDAO).listPendingAnalysis(user, file);
 		
-		ListPendingMethylationAnalysisWithFileResponse response = this.listPendingMethylationAnalysisWithFile.execute(request);
+		ListPendingMethylationAnalysisResponse response = this.listPendingMethylationAnalysis.execute(request);
 		
 		Assert.assertTrue(response.getAnalysisRequestList().isEmpty());
 	}
 	
-	public void test_execute_givenExistingPendingAnalysisWithFile_expectList() {
+	public void test_execute_givenExistingPendingAnalysis_expectList() {
 		
-		ListPendingMethylationAnalysisWithFileRequest request = new ListPendingMethylationAnalysisWithFileRequest(user, file);
+		ListPendingMethylationAnalysisRequest request = new ListPendingMethylationAnalysisRequest(user, file);
 		
 		List<AnalysisRequest> analysisRequestList = new ArrayList<AnalysisRequest>();
 		analysisRequestList.add(new AnalysisRequest());
 		analysisRequestList.add(new AnalysisRequest());
 		analysisRequestList.add(new AnalysisRequest());
 		
-		Mockito.doReturn(analysisRequestList).when(analysisRequestDAO).list(user);
+		Mockito.doReturn(analysisRequestList).when(analysisRequestDAO).listPendingAnalysis(user, file);
 		
-		ListPendingMethylationAnalysisWithFileResponse response = this.listPendingMethylationAnalysisWithFile.execute(request);
+		ListPendingMethylationAnalysisResponse response = this.listPendingMethylationAnalysis.execute(request);
 		
 		Assert.assertFalse(response.getAnalysisRequestList().isEmpty());
 	}
