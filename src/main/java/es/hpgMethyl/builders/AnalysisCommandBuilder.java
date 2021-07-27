@@ -80,7 +80,11 @@ public class AnalysisCommandBuilder {
 		
 		String command = hpgMethylAbsolutePath + " bs " + BWT_INDEX + "  " + bwtIndexAbsolutePath;
 		
-		String outputDirectory = configuration.getUsersDirectoryAbsolutePath() + analysisRequest.getId();
+		String userDirectory = analysisRequest.getUser().getId().toString();
+		String analysisRequestDirectory = analysisRequest.getId().toString();
+		
+		String outputDirectory = concatenateDirectory(configuration.getUsersDirectoryAbsolutePath(), userDirectory);
+		outputDirectory = concatenateDirectory(outputDirectory, analysisRequestDirectory);
 		
 		command = command + " " + OUTDIR + " " + outputDirectory + " " + CPU_THREADS + " " + configuration.getCpuThreads();
 		
@@ -226,5 +230,20 @@ public class AnalysisCommandBuilder {
 	    }
 		
 		return command;
+	}
+	
+	private String concatenateDirectory(String path, String directory) {
+		
+		String completePath = path;
+		
+		String lastCharacter = completePath.substring(completePath.length() - 1);
+		
+		if(!lastCharacter.equals("/")) {
+			completePath = completePath.concat("/");
+		}
+		
+		completePath = completePath.concat(directory);
+		
+		return completePath;
 	}
 }
