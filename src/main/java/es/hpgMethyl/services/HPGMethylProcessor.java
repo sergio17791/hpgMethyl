@@ -121,7 +121,7 @@ public class HPGMethylProcessor extends Thread {
 								zipFile.getName(),
 								zipFile.getAbsolutePath(), 
 								zipFile.length(),
-								null,
+								"application/octet-stream",
 								Boolean.FALSE
 							)	
 					).getFile();
@@ -141,6 +141,12 @@ public class HPGMethylProcessor extends Thread {
 						);
 					} catch (AnalysisRequestNotFound | UpdateMethylationAnalysisException e2) {
 						Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.SEVERE, e2.getMessage());
+					}
+					
+					deleteFileFromSystem(analysisRequest.getInputReadFile());
+					
+					if(analysisRequest.getPairedMode().equals(PairedMode.PAIRED_END_MODE)) {
+						deleteFileFromSystem(analysisRequest.getPairedEndModeFile());
 					}
 					
 					break;
@@ -175,11 +181,11 @@ public class HPGMethylProcessor extends Thread {
 		Runtime runtime = Runtime.getRuntime();
 				
 		Process process = runtime.exec(command);
-				
+		
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			
-		String output = "";
-		while ((output = bufferedReader.readLine()) != null) {
+		
+		String output;
+		while((output = bufferedReader.readLine())!=null){
 			Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.INFO, output);
 		}
 		
