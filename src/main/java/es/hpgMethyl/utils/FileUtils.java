@@ -6,15 +6,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Paths;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.primefaces.model.file.UploadedFile;
 
-import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.User;
 
 public class FileUtils {
@@ -98,7 +94,7 @@ public class FileUtils {
         return completePath;
     }
     
-    public static void compressDirectoryInZip(String directoryPath, String zipFilePath, String zipFileName) throws IOException {
+    public static File compressDirectoryInZip(String directoryPath, String zipFilePath, String zipFileName) throws IOException {
     	
     	String zipFile = concatenatePath(zipFilePath, zipFileName);
     	
@@ -111,6 +107,8 @@ public class FileUtils {
         compressToZip(zipOutputStream, directory.listFiles(), zipFileName);
         zipOutputStream.close();
         fileOutputStream.close();
+        
+        return file;
     }
     
     private static void compressToZip(ZipOutputStream zipOutputStream, File[] files, String parentDirectory) throws IOException {

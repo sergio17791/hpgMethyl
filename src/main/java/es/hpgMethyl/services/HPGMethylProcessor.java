@@ -2,6 +2,7 @@
 package es.hpgMethyl.services;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -13,11 +14,17 @@ import es.hpgMethyl.builders.AnalysisCommandBuilder;
 import es.hpgMethyl.dao.AnalysisRequestDAO;
 import es.hpgMethyl.dao.ConfigurationDAO;
 import es.hpgMethyl.dao.HPGMethylFileDAO;
+import es.hpgMethyl.dao.hibernate.AnalysisResultDAOHibernate;
+import es.hpgMethyl.dao.hibernate.HPGMethylFileDAOHibernate;
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.Configuration;
 import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
 import es.hpgMethyl.exceptions.ConfigurationNotFound;
+import es.hpgMethyl.exceptions.CreateFileException;
+import es.hpgMethyl.exceptions.CreateMehtylationResultException;
+import es.hpgMethyl.exceptions.DuplicatedAnalysisResult;
+import es.hpgMethyl.exceptions.DuplicatedFile;
 import es.hpgMethyl.exceptions.FileNotFound;
 import es.hpgMethyl.exceptions.UpdateFileException;
 import es.hpgMethyl.exceptions.UpdateMethylationAnalysisException;
@@ -29,8 +36,12 @@ import es.hpgMethyl.usecases.analysis.ListPendingMethylationAnalysis.ListPending
 import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisStatus.UpdateMethylationAnalysisStatus;
 import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisStatus.UpdateMethylationAnalysisStatusRequest;
 import es.hpgMethyl.usecases.configuration.GetApplicationConfiguration.GetApplicationConfiguration;
+import es.hpgMethyl.usecases.file.CreateFile.CreateFile;
+import es.hpgMethyl.usecases.file.CreateFile.CreateFileRequest;
 import es.hpgMethyl.usecases.file.UnstoreFile.UnstoreFile;
 import es.hpgMethyl.usecases.file.UnstoreFile.UnstoreFileRequest;
+import es.hpgMethyl.usecases.result.CreateMethylationResult.CreateMehtylationResult;
+import es.hpgMethyl.usecases.result.CreateMethylationResult.CreateMehtylationResultRequest;
 import es.hpgMethyl.utils.FileUtils;
 
 public class HPGMethylProcessor extends Thread {
@@ -101,9 +112,27 @@ public class HPGMethylProcessor extends Thread {
 				
 				try {
 					executeCommand(command);
-					FileUtils.compressDirectoryInZip(outputDirectory, userFilesPath, analysisRequest.getIdentifier());
+					
+					File zipFile = FileUtils.compressDirectoryInZip(outputDirectory, userFilesPath, analysisRequest.getIdentifier());
+					
+					HPGMethylFile resultFile = new CreateFile(new HPGMethylFileDAOHibernate()).execute(
+							new CreateFileRequest(
+								analysisRequest.getUser(),
+								zipFile.getName(),
+								zipFile.getAbsolutePath(), 
+								zipFile.length(),
+								null,
+								Boolean.FALSE
+							)	
+					).getFile();
+					
+					new CreateMehtylationResult(new AnalysisResultDAOHibernate()).execute(
+							new CreateMehtylationResultRequest(analysisRequest, resultFile)
+					);
+					
 					FileUtils.delete(outputDirectory);
-				} catch (IOException | InterruptedException e) {
+					
+				} catch (IOException | InterruptedException | CreateFileException | DuplicatedFile | CreateMehtylationResultException | DuplicatedAnalysisResult e) {
 					Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.SEVERE, e.getMessage());
 					
 					try {
