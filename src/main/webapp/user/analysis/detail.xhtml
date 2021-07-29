@@ -4,13 +4,14 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:b="http://bootsfaces.net/ui"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui"
                 xmlns:components="http://java.sun.com/jsf/composite/components"
                 template="../../WEB-INF/templates/mainTemplate.xhtml">
     <ui:define name="content">
     	<f:metadata>
   			<f:viewParam name="id" value="#{analysisDetail.id}"/>
 			<f:viewAction action="#{analysisDetail.loadAnalysisDetail}"/>
-		</f:metadata>  
+		</f:metadata> 
 		<b:form id="analysisDetailForm">  	
          	<b:row>
          		<b:column col-md="6">
@@ -35,6 +36,38 @@
 			             		 	 disabled="true"/>
 					</b:column>	              											  
             	</b:row>
+            	<b:row rendered="#{analysisBean.status eq 'COMPLETED'}">
+         			<b:column col-md="12">
+         				<b:commandButton id="downloadButton"
+         								 binding="#{analysisDetail.downloadButtonComponent}"
+         								 value="#{msg['analysis.detail.download']}" 
+         								 onclick="PrimeFaces.monitorDownload(null, refresh);"
+		                                 iconAwesome="download"
+		                                 look="primary"
+		                                 styleClass="btn-block"
+		                                 disabled="#{analysisDetail.downloaded}"> 
+            				<p:fileDownload value="#{analysisDetail.file}"/>
+        				</b:commandButton>
+        				<p:remoteCommand update="@all" name="refresh"/>
+					</b:column>	             											  
+            	</b:row>
+            	<b:row style="margin-top: 10px" rendered="#{analysisBean.status eq 'COMPLETED'}">             
+                	<b:column col-md="12">
+	                	<b:alert severity="success" 
+    							 value="#{msg['analysis.detail.download.success']}" 
+    							 rendered="#{analysisDetail.downloaded}"
+    							 closable="true"/>
+						<b:alert severity="warning" 
+    							 value="#{msg['analysis.detail.download.warning']}" 
+    							 rendered="#{!analysisDetail.downloaded}"
+    							 closable="true"/>    							 
+                	</b:column>
+                </b:row>
+                <b:row style="margin-top: 10px" rendered="#{analysisBean.status eq 'COMPLETED'}">             
+                	<b:column col-md="12">
+	                	<h:message for="downloadButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
+                	</b:column>
+                </b:row>
          	</b:panel>
          </b:form>
          <b:form id="analysisParametersForm">
