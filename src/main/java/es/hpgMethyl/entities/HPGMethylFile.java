@@ -32,9 +32,13 @@ public class HPGMethylFile extends BaseEntity {
 	@Column(name = "stored", nullable = false)
 	private Boolean stored;
 	
+	@Column(name = "uploaded", nullable = false)
+	private Boolean uploaded;
+	
 	public HPGMethylFile() {
 		super();
 		this.stored = true;
+		this.uploaded = true;
 	}
 
 	public HPGMethylFile(
@@ -46,7 +50,8 @@ public class HPGMethylFile extends BaseEntity {
 			String path, 
 			Long size, 
 			String contentType, 
-			Boolean stored
+			Boolean stored,
+			Boolean uploaded
 	) {
 		super(id, createdAt, updatedAt);
 		this.user = user;
@@ -55,6 +60,7 @@ public class HPGMethylFile extends BaseEntity {
 		this.size = size;
 		this.contentType = contentType;
 		this.stored = stored;
+		this.uploaded = uploaded;
 	}
 
 	/**
@@ -141,6 +147,20 @@ public class HPGMethylFile extends BaseEntity {
 		this.stored = stored;
 	}
 	
+	/**
+	 * @return the uploaded
+	 */
+	public Boolean getUploaded() {
+		return uploaded;
+	}
+
+	/**
+	 * @param uploaded the uploaded to set
+	 */
+	public void setUploaded(Boolean uploaded) {
+		this.uploaded = uploaded;
+	}
+
 	@Override
 	public String toString() {
 		return fileName;

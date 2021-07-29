@@ -41,7 +41,8 @@ public class CreateFileTest {
 				fileName,
 				path,
 				Long.valueOf(123),
-				"text/plain"
+				"text/plain",
+				true
 		);
 		
 		this.createFile.execute(request);
@@ -63,7 +64,8 @@ public class CreateFileTest {
 				fileName,
 				path,
 				Long.valueOf(123),
-				"text/plain"
+				"text/plain",
+				true
 		);
 		
 		this.createFile.execute(request);
@@ -86,7 +88,8 @@ public class CreateFileTest {
 				fileName,
 				path,
 				size,
-				contentType				
+				contentType,
+				true			
 		);
 		
 		CreateFileResponse useCaseResponse = this.createFile.execute(request);

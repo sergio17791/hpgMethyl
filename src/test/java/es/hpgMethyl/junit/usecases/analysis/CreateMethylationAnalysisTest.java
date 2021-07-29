@@ -64,6 +64,7 @@ public class CreateMethylationAnalysisTest {
 				"/files/users/03711b01-5812-4a00-a039-e8eee346fb6b/",
 				Long.valueOf(1234),
 				"text/plain",
+				true,
 				true
 		);
 	}

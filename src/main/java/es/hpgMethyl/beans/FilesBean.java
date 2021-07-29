@@ -198,7 +198,8 @@ public class FilesBean implements Serializable {
 				uploadedFile.getName(),
 				uploadedFile.getAbsolutePath(), 
 				file.getSize(),
-				file.getContentType()
+				file.getContentType(),
+				Boolean.TRUE
 			)	
 		).getFile();	
 		
