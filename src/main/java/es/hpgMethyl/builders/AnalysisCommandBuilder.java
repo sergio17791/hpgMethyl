@@ -72,20 +72,14 @@ public class AnalysisCommandBuilder {
 	
 	private String WRITE_MCONTEXT = "--write-mcontext";
 	
-	public String build(Configuration configuration, AnalysisRequest analysisRequest) {
+	public String build(Configuration configuration, AnalysisRequest analysisRequest, String outputDirectory) {
 		
 		String hpgMethylAbsolutePath = configuration.getHpgMethylAbsolutePath();
 		
 		String bwtIndexAbsolutePath = configuration.getBwtIndexAbsolutePath();
 		
 		String command = hpgMethylAbsolutePath + " bs " + BWT_INDEX + "  " + bwtIndexAbsolutePath;
-		
-		String userDirectory = analysisRequest.getUser().getId().toString();
-		String analysisRequestDirectory = analysisRequest.getId().toString();
-		
-		String outputDirectory = concatenateDirectory(configuration.getUsersDirectoryAbsolutePath(), userDirectory);
-		outputDirectory = concatenateDirectory(outputDirectory, analysisRequestDirectory);
-		
+				
 		command = command + " " + OUTDIR + " " + outputDirectory + " " + CPU_THREADS + " " + configuration.getCpuThreads();
 		
 		Integer readBatchSize = configuration.getReadBatchSize();
@@ -230,20 +224,5 @@ public class AnalysisCommandBuilder {
 	    }
 		
 		return command;
-	}
-	
-	private String concatenateDirectory(String path, String directory) {
-		
-		String completePath = path;
-		
-		String lastCharacter = completePath.substring(completePath.length() - 1);
-		
-		if(!lastCharacter.equals("/")) {
-			completePath = completePath.concat("/");
-		}
-		
-		completePath = completePath.concat(directory);
-		
-		return completePath;
-	}
+	}		
 }

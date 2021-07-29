@@ -93,11 +93,16 @@ public class HPGMethylProcessor extends Thread {
 					break;
 				}
 				
-				String command = new AnalysisCommandBuilder().build(configuration, analysisRequest);
+				String userFilesPath = FileUtils.concatenatePath(configuration.getUsersDirectoryAbsolutePath(), analysisRequest.getUser().getId().toString());
+				String outputDirectory = FileUtils.concatenatePath(userFilesPath, analysisRequest.getId().toString());
+				
+				String command = new AnalysisCommandBuilder().build(configuration, analysisRequest, outputDirectory);
 				Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.INFO, command);
 				
 				try {
 					executeCommand(command);
+					FileUtils.compressDirectoryInZip(outputDirectory, userFilesPath, analysisRequest.getIdentifier());
+					FileUtils.delete(outputDirectory);
 				} catch (IOException | InterruptedException e) {
 					Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.SEVERE, e.getMessage());
 					
@@ -139,17 +144,17 @@ public class HPGMethylProcessor extends Thread {
 	private void executeCommand(String command) throws IOException, InterruptedException {
 
 		Runtime runtime = Runtime.getRuntime();
-		
+				
 		Process process = runtime.exec(command);
-		
-		process.wait();
-			
+				
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			
 		String output = "";
 		while ((output = bufferedReader.readLine()) != null) {
 			Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.INFO, output);
 		}
+		
+		process.waitFor();
 	}
 	
 	private void deleteFileFromSystem(HPGMethylFile file) {
@@ -164,8 +169,8 @@ public class HPGMethylProcessor extends Thread {
 						new UnstoreFileRequest(file.getId())
 				);
 				
-				FileUtils.deleteFile(file.getPath());
-			} catch (FileNotFound | UpdateFileException | IOException e) {
+				FileUtils.delete(file.getPath());
+			} catch (FileNotFound | UpdateFileException e) {
 				Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.SEVERE, e.getMessage());
 			} 
 		}

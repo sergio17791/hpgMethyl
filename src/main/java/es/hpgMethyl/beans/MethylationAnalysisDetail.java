@@ -1,6 +1,5 @@
   package es.hpgMethyl.beans;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -200,11 +199,13 @@ public class MethylationAnalysisDetail implements Serializable {
 			}
 		}
 		
+		String normalizedIdentifier = analysisRequestBean.getIdentifier().trim().replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
+		
 		try {
 			new UpdateMethylationAnalysisParameters(new AnalysisRequestDAOHibernate()).execute(
 					new UpdateMethylationAnalysisParametersRequest(
 						UUID.fromString(this.id),
-						analysisRequestBean.getIdentifier(),
+						normalizedIdentifier,
 						inputReadFile,
 						analysisRequestBean.getWriteMethylationContext(), 
 						analysisRequestBean.getPairedMode(),
@@ -251,13 +252,13 @@ public class MethylationAnalysisDetail implements Serializable {
 		} catch (AnalysisRequestNotFound | AnalysisRequestProcessed | UpdateMethylationAnalysisException e) {
 			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.updateAnalysisParametersComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
-		} catch (FileNotFound | IOException | UpdateFileException e) {
+		} catch (FileNotFound | UpdateFileException e) {
 			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.updateAnalysisParametersComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
 		} 
 	}
 	
-	private void removeFile(HPGMethylFile file) throws FileNotFound, UpdateFileException, IOException {
+	private void removeFile(HPGMethylFile file) throws FileNotFound, UpdateFileException {
 		
 		if(file != null) {
 			List<AnalysisRequest> analysisWithFile = new ListPendingMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
@@ -269,7 +270,7 @@ public class MethylationAnalysisDetail implements Serializable {
 						new UnstoreFileRequest(file.getId())
 				);
 						
-				FileUtils.deleteFile(file.getPath());					
+				FileUtils.delete(file.getPath());					
 			}
 		}		
 	}

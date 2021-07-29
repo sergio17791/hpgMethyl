@@ -115,10 +115,12 @@ public class SendMethylationAnalysisRequest implements Serializable {
 	
 		try {
 			
+			String normalizedIdentifier = analysisRequestBean.getIdentifier().trim().replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
+			
 			new CreateMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
 				new CreateMethylationAnalysisRequest(
 					user,
-					analysisRequestBean.getIdentifier(),
+					normalizedIdentifier,
 					inputReadFile,
 					analysisRequestBean.getWriteMethylationContext(), 
 					analysisRequestBean.getPairedMode(),
