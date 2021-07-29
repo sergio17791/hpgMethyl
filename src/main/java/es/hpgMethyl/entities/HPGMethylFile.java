@@ -23,10 +23,10 @@ public class HPGMethylFile extends BaseEntity {
 	@Column(name = "path", nullable = false)
 	private String path;
 	
-	@Column(name = "size", nullable = false)
+	@Column(name = "size", nullable = true)
 	private Long size;
 	
-	@Column(name = "content_type", nullable = false)
+	@Column(name = "content_type", nullable = true)
 	private String contentType;
 	
 	@Column(name = "stored", nullable = false)
