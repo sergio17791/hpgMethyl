@@ -188,15 +188,18 @@ public class FilesBean implements Serializable {
 			throw new DuplicatedFile();
 		}
 		
-		File uploadedFile = FileUtils.saveFileUploadedByUser(user, file, inputFileName);
+		ApplicationConfiguration applicationConfiguration = (ApplicationConfiguration) FacesContextUtils.getBean("applicationConfiguration");
+		
+		File uploadedFile = FileUtils.saveFileUploadedByUser(user, file, applicationConfiguration.getUserAbsolutePath(), inputFileName);
 
 		HPGMethylFile hpgMethylFile = new CreateFile(new HPGMethylFileDAOHibernate()).execute(
 			new CreateFileRequest(
 				user,
 				uploadedFile.getName(),
-				uploadedFile.getAbsolutePath(),
+				uploadedFile.getAbsolutePath(), 
 				file.getSize(),
-				file.getContentType()
+				file.getContentType(),
+				Boolean.TRUE
 			)	
 		).getFile();	
 		

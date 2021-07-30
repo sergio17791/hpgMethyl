@@ -38,29 +38,29 @@ public class AnalysisRequestBean implements Serializable {
 	private HPGMethylFile inputReadFile;
 	private Boolean writeMethylationContext;
 	private HPGMethylFile pairedEndModeFile;
-	private BigDecimal pairedMaxDistance;
-	private BigDecimal pairedMinDistance;
+	private Integer pairedMaxDistance;
+	private Integer pairedMinDistance;
 	private BigDecimal swaMinimunScore;
 	private BigDecimal swaMatchScore;
 	private BigDecimal swaMismatchScore;
 	private BigDecimal swaGapOpen;
 	private BigDecimal swaGapExtend;
-	private BigDecimal calFlankSize;
-	private BigDecimal minimumCalSize;
+	private Integer calFlankSize;
+	private Integer minimumCalSize;
 	private BigDecimal calUmbralLengthFactor;
-	private BigDecimal maximumBetweenSeeds;
-	private BigDecimal maximumSeedSize;
-	private BigDecimal minimumSeedSize;
-	private BigDecimal numberSeedsPerRead;
-	private BigDecimal readMinimumDiscardLength;
-	private BigDecimal readMaximumInnerGap;
-	private BigDecimal minimumNumberSeeds;
-	private BigDecimal filterReadMappings;
-	private BigDecimal filterSeedMappings;
+	private Integer maximumBetweenSeeds;
+	private Integer maximumSeedSize;
+	private Integer minimumSeedSize;
+	private Integer numberSeedsPerRead;
+	private Integer readMinimumDiscardLength;
+	private Integer readMaximumInnerGap;
+	private Integer minimumNumberSeeds;
+	private Integer filterReadMappings;
+	private Integer filterSeedMappings;
 	private Boolean reportAll;
 	private Boolean reportBest;
-	private BigDecimal reportNBest;
-	private BigDecimal reportNHits;
+	private Integer reportNBest;
+	private Integer reportNHits;
 	private Integer number;
 	private Date createdAt;
 	private Date updatedAt;
@@ -82,15 +82,15 @@ public class AnalysisRequestBean implements Serializable {
 		this.swaMismatchScore = new BigDecimal("-4.0");
 		this.swaGapOpen = new BigDecimal("10.0");
 		this.swaGapExtend = new BigDecimal("0.5");
-		this.calFlankSize = new BigDecimal("5");
-		this.minimumCalSize = new BigDecimal("30");
+		this.calFlankSize = 5;
+		this.minimumCalSize = 30;
 		this.calUmbralLengthFactor = new BigDecimal("4");
-		this.maximumBetweenSeeds = new BigDecimal("100");
-		this.maximumSeedSize = new BigDecimal("23");
-		this.minimumSeedSize = new BigDecimal("16");
-		this.numberSeedsPerRead = new BigDecimal("10");
-		this.readMinimumDiscardLength = new BigDecimal("100");
-		this.readMaximumInnerGap = new BigDecimal("-1");
+		this.maximumBetweenSeeds = 100;
+		this.maximumSeedSize = 23;
+		this.minimumSeedSize = 16;
+		this.numberSeedsPerRead = 10;
+		this.readMinimumDiscardLength = 100;
+		this.readMaximumInnerGap = -1;
 		this.minimumNumberSeeds = null;
 		this.filterReadMappings = null;
 		this.filterSeedMappings = null;
@@ -221,28 +221,28 @@ public class AnalysisRequestBean implements Serializable {
 	/**
 	 * @return the pairedMaxDistance
 	 */
-	public BigDecimal getPairedMaxDistance() {
+	public Integer getPairedMaxDistance() {
 		return pairedMaxDistance;
 	}
 
 	/**
 	 * @param pairedMaxDistance the pairedMaxDistance to set
 	 */
-	public void setPairedMaxDistance(BigDecimal pairedMaxDistance) {
+	public void setPairedMaxDistance(Integer pairedMaxDistance) {
 		this.pairedMaxDistance = pairedMaxDistance;
 	}
 
 	/**
 	 * @return the pairedMinDistance
 	 */
-	public BigDecimal getPairedMinDistance() {
+	public Integer getPairedMinDistance() {
 		return pairedMinDistance;
 	}
 
 	/**
 	 * @param pairedMinDistance the pairedMinDistance to set
 	 */
-	public void setPairedMinDistance(BigDecimal pairedMinDistance) {
+	public void setPairedMinDistance(Integer pairedMinDistance) {
 		this.pairedMinDistance = pairedMinDistance;
 	}
 
@@ -319,28 +319,28 @@ public class AnalysisRequestBean implements Serializable {
 	/**
 	 * @return the calFlankSize
 	 */
-	public BigDecimal getCalFlankSize() {
+	public Integer getCalFlankSize() {
 		return calFlankSize;
 	}
 
 	/**
 	 * @param calFlankSize the calFlankSize to set
 	 */
-	public void setCalFlankSize(BigDecimal calFlankSize) {
+	public void setCalFlankSize(Integer calFlankSize) {
 		this.calFlankSize = calFlankSize;
 	}
 
 	/**
 	 * @return the minimumCalSize
 	 */
-	public BigDecimal getMinimumCalSize() {
+	public Integer getMinimumCalSize() {
 		return minimumCalSize;
 	}
 
 	/**
 	 * @param minimumCalSize the minimumCalSize to set
 	 */
-	public void setMinimumCalSize(BigDecimal minimumCalSize) {
+	public void setMinimumCalSize(Integer minimumCalSize) {
 		this.minimumCalSize = minimumCalSize;
 	}
 
@@ -361,126 +361,126 @@ public class AnalysisRequestBean implements Serializable {
 	/**
 	 * @return the maximumBetweenSeeds
 	 */
-	public BigDecimal getMaximumBetweenSeeds() {
+	public Integer getMaximumBetweenSeeds() {
 		return maximumBetweenSeeds;
 	}
 
 	/**
 	 * @param maximumBetweenSeeds the maximumBetweenSeeds to set
 	 */
-	public void setMaximumBetweenSeeds(BigDecimal maximumBetweenSeeds) {
+	public void setMaximumBetweenSeeds(Integer maximumBetweenSeeds) {
 		this.maximumBetweenSeeds = maximumBetweenSeeds;
 	}
 
 	/**
 	 * @return the maximumSeedSize
 	 */
-	public BigDecimal getMaximumSeedSize() {
+	public Integer getMaximumSeedSize() {
 		return maximumSeedSize;
 	}
 
 	/**
 	 * @param maximumSeedSize the maximumSeedSize to set
 	 */
-	public void setMaximumSeedSize(BigDecimal maximumSeedSize) {
+	public void setMaximumSeedSize(Integer maximumSeedSize) {
 		this.maximumSeedSize = maximumSeedSize;
 	}
 
 	/**
 	 * @return the minimumSeedSize
 	 */
-	public BigDecimal getMinimumSeedSize() {
+	public Integer getMinimumSeedSize() {
 		return minimumSeedSize;
 	}
 
 	/**
 	 * @param minimumSeedSize the minimumSeedSize to set
 	 */
-	public void setMinimumSeedSize(BigDecimal minimumSeedSize) {
+	public void setMinimumSeedSize(Integer minimumSeedSize) {
 		this.minimumSeedSize = minimumSeedSize;
 	}
 
 	/**
 	 * @return the numberSeedsPerRead
 	 */
-	public BigDecimal getNumberSeedsPerRead() {
+	public Integer getNumberSeedsPerRead() {
 		return numberSeedsPerRead;
 	}
 
 	/**
 	 * @param numberSeedsPerRead the numberSeedsPerRead to set
 	 */
-	public void setNumberSeedsPerRead(BigDecimal numberSeedsPerRead) {
+	public void setNumberSeedsPerRead(Integer numberSeedsPerRead) {
 		this.numberSeedsPerRead = numberSeedsPerRead;
 	}
 
 	/**
 	 * @return the readMinimumDiscardLength
 	 */
-	public BigDecimal getReadMinimumDiscardLength() {
+	public Integer getReadMinimumDiscardLength() {
 		return readMinimumDiscardLength;
 	}
 
 	/**
 	 * @param readMinimumDiscardLength the readMinimumDiscardLength to set
 	 */
-	public void setReadMinimumDiscardLength(BigDecimal readMinimumDiscardLength) {
+	public void setReadMinimumDiscardLength(Integer readMinimumDiscardLength) {
 		this.readMinimumDiscardLength = readMinimumDiscardLength;
 	}
 
 	/**
 	 * @return the readMaximumInnerGap
 	 */
-	public BigDecimal getReadMaximumInnerGap() {
+	public Integer getReadMaximumInnerGap() {
 		return readMaximumInnerGap;
 	}
 
 	/**
 	 * @param readMaximumInnerGap the readMaximumInnerGap to set
 	 */
-	public void setReadMaximumInnerGap(BigDecimal readMaximumInnerGap) {
+	public void setReadMaximumInnerGap(Integer readMaximumInnerGap) {
 		this.readMaximumInnerGap = readMaximumInnerGap;
 	}
 
 	/**
 	 * @return the minimumNumberSeeds
 	 */
-	public BigDecimal getMinimumNumberSeeds() {
+	public Integer getMinimumNumberSeeds() {
 		return minimumNumberSeeds;
 	}
 
 	/**
 	 * @param minimumNumberSeeds the minimumNumberSeeds to set
 	 */
-	public void setMinimumNumberSeeds(BigDecimal minimumNumberSeeds) {
+	public void setMinimumNumberSeeds(Integer minimumNumberSeeds) {
 		this.minimumNumberSeeds = minimumNumberSeeds;
 	}
 
 	/**
 	 * @return the filterReadMappings
 	 */
-	public BigDecimal getFilterReadMappings() {
+	public Integer getFilterReadMappings() {
 		return filterReadMappings;
 	}
 
 	/**
 	 * @param filterReadMappings the filterReadMappings to set
 	 */
-	public void setFilterReadMappings(BigDecimal filterReadMappings) {
+	public void setFilterReadMappings(Integer filterReadMappings) {
 		this.filterReadMappings = filterReadMappings;
 	}
 
 	/**
 	 * @return the filterSeedMappings
 	 */
-	public BigDecimal getFilterSeedMappings() {
+	public Integer getFilterSeedMappings() {
 		return filterSeedMappings;
 	}
 
 	/**
 	 * @param filterSeedMappings the filterSeedMappings to set
 	 */
-	public void setFilterSeedMappings(BigDecimal filterSeedMappings) {
+	public void setFilterSeedMappings(Integer filterSeedMappings) {
 		this.filterSeedMappings = filterSeedMappings;
 	}
 
@@ -515,28 +515,28 @@ public class AnalysisRequestBean implements Serializable {
 	/**
 	 * @return the reportNBest
 	 */
-	public BigDecimal getReportNBest() {
+	public Integer getReportNBest() {
 		return reportNBest;
 	}
 
 	/**
 	 * @param reportNBest the reportNBest to set
 	 */
-	public void setReportNBest(BigDecimal reportNBest) {
+	public void setReportNBest(Integer reportNBest) {
 		this.reportNBest = reportNBest;
 	}
 
 	/**
 	 * @return the reportNHits
 	 */
-	public BigDecimal getReportNHits() {
+	public Integer getReportNHits() {
 		return reportNHits;
 	}
 
 	/**
 	 * @param reportNHits the reportNHits to set
 	 */
-	public void setReportNHits(BigDecimal reportNHits) {
+	public void setReportNHits(Integer reportNHits) {
 		this.reportNHits = reportNHits;
 	}
 

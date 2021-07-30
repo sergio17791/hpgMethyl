@@ -72,20 +72,14 @@ public class AnalysisCommandBuilder {
 	
 	private String WRITE_MCONTEXT = "--write-mcontext";
 	
-	public String build(Configuration configuration, AnalysisRequest analysisRequest) {
+	public String build(Configuration configuration, AnalysisRequest analysisRequest, String outputDirectory) {
 		
 		String hpgMethylAbsolutePath = configuration.getHpgMethylAbsolutePath();
 		
 		String bwtIndexAbsolutePath = configuration.getBwtIndexAbsolutePath();
 		
 		String command = hpgMethylAbsolutePath + " bs " + BWT_INDEX + "  " + bwtIndexAbsolutePath;
-		
-		String userDirectory = analysisRequest.getUser().getId().toString();
-		String analysisRequestDirectory = analysisRequest.getId().toString();
-		
-		String outputDirectory = concatenateDirectory(configuration.getUsersDirectoryAbsolutePath(), userDirectory);
-		outputDirectory = concatenateDirectory(outputDirectory, analysisRequestDirectory);
-		
+				
 		command = command + " " + OUTDIR + " " + outputDirectory + " " + CPU_THREADS + " " + configuration.getCpuThreads();
 		
 		Integer readBatchSize = configuration.getReadBatchSize();
@@ -115,12 +109,12 @@ public class AnalysisCommandBuilder {
 	    	String secondFastqFilePath = analysisRequest.getPairedEndModeFile().getPath();
 	    	command = command + " " + SECOND_FASTQ_FILE_PATH + " " + secondFastqFilePath;
 	    	
-	    	BigDecimal pairedMaxDistance = analysisRequest.getPairedMaxDistance();
+	    	Integer pairedMaxDistance = analysisRequest.getPairedMaxDistance();
 	    	if(pairedMaxDistance != null) {
 	    		command = command + " " + PAIRED_MAX_DISTANCE + " " + pairedMaxDistance;
 	    	}
 		    
-	    	BigDecimal pairedMinDistance = analysisRequest.getPairedMinDistance();
+	    	Integer pairedMinDistance = analysisRequest.getPairedMinDistance();
 	    	if(pairedMinDistance != null) {
 	    		command = command + " " + PAIRED_MIN_DISTANCE + " " + pairedMinDistance;
 	    	}
@@ -151,12 +145,12 @@ public class AnalysisCommandBuilder {
 	    	command = command + " " + SMITH_WATERMAN_GAP_EXTEND + " " + smithWatermanGapExtend;
 	    }
 	    
-	    BigDecimal calFlankSize = analysisRequest.getCalFlankSize();
+	    Integer calFlankSize = analysisRequest.getCalFlankSize();
 	    if(calFlankSize != null) {
 	    	command = command + " " + CAL_FLANK_SIZE + " " + calFlankSize;
 	    }
 	    
-	    BigDecimal minimumCalSize = analysisRequest.getMinimumCalSize();
+	    Integer minimumCalSize = analysisRequest.getMinimumCalSize();
 	    if(minimumCalSize != null) {
 	    	command = command + " " + MINIMUM_CAL_SIZE + " " + minimumCalSize;
 	    }
@@ -166,47 +160,47 @@ public class AnalysisCommandBuilder {
 	    	command = command + " " + CAL_UMBRAL_LENGTH_FACTOR + " " + calUmbralLengthFactor;
 	    }
 	    
-	    BigDecimal maximumBetweenSeeds = analysisRequest.getMaximumBetweenSeeds();
+	    Integer maximumBetweenSeeds = analysisRequest.getMaximumBetweenSeeds();
 	    if(maximumBetweenSeeds != null) {
 	    	command = command + " " + MAXIMUM_DISTANCE_SEEDS + " " + maximumBetweenSeeds;
 	    }
 	    
-	    BigDecimal maximumSeedSize = analysisRequest.getMaximumSeedSize();
+	    Integer maximumSeedSize = analysisRequest.getMaximumSeedSize();
 	    if(maximumSeedSize != null) {
 	    	command = command + " " + MAXIMUM_SEED_SIZE + " " + maximumBetweenSeeds;
 	    }
 	    
-	    BigDecimal minimumSeedSize = analysisRequest.getMinimumSeedSize();
+	    Integer minimumSeedSize = analysisRequest.getMinimumSeedSize();
 	    if(minimumSeedSize != null) {
 	    	command = command + " " + MINIMUM_SEED_SIZE + " " + minimumSeedSize;
 	    }
 	    
-	    BigDecimal numberSeedsPerRead = analysisRequest.getNumberSeedsPerRead();
+	    Integer numberSeedsPerRead = analysisRequest.getNumberSeedsPerRead();
 	    if(numberSeedsPerRead != null) {
 	    	command = command + " " + NUMBER_SEEDS_PER_READ + " " + numberSeedsPerRead;
 	    }
 	    
-	    BigDecimal readMinimumDiscardLength = analysisRequest.getReadMinimumDiscardLength();
+	    Integer readMinimumDiscardLength = analysisRequest.getReadMinimumDiscardLength();
 	    if(readMinimumDiscardLength != null) {
 	    	command = command + " " + READ_MINIMUM_DISCARD_LENGTH + " " + readMinimumDiscardLength;
 	    }
 	    
-	    BigDecimal readMaximumInnerGap = analysisRequest.getReadMaximumInnerGap();
+	    Integer readMaximumInnerGap = analysisRequest.getReadMaximumInnerGap();
 	    if(readMaximumInnerGap != null) {
 	    	command = command + " " + READ_MAXIMUM_INNER_GAP + " " + readMaximumInnerGap;
 	    }
 	    
-	    BigDecimal minimumNumberSeeds = analysisRequest.getMinimumNumberSeeds();
+	    Integer minimumNumberSeeds = analysisRequest.getMinimumNumberSeeds();
 	    if(minimumNumberSeeds != null) {
 	    	command = command + " " + MINIMUM_NUMBER_SEEDS + " " + minimumNumberSeeds;
 	    }
 	    
-	    BigDecimal filterReadMappings = analysisRequest.getFilterReadMappings();
+	    Integer filterReadMappings = analysisRequest.getFilterReadMappings();
 	    if(filterReadMappings != null) {
 	    	command = command + " " + FILTER_READ_MAPPINGS + " " + filterReadMappings;
 	    }
 	    
-	    BigDecimal filterSeedMappings = analysisRequest.getFilterSeedMappings();
+	    Integer filterSeedMappings = analysisRequest.getFilterSeedMappings();
 	    if(filterSeedMappings != null) {
 	    	command = command + " " + FILTER_SEED_MAPPINGS + " " + filterSeedMappings;
 	    }
@@ -219,31 +213,16 @@ public class AnalysisCommandBuilder {
 	    	command = command + " " + REPORT_BEST;
 	    }
 	    
-	    BigDecimal reportNBest = analysisRequest.getReportNBest();
+	    Integer reportNBest = analysisRequest.getReportNBest();
 	    if(reportNBest != null) {
 	    	command = command + " " + REPORT_N_BEST + " " + reportNBest;
 	    }
 	    
-	    BigDecimal reportNHits = analysisRequest.getReportNHits();
+	    Integer reportNHits = analysisRequest.getReportNHits();
 	    if(reportNHits != null) {
 	    	command = command + " " + REPORT_N_HITS + " " + reportNHits;
 	    }
 		
 		return command;
-	}
-	
-	private String concatenateDirectory(String path, String directory) {
-		
-		String completePath = path;
-		
-		String lastCharacter = completePath.substring(completePath.length() - 1);
-		
-		if(!lastCharacter.equals("/")) {
-			completePath = completePath.concat("/");
-		}
-		
-		completePath = completePath.concat(directory);
-		
-		return completePath;
-	}
+	}		
 }

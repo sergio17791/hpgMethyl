@@ -33,20 +33,29 @@
                	</b:column>              									  				              									                 			                
             </b:row>
             <b:row style="margin-bottom: 10px">
-            	<b:column col-md="6">
-               		<b:selectOneMenu id ="inputReadFile" 
-	               					 value="#{analysisBean.inputReadFile}"
-		                     	 	 styleClass="form-control"
-		                           	 label="#{msg['analysis.attribute.inputReadFile']}" 
-			                       	 required="true"
-		                           	 requiredMessage="#{msg['error.form.requiredField']}">  
-		                <f:selectItem noSelectionOption="true"/>        	 		            	
-		             	<f:selectItems value="#{analysisBean.userFiles}" 
-		                			   var="userFile" 
-		                   			   itemValue="#{userFile}"/>                        
-	               	</b:selectOneMenu>
-               		<h:message for="inputReadFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-               	</b:column>
+            	<c:if test="#{analysisBean.status == null or analysisBean.status eq 'CREATED'}">
+            		<b:column col-md="6">
+            			<b:selectOneMenu id ="inputReadFile" 
+	               						 value="#{analysisBean.inputReadFile}"
+		                     		 	 styleClass="form-control"
+		                           		 label="#{msg['analysis.attribute.inputReadFile']}" 
+			                       		 required="true"
+		                           		 requiredMessage="#{msg['error.form.requiredField']}">  
+		                	<f:selectItem noSelectionOption="true"/>        	 		            	
+		             		<f:selectItems value="#{analysisBean.userFiles}" 
+		                				   var="userFile" 
+		                   				   itemValue="#{userFile}"/>                        
+	               		</b:selectOneMenu>
+	               		<h:message for="inputReadFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+	               	</b:column>	
+            	</c:if>
+            	<c:if test="#{analysisBean.status != null and analysisBean.status ne 'CREATED'}">
+            		<components:inputTextWithErrorMessage inputId="inputReadFile"
+                										  value="#{analysisBean.inputReadFile}"
+                										  label="#{msg['analysis.attribute.inputReadFile']}"
+                										  required="true"
+		                          		 			      requiredMessage="#{msg['error.form.requiredField']}"/>
+            	</c:if>            	               		               	               	
 				<b:column col-md="3" styleClass="booleanColumn">
 					<b:selectBooleanCheckbox id="writeMethylationContext"
 					  				 		 value="#{analysisBean.writeMethylationContext}" 
@@ -61,20 +70,29 @@
 					<legend><h4><h:outputText value="#{msg['analysis.send.pairedEndModeLegend']}"/></h4></legend>							
 						<h:outputText value="#{msg['analysis.send.pairedEndModeText']}"/>
 						<b:row style="margin-top: 10px; margin-bottom: 10px">
-							<b:column col-md="6">
-               					<b:selectOneMenu id ="pairedReadFile" 
-	               							 	 value="#{analysisBean.pairedEndModeFile}"
-		                     	 		 	     styleClass="form-control"
-		                           	 			 label="#{msg['analysis.attribute.pairedEndModeFile']}" 
-			                       	 			 required="#{analysisBean.pairedMode.value eq 1}" 
-		                           	 	     	 requiredMessage="#{msg['error.form.requiredField']}"> 
-		                			<f:selectItem noSelectionOption="true"/>   	     	   
-		             				<f:selectItems value="#{analysisBean.userFiles}" 
-		                   		   				   var="userFile" 
-		                   		   				   itemValue="#{userFile}"/>                        
-	               				</b:selectOneMenu>
-               					<h:message for="pairedReadFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
-               				</b:column>
+							<c:if test="#{analysisBean.status == null or analysisBean.status eq 'CREATED'}">
+            					<b:column col-md="6">
+               						<b:selectOneMenu id ="pairedReadFile" 
+	               								 	 value="#{analysisBean.pairedEndModeFile}"
+		                     	 			 	     styleClass="form-control"
+		                           	 				 label="#{msg['analysis.attribute.pairedEndModeFile']}" 
+			                       	 				 required="#{analysisBean.pairedMode.value eq 1}" 
+		                           	 	     		 requiredMessage="#{msg['error.form.requiredField']}"> 
+		                				<f:selectItem noSelectionOption="true"/>   	     	   
+		             					<f:selectItems value="#{analysisBean.userFiles}" 
+		                   		   					   var="userFile" 
+		                   		   					   itemValue="#{userFile}"/>                        
+		               				</b:selectOneMenu>		               			
+               						<h:message for="pairedReadFile" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+               					</b:column>
+            				</c:if>
+            				<c:if test="#{analysisBean.status != null and analysisBean.status ne 'CREATED'}">
+            					<components:inputTextWithErrorMessage inputId="pairedReadFile"
+                													  value="#{analysisBean.pairedEndModeFile}"
+                													  label="#{msg['analysis.attribute.pairedEndModeFile']}"
+                													  required="true"
+		                          		 							  requiredMessage="#{msg['error.form.requiredField']}"/>
+            				</c:if> 							
 						</b:row>
             			<b:row>						
                 			<components:inputTextWithErrorMessage inputId="pairedMaxDistance"
@@ -101,17 +119,20 @@
                 									  value="#{analysisBean.swaMinimunScore}"
                 									  label="#{msg['analysis.attribute.swaMinimunScore']}"
                 									  type="number"
-                									  colMdSize="4"/> 
+                									  colMdSize="4"
+                									  step="any"/> 
 				<components:inputTextWithErrorMessage inputId="swaMatchScore"
                 									  value="#{analysisBean.swaMatchScore}"
                 									  label="#{msg['analysis.attribute.swaMatchScore']}"
                 									  type="number"
-                									  colMdSize="4"/>
+                									  colMdSize="4"
+                									  step="any"/>
 				<components:inputTextWithErrorMessage inputId="swaMismatchScore"
                 									  value="#{analysisBean.swaMismatchScore}"
                 									  label="#{msg['analysis.attribute.swaMismatchScore']}"
                 									  type="number"
-                									  colMdSize="4"/>                											                   											   
+                									  colMdSize="4"
+                									  step="any"/>                											                   											   
             </b:row>
             <b:row>
             	<components:inputTextWithErrorMessage inputId="swaGapOpen"
@@ -119,12 +140,14 @@
             										  label="#{msg['analysis.attribute.swaGapOpen']}"
             										  type="number"
             										  colMdSize="4"
-            										  colOffsetMd="2"/>
+            										  colOffsetMd="2"
+                									  step="any"/>
 				<components:inputTextWithErrorMessage inputId="swaGapExtend"
             										  value="#{analysisBean.swaGapExtend}"
             										  label="#{msg['analysis.attribute.swaGapExtend']}"
             										  type="number"
-            										  colMdSize="4"/>                											  
+            										  colMdSize="4"
+                									  step="any"/>                											  
             </b:row>
         </fieldset>
         <fieldset>
@@ -145,7 +168,8 @@
                 									  value="#{analysisBean.calUmbralLengthFactor}"
                 									  label="#{msg['analysis.attribute.calUmbralLengthFactor']}"
                 									  type="number"
-                									  colMdSize="4"/>                											                   											   
+                									  colMdSize="4"
+                									  step="any"/>                											                   											   
             </b:row>
             <b:row>
             	<components:inputTextWithErrorMessage inputId="maximumBetweenSeeds"

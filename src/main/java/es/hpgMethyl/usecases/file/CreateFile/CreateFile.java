@@ -30,6 +30,7 @@ public class CreateFile {
 		file.setPath(request.getPath());
 		file.setSize(request.getSize());
 		file.setContentType(request.getContentType());
+		file.setUploaded(request.getUploaded());
 		
 		try {
 			this.fileDAO.save(file);
