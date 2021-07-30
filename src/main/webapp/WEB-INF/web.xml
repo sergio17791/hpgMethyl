@@ -35,6 +35,9 @@
     	<filter-name>LoginFilter</filter-name>
     	<url-pattern>/faces/user/*</url-pattern>
     	<url-pattern>/analysis</url-pattern>
+    	<url-pattern>/analysis/*</url-pattern>
+    	<url-pattern>/files</url-pattern>
+    	<url-pattern>/files/*</url-pattern>    	
     	<url-pattern>/configuration</url-pattern>
     </filter-mapping>
     <filter>
