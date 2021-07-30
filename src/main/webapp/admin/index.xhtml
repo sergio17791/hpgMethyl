@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui"
+                template="../WEB-INF/templates/adminTemplate.xhtml">
+	<ui:define name="content">                
+		<b:row>
+        	<b:column col-md="6">
+        		<p:card styleClass="dashboardCard">
+    				<f:facet name="title">
+        				<h:outputText value="#{msg['admin.dashboard.users.membersByCategory']}"/>
+    				</f:facet>
+					<p:pieChart model="#{adminDashboard.usersByRole}"/>
+				</p:card>    			
+    		</b:column>	
+    		<b:column col-md="6">
+        		<p:card styleClass="dashboardCard">
+    				<f:facet name="title">
+        				<h:outputText value="#{msg['admin.dashboard.users.membersByStatus']}"/>
+    				</f:facet>
+					<p:barChart model="#{adminDashboard.usersByStatus}"/>
+				</p:card>    			
+    		</b:column>	
+		</b:row>
+		<b:row>
+        	<b:column col-md="12">
+        		<p:card styleClass="dashboardCard">
+    				<f:facet name="title">
+        				<h:outputText value="#{msg['admin.dashboard.users.signupsByMonth']}"/>
+    				</f:facet>
+					<p:barChart model="#{adminDashboard.signupsByMonth}"/>
+				</p:card>    			
+    		</b:column>	
+		</b:row>
+		<b:row>
+        	<b:column col-md="6">
+        		<p:card styleClass="dashboardCard">
+    				<f:facet name="title">
+        				<h:outputText value="#{msg['admin.dashboard.analysis.analysisByStatus']}"/>
+    				</f:facet>
+					<p:pieChart model="#{adminDashboard.analysisByStatus}"/>
+				</p:card>    			
+    		</b:column>	
+    		<b:column col-md="6">
+        		<p:card styleClass="dashboardCard">
+    				<f:facet name="title">
+        				<h:outputText value="#{msg['admin.dashboard.analysis.analysisByMode']}"/>
+    				</f:facet>
+					<p:pieChart model="#{adminDashboard.analysisByMode}"/>
+				</p:card>    			
+    		</b:column>	    		
+		</b:row>
+		<b:row>
+    		<b:column col-md="12">
+        		<p:card styleClass="dashboardCard">
+    				<f:facet name="title">
+        				<h:outputText value="#{msg['admin.dashboard.analysis.analysisByUsers']}"/>
+    				</f:facet>
+					<p:barChart model="#{adminDashboard.topRequestingUsers}"/>
+				</p:card>    			
+    		</b:column>	    		
+		</b:row>
+		<b:row>
+    		<b:column col-md="12">
+        		<p:card styleClass="dashboardCard">
+    				<f:facet name="title">
+        				<h:outputText value="#{msg['admin.dashboard.analysis.analysisByMonth']}"/>
+    				</f:facet>
+					<p:barChart model="#{adminDashboard.analysisByMonth}"/>
+				</p:card>    			
+    		</b:column>	    		
+		</b:row>
+	</ui:define>               
+</ui:composition>

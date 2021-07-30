@@ -1,18 +1,63 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'war'
+plugins {
+	id 'java'
+	id 'eclipse'
+	id 'war'
+	id 'org.flywaydb.flyway' version '6.4.2'
+	id 'com.avast.gradle.docker-compose' version '0.14.0'
+}
 
 repositories {
     mavenCentral()
+    maven { 
+    	url 'http://repository.primefaces.org' 
+    }
 }
 
 dependencies {
     implementation 'com.sun.faces:jsf-api:2.2.20'
     implementation 'com.sun.faces:jsf-impl:2.2.20'
-    implementation 'org.primefaces:primefaces:7.0'
-    implementation 'net.bootsfaces:bootsfaces:1.4.2'
+    implementation 'org.primefaces:primefaces:10.0.0'
+    implementation 'org.primefaces.themes:bootstrap:1.0.10'    
+    implementation 'commons-fileupload:commons-fileupload:1.4'
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'net.bootsfaces:bootsfaces:1.5.0'
+    implementation 'org.ocpsoft.rewrite:rewrite-servlet:3.4.4.Final'
+    implementation 'org.ocpsoft.rewrite:rewrite-config-prettyfaces:3.4.4.Final'
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation 'javax.el:el-api:2.2.1-b04'
     implementation 'jstl:jstl:1.2'
-    implementation 'org.hibernate:hibernate-core:5.4.10.Final'
-    implementation 'org.postgresql:postgresql:42.2.9.jre7'
-    testImplementation 'junit:junit:4.12'
+    implementation 'org.hibernate:hibernate-core:5.4.27.Final'
+    implementation 'org.postgresql:postgresql:42.2.18'
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    testCompile 'junit:junit:4.13.1'
+	testCompile 'org.mockito:mockito-core:3.6.28'
+    
 } 
+
+flyway {
+    url = 'jdbc:postgresql://172.19.0.3:5432/hpgMethyl'
+    user = hpgMethylDBUser
+    password = hpgMethylDBPassword
+    driver = 'org.postgresql.Driver'
+}
+
+dockerCompose {
+	useComposeFiles = ['docker-compose.yml']
+	projectName = ['hpgMethyl']
+    environment.put 'DB_USER', hpgMethylDBUser
+    environment.put 'DB_PASSWORD', hpgMethylDBPassword
+}
+
+tasks.register('hpgMethylDeploy') {
+    description 'Performs project build, deployment and database migration'
+    dependsOn 'clean'
+    dependsOn 'build'
+    dependsOn 'composeUp'
+    dependsOn 'flywayMigrate'
+    tasks.findByName('build').mustRunAfter 'clean'
+    tasks.findByName('composeUp').mustRunAfter 'build'
+    tasks.findByName('flywayMigrate').mustRunAfter 'composeUp'
+    doLast {
+        println "HpgMethyl deploy completed"
+    }
+}

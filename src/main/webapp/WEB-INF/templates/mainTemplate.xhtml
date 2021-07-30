@@ -5,12 +5,70 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:b="http://bootsfaces.net/ui">
-    <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-        <title><h:outputText value="#{msg['general.hpgMethyl']}"/></title>
-    </h:head>
-    <h:body>
-    	<h:outputText value="#{msg['general.pageUnderConstruction']}"/>
-    </h:body>
+	<f:view locale="#{languageSelector.language}">
+    	<h:head>
+        	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        	<title><h:outputText value="#{msg['general.hpgMethyl']}"/></title>
+        	<h:outputStylesheet library="css" name="style.css"/>
+        	<link rel="icon" type="image/png" href="/resources/images/dna_icon.png"/>
+    	</h:head>
+    	<h:body>    	
+    		<header>
+    			<h:form>
+	    			<b:navBar brand="#{msg['general.hpgMethyl']}" 
+	    					  brandImg="/resources/images/dna_icon.png" 
+	    					  brandHref="/"
+	    					  brandImgStyleClass="navBarImg"
+	    					  fixed="top" 
+	    					  sticky="true" 
+	    					  inverse="false">
+	    				<b:navbarLinks>
+	    					<b:navLink value="#{msg['menu.contact']}" outcome="pretty:contact"/>
+	    					<b:navLink value="#{msg['menu.analysis']}" outcome="pretty:analysis" rendered="#{sessionUser != null}"/>
+	    					<b:navLink value="#{msg['menu.files']}" outcome="pretty:userFiles" rendered="#{sessionUser != null}"/>
+	    					<b:navLink value="GitHub" href="https://github.com/grev-uv/hpg-methyl" iconAwesome="github" iconAlign="left"/>
+	    				</b:navbarLinks>
+	    				<b:navbarLinks pull="right">
+    						<b:dropMenu value="#{msg['menu.language']}" iconAwesome="globe" iconAlign="left">    							
+    							<b:navCommandLink value="#{msg['menu.language.english']}" actionListener="#{languageSelector.changeLanguage('en')}"/>
+    							<b:navCommandLink value="#{msg['menu.language.spanish']}" actionListener="#{languageSelector.changeLanguage('es')}"/> 
+    							<b:navCommandLink value="#{msg['menu.language.valencian']}" actionListener="#{languageSelector.changeLanguage('ca')}"/>
+    						</b:dropMenu>
+    						<b:navLink value="#{msg['menu.login']}" outcome="pretty:login" iconAwesome="sign-in" iconAlign="left" rendered="#{sessionUser == null}"/>
+    						<b:dropMenu value="#{sessionUser.toString()}" iconAwesome="user" iconAlign="left" rendered="#{sessionUser != null}">
+    							<b:navLink value="#{msg['menu.configuration']}" outcome="pretty:userConfiguration" iconAwesome="gear" iconAlign="left"/> 
+    							<b:navLink value="#{msg['menu.admin']}" outcome="pretty:admin" iconAwesome="shield" iconAlign="left" rendered="#{sessionUser != null and sessionUser.role != 'USER'}"/>
+    							<b:navCommandLink value="#{msg['menu.logout']}" actionListener="#{userLogout.closeSession()}" iconAwesome="sign-out" iconAlign="left"/>     							
+    						</b:dropMenu>
+    					</b:navbarLinks>
+    				</b:navBar>
+    			</h:form>
+    		</header>   		
+    		<b:container styleClass="content">
+    			<ui:insert name="content">
+    				<h:panelGroup id="defaultPage">
+    					<h:outputText value="#{msg['general.pageUnderConstruction']}"/>
+                    	<h:outputText value="&lt;br/&gt;" escape="false"/>
+                    	<h:link value="#{msg['general.hpgMethyl']}" outcome="pretty:home"/>
+    				</h:panelGroup>
+    			</ui:insert>
+    		</b:container>
+    		<footer>
+    			<small>
+    				<b:iconAwesome value="copyright"/>
+    				<h:outputText value=" Sergio Muñoz Buitrón"/>
+    				&nbsp;
+    				<h:outputLink value="https://github.com/sergio17791/">
+        				<b:iconAwesome value="github"/>
+					</h:outputLink>
+					&nbsp;
+    				<h:outputLink value="https://www.linkedin.com/in/sergio-mu%C3%B1oz-buitr%C3%B3n-6834b9115/">
+        				<b:iconAwesome value="linkedin"/>
+					</h:outputLink>
+    			</small>
+    		</footer>
+    		<h:outputScript library="js" name="functions.js" />
+    	</h:body>
+    </f:view>
 </html>

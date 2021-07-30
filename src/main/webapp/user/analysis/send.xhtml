@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:components="http://java.sun.com/jsf/composite/components"
+                template="../../WEB-INF/templates/mainTemplate.xhtml">
+    <ui:define name="content">
+    	<f:metadata>
+			<f:viewAction action="#{sendAnalysis.loadFiles}"/>
+		</f:metadata> 
+        <b:form id="analysisForm" enctype="multipart/form-data">
+            <b:row>
+                <b:column col-md="6">
+                    <legend><h:outputText value="#{msg['analysis.send.newRequest']}"/></legend>      
+                </b:column>
+                <b:column col-xs="6" col-sm="3" offset-sm="3">
+            		<b:link value="#{msg['analysis.send.uploadFiles']}" 
+	    					outcome="pretty:userFiles"
+	    					iconAwesome="upload" 
+	  						look="success"/>   
+            	</b:column>                   
+            </b:row>
+            <c:if test="#{analysisBean.userFiles.size() == 0}">
+	            <b:row>
+    				<b:column col-md="12">    			
+    					<b:alert severity="warning" value="#{msg['analysis.send.withoutFiles']}" closable="true"/>    				
+	    			</b:column>
+    			</b:row>	
+        	</c:if>
+            <b:panel>
+            	<ui:decorate template="../../WEB-INF/templates/analysisRequestTemplate.xhtml"/>
+                <b:row>
+                	<b:column col-md="6">
+	                	<b:commandButton id="resetAnalysisButton"
+		                                 value="#{msg['general.reset']}" 
+		                                 type="reset"
+		                                 look="light"
+		                                 styleClass="btn-block"/>
+                	</b:column>
+                	<b:column col-md="6">
+	                	<b:commandButton id="sendAnalysisButton"
+		                                 binding="#{sendAnalysis.sendAnalysisComponent}"
+		                                 value="#{msg['analysis.send.submit']}" 
+		                                 action="#{sendAnalysis.sendAnalysis()}"
+		                                 look="primary"
+		                                 styleClass="btn-block"
+		                                 disabled="#{analysisBean.userFiles.size() == 0}"/>     
+                	</b:column>                    	
+                </b:row>                 
+                <b:row style="margin-top: 10px">             
+                	<b:column col-md="12">
+	                	<h:message for="sendAnalysisButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
+                	</b:column>
+                </b:row>         	  
+            </b:panel>                                          
+        </b:form>
+    </ui:define>
+</ui:composition>

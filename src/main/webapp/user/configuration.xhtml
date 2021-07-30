@@ -1,0 +1,195 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:components="http://java.sun.com/jsf/composite/components"
+                template="../WEB-INF/templates/mainTemplate.xhtml">
+    <ui:define name="content">
+		<b:form id="userConfigurationForm">  	
+         	<b:row>
+         		<b:column col-md="6">
+            		<legend><h:outputText value="#{msg['configuration.personalInformation']}"/></legend>      
+            	</b:column>                 
+	        </b:row>
+         	<b:panel>
+         		<b:row>
+            		<components:inputTextWithErrorMessage inputId="email"
+            											  value="#{userConfiguration.email}"
+                                                          label="#{msg['user.attribute.email']}"
+            											  disabled="true"/>
+					<b:column col-md="6">
+                        <b:selectOneMenu id ="defaultLanguage" 
+                                         value="#{userConfiguration.defaultLanguage}"
+                                         styleClass="form-control"
+                                         label="#{msg['user.attribute.defaultLanguage']}" 
+                                         required="true" 
+                                         requiredMessage="#{msg['error.form.requiredField']}">    
+                            <f:selectItem itemLabel="#{msg['menu.language.english']}" itemValue="en"/> 
+                            <f:selectItem itemLabel="#{msg['menu.language.spanish']}" itemValue="es"/> 
+                            <f:selectItem itemLabel="#{msg['menu.language.valencian']}" itemValue="ca"/>         
+                        </b:selectOneMenu>
+                    </b:column>                											  
+            	</b:row>
+            	<b:row>
+                    <components:inputTextWithErrorMessage inputId="firstName"
+                                                          value="#{userConfiguration.firstName}"
+                                                          label="#{msg['user.attribute.firstName']}"
+                                                          required="true"/>
+                    <components:inputTextWithErrorMessage inputId="lastName"
+                                                          value="#{userConfiguration.lastName}"
+                                                          label="#{msg['user.attribute.lastName']}"
+                                                          required="true"/>                                                           
+                </b:row>
+            	<b:row>
+                	<b:column col-md="6">
+	                	<b:commandButton value="#{msg['general.reset']}" 
+		                                 type="reset"
+		                                 look="light"
+		                                 styleClass="btn-block"/>
+                	</b:column>
+                	<b:column col-md="6">
+	                	<b:commandButton id="updatePersonalInformationButton"
+		                                 binding="#{userConfiguration.updatePersonalInformationComponent}"
+		                                 value="#{msg['general.update']}" 
+		                                 action="#{userConfiguration.updatePersonalInformation()}"
+		                                 look="primary"
+		                                 styleClass="btn-block"/>     
+                	</b:column>                    	
+                </b:row>                 
+                <b:row style="margin-top: 10px">             
+                	<b:column col-md="12">
+	                	<h:message for="updatePersonalInformationButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
+                	</b:column>
+                </b:row>
+         	</b:panel>
+         </b:form>
+         <b:form id="changePasswordForm">    
+            <b:row>
+                <b:column col-md="6">
+                    <legend><h:outputText value="#{msg['general.changePassword']}"/></legend>      
+                </b:column>                 
+            </b:row>
+            <b:panel>
+            	<b:row>
+                	<b:column col-md="6">
+	                	<b:inputSecret id ="newPassword"
+	                				   binding ="#{newPasswordComponent}"
+		                               value="#{userConfiguration.newPassword}" 
+		                               label="#{msg['general.newPassword']}" 
+		                               class="passwordInput"
+		                               maxlength="60" 
+		                               required="true" 
+		                               requiredMessage="#{msg['error.form.requiredField']}">                               
+		                	<f:facet name="append">
+      							<b:button look="default" onclick="toggleShowPassword();" icon="eye-open"/>
+    						</f:facet>    					
+							<f:validator validatorId="passwordValidator"/>
+							<f:event listener="#{userConfiguration.cleanInputComponent}" type="preRenderComponent"/>	   
+		                </b:inputSecret>
+		                <small class="text-muted"><h:outputText value="#{msg['general.passwordPatternInfo']}"/></small>		                
+		                <h:message for="newPassword" styleClass="alert alert-danger errorMessageWithTopLabel"/> 
+                	</b:column>
+                	<b:column col-md="6">
+	            		<b:inputSecret id ="newPasswordVerification"
+		                               value="#{userConfiguration.newPasswordVerification}" 
+		                               label="#{msg['general.newPasswordVerification']}" 
+		                               class="passwordInput"
+		                               maxlength="60" 
+		                               required="true" 
+		                               requiredMessage="#{msg['error.form.requiredField']}">                            
+		                	<f:facet name="append">
+      							<b:button look="default" onclick="toggleShowPassword();" icon="eye-open"/>
+    						</f:facet>
+    						<f:attribute name="password" value="#{newPasswordComponent.value}" />
+    						<f:validator validatorId="equalsPasswordsValidator"/>    						
+							<f:event listener="#{userConfiguration.cleanInputComponent}" type="preRenderComponent"/>	 
+		                </b:inputSecret> 
+		                <h:message for="newPasswordVerification" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+                	</b:column>
+                </b:row>
+                <b:row>
+                    <b:column col-md="6">
+                        <b:inputSecret id ="oldPassword" 
+                                       value="#{userConfiguration.oldPassword}" 
+                                       label="#{msg['configuration.oldPassword']}" 
+                                       class="passwordInput"
+                                       maxlength="60" 
+                                       required="true" 
+                                       requiredMessage="#{msg['error.form.requiredField']}">
+                            <f:facet name="append">
+                                <b:button look="default" onclick="toggleShowPassword();" icon="eye-open"/>
+                            </f:facet>
+                            <f:event listener="#{userConfiguration.cleanInputComponent}" type="preRenderComponent"/>
+                        </b:inputSecret> 
+                        <h:message for="oldPassword" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+                    </b:column>
+                    <b:column col-md="6" style="margin-top: 25px">
+	                	<b:commandButton id="changePasswordButton"
+		                                 binding="#{userConfiguration.changePasswordComponent}"
+		                                 value="#{msg['general.update']}" 
+		                                 action="#{userConfiguration.changePassword()}"
+		                                 look="primary"
+		                                 styleClass="btn-block"/>     
+                	</b:column> 
+                </b:row>                  
+                <b:row>                	
+                	<b:column col-md="12">
+	                	<h:message for="changePasswordButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
+                	</b:column>                   	
+                </b:row>                             
+            </b:panel>
+         </b:form>
+         <b:form id="passwordRecoveryForm">    
+            <b:row>
+                <b:column col-md="6">
+                    <legend><h:outputText value="#{msg['configuration.passwordRecovery']}"/></legend>      
+                </b:column>                 
+            </b:row>
+            <b:panel>
+            	<b:row>
+                	<components:inputTextWithErrorMessage inputId="passwordRecoveryQuestion"
+                									  	  value="#{userConfiguration.passwordRecoveryQuestion}"
+                									  	  label="#{msg['user.attribute.passwordRecoveryQuestion']}"
+                									  	  maxlength="60"
+                									  	  required="true"/>
+                	<components:inputTextWithErrorMessage inputId="passwordRecoveryResponse"
+                									      value="#{userConfiguration.passwordRecoveryResponse}"
+                									      label="#{msg['user.attribute.passwordRecoveryResponse']}"
+                									      maxlength="60"
+                									      required="true"/>
+                </b:row>
+                <b:row>
+                    <b:column col-md="6">
+                        <b:inputSecret id ="password" 
+                                       value="#{userConfiguration.password}" 
+                                       label="#{msg['user.attribute.password']}" 
+                                       class="passwordInput"
+                                       maxlength="60" 
+                                       required="true" 
+                                       requiredMessage="#{msg['error.form.requiredField']}">
+                            <f:facet name="append">
+                                <b:button look="default" onclick="toggleShowPassword();" icon="eye-open"/>
+                            </f:facet>
+                            <f:event listener="#{userConfiguration.cleanInputComponent}" type="preRenderComponent"/>
+                        </b:inputSecret> 
+                        <h:message for="password" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+                    </b:column>
+                    <b:column col-md="6" style="margin-top: 25px">
+	                	<b:commandButton id="passwordRecoveryButton"
+		                                 binding="#{userConfiguration.updatePasswordRecoveryComponent}"
+		                                 value="#{msg['general.update']}" 
+		                                 action="#{userConfiguration.updatePasswordRecovery()}"
+		                                 look="primary"
+		                                 styleClass="btn-block"/>     
+                	</b:column> 
+                </b:row>                  
+                <b:row>                	
+                	<b:column col-md="12">
+	                	<h:message for="passwordRecoveryButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
+                	</b:column>                   	
+                </b:row>                       
+            </b:panel>
+         </b:form>
+    </ui:define>
+</ui:composition>

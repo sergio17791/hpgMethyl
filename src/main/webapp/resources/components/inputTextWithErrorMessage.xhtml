@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough" 
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"     
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+	<composite:interface>
+		<composite:attribute name="inputId" required="true"/>
+		<composite:attribute name="value" required="true"/>
+		<composite:attribute name="label" required="true"/>
+		<composite:attribute name="type" required="false" default="text"/>
+		<composite:attribute name="maxlength" required="false" type="java.lang.Integer"/>
+		<composite:attribute name="required" required="false" default="false" type="java.lang.Boolean"/>
+		<composite:attribute name="requiredMessage" required="false" default="#{msg['error.form.requiredField']}"/>
+		<composite:attribute name="focus" required="false" default="false" type="java.lang.Boolean"/>
+		<composite:attribute name="colMdSize" required="false" default="6" type="java.lang.Integer"/>
+		<composite:attribute name="colOffsetMd" required="false" default="0" type="java.lang.Integer"/>
+		<composite:attribute name="disabled" required="false" default="false" type="java.lang.Boolean"/>
+		<composite:attribute name="step" required="false" default="1"/>
+	</composite:interface>
+    <composite:implementation>
+		<b:column col-md="#{cc.attrs.colMdSize}" offset-md="#{cc.attrs.colOffsetMd}">
+        	<b:inputText id ="#{cc.attrs.inputId}" 
+	        			 value ="#{cc.attrs.value}"
+		               	 styleClass ="form-control-plaintext"
+		                 label ="#{cc.attrs.label}" 
+		                 a:type ="#{cc.attrs.type}"
+		                 a:step ="#{cc.attrs.step}"
+			             required="#{cc.attrs.required}"
+			             disabled="#{cc.attrs.disabled}">
+				<b:focus rendered="#{cc.attrs.focus}"/>
+				<c:if test="#{cc.attrs.maxlength != null}">
+					<f:attribute name="maxlength" value="#{cc.attrs.maxlength}"/>	
+				</c:if>
+				<c:if test="#{cc.attrs.required}">
+					<f:attribute name="requiredMessage" value="#{cc.attrs.requiredMessage}"/>	
+				</c:if>                            
+	        </b:inputText>
+            <h:message for="#{cc.attrs.inputId}" styleClass="alert alert-danger errorMessageWithTopLabel"/>
+		</b:column>
+    </composite:implementation>
+</html>

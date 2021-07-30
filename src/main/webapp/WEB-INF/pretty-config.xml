@@ -1,0 +1,70 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces">
+	<url-mapping id="home">
+		<pattern value="/"/>
+		<view-id value="/faces/index.xhtml"/>
+	</url-mapping>
+	<url-mapping id="contact" parentId="home">
+		<pattern value="contact"/>
+		<view-id value="/faces/contact.xhtml"/>
+	</url-mapping>
+	<url-mapping id="login" parentId="home">
+		<pattern value="login"/>
+		<view-id value="/faces/login.xhtml"/>
+	</url-mapping>
+	<url-mapping id="signup" parentId="home">
+		<pattern value="signup"/>
+		<view-id value="/faces/signup.xhtml"/>
+	</url-mapping>
+	<url-mapping id="passwordRecovery" parentId="home">
+		<pattern value="passwordRecovery"/>
+		<view-id value="/faces/passwordRecovery.xhtml"/>
+	</url-mapping>
+	<url-mapping id="analysis" parentId="home">
+		<pattern value="analysis"/>
+		<view-id value="/faces/user/analysis/list.xhtml"/>
+	</url-mapping>
+	<url-mapping id="analysisSend" parentId="analysis">
+		<pattern value="/send"/>
+		<view-id value="/faces/user/analysis/send.xhtml"/>
+	</url-mapping>
+	<url-mapping id="userFiles" parentId="analysis">
+		<pattern value="/files"/>
+		<view-id value="/faces/user/analysis/files/upload.xhtml"/>
+	</url-mapping>
+	<url-mapping id="analysisDetail" parentId="analysis">
+		<pattern value="/#{ id }"/>
+		<view-id value="/faces/user/analysis/detail.xhtml"/>
+	</url-mapping>
+	<url-mapping id="userFilesDetail" parentId="userFiles">
+		<pattern value="/#{ id }"/>
+		<view-id value="/faces/user/analysis/files/detail.xhtml"/>
+	</url-mapping>
+	<url-mapping id="userConfiguration" parentId="home">
+		<pattern value="configuration"/>
+		<view-id value="/faces/user/configuration.xhtml"/>
+	</url-mapping>
+	<url-mapping id="admin" parentId="home">
+		<pattern value="admin"/>
+		<view-id value="/faces/admin/index.xhtml"/>
+	</url-mapping>
+	<url-mapping id="users" parentId="admin">
+		<pattern value="/users"/>
+		<view-id value="/faces/admin/users/list.xhtml"/>
+	</url-mapping>
+	<url-mapping id="userDetail" parentId="users">
+		<pattern value="/#{ id }"/>
+		<view-id value="/faces/admin/users/detail.xhtml"/>
+	</url-mapping>
+	<url-mapping id="allAnalysis" parentId="admin">
+		<pattern value="/analysis"/>
+		<view-id value="/faces/admin/analysis/list.xhtml"/>
+	</url-mapping>
+	<url-mapping id="adminAnalysisDetail" parentId="allAnalysis">
+		<pattern value="/#{ id }"/>
+		<view-id value="/faces/admin/analysis/detail.xhtml"/>
+	</url-mapping>
+	<url-mapping id="adminConfiguration" parentId="admin">
+		<pattern value="/configuration"/>
+		<view-id value="/faces/admin/configuration.xhtml"/>
+	</url-mapping>
+</pretty-config>

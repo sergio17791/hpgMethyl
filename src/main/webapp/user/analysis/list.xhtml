@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:components="http://java.sun.com/jsf/composite/components"
+                template="../../WEB-INF/templates/mainTemplate.xhtml">
+    <ui:define name="content">
+    	<f:event type="preRenderView" listener="#{listUserAnalysis.loadAnalysisList}"/>
+    	<b:row>
+        	<b:column col-xs="6">
+            	<legend><h:outputText value="#{msg['analysis.list.legend']}"/></legend>      
+            </b:column>
+            <b:column col-xs="6" col-sm="3" offset-sm="3">
+            	<b:link value="#{msg['analysis.send.newRequest']}" 
+	    				outcome="pretty:analysisSend"
+	    				iconAwesome="plus-circle" 
+	  					look="success"/>   
+            </b:column>                  
+        </b:row>
+    	<b:dataTable value="#{listUserAnalysis.analysisRequestLists}" 
+    				 var="analysisRequest"
+    				 responsive="true"
+    				 select="false"
+    				 searching="true"
+    				 mark-search-results="true"
+           	   		 page-length-menu="5,10,20,50"
+    				 custom-lang-url="#{listUserAnalysis.customLanguageTranslation()}">
+    		<b:dataTableColumn value="#{analysisRequest.identifier}" 
+    						   label="#{msg['analysis.attribute.identifier']}"/>
+	    	<b:dataTableColumn label="#{msg['analysis.list.column.files']}">
+				<h:outputText value="#{analysisRequest.inputReadFile}"/>
+				<br/>
+				<h:outputText value="#{analysisRequest.pairedEndModeFile}"/>		    					
+			</b:dataTableColumn>	    						  
+			<b:dataTableColumn value="#{msg['analysis.attribute.pairedMode.' += analysisRequest.pairedMode]}"
+	    					   label="#{msg['analysis.attribute.pairedMode']}"/>	    						   
+	    	<b:dataTableColumn value="#{msg['analysis.attribute.status.' += analysisRequest.status]}"
+	    					   label="#{msg['analysis.attribute.status']}"/>
+	    	<b:dataTableColumn value="#{analysisRequest.number}"
+	    					   label="#{msg['analysis.attribute.number']}"
+	    					   order="desc"/>
+	    	<b:dataTableColumn label=""
+	    					   searchable="false"
+	    					   orderable="false">
+	    		<b:link value="#{msg['general.list.button.detail']}" 
+	    				outcome="pretty:analysisDetail"
+	    				iconAwesome="arrow-right" 
+	  					look="info">
+	  				<f:param name="id" value="#{analysisRequest.id}"/>
+	  			</b:link>
+	    	</b:dataTableColumn>
+  		</b:dataTable>
+    </ui:define>
+</ui:composition>

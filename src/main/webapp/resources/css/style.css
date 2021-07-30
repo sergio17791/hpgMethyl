@@ -1,0 +1,159 @@
+.pf,
+.pf * {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+.nest-bf-in-pf .form-group {
+    margin-bottom:0px;
+}
+
+html{
+    height: 100% !important;
+    width: 100% !important;
+}
+
+body{
+    height: 100% !important;
+    width: 100% !important;
+    background-color: #DCDCDC !important;
+    padding-top: 50px; 
+}
+
+.content {
+    min-height: 95%;
+    display: flex;
+    flex-direction: column;
+    background-color: white !important;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    overflow: auto;
+}
+
+#defaultPage {
+    text-align: center !important;
+}
+
+.errorMessage {
+	height: 34px;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	flex-direction: column;
+}
+
+.navBarImg {
+	max-width:100%;
+	max-height:100%;
+	height: auto;
+	margin-right: 5px !important;
+	vertical-align: middle !important;
+}
+
+@media only screen and (max-width : 991.5px) {
+    .errorMessageWithTopLabel {
+        height: 34px;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 992px) {
+    .errorMessageWithTopLabel {
+        margin-top: 25px;
+        height: 34px;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-direction: column;
+    }
+}
+
+div.dashboardCard {
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-content: center;
+	padding: 10px;
+	margin: 10px;
+	text-align:center;
+	font-weight: bold;
+    font-size: x-large;
+}
+
+div.booleanColumn {
+    margin-top: 25px;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+div.contactColumn{
+    padding-right: 5% !important;
+    padding-left: 5% !important;
+    margin-bottom: 3% !important;
+}
+
+div.jumbotronContainer {
+	margin-top: -15px !important;
+	margin-right: -15px !important;
+	margin-left: -15px !important;
+	border-bottom-right-radius: 0px !important;
+	border-bottom-left-radius: 0px !important;
+	border-top-right-radius: 0px !important;
+	border-top-left-radius: 0px !important;
+}
+
+div.thumbnail {
+	padding: 5% !important;
+}
+
+div.centered {
+    text-align: center;
+}
+
+div.iconLink a:link {
+	color: #000000; 
+}
+
+div.iconLink a:visited {
+	color: #000000; 
+}
+
+div.iconLink a:hover {
+	color: #000000; 
+}
+
+div.iconLink a:active {
+	color: #000000;
+}
+
+footer {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: center;
+	background-color: #404040;
+	color: #FFFFFF;
+	height: 5% !important;
+	min-height: 40px;
+}
+
+footer a:link {
+	color: #FFFFFF; 
+}
+
+footer a:visited {
+	color: #FFFFFF; 
+}
+
+footer a:hover {
+	color: #FFFFFF; 
+}
+
+footer a:active {
+	color: #FFFFFF;
+}
