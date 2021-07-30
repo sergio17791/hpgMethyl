@@ -17,6 +17,7 @@
 		<composite:attribute name="colMdSize" required="false" default="6" type="java.lang.Integer"/>
 		<composite:attribute name="colOffsetMd" required="false" default="0" type="java.lang.Integer"/>
 		<composite:attribute name="disabled" required="false" default="false" type="java.lang.Boolean"/>
+		<composite:attribute name="step" required="false" default="1"/>
 	</composite:interface>
     <composite:implementation>
 		<b:column col-md="#{cc.attrs.colMdSize}" offset-md="#{cc.attrs.colOffsetMd}">
@@ -25,6 +26,7 @@
 		               	 styleClass ="form-control-plaintext"
 		                 label ="#{cc.attrs.label}" 
 		                 a:type ="#{cc.attrs.type}"
+		                 a:step ="#{cc.attrs.step}"
 			             required="#{cc.attrs.required}"
 			             disabled="#{cc.attrs.disabled}">
 				<b:focus rendered="#{cc.attrs.focus}"/>
