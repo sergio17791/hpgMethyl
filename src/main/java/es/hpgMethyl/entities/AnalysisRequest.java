@@ -48,10 +48,10 @@ public class AnalysisRequest extends BaseEntity {
 	private HPGMethylFile pairedEndModeFile;
 	
 	@Column(name = "paired_max_distance", nullable = true)
-	private BigDecimal pairedMaxDistance;
+	private Integer pairedMaxDistance;
 	
 	@Column(name = "paired_min_distance", nullable = true)
-	private BigDecimal pairedMinDistance;
+	private Integer pairedMinDistance;
 	
 	@Column(name = "swa_minimun_score", nullable = true)
 	private BigDecimal swaMinimunScore;
@@ -69,40 +69,40 @@ public class AnalysisRequest extends BaseEntity {
 	private BigDecimal swaGapExtend;
 	
 	@Column(name = "cal_flank_size", nullable = true)
-	private BigDecimal calFlankSize;
+	private Integer calFlankSize;
 	
 	@Column(name = "minimum_cal_size", nullable = true)
-	private BigDecimal minimumCalSize;
+	private Integer minimumCalSize;
 	
 	@Column(name = "cal_umbral_length_factor", nullable = true)
 	private BigDecimal calUmbralLengthFactor;
 	
 	@Column(name = "maximum_between_seeds", nullable = true)
-	private BigDecimal maximumBetweenSeeds;
+	private Integer maximumBetweenSeeds;
 	
 	@Column(name = "maximum_seed_size", nullable = true)
-	private BigDecimal maximumSeedSize;
+	private Integer maximumSeedSize;
 	
 	@Column(name = "minimum_seed_size", nullable = true)
-	private BigDecimal minimumSeedSize;
+	private Integer minimumSeedSize;
 	
 	@Column(name = "number_seeds_per_read", nullable = true)
-	private BigDecimal numberSeedsPerRead;
+	private Integer numberSeedsPerRead;
 	
 	@Column(name = "read_minimum_discard_length", nullable = true)
-	private BigDecimal readMinimumDiscardLength;
+	private Integer readMinimumDiscardLength;
 	
 	@Column(name = "read_maximum_inner_gap", nullable = true)
-	private BigDecimal readMaximumInnerGap;
+	private Integer readMaximumInnerGap;
 	
 	@Column(name = "minimum_number_seeds", nullable = true)
-	private BigDecimal minimumNumberSeeds;
+	private Integer minimumNumberSeeds;
 	
 	@Column(name = "filter_read_mappings", nullable = true)
-	private BigDecimal filterReadMappings;
+	private Integer filterReadMappings;
 	
 	@Column(name = "filter_seed_mappings", nullable = true)
-	private BigDecimal filterSeedMappings;
+	private Integer filterSeedMappings;
 	
 	@Column(name = "report_all", nullable = false)
 	private Boolean reportAll;
@@ -111,10 +111,10 @@ public class AnalysisRequest extends BaseEntity {
 	private Boolean reportBest;
 	
 	@Column(name = "report_n_best", nullable = true)
-	private BigDecimal reportNBest;
+	private Integer reportNBest;
 	
 	@Column(name = "report_n_hits", nullable = true)
-	private BigDecimal reportNHits;
+	private Integer reportNHits;
 	
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "analysis_number_sequence")
 	@Column(name = "number", unique = true, nullable = false, insertable = false, updatable = false)
@@ -139,29 +139,29 @@ public class AnalysisRequest extends BaseEntity {
 			Boolean writeMethylationContext,
 			PairedMode pairedMode, 
 			HPGMethylFile pairedEndModeFile,
-			BigDecimal pairedMaxDistance, 
-			BigDecimal pairedMinDistance, 
+			Integer pairedMaxDistance, 
+			Integer pairedMinDistance, 
 			BigDecimal swaMinimunScore,
 			BigDecimal swaMatchScore, 
 			BigDecimal swaMismatchScore, 
 			BigDecimal swaGapOpen, 
 			BigDecimal swaGapExtend,
-			BigDecimal calFlankSize, 
-			BigDecimal minimumCalSize, 
+			Integer calFlankSize, 
+			Integer minimumCalSize, 
 			BigDecimal calUmbralLengthFactor,
-			BigDecimal maximumBetweenSeeds, 
-			BigDecimal maximumSeedSize, 
-			BigDecimal minimumSeedSize,
-			BigDecimal numberSeedsPerRead, 
-			BigDecimal readMinimumDiscardLength, 
-			BigDecimal readMaximumInnerGap,
-			BigDecimal minimumNumberSeeds, 
-			BigDecimal filterReadMappings,
-			BigDecimal filterSeedMappings, 
+			Integer maximumBetweenSeeds, 
+			Integer maximumSeedSize, 
+			Integer minimumSeedSize,
+			Integer numberSeedsPerRead, 
+			Integer readMinimumDiscardLength, 
+			Integer readMaximumInnerGap,
+			Integer minimumNumberSeeds, 
+			Integer filterReadMappings,
+			Integer filterSeedMappings, 
 			Boolean reportAll, 
 			Boolean reportBest, 
-			BigDecimal reportNBest,
-			BigDecimal reportNHits,
+			Integer reportNBest,
+			Integer reportNHits,
 			Integer number
 	) {
 		super(id, createdAt, updatedAt);
@@ -299,28 +299,28 @@ public class AnalysisRequest extends BaseEntity {
 	/**
 	 * @return the pairedMaxDistance
 	 */
-	public BigDecimal getPairedMaxDistance() {
+	public Integer getPairedMaxDistance() {
 		return pairedMaxDistance;
 	}
 
 	/**
 	 * @param pairedMaxDistance the pairedMaxDistance to set
 	 */
-	public void setPairedMaxDistance(BigDecimal pairedMaxDistance) {
+	public void setPairedMaxDistance(Integer pairedMaxDistance) {
 		this.pairedMaxDistance = pairedMaxDistance;
 	}
 
 	/**
 	 * @return the pairedMinDistance
 	 */
-	public BigDecimal getPairedMinDistance() {
+	public Integer getPairedMinDistance() {
 		return pairedMinDistance;
 	}
 
 	/**
 	 * @param pairedMinDistance the pairedMinDistance to set
 	 */
-	public void setPairedMinDistance(BigDecimal pairedMinDistance) {
+	public void setPairedMinDistance(Integer pairedMinDistance) {
 		this.pairedMinDistance = pairedMinDistance;
 	}
 
@@ -397,28 +397,28 @@ public class AnalysisRequest extends BaseEntity {
 	/**
 	 * @return the calFlankSize
 	 */
-	public BigDecimal getCalFlankSize() {
+	public Integer getCalFlankSize() {
 		return calFlankSize;
 	}
 
 	/**
 	 * @param calFlankSize the calFlankSize to set
 	 */
-	public void setCalFlankSize(BigDecimal calFlankSize) {
+	public void setCalFlankSize(Integer calFlankSize) {
 		this.calFlankSize = calFlankSize;
 	}
 
 	/**
 	 * @return the minimumCalSize
 	 */
-	public BigDecimal getMinimumCalSize() {
+	public Integer getMinimumCalSize() {
 		return minimumCalSize;
 	}
 
 	/**
 	 * @param minimumCalSize the minimumCalSize to set
 	 */
-	public void setMinimumCalSize(BigDecimal minimumCalSize) {
+	public void setMinimumCalSize(Integer minimumCalSize) {
 		this.minimumCalSize = minimumCalSize;
 	}
 
@@ -439,126 +439,126 @@ public class AnalysisRequest extends BaseEntity {
 	/**
 	 * @return the maximumBetweenSeeds
 	 */
-	public BigDecimal getMaximumBetweenSeeds() {
+	public Integer getMaximumBetweenSeeds() {
 		return maximumBetweenSeeds;
 	}
 
 	/**
 	 * @param maximumBetweenSeeds the maximumBetweenSeeds to set
 	 */
-	public void setMaximumBetweenSeeds(BigDecimal maximumBetweenSeeds) {
+	public void setMaximumBetweenSeeds(Integer maximumBetweenSeeds) {
 		this.maximumBetweenSeeds = maximumBetweenSeeds;
 	}
 
 	/**
 	 * @return the maximumSeedSize
 	 */
-	public BigDecimal getMaximumSeedSize() {
+	public Integer getMaximumSeedSize() {
 		return maximumSeedSize;
 	}
 
 	/**
 	 * @param maximumSeedSize the maximumSeedSize to set
 	 */
-	public void setMaximumSeedSize(BigDecimal maximumSeedSize) {
+	public void setMaximumSeedSize(Integer maximumSeedSize) {
 		this.maximumSeedSize = maximumSeedSize;
 	}
 
 	/**
 	 * @return the minimumSeedSize
 	 */
-	public BigDecimal getMinimumSeedSize() {
+	public Integer getMinimumSeedSize() {
 		return minimumSeedSize;
 	}
 
 	/**
 	 * @param minimumSeedSize the minimumSeedSize to set
 	 */
-	public void setMinimumSeedSize(BigDecimal minimumSeedSize) {
+	public void setMinimumSeedSize(Integer minimumSeedSize) {
 		this.minimumSeedSize = minimumSeedSize;
 	}
 
 	/**
 	 * @return the numberSeedsPerRead
 	 */
-	public BigDecimal getNumberSeedsPerRead() {
+	public Integer getNumberSeedsPerRead() {
 		return numberSeedsPerRead;
 	}
 
 	/**
 	 * @param numberSeedsPerRead the numberSeedsPerRead to set
 	 */
-	public void setNumberSeedsPerRead(BigDecimal numberSeedsPerRead) {
+	public void setNumberSeedsPerRead(Integer numberSeedsPerRead) {
 		this.numberSeedsPerRead = numberSeedsPerRead;
 	}
 
 	/**
 	 * @return the readMinimumDiscardLength
 	 */
-	public BigDecimal getReadMinimumDiscardLength() {
+	public Integer getReadMinimumDiscardLength() {
 		return readMinimumDiscardLength;
 	}
 
 	/**
 	 * @param readMinimumDiscardLength the readMinimumDiscardLength to set
 	 */
-	public void setReadMinimumDiscardLength(BigDecimal readMinimumDiscardLength) {
+	public void setReadMinimumDiscardLength(Integer readMinimumDiscardLength) {
 		this.readMinimumDiscardLength = readMinimumDiscardLength;
 	}
 
 	/**
 	 * @return the readMaximumInnerGap
 	 */
-	public BigDecimal getReadMaximumInnerGap() {
+	public Integer getReadMaximumInnerGap() {
 		return readMaximumInnerGap;
 	}
 
 	/**
 	 * @param readMaximumInnerGap the readMaximumInnerGap to set
 	 */
-	public void setReadMaximumInnerGap(BigDecimal readMaximumInnerGap) {
+	public void setReadMaximumInnerGap(Integer readMaximumInnerGap) {
 		this.readMaximumInnerGap = readMaximumInnerGap;
 	}
 
 	/**
 	 * @return the minimumNumberSeeds
 	 */
-	public BigDecimal getMinimumNumberSeeds() {
+	public Integer getMinimumNumberSeeds() {
 		return minimumNumberSeeds;
 	}
 
 	/**
 	 * @param minimumNumberSeeds the minimumNumberSeeds to set
 	 */
-	public void setMinimumNumberSeeds(BigDecimal minimumNumberSeeds) {
+	public void setMinimumNumberSeeds(Integer minimumNumberSeeds) {
 		this.minimumNumberSeeds = minimumNumberSeeds;
 	}
 
 	/**
 	 * @return the filterReadMappings
 	 */
-	public BigDecimal getFilterReadMappings() {
+	public Integer getFilterReadMappings() {
 		return filterReadMappings;
 	}
 
 	/**
 	 * @param filterReadMappings the filterReadMappings to set
 	 */
-	public void setFilterReadMappings(BigDecimal filterReadMappings) {
+	public void setFilterReadMappings(Integer filterReadMappings) {
 		this.filterReadMappings = filterReadMappings;
 	}
 
 	/**
 	 * @return the filterSeedMappings
 	 */
-	public BigDecimal getFilterSeedMappings() {
+	public Integer getFilterSeedMappings() {
 		return filterSeedMappings;
 	}
 
 	/**
 	 * @param filterSeedMappings the filterSeedMappings to set
 	 */
-	public void setFilterSeedMappings(BigDecimal filterSeedMappings) {
+	public void setFilterSeedMappings(Integer filterSeedMappings) {
 		this.filterSeedMappings = filterSeedMappings;
 	}
 
@@ -593,28 +593,28 @@ public class AnalysisRequest extends BaseEntity {
 	/**
 	 * @return the reportNBest
 	 */
-	public BigDecimal getReportNBest() {
+	public Integer getReportNBest() {
 		return reportNBest;
 	}
 
 	/**
 	 * @param reportNBest the reportNBest to set
 	 */
-	public void setReportNBest(BigDecimal reportNBest) {
+	public void setReportNBest(Integer reportNBest) {
 		this.reportNBest = reportNBest;
 	}
 
 	/**
 	 * @return the reportNHits
 	 */
-	public BigDecimal getReportNHits() {
+	public Integer getReportNHits() {
 		return reportNHits;
 	}
 
 	/**
 	 * @param reportNHits the reportNHits to set
 	 */
-	public void setReportNHits(BigDecimal reportNHits) {
+	public void setReportNHits(Integer reportNHits) {
 		this.reportNHits = reportNHits;
 	}
 	
