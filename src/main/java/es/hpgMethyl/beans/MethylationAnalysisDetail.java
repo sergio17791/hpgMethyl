@@ -1,28 +1,44 @@
   package es.hpgMethyl.beans;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
 import es.hpgMethyl.dao.hibernate.AnalysisRequestDAOHibernate;
+import es.hpgMethyl.dao.hibernate.AnalysisResultDAOHibernate;
 import es.hpgMethyl.dao.hibernate.HPGMethylFileDAOHibernate;
 import es.hpgMethyl.entities.AnalysisRequest;
+import es.hpgMethyl.entities.AnalysisResult;
 import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.AnalysisRequestNotFound;
 import es.hpgMethyl.exceptions.AnalysisRequestProcessed;
+import es.hpgMethyl.exceptions.AnalysisResultNotFound;
 import es.hpgMethyl.exceptions.DuplicatedIdentifier;
 import es.hpgMethyl.exceptions.FileNotFound;
 import es.hpgMethyl.exceptions.GetObjectException;
 import es.hpgMethyl.exceptions.UpdateFileException;
 import es.hpgMethyl.exceptions.UpdateMethylationAnalysisException;
+import es.hpgMethyl.services.HPGMethylProcessor;
+import es.hpgMethyl.types.AnalysisStatus;
 import es.hpgMethyl.types.PairedMode;
 import es.hpgMethyl.types.UserRole;
 import es.hpgMethyl.usecases.analysis.GetMethylationAnalysis.GetMethylationAnalysis;
@@ -34,6 +50,8 @@ import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisParameters.Update
 import es.hpgMethyl.usecases.analysis.UpdateMethylationAnalysisParameters.UpdateMethylationAnalysisParametersRequest;
 import es.hpgMethyl.usecases.file.UnstoreFile.UnstoreFile;
 import es.hpgMethyl.usecases.file.UnstoreFile.UnstoreFileRequest;
+import es.hpgMethyl.usecases.result.GetMethylationAnalysisResult.GetMethylationAnalysisResult;
+import es.hpgMethyl.usecases.result.GetMethylationAnalysisResult.GetMethylationAnalysisResultRequest;
 import es.hpgMethyl.utils.FacesContextUtils;
 import es.hpgMethyl.utils.FileUtils;
 
@@ -45,11 +63,18 @@ public class MethylationAnalysisDetail implements Serializable {
 
 	private String id;	
 	private AnalysisRequest analysisRequest;
+	private AnalysisResult analysisResult;
+	private Boolean downloaded;
+	private StreamedContent file;
 	private UIComponent updateAnalysisParametersComponent;
+	private UIComponent downloadButtonComponent;
 		
 	public MethylationAnalysisDetail() {
 		this.id = null;
 		this.analysisRequest = null;
+		this.analysisResult = null;
+		this.downloaded = Boolean.FALSE;
+		this.file = new DefaultStreamedContent();;
 	}
 
 	/**
@@ -81,6 +106,48 @@ public class MethylationAnalysisDetail implements Serializable {
 	}
 
 	/**
+	 * @return the analysisResult
+	 */
+	public AnalysisResult getAnalysisResult() {
+		return analysisResult;
+	}
+
+	/**
+	 * @param analysisResult the analysisResult to set
+	 */
+	public void setAnalysisResult(AnalysisResult analysisResult) {
+		this.analysisResult = analysisResult;
+	}
+
+	/**
+	 * @return the downloaded
+	 */
+	public Boolean getDownloaded() {
+		return downloaded;
+	}
+
+	/**
+	 * @param downloaded the downloaded to set
+	 */
+	public void setDownloaded(Boolean downloaded) {
+		this.downloaded = downloaded;
+	}
+
+	/**
+	 * @return the file
+	 */
+	public StreamedContent getFile() {
+		return file;
+	}
+
+	/**
+	 * @param file the file to set
+	 */
+	public void setFile(StreamedContent file) {
+		this.file = file;
+	}
+
+	/**
 	 * @return the updateAnalysisParametersComponent
 	 */
 	public UIComponent getUpdateAnalysisParametersComponent() {
@@ -92,6 +159,20 @@ public class MethylationAnalysisDetail implements Serializable {
 	 */
 	public void setUpdateAnalysisParametersComponent(UIComponent updateAnalysisParametersComponent) {
 		this.updateAnalysisParametersComponent = updateAnalysisParametersComponent;
+	}
+
+	/**
+	 * @return the downloadButtonComponent
+	 */
+	public UIComponent getDownloadButtonComponent() {
+		return downloadButtonComponent;
+	}
+
+	/**
+	 * @param downloadButtonComponent the downloadButtonComponent to set
+	 */
+	public void setDownloadButtonComponent(UIComponent downloadButtonComponent) {
+		this.downloadButtonComponent = downloadButtonComponent;
 	}
 
 	/**
@@ -124,14 +205,16 @@ public class MethylationAnalysisDetail implements Serializable {
 				
 				if(user.getRole() == UserRole.USER && !this.analysisRequest.getUser().getId().equals(user.getId())) {
 					return "pretty:home";
-				}				
+				}	
+				
+				AnalysisStatus status = analysisRequest.getStatus();
 					
 				AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
 				analysisRequestBean.setId(analysisRequest.getId());
 				analysisRequestBean.setUser(analysisRequest.getUser());
 				analysisRequestBean.setIdentifier(analysisRequest.getIdentifier());
 				analysisRequestBean.setInputReadFile(analysisRequest.getInputReadFile());
-				analysisRequestBean.setStatus(analysisRequest.getStatus());
+				analysisRequestBean.setStatus(status);
 				analysisRequestBean.setPairedMode(analysisRequest.getPairedMode());
 				analysisRequestBean.setWriteMethylationContext(analysisRequest.getWriteMethylationContext());
 				analysisRequestBean.setPairedEndModeFile(analysisRequest.getPairedEndModeFile());
@@ -162,8 +245,23 @@ public class MethylationAnalysisDetail implements Serializable {
 				analysisRequestBean.setCreatedAt(analysisRequest.getCreatedAt());
 				analysisRequestBean.setUpdatedAt(analysisRequest.getUpdatedAt());
 				
-				analysisRequestBean.loadUserFiles();
-				
+				if(status.equals(AnalysisStatus.CREATED)) {
+					analysisRequestBean.loadUserFiles();
+				} else if(status.equals(AnalysisStatus.COMPLETED)) {
+					try {
+						this.analysisResult = new GetMethylationAnalysisResult(new AnalysisResultDAOHibernate()).execute(
+								new GetMethylationAnalysisResultRequest(analysisRequest)
+						).getAnalysisResult();
+						
+						this.downloaded = !analysisResult.getResultFile().getStored();
+			
+						this.file = buildDownloadFile(analysisResult.getResultFile());																	
+						
+					} catch (AnalysisResultNotFound | FileNotFoundException e) {
+						
+					}
+				}
+								
 			} catch (AnalysisRequestNotFound | GetObjectException e) {
 				return "pretty:home";
 			}						
@@ -200,11 +298,13 @@ public class MethylationAnalysisDetail implements Serializable {
 			}
 		}
 		
+		String normalizedIdentifier = analysisRequestBean.getIdentifier().trim().replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
+		
 		try {
 			new UpdateMethylationAnalysisParameters(new AnalysisRequestDAOHibernate()).execute(
 					new UpdateMethylationAnalysisParametersRequest(
 						UUID.fromString(this.id),
-						analysisRequestBean.getIdentifier(),
+						normalizedIdentifier,
 						inputReadFile,
 						analysisRequestBean.getWriteMethylationContext(), 
 						analysisRequestBean.getPairedMode(),
@@ -251,13 +351,32 @@ public class MethylationAnalysisDetail implements Serializable {
 		} catch (AnalysisRequestNotFound | AnalysisRequestProcessed | UpdateMethylationAnalysisException e) {
 			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.updateAnalysisParametersComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
-		} catch (FileNotFound | IOException | UpdateFileException e) {
+		} catch (FileNotFound | UpdateFileException e) {
 			String defaultErrorMessage = FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.updateAnalysisParametersComponent, FacesMessage.SEVERITY_ERROR, defaultErrorMessage, defaultErrorMessage);
 		} 
 	}
 	
-	private void removeFile(HPGMethylFile file) throws FileNotFound, UpdateFileException, IOException {
+	public void downloadFile() {
+		
+		HPGMethylFile file = analysisResult.getResultFile();
+		
+		try {
+			new UnstoreFile(new HPGMethylFileDAOHibernate()).execute(
+					new UnstoreFileRequest(file.getId())
+			);
+			
+			this.downloaded = Boolean.TRUE;
+			
+			FileUtils.delete(file.getPath());
+			
+		} catch (FileNotFound | UpdateFileException e) {
+			String errorDefault = FacesContextUtils.geti18nMessage("error.default");
+			FacesContextUtils.setMessageInComponent(this.getDownloadButtonComponent(), FacesMessage.SEVERITY_ERROR, errorDefault, errorDefault);
+		} 
+	}
+	
+	private void removeFile(HPGMethylFile file) throws FileNotFound, UpdateFileException {
 		
 		if(file != null) {
 			List<AnalysisRequest> analysisWithFile = new ListPendingMethylationAnalysis(new AnalysisRequestDAOHibernate()).execute(
@@ -269,8 +388,38 @@ public class MethylationAnalysisDetail implements Serializable {
 						new UnstoreFileRequest(file.getId())
 				);
 						
-				FileUtils.deleteFile(file.getPath());					
+				FileUtils.delete(file.getPath());					
 			}
 		}		
+	}
+	
+	private StreamedContent buildDownloadFile(HPGMethylFile resultFile) throws FileNotFoundException {
+		
+		StreamedContent download = new DefaultStreamedContent();
+		
+		if(resultFile.getStored()) {
+			
+			download = DefaultStreamedContent.builder()
+					.name(resultFile.getFileName())
+					.contentType(resultFile.getContentType()).stream(
+							() -> { 
+								try {
+									return new FileInputStream(new File(resultFile.getPath())) {
+									    @Override
+									    public void close() throws IOException {
+									        super.close();
+									        downloadFile();   
+									    }
+									};
+	                            } catch (FileNotFoundException e) {
+	                                e.printStackTrace();
+	                            }
+								
+								return null;
+							}
+					).build();
+		}	
+		
+		return download;
 	}
 }

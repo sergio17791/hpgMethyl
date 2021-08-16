@@ -76,6 +76,8 @@ public class HPGMethylFileDAOHibernate extends BaseDAOHibernate<HPGMethylFile, U
 				predicates.add(criteriaBuilder.equal(root.get("stored"), stored));
 			}
 			
+			predicates.add(criteriaBuilder.equal(root.get("uploaded"), true));
+			
 			if(!predicates.isEmpty()) {
 				criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
 			}

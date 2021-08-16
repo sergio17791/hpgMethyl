@@ -1,6 +1,5 @@
 package es.hpgMethyl.beans;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -156,9 +155,9 @@ public class FileDetail implements Serializable {
 					new UnstoreFileRequest(file.getId())
 			);
 				
-			FileUtils.deleteFile(file.getPath());
+			FileUtils.delete(file.getPath());
 				
-		} catch (FileNotFound | UpdateFileException | IOException e) {
+		} catch (FileNotFound | UpdateFileException e) {
 			String defaultError = FacesContextUtils.geti18nMessage("error.default");
 			FacesContextUtils.setMessageInComponent(this.getDeleteComponent(), FacesMessage.SEVERITY_ERROR, defaultError, defaultError);
 			return null;

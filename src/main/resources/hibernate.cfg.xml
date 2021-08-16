@@ -11,5 +11,6 @@
         <mapping class="es.hpgMethyl.entities.AnalysisRequest"/>
         <mapping class="es.hpgMethyl.entities.HPGMethylFile"/>
         <mapping class="es.hpgMethyl.entities.Configuration"/>
+        <mapping class="es.hpgMethyl.entities.AnalysisResult"/>
     </session-factory>
 </hibernate-configuration>

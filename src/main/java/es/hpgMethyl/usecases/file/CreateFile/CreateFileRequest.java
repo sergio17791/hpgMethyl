@@ -13,13 +13,16 @@ public class CreateFileRequest {
 	private Long size;
 	
 	private String contentType;
+	
+	private Boolean uploaded;
 
-	public CreateFileRequest(User user, String fileName, String path, Long size, String contentType) {
+	public CreateFileRequest(User user, String fileName, String path, Long size, String contentType, Boolean uploaded) {
 		this.user = user;
 		this.fileName = fileName;
 		this.path = path;
 		this.size = size;
-		this.contentType = contentType;
+		this.contentType = contentType;	
+		this.uploaded = uploaded;
 	}
 
 	/**
@@ -91,4 +94,18 @@ public class CreateFileRequest {
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
 	}
+
+	/**
+	 * @return the uploaded
+	 */
+	public Boolean getUploaded() {
+		return uploaded;
+	}
+
+	/**
+	 * @param uploaded the uploaded to set
+	 */
+	public void setUploaded(Boolean uploaded) {
+		this.uploaded = uploaded;
+	}		
 }

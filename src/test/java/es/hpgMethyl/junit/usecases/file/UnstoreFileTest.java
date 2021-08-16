@@ -41,6 +41,7 @@ public class UnstoreFileTest {
 				"/data/user/eea47a62-cdd3-44a9-b5b1-72836c8afe56/test_4M_200nt_n3_r010.bwa.read1.fastq_convert.fastq",
 				Long.valueOf(1234),
 				"fastq",
+				Boolean.TRUE,
 				Boolean.TRUE
 		);
 	}		
