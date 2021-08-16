@@ -59,7 +59,7 @@ public class UpdateMethylationAnalysisStatusTest {
 				new BigDecimal("4"),
 				100,
 				23,
-				16,
+				6,
 				10,
 				100,
 				-1,
