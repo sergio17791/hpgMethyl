@@ -26,6 +26,20 @@
     	<url-pattern>/*</url-pattern>
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
+	<filter>
+    	<display-name>GuestFilter</display-name>
+    	<filter-name>GuestFilter</filter-name>
+    	<filter-class>es.hpgMethyl.filters.GuestFilter</filter-class>
+    </filter>
+    <filter-mapping>
+    	<filter-name>GuestFilter</filter-name>
+    	<url-pattern>/faces/login.xhtml</url-pattern>
+    	<url-pattern>/login</url-pattern>
+    	<url-pattern>/faces/signup.xhtml</url-pattern>
+    	<url-pattern>/signup</url-pattern>
+    	<url-pattern>/faces/passwordRecovery.xhtml</url-pattern>
+    	<url-pattern>/passwordRecovery</url-pattern>
+    </filter-mapping>
     <filter>
     	<display-name>LoginFilter</display-name>
     	<filter-name>LoginFilter</filter-name>
