@@ -129,7 +129,28 @@ public class HPGMethylProcessor extends Thread {
 					HPGMethylResultReader resultReader = new HPGMethylResultReader(outputDirectory + "/log.txt");
 					
 					new CreateMehtylationResult(new AnalysisResultDAOHibernate()).execute(
-							new CreateMehtylationResultRequest(analysisRequest, resultFile)
+							new CreateMehtylationResultRequest(
+									analysisRequest, 
+									resultFile,
+									resultReader.getTotalNumberCAnalysed(),
+									resultReader.getTotalMethylatedCCPGContext(),
+									resultReader.getTotalMethylatedCCHGContext(),
+									resultReader.getTotalMethylatedCCHHContext(),
+									resultReader.getTotalCToTConversionsCPGContext(),
+									resultReader.getTotalCToTConversionsCHGContext(),
+									resultReader.getTotalCToTConversionsCHHContex(),
+									resultReader.getcMethylatedCPGContext(),
+									resultReader.getcMethylatedCHGContext(),
+									resultReader.getcMethylatedCHHContext(),
+									resultReader.getLoadingTime(),
+									resultReader.getAligmentTime(),
+									resultReader.getTotalTime(),
+									resultReader.getTotalReadsProcessed(),
+									resultReader.getReadsMapped(),
+									resultReader.getTotalReadsMapped(),
+									resultReader.getReadsUnmapped(),
+									resultReader.getTotalReadsUnmapped()
+							)
 					);
 					
 					FileUtils.delete(outputDirectory);

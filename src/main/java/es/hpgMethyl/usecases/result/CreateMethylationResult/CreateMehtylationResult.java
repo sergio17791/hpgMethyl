@@ -26,6 +26,24 @@ public class CreateMehtylationResult {
 		AnalysisResult result = new AnalysisResult();
 		result.setAnalysisRequest(analysisRequest);
 		result.setResultFile(request.getResultFile());
+		result.setTotalNumberCAnalysed(request.getTotalNumberCAnalysed());
+		result.setTotalMethylatedCCPGContext(request.getTotalMethylatedCCPGContext());
+		result.setTotalMethylatedCCHGContext(request.getTotalMethylatedCCHGContext());
+		result.setTotalMethylatedCCHHContext(request.getTotalMethylatedCCHHContext());
+		result.setTotalCToTConversionsCPGContext(request.getTotalCToTConversionsCPGContext());
+		result.setTotalCToTConversionsCHGContext(request.getTotalCToTConversionsCHGContext());
+		result.setTotalCToTConversionsCHHContex(request.getTotalCToTConversionsCHHContex());
+		result.setcMethylatedCPGContext(request.getcMethylatedCPGContext());
+		result.setcMethylatedCHGContext(request.getcMethylatedCHGContext());
+		result.setcMethylatedCHHContext(request.getcMethylatedCHHContext());
+		result.setLoadingTime(request.getLoadingTime());
+		result.setAligmentTime(request.getAligmentTime());
+		result.setTotalTime(request.getTotalTime());
+		result.setTotalReadsProcessed(request.getTotalReadsProcessed());
+		result.setReadsMapped(request.getReadsMapped());
+		result.setTotalReadsMapped(request.getTotalReadsMapped());
+		result.setReadsUnmapped(request.getReadsUnmapped());
+		result.setTotalReadsUnmapped(request.getTotalReadsUnmapped());
 		
 		try {
 			this.analysisResultDAO.save(result);
