@@ -4,19 +4,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.model.DefaultStreamedContent;
@@ -37,7 +33,6 @@ import es.hpgMethyl.exceptions.FileNotFound;
 import es.hpgMethyl.exceptions.GetObjectException;
 import es.hpgMethyl.exceptions.UpdateFileException;
 import es.hpgMethyl.exceptions.UpdateMethylationAnalysisException;
-import es.hpgMethyl.services.HPGMethylProcessor;
 import es.hpgMethyl.types.AnalysisStatus;
 import es.hpgMethyl.types.PairedMode;
 import es.hpgMethyl.types.UserRole;

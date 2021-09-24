@@ -1,9 +1,5 @@
 package es.hpgMethyl.junit.usecases.result;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.UUID;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
