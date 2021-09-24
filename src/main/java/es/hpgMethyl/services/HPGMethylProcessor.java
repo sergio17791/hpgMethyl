@@ -126,6 +126,8 @@ public class HPGMethylProcessor extends Thread {
 							)	
 					).getFile();
 					
+					HPGMethylResultReader resultReader = new HPGMethylResultReader(outputDirectory + "/log.txt");
+					
 					new CreateMehtylationResult(new AnalysisResultDAOHibernate()).execute(
 							new CreateMehtylationResultRequest(analysisRequest, resultFile)
 					);
