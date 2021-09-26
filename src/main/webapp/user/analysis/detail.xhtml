@@ -36,11 +36,20 @@
 			             		 	 disabled="true"/>
 					</b:column>	              											  
             	</b:row>
-            	<b:row rendered="#{analysisBean.status eq 'COMPLETED'}">
+         	</b:panel>
+         </b:form>
+         <b:form id="analysisResultForm" rendered="#{analysisBean.status eq 'COMPLETED'}">  	
+         	<b:row>
+         		<b:column col-md="6">
+            		<legend><h:outputText value="#{msg['analysis.detail.result.legend']}"/></legend>      
+            	</b:column>                 
+	        </b:row>
+         	<b:panel>         		
+            	<b:row>
          			<b:column col-md="12">
          				<b:commandButton id="downloadButton"
          								 binding="#{analysisDetail.downloadButtonComponent}"
-         								 value="#{msg['analysis.detail.download']}" 
+         								 value="#{msg['analysis.detail.result.download']}" 
          								 onclick="PrimeFaces.monitorDownload(null, refresh);"
 		                                 iconAwesome="download"
 		                                 look="primary"
@@ -51,23 +60,157 @@
         				<p:remoteCommand update="@all" name="refresh"/>
 					</b:column>	             											  
             	</b:row>
-            	<b:row style="margin-top: 10px" rendered="#{analysisBean.status eq 'COMPLETED'}">             
+            	<b:row style="margin-top: 10px">             
                 	<b:column col-md="12">
 	                	<b:alert severity="success" 
-    							 value="#{msg['analysis.detail.download.success']}" 
+    							 value="#{msg['analysis.detail.result.download.success']}" 
     							 rendered="#{analysisDetail.downloaded}"
     							 closable="true"/>
 						<b:alert severity="warning" 
-    							 value="#{msg['analysis.detail.download.warning']}" 
+    							 value="#{msg['analysis.detail.result.download.warning']}" 
     							 rendered="#{!analysisDetail.downloaded}"
     							 closable="true"/>    							 
                 	</b:column>
                 </b:row>
-                <b:row style="margin-top: 10px" rendered="#{analysisBean.status eq 'COMPLETED'}">             
+                <b:row style="margin-top: 10px">             
                 	<b:column col-md="12">
 	                	<h:message for="downloadButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
                 	</b:column>
                 </b:row>
+                <b:row>
+         			<b:column col-md="6" offset-md="3">
+						<b:inputText id ="totalNumberCAnalysed" 
+	        				 		 value ="#{analysisBean.analysisResult.totalNumberCAnalysed}"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['analysis.detail.result.totalNumberCAnalysed']}" 
+			             		 	 disabled="true"/>
+					</b:column>	            											  
+            	</b:row>
+                <b:row>
+         			<b:column col-md="4">
+						<b:inputText id ="totalMethylatedCCPGContext" 
+	        				 		 value ="#{analysisBean.analysisResult.totalMethylatedCCPGContext}"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['analysis.detail.result.totalMethylatedCCPGContext']}" 
+			             		 	 disabled="true"/>
+					</b:column>	
+					<b:column col-md="4">
+						<b:inputText id ="totalMethylatedCCHGContext" 
+	        				 		 value ="#{analysisBean.analysisResult.totalMethylatedCCHGContext}"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['analysis.detail.result.totalMethylatedCCHGContext']}" 
+		                 			 a:type  ="number"
+			             		 	 disabled="true"/>
+					</b:column>	
+					<b:column col-md="4">
+						<b:inputText id ="totalMethylatedCCHHContext" 
+	        				 		 value ="#{analysisBean.analysisResult.totalMethylatedCCHHContext}"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['analysis.detail.result.totalMethylatedCCHHContext']}" 
+		                 			 a:type  ="number"
+			             		 	 disabled="true"/>
+					</b:column>	              											  
+            	</b:row>
+            	<b:row>
+         			<b:column col-md="4">
+						<b:inputText id ="totalCToTConversionsCPGContext" 
+	        				 		 value ="#{analysisBean.analysisResult.totalCToTConversionsCPGContext}"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['analysis.detail.result.totalCToTConversionsCPGContext']}" 
+			             		 	 disabled="true"/>
+					</b:column>	
+					<b:column col-md="4">
+						<b:inputText id ="totalCToTConversionsCHGContext" 
+	        				 		 value ="#{analysisBean.analysisResult.totalCToTConversionsCHGContext}"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['analysis.detail.result.totalCToTConversionsCHGContext']}" 
+		                 			 a:type  ="number"
+			             		 	 disabled="true"/>
+					</b:column>	
+					<b:column col-md="4">
+						<b:inputText id ="totalCToTConversionsCHHContext" 
+	        				 		 value ="#{analysisBean.analysisResult.totalCToTConversionsCHHContext}"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['analysis.detail.result.totalCToTConversionsCHHContext']}" 
+		                 			 a:type  ="number"
+			             		 	 disabled="true"/>
+					</b:column>	              											  
+            	</b:row>
+            	<b:row>
+         			<b:column col-md="4">
+						<b:inputText id ="cMethylatedCPGContext" 
+	        				 		 value ="#{analysisBean.analysisResult.cMethylatedCPGContext}"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['analysis.detail.result.cMethylatedCPGContext']}" 
+			             		 	 disabled="true"/>
+					</b:column>	
+					<b:column col-md="4">
+						<b:inputText id ="cMethylatedCHGContext" 
+	        				 		 value ="#{analysisBean.analysisResult.cMethylatedCHGContext}"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['analysis.detail.result.cMethylatedCHGContext']}" 
+		                 			 a:type  ="number"
+			             		 	 disabled="true"/>
+					</b:column>	
+					<b:column col-md="4">
+						<b:inputText id ="cMethylatedCHHContext" 
+	        				 		 value ="#{analysisBean.analysisResult.cMethylatedCHHContext}"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['analysis.detail.result.cMethylatedCHHContext']}" 
+		                 			 a:type  ="number"
+			             		 	 disabled="true"/>
+					</b:column>	              											  
+            	</b:row>
+            	<b:row>
+         			<b:column col-md="4">
+						<b:inputText id ="loadingTime" 
+	        				 		 value ="#{analysisBean.analysisResult.loadingTime} (s)"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['analysis.detail.result.loadingTime']}" 
+			             		 	 disabled="true"/>
+					</b:column>	
+					<b:column col-md="4">
+						<b:inputText id ="aligmentTime" 
+	        				 		 value ="#{analysisBean.analysisResult.aligmentTime} (s)"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['analysis.detail.result.aligmentTime']}" 
+		                 			 a:type  ="number"
+			             		 	 disabled="true"/>
+					</b:column>	
+					<b:column col-md="4">
+						<b:inputText id ="totalTime" 
+	        				 		 value ="#{analysisBean.analysisResult.totalTime} (s)"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['analysis.detail.result.totalTime']}" 
+		                 			 a:type  ="number"
+			             		 	 disabled="true"/>
+					</b:column>	              											  
+            	</b:row>
+            	<b:row>
+         			<b:column col-md="6" offset-md="3">
+						<b:inputText id ="totalReadsProcessed" 
+	        				 		 value ="#{analysisBean.analysisResult.totalReadsProcessed}"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['analysis.detail.result.totalReadsProcessed']}" 
+			             		 	 disabled="true"/>
+					</b:column>	            											  
+            	</b:row>
+            	<b:row>
+         			<b:column col-md="6">
+						<b:inputText id ="readsMapped" 
+	        				 		 value ="#{analysisBean.analysisResult.totalReadsMapped} (#{analysisBean.analysisResult.readsMapped}%)"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['analysis.detail.result.readsMapped']}" 
+			             		 	 disabled="true"/>
+					</b:column>	
+					<b:column col-md="6">
+						<b:inputText id ="readsUnmapped" 
+	        				 		 value ="#{analysisBean.analysisResult.totalReadsUnmapped} (#{analysisBean.analysisResult.readsUnmapped}%)"
+		               	 			 styleClass ="form-control-plaintext"
+		                 			 label ="#{msg['analysis.detail.result.readsUnmapped']}" 
+			             		 	 disabled="true"/>
+					</b:column>	            											  
+            	</b:row>
          	</b:panel>
          </b:form>
          <b:form id="analysisParametersForm">
