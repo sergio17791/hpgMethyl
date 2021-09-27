@@ -23,7 +23,7 @@ public class CreateMehtylationResultRequest {
 	
 	private Integer totalCToTConversionsCHGContext;
 	
-	private Integer totalCToTConversionsCHHContex;
+	private Integer totalCToTConversionsCHHContext;
 	
 	private BigDecimal cMethylatedCPGContext;
 	
@@ -56,7 +56,7 @@ public class CreateMehtylationResultRequest {
 			Integer totalMethylatedCCHHContext, 
 			Integer totalCToTConversionsCPGContext,
 			Integer totalCToTConversionsCHGContext, 
-			Integer totalCToTConversionsCHHContex,
+			Integer totalCToTConversionsCHHContext,
 			BigDecimal cMethylatedCPGContext, 
 			BigDecimal cMethylatedCHGContext, 
 			BigDecimal cMethylatedCHHContext,
@@ -77,7 +77,7 @@ public class CreateMehtylationResultRequest {
 		this.totalMethylatedCCHHContext = totalMethylatedCCHHContext;
 		this.totalCToTConversionsCPGContext = totalCToTConversionsCPGContext;
 		this.totalCToTConversionsCHGContext = totalCToTConversionsCHGContext;
-		this.totalCToTConversionsCHHContex = totalCToTConversionsCHHContex;
+		this.totalCToTConversionsCHHContext = totalCToTConversionsCHHContext;
 		this.cMethylatedCPGContext = cMethylatedCPGContext;
 		this.cMethylatedCHGContext = cMethylatedCHGContext;
 		this.cMethylatedCHHContext = cMethylatedCHHContext;
@@ -206,15 +206,15 @@ public class CreateMehtylationResultRequest {
 	/**
 	 * @return the totalCToTConversionsCHHContex
 	 */
-	public Integer getTotalCToTConversionsCHHContex() {
-		return totalCToTConversionsCHHContex;
+	public Integer getTotalCToTConversionsCHHContext() {
+		return totalCToTConversionsCHHContext;
 	}
 
 	/**
 	 * @param totalCToTConversionsCHHContex the totalCToTConversionsCHHContex to set
 	 */
-	public void setTotalCToTConversionsCHHContex(Integer totalCToTConversionsCHHContex) {
-		this.totalCToTConversionsCHHContex = totalCToTConversionsCHHContex;
+	public void setTotalCToTConversionsCHHContext(Integer totalCToTConversionsCHHContext) {
+		this.totalCToTConversionsCHHContext = totalCToTConversionsCHHContext;
 	}
 
 	/**

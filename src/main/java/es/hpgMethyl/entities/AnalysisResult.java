@@ -35,14 +35,14 @@ public class AnalysisResult extends BaseEntity {
 	@Column(name = "total_methylated_c_chh_context", nullable = true)
 	private Integer totalMethylatedCCHHContext;
 	
-	@Column(name = "total_c_to_t_conversions_cpg_contex", nullable = true)
+	@Column(name = "total_c_to_t_conversions_cpg_context", nullable = true)
 	private Integer totalCToTConversionsCPGContext;
 	
-	@Column(name = "total_c_to_t_conversions_chg_contex", nullable = true)
+	@Column(name = "total_c_to_t_conversions_chg_context", nullable = true)
 	private Integer totalCToTConversionsCHGContext;
 	
-	@Column(name = "total_c_to_t_conversions_chh_contex", nullable = true)
-	private Integer totalCToTConversionsCHHContex;
+	@Column(name = "total_c_to_t_conversions_chh_context", nullable = true)
+	private Integer totalCToTConversionsCHHContext;
 	
 	@Column(name = "c_methylated_cpg_context", nullable = true)
 	private BigDecimal cMethylatedCPGContext;
@@ -87,7 +87,7 @@ public class AnalysisResult extends BaseEntity {
 		this.totalMethylatedCCHHContext = null;
 		this.totalCToTConversionsCPGContext = null;
 		this.totalCToTConversionsCHGContext = null;
-		this.totalCToTConversionsCHHContex = null;
+		this.totalCToTConversionsCHHContext = null;
 		this.cMethylatedCPGContext = null;
 		this.cMethylatedCHGContext = null;
 		this.cMethylatedCHHContext = null;
@@ -113,7 +113,7 @@ public class AnalysisResult extends BaseEntity {
 			Integer totalMethylatedCCHHContext,
 			Integer totalCToTConversionsCPGContext,
 			Integer totalCToTConversionsCHGContext,
-			Integer totalCToTConversionsCHHContex,
+			Integer totalCToTConversionsCHHContext,
 			BigDecimal cMethylatedCPGContext,
 			BigDecimal cMethylatedCHGContext,
 			BigDecimal cMethylatedCHHContext,
@@ -135,7 +135,7 @@ public class AnalysisResult extends BaseEntity {
 		this.totalMethylatedCCHHContext = totalMethylatedCCHHContext;
 		this.totalCToTConversionsCPGContext = totalCToTConversionsCPGContext;
 		this.totalCToTConversionsCHGContext = totalCToTConversionsCHGContext;
-		this.totalCToTConversionsCHHContex = totalCToTConversionsCHHContex;
+		this.totalCToTConversionsCHHContext = totalCToTConversionsCHHContext;
 		this.cMethylatedCPGContext = cMethylatedCPGContext;
 		this.cMethylatedCHGContext = cMethylatedCHGContext;
 		this.cMethylatedCHHContext = cMethylatedCHHContext;
@@ -264,15 +264,15 @@ public class AnalysisResult extends BaseEntity {
 	/**
 	 * @return the totalCToTConversionsCHHContex
 	 */
-	public Integer getTotalCToTConversionsCHHContex() {
-		return totalCToTConversionsCHHContex;
+	public Integer getTotalCToTConversionsCHHContext() {
+		return totalCToTConversionsCHHContext;
 	}
 
 	/**
 	 * @param totalCToTConversionsCHHContex the totalCToTConversionsCHHContex to set
 	 */
-	public void setTotalCToTConversionsCHHContex(Integer totalCToTConversionsCHHContex) {
-		this.totalCToTConversionsCHHContex = totalCToTConversionsCHHContex;
+	public void setTotalCToTConversionsCHHContext(Integer totalCToTConversionsCHHContext) {
+		this.totalCToTConversionsCHHContext = totalCToTConversionsCHHContext;
 	}
 
 	/**

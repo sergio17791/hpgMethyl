@@ -139,7 +139,7 @@ public class CreateMehtylationResultTest {
 		Assert.assertEquals(request.getTotalMethylatedCCHHContext(), response.getTotalMethylatedCCHHContext()); 
 		Assert.assertEquals(request.getTotalCToTConversionsCPGContext(), response.getTotalCToTConversionsCPGContext()); 
 		Assert.assertEquals(request.getTotalCToTConversionsCHGContext(), response.getTotalCToTConversionsCHGContext()); 
-		Assert.assertEquals(request.getTotalCToTConversionsCHHContex(), response.getTotalCToTConversionsCHHContex()); 
+		Assert.assertEquals(request.getTotalCToTConversionsCHHContext(), response.getTotalCToTConversionsCHHContext()); 
 		Assert.assertEquals(request.getcMethylatedCPGContext(), response.getcMethylatedCPGContext()); 
 		Assert.assertEquals(request.getcMethylatedCHGContext(), response.getcMethylatedCHGContext()); 
 		Assert.assertEquals(request.getcMethylatedCHHContext(), response.getcMethylatedCHHContext()); 

@@ -32,7 +32,7 @@ public class CreateMehtylationResult {
 		result.setTotalMethylatedCCHHContext(request.getTotalMethylatedCCHHContext());
 		result.setTotalCToTConversionsCPGContext(request.getTotalCToTConversionsCPGContext());
 		result.setTotalCToTConversionsCHGContext(request.getTotalCToTConversionsCHGContext());
-		result.setTotalCToTConversionsCHHContex(request.getTotalCToTConversionsCHHContex());
+		result.setTotalCToTConversionsCHHContext(request.getTotalCToTConversionsCHHContext());
 		result.setcMethylatedCPGContext(request.getcMethylatedCPGContext());
 		result.setcMethylatedCHGContext(request.getcMethylatedCHGContext());
 		result.setcMethylatedCHHContext(request.getcMethylatedCHHContext());

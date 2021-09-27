@@ -80,23 +80,25 @@
                 <b:row>
          			<b:column col-md="6" offset-md="3">
 						<b:inputText id ="totalNumberCAnalysed" 
-	        				 		 value ="#{analysisBean.analysisResult.totalNumberCAnalysed}"
+	        				 		 value ="#{analysisDetail.analysisResult.totalNumberCAnalysed}"
 		               	 			 styleClass ="form-control-plaintext"
 		                 			 label ="#{msg['analysis.detail.result.totalNumberCAnalysed']}" 
+		                 			 a:type  ="number"
 			             		 	 disabled="true"/>
 					</b:column>	            											  
             	</b:row>
-                <b:row>
+            	<b:row>
          			<b:column col-md="4">
 						<b:inputText id ="totalMethylatedCCPGContext" 
-	        				 		 value ="#{analysisBean.analysisResult.totalMethylatedCCPGContext}"
+	        				 		 value ="#{analysisDetail.analysisResult.totalMethylatedCCPGContext}"
 		               	 			 styleClass ="form-control-plaintext"
 		                 			 label ="#{msg['analysis.detail.result.totalMethylatedCCPGContext']}" 
+		                 			 a:type  ="number"
 			             		 	 disabled="true"/>
 					</b:column>	
 					<b:column col-md="4">
 						<b:inputText id ="totalMethylatedCCHGContext" 
-	        				 		 value ="#{analysisBean.analysisResult.totalMethylatedCCHGContext}"
+	        				 		 value ="#{analysisDetail.analysisResult.totalMethylatedCCHGContext}"
 		               	 			 styleClass ="form-control-plaintext"
 		                 			 label ="#{msg['analysis.detail.result.totalMethylatedCCHGContext']}" 
 		                 			 a:type  ="number"
@@ -104,7 +106,7 @@
 					</b:column>	
 					<b:column col-md="4">
 						<b:inputText id ="totalMethylatedCCHHContext" 
-	        				 		 value ="#{analysisBean.analysisResult.totalMethylatedCCHHContext}"
+	        				 		 value ="#{analysisDetail.analysisResult.totalMethylatedCCHHContext}"
 		               	 			 styleClass ="form-control-plaintext"
 		                 			 label ="#{msg['analysis.detail.result.totalMethylatedCCHHContext']}" 
 		                 			 a:type  ="number"
@@ -114,14 +116,15 @@
             	<b:row>
          			<b:column col-md="4">
 						<b:inputText id ="totalCToTConversionsCPGContext" 
-	        				 		 value ="#{analysisBean.analysisResult.totalCToTConversionsCPGContext}"
+	        				 		 value ="#{analysisDetail.analysisResult.totalCToTConversionsCPGContext}"
 		               	 			 styleClass ="form-control-plaintext"
 		                 			 label ="#{msg['analysis.detail.result.totalCToTConversionsCPGContext']}" 
+		                 			 a:type  ="number"
 			             		 	 disabled="true"/>
 					</b:column>	
 					<b:column col-md="4">
 						<b:inputText id ="totalCToTConversionsCHGContext" 
-	        				 		 value ="#{analysisBean.analysisResult.totalCToTConversionsCHGContext}"
+	        				 		 value ="#{analysisDetail.analysisResult.totalCToTConversionsCHGContext}"
 		               	 			 styleClass ="form-control-plaintext"
 		                 			 label ="#{msg['analysis.detail.result.totalCToTConversionsCHGContext']}" 
 		                 			 a:type  ="number"
@@ -129,7 +132,7 @@
 					</b:column>	
 					<b:column col-md="4">
 						<b:inputText id ="totalCToTConversionsCHHContext" 
-	        				 		 value ="#{analysisBean.analysisResult.totalCToTConversionsCHHContext}"
+	        				 		 value ="#{analysisDetail.analysisResult.totalCToTConversionsCHHContext}"
 		               	 			 styleClass ="form-control-plaintext"
 		                 			 label ="#{msg['analysis.detail.result.totalCToTConversionsCHHContext']}" 
 		                 			 a:type  ="number"
@@ -139,57 +142,53 @@
             	<b:row>
          			<b:column col-md="4">
 						<b:inputText id ="cMethylatedCPGContext" 
-	        				 		 value ="#{analysisBean.analysisResult.cMethylatedCPGContext}"
+	        				 		 value ="#{analysisDetail.analysisResult.cMethylatedCPGContext}%"
 		               	 			 styleClass ="form-control-plaintext"
 		                 			 label ="#{msg['analysis.detail.result.cMethylatedCPGContext']}" 
 			             		 	 disabled="true"/>
 					</b:column>	
 					<b:column col-md="4">
 						<b:inputText id ="cMethylatedCHGContext" 
-	        				 		 value ="#{analysisBean.analysisResult.cMethylatedCHGContext}"
+	        				 		 value ="#{analysisDetail.analysisResult.cMethylatedCHGContext}%"
 		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.detail.result.cMethylatedCHGContext']}" 
-		                 			 a:type  ="number"
+		                 			 label ="#{msg['analysis.detail.result.cMethylatedCHGContext']}"
 			             		 	 disabled="true"/>
 					</b:column>	
 					<b:column col-md="4">
 						<b:inputText id ="cMethylatedCHHContext" 
-	        				 		 value ="#{analysisBean.analysisResult.cMethylatedCHHContext}"
+	        				 		 value ="#{analysisDetail.analysisResult.cMethylatedCHHContext}%"
 		               	 			 styleClass ="form-control-plaintext"
 		                 			 label ="#{msg['analysis.detail.result.cMethylatedCHHContext']}" 
-		                 			 a:type  ="number"
 			             		 	 disabled="true"/>
 					</b:column>	              											  
             	</b:row>
             	<b:row>
          			<b:column col-md="4">
 						<b:inputText id ="loadingTime" 
-	        				 		 value ="#{analysisBean.analysisResult.loadingTime} (s)"
+	        				 		 value ="#{analysisDetail.analysisResult.loadingTime} (s)"
 		               	 			 styleClass ="form-control-plaintext"
 		                 			 label ="#{msg['analysis.detail.result.loadingTime']}" 
 			             		 	 disabled="true"/>
 					</b:column>	
 					<b:column col-md="4">
 						<b:inputText id ="aligmentTime" 
-	        				 		 value ="#{analysisBean.analysisResult.aligmentTime} (s)"
+	        				 		 value ="#{analysisDetail.analysisResult.aligmentTime} (s)"
 		               	 			 styleClass ="form-control-plaintext"
 		                 			 label ="#{msg['analysis.detail.result.aligmentTime']}" 
-		                 			 a:type  ="number"
 			             		 	 disabled="true"/>
 					</b:column>	
 					<b:column col-md="4">
 						<b:inputText id ="totalTime" 
-	        				 		 value ="#{analysisBean.analysisResult.totalTime} (s)"
+	        				 		 value ="#{analysisDetail.analysisResult.totalTime} (s)"
 		               	 			 styleClass ="form-control-plaintext"
 		                 			 label ="#{msg['analysis.detail.result.totalTime']}" 
-		                 			 a:type  ="number"
 			             		 	 disabled="true"/>
 					</b:column>	              											  
             	</b:row>
             	<b:row>
          			<b:column col-md="6" offset-md="3">
 						<b:inputText id ="totalReadsProcessed" 
-	        				 		 value ="#{analysisBean.analysisResult.totalReadsProcessed}"
+	        				 		 value ="#{analysisDetail.analysisResult.totalReadsProcessed}"
 		               	 			 styleClass ="form-control-plaintext"
 		                 			 label ="#{msg['analysis.detail.result.totalReadsProcessed']}" 
 			             		 	 disabled="true"/>
@@ -198,14 +197,14 @@
             	<b:row>
          			<b:column col-md="6">
 						<b:inputText id ="readsMapped" 
-	        				 		 value ="#{analysisBean.analysisResult.totalReadsMapped} (#{analysisBean.analysisResult.readsMapped}%)"
+	        				 		 value ="#{analysisDetail.analysisResult.totalReadsMapped} (#{analysisDetail.analysisResult.readsMapped}%)"
 		               	 			 styleClass ="form-control-plaintext"
 		                 			 label ="#{msg['analysis.detail.result.readsMapped']}" 
 			             		 	 disabled="true"/>
 					</b:column>	
 					<b:column col-md="6">
 						<b:inputText id ="readsUnmapped" 
-	        				 		 value ="#{analysisBean.analysisResult.totalReadsUnmapped} (#{analysisBean.analysisResult.readsUnmapped}%)"
+	        				 		 value ="#{analysisDetail.analysisResult.totalReadsUnmapped} (#{analysisDetail.analysisResult.readsUnmapped}%)"
 		               	 			 styleClass ="form-control-plaintext"
 		                 			 label ="#{msg['analysis.detail.result.readsUnmapped']}" 
 			             		 	 disabled="true"/>
