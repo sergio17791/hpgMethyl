@@ -2,11 +2,27 @@ package es.hpgMethyl.beans;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.model.charts.bar.BarChartDataSet;
+import org.primefaces.model.charts.bar.BarChartModel;
+import org.primefaces.model.charts.bar.BarChartOptions;
+import org.primefaces.model.charts.optionconfig.animation.Animation;
+import org.primefaces.model.charts.optionconfig.legend.Legend;
+import org.primefaces.model.charts.optionconfig.title.Title;
+import org.primefaces.model.charts.ChartData;
+import org.primefaces.model.charts.axes.cartesian.CartesianScales;
+import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
+import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
+import org.primefaces.model.charts.pie.PieChartDataSet;
+import org.primefaces.model.charts.pie.PieChartModel;
+
 import es.hpgMethyl.entities.AnalysisResult;
+import es.hpgMethyl.utils.FacesContextUtils;
 
 @ManagedBean(name="analysisResultBean")
 @ViewScoped
@@ -31,7 +47,11 @@ public class AnalysisResultBean implements Serializable {
 	private BigDecimal readsMapped;
 	private Integer totalReadsMapped;
 	private BigDecimal readsUnmapped;
-	private Integer totalReadsUnmapped;
+	private Integer totalReadsUnmapped;	
+	
+	private BarChartModel cytosineMethylationReport;
+	private PieChartModel cMethylatedGraphic;
+	private PieChartModel totalReadsProcessedGraphic;
 	
 	public AnalysisResultBean() {
 		this.totalNumberCAnalysed = null;
@@ -306,6 +326,48 @@ public class AnalysisResultBean implements Serializable {
 		this.totalReadsUnmapped = totalReadsUnmapped;
 	}
 	
+	/**
+	 * @return the cytosineMethylationReport
+	 */
+	public BarChartModel getCytosineMethylationReport() {
+		return cytosineMethylationReport;
+	}
+
+	/**
+	 * @param cytosineMethylationReport the cytosineMethylationReport to set
+	 */
+	public void setCytosineMethylationReport(BarChartModel cytosineMethylationReport) {
+		this.cytosineMethylationReport = cytosineMethylationReport;
+	}
+
+	/**
+	 * @return the cMethylatedGraphic
+	 */
+	public PieChartModel getcMethylatedGraphic() {
+		return cMethylatedGraphic;
+	}
+
+	/**
+	 * @param cMethylatedGraphic the cMethylatedGraphic to set
+	 */
+	public void setcMethylatedGraphic(PieChartModel cMethylatedGraphic) {
+		this.cMethylatedGraphic = cMethylatedGraphic;
+	}
+
+	/**
+	 * @return the totalReadsProcessedGraphic
+	 */
+	public PieChartModel getTotalReadsProcessedGraphic() {
+		return totalReadsProcessedGraphic;
+	}
+
+	/**
+	 * @param totalReadsProcessedGraphic the totalReadsProcessedGraphic to set
+	 */
+	public void setTotalReadsProcessedGraphic(PieChartModel totalReadsProcessedGraphic) {
+		this.totalReadsProcessedGraphic = totalReadsProcessedGraphic;
+	}
+
 	public void loadAnalysisResult(AnalysisResult analysisResult) {
 		this.totalNumberCAnalysed = analysisResult.getTotalNumberCAnalysed();
 		this.totalMethylatedCCPGContext = analysisResult.getTotalMethylatedCCPGContext();
@@ -325,5 +387,176 @@ public class AnalysisResultBean implements Serializable {
 		this.totalReadsMapped = analysisResult.getTotalReadsMapped();
 		this.readsUnmapped = analysisResult.getReadsUnmapped();
 		this.totalReadsUnmapped = analysisResult.getTotalReadsUnmapped();
+		
+		loadCytosineMethylationReport();
+		loadCMethylatedGraphic();
+		loadTotalReadsProcessedGraphic();
 	}
+	
+	private void loadCytosineMethylationReport() {
+        
+		this.cytosineMethylationReport = new BarChartModel();
+		
+		List<Number> dataSetValues = new ArrayList<>();
+		dataSetValues.add(totalNumberCAnalysed);
+		dataSetValues.add(totalMethylatedCCPGContext);
+		dataSetValues.add(totalMethylatedCCHGContext);
+		dataSetValues.add(totalMethylatedCCHHContext);
+		dataSetValues.add(totalCToTConversionsCPGContext);
+		dataSetValues.add(totalCToTConversionsCHGContext);
+		dataSetValues.add(totalCToTConversionsCHHContext);
+		
+		List<String> backgroundColors = new ArrayList<>(); 
+		backgroundColors.add("rgb(255, 255, 0)");
+		backgroundColors.add("rgb(125, 125, 255)");
+		backgroundColors.add("rgb(125, 255, 125)");
+		backgroundColors.add("rgb(255, 125, 125)");
+		backgroundColors.add("rgb(125, 125, 255)");
+		backgroundColors.add("rgb(125, 255, 125)");
+		backgroundColors.add("rgb(255, 125, 125)");
+		
+		List<String> borderColor = new ArrayList<>();  
+		borderColor.add("rgb(200, 200, 0)");
+		borderColor.add("rgb(80, 80, 200)");
+		borderColor.add("rgb(80, 200, 80)");
+		borderColor.add("rgb(200, 80, 80)");
+		borderColor.add("rgb(80, 80, 200)");
+		borderColor.add("rgb(80, 200, 80)");
+		borderColor.add("rgb(200, 80, 80)");
+		
+		String totalNumberCAnalysedLabel = FacesContextUtils.geti18nMessage("analysis.detail.result.totalNumberCAnalysed");
+		
+		String totalMethylatedCCPGContextLabel = FacesContextUtils.geti18nMessage("analysis.detail.result.totalMethylatedCCPGContext");
+		String totalMethylatedCCHGContextLabel = FacesContextUtils.geti18nMessage("analysis.detail.result.totalMethylatedCCHGContext");
+		String totalMethylatedCCHHContextLabel = FacesContextUtils.geti18nMessage("analysis.detail.result.totalMethylatedCCHHContext");
+		
+		String totalCToTConversionsCPGContextLabel = FacesContextUtils.geti18nMessage("analysis.detail.result.totalCToTConversionsCPGContext");
+		String totalCToTConversionsCHGContextLabel = FacesContextUtils.geti18nMessage("analysis.detail.result.totalCToTConversionsCHGContext");
+		String totalCToTConversionsCHHContextLabel = FacesContextUtils.geti18nMessage("analysis.detail.result.totalCToTConversionsCHHContext");
+		
+		List<String> labels = new ArrayList<>();
+		labels.add(totalNumberCAnalysedLabel);
+		labels.add(totalMethylatedCCPGContextLabel);
+		labels.add(totalMethylatedCCHGContextLabel);
+		labels.add(totalMethylatedCCHHContextLabel);
+		labels.add(totalCToTConversionsCPGContextLabel);
+		labels.add(totalCToTConversionsCHGContextLabel);
+		labels.add(totalCToTConversionsCHHContextLabel);
+		
+		BarChartDataSet dataSet = new BarChartDataSet();
+        dataSet.setData(dataSetValues);        
+        dataSet.setBackgroundColor(backgroundColors);        
+        dataSet.setBorderColor(borderColor);
+        dataSet.setBorderWidth(1);
+        
+        ChartData data = new ChartData();
+        data.addChartDataSet(dataSet);               
+        data.setLabels(labels);              
+
+        String cytosineMethylationReportTitle = FacesContextUtils.geti18nMessage("analysis.detail.result.cytosineMethylationReport");
+        
+        Title title = new Title();
+        title.setDisplay(true);
+        title.setText(cytosineMethylationReportTitle); 
+        
+        Legend legend = new Legend();
+        legend.setDisplay(false); 
+        
+        CartesianLinearAxes linearAxes = new CartesianLinearAxes();
+        linearAxes.setOffset(true);
+        
+        CartesianLinearTicks ticks = new CartesianLinearTicks();
+        ticks.setBeginAtZero(false);
+        ticks.setPrecision(0);
+        linearAxes.setTicks(ticks);
+        
+        CartesianScales cartesianScales = new CartesianScales();
+        cartesianScales.addYAxesData(linearAxes);
+        
+        Animation animation = new Animation();
+        animation.setDuration(10);      
+        
+        BarChartOptions options = new BarChartOptions();
+        options.setTitle(title);
+        options.setLegend(legend);
+        options.setScales(cartesianScales);
+        options.setAnimation(animation);
+        
+        this.cytosineMethylationReport.setData(data);
+        this.cytosineMethylationReport.setOptions(options);
+    }
+	
+	private void loadCMethylatedGraphic() {
+		
+		this.cMethylatedGraphic = new PieChartModel();     		
+		
+		BigDecimal other = new BigDecimal(100);
+		other = other.subtract(cMethylatedCPGContext);
+		other = other.subtract(cMethylatedCHGContext);
+		other = other.subtract(cMethylatedCHHContext);
+		
+        List<Number> dataSetValues = new ArrayList<>();
+        dataSetValues.add(cMethylatedCPGContext);
+        dataSetValues.add(cMethylatedCHGContext); 
+        dataSetValues.add(cMethylatedCHHContext); 
+        dataSetValues.add(other); 
+
+        List<String> backgroundColors = new ArrayList<>();
+        backgroundColors.add("rgb(125, 125, 255)");
+        backgroundColors.add("rgb(125, 255, 125)");
+        backgroundColors.add("rgb(255, 125, 125)");
+        backgroundColors.add("rgb(125, 125, 125)");
+        
+        String cMethylatedCPGContextLabel = FacesContextUtils.geti18nMessage("analysis.detail.result.cMethylatedCPGContext");
+        String cMethylatedCHGContextLabel = FacesContextUtils.geti18nMessage("analysis.detail.result.cMethylatedCHGContext");
+        String cMethylatedCHHContextLabel = FacesContextUtils.geti18nMessage("analysis.detail.result.cMethylatedCHHContext");
+        String otherLabeltLabel = FacesContextUtils.geti18nMessage("general.other");
+        
+        List<String> labels = new ArrayList<>();
+        labels.add(cMethylatedCPGContextLabel);
+        labels.add(cMethylatedCHGContextLabel);
+        labels.add(cMethylatedCHHContextLabel);
+        labels.add(otherLabeltLabel);
+        
+        PieChartDataSet dataSet = new PieChartDataSet();
+        dataSet.setData(dataSetValues);
+        dataSet.setBackgroundColor(backgroundColors);               
+
+        ChartData data = new ChartData();
+        data.addChartDataSet(dataSet);        
+        data.setLabels(labels);
+
+        this.cMethylatedGraphic.setData(data);
+	}
+	
+	private void loadTotalReadsProcessedGraphic() {
+		
+		this.totalReadsProcessedGraphic = new PieChartModel();     		
+		
+        List<Number> dataSetValues = new ArrayList<>();
+        dataSetValues.add(totalReadsMapped);
+        dataSetValues.add(totalReadsUnmapped);                
+
+        List<String> backgroundColors = new ArrayList<>();
+        backgroundColors.add("rgb(125, 255, 125)");
+        backgroundColors.add("rgb(255, 125, 125)");
+        
+        String singleEndModeLabel = FacesContextUtils.geti18nMessage("analysis.detail.result.readsMapped");
+        String pairedEndModeLabel = FacesContextUtils.geti18nMessage("analysis.detail.result.readsUnmapped");
+        
+        List<String> labels = new ArrayList<>();
+        labels.add(singleEndModeLabel);
+        labels.add(pairedEndModeLabel);
+        
+        PieChartDataSet dataSet = new PieChartDataSet();
+        dataSet.setData(dataSetValues);
+        dataSet.setBackgroundColor(backgroundColors);               
+
+        ChartData data = new ChartData();
+        data.addChartDataSet(dataSet);        
+        data.setLabels(labels);
+
+        this.totalReadsProcessedGraphic.setData(data);
+	}
+	
 }
