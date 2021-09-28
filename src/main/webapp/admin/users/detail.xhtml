@@ -12,17 +12,17 @@
 		</f:metadata>
 		<b:form id="userDetailForm">  	
          	<b:row>
-         		<b:column col-xs="6">
+         		<b:column col-sm="6">
             		<legend><h:outputText value="#{msg['admin.users.detail.legend']}"/></legend>      
             	</b:column>
-            	<b:column col-xs="6" col-sm="3" offset-sm="3">
+            	<b:column col-sm="4" col-md="3" offset-sm="2" offset-md="3">
             		<b:link value="#{msg['admin.users.list.show']}" 
 	    					outcome="pretty:users"
 	    					iconAwesome="arrow-left" 
 	  						look="info"/>   
             	</b:column>                 
 	        </b:row>
-         	<b:panel>
+         	<b:panel style="margin-top: 10px">
          		<b:row>
             		<components:inputTextWithErrorMessage inputId="email"
             											  value="#{userDetail.email}"
