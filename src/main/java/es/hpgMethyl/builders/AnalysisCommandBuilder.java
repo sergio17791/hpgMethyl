@@ -74,11 +74,17 @@ public class AnalysisCommandBuilder {
 	
 	public String build(Configuration configuration, AnalysisRequest analysisRequest, String outputDirectory) {
 		
+		String command = "";				
+		
 		String hpgMethylAbsolutePath = configuration.getHpgMethylAbsolutePath();
+		
+		if (hpgMethylAbsolutePath.charAt(0) != '.') {
+			command = ".";
+		}
 		
 		String bwtIndexAbsolutePath = configuration.getBwtIndexAbsolutePath();
 		
-		String command = hpgMethylAbsolutePath + " bs " + BWT_INDEX + "  " + bwtIndexAbsolutePath;
+		command = command + hpgMethylAbsolutePath + " bs " + BWT_INDEX + "  " + bwtIndexAbsolutePath;
 				
 		command = command + " " + OUTDIR + " " + outputDirectory + " " + CPU_THREADS + " " + configuration.getCpuThreads();
 		
