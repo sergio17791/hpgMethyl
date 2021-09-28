@@ -222,6 +222,8 @@ public class AnalysisCommandBuilder {
 	    if(reportNHits != null) {
 	    	command = command + " " + REPORT_N_HITS + " " + reportNHits;
 	    }
+	    
+	    command = command + " | tee " + outputDirectory + "/log.txt";
 		
 		return command;
 	}		

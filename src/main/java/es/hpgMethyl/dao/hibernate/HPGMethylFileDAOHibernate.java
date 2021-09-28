@@ -7,8 +7,6 @@ import java.util.UUID;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -16,10 +14,8 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import es.hpgMethyl.dao.HPGMethylFileDAO;
-import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
-import es.hpgMethyl.types.AnalysisStatus;
 import es.hpgMethyl.utils.HibernateUtils;
 
 public class HPGMethylFileDAOHibernate extends BaseDAOHibernate<HPGMethylFile, UUID> implements HPGMethylFileDAO {

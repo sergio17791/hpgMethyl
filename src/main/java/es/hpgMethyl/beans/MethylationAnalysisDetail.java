@@ -4,19 +4,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.model.DefaultStreamedContent;
@@ -37,7 +33,6 @@ import es.hpgMethyl.exceptions.FileNotFound;
 import es.hpgMethyl.exceptions.GetObjectException;
 import es.hpgMethyl.exceptions.UpdateFileException;
 import es.hpgMethyl.exceptions.UpdateMethylationAnalysisException;
-import es.hpgMethyl.services.HPGMethylProcessor;
 import es.hpgMethyl.types.AnalysisStatus;
 import es.hpgMethyl.types.PairedMode;
 import es.hpgMethyl.types.UserRole;
@@ -73,7 +68,7 @@ public class MethylationAnalysisDetail implements Serializable {
 		this.id = null;
 		this.analysisRequest = null;
 		this.analysisResult = null;
-		this.downloaded = Boolean.FALSE;
+		this.downloaded = Boolean.TRUE;
 		this.file = new DefaultStreamedContent();;
 	}
 
@@ -210,52 +205,28 @@ public class MethylationAnalysisDetail implements Serializable {
 				AnalysisStatus status = analysisRequest.getStatus();
 					
 				AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
-				analysisRequestBean.setId(analysisRequest.getId());
-				analysisRequestBean.setUser(analysisRequest.getUser());
-				analysisRequestBean.setIdentifier(analysisRequest.getIdentifier());
-				analysisRequestBean.setInputReadFile(analysisRequest.getInputReadFile());
-				analysisRequestBean.setStatus(status);
-				analysisRequestBean.setPairedMode(analysisRequest.getPairedMode());
-				analysisRequestBean.setWriteMethylationContext(analysisRequest.getWriteMethylationContext());
-				analysisRequestBean.setPairedEndModeFile(analysisRequest.getPairedEndModeFile());
-				analysisRequestBean.setPairedMaxDistance(analysisRequest.getPairedMaxDistance());
-				analysisRequestBean.setPairedMinDistance(analysisRequest.getPairedMinDistance());
-				analysisRequestBean.setSwaMinimunScore(analysisRequest.getSwaMinimunScore());
-				analysisRequestBean.setSwaMatchScore(analysisRequest.getSwaMatchScore());
-				analysisRequestBean.setSwaMismatchScore(analysisRequest.getSwaMismatchScore());
-				analysisRequestBean.setSwaGapOpen(analysisRequest.getSwaGapOpen());
-				analysisRequestBean.setSwaGapExtend(analysisRequest.getSwaGapExtend());
-				analysisRequestBean.setCalFlankSize(analysisRequest.getCalFlankSize());
-				analysisRequestBean.setMinimumCalSize(analysisRequest.getMinimumCalSize());
-				analysisRequestBean.setCalUmbralLengthFactor(analysisRequest.getCalUmbralLengthFactor());
-				analysisRequestBean.setMaximumBetweenSeeds(analysisRequest.getMaximumBetweenSeeds());
-				analysisRequestBean.setMaximumSeedSize(analysisRequest.getMaximumSeedSize());
-				analysisRequestBean.setMinimumCalSize(analysisRequest.getMinimumCalSize());
-				analysisRequestBean.setNumberSeedsPerRead(analysisRequest.getNumberSeedsPerRead());
-				analysisRequestBean.setReadMinimumDiscardLength(analysisRequest.getReadMinimumDiscardLength());
-				analysisRequestBean.setReadMaximumInnerGap(analysisRequest.getReadMaximumInnerGap());
-				analysisRequestBean.setMinimumNumberSeeds(analysisRequest.getMinimumNumberSeeds());
-				analysisRequestBean.setFilterReadMappings(analysisRequest.getFilterReadMappings());
-				analysisRequestBean.setFilterSeedMappings(analysisRequest.getFilterSeedMappings());
-				analysisRequestBean.setReportAll(analysisRequest.getReportAll());
-				analysisRequestBean.setReportBest(analysisRequest.getReportBest());
-				analysisRequestBean.setReportNBest(analysisRequest.getReportNBest());
-				analysisRequestBean.setReportNHits(analysisRequest.getReportNHits());
-				analysisRequestBean.setNumber(analysisRequest.getNumber());		
-				analysisRequestBean.setCreatedAt(analysisRequest.getCreatedAt());
-				analysisRequestBean.setUpdatedAt(analysisRequest.getUpdatedAt());
+				analysisRequestBean.loadAnalysisRequest(analysisRequest);
 				
 				if(status.equals(AnalysisStatus.CREATED)) {
 					analysisRequestBean.loadUserFiles();
-				} else if(status.equals(AnalysisStatus.COMPLETED)) {
+				} else if(status.equals(AnalysisStatus.COMPLETED) || status.equals(AnalysisStatus.FAILED)) {
 					try {
 						this.analysisResult = new GetMethylationAnalysisResult(new AnalysisResultDAOHibernate()).execute(
 								new GetMethylationAnalysisResultRequest(analysisRequest)
 						).getAnalysisResult();
 						
-						this.downloaded = !analysisResult.getResultFile().getStored();
-			
-						this.file = buildDownloadFile(analysisResult.getResultFile());																	
+						if(status.equals(AnalysisStatus.COMPLETED)) {
+							HPGMethylFile resultFile = analysisResult.getResultFile();
+							
+							if(resultFile != null) {
+								this.downloaded = !resultFile.getStored();
+								
+								this.file = buildDownloadFile(resultFile);
+							}
+						}
+																			
+						AnalysisResultBean analysisResultBean = (AnalysisResultBean) FacesContextUtils.getBean("analysisResultBean");
+						analysisResultBean.loadAnalysisResult(analysisResult, status);
 						
 					} catch (AnalysisResultNotFound | FileNotFoundException e) {
 						
