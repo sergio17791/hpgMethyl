@@ -68,7 +68,7 @@ public class MethylationAnalysisDetail implements Serializable {
 		this.id = null;
 		this.analysisRequest = null;
 		this.analysisResult = null;
-		this.downloaded = Boolean.FALSE;
+		this.downloaded = Boolean.TRUE;
 		this.file = new DefaultStreamedContent();;
 	}
 
@@ -209,18 +209,24 @@ public class MethylationAnalysisDetail implements Serializable {
 				
 				if(status.equals(AnalysisStatus.CREATED)) {
 					analysisRequestBean.loadUserFiles();
-				} else if(status.equals(AnalysisStatus.COMPLETED)) {
+				} else if(status.equals(AnalysisStatus.COMPLETED) || status.equals(AnalysisStatus.FAILED)) {
 					try {
 						this.analysisResult = new GetMethylationAnalysisResult(new AnalysisResultDAOHibernate()).execute(
 								new GetMethylationAnalysisResultRequest(analysisRequest)
 						).getAnalysisResult();
 						
-						this.downloaded = !analysisResult.getResultFile().getStored();
-			
-						this.file = buildDownloadFile(analysisResult.getResultFile());	
-						
+						if(status.equals(AnalysisStatus.COMPLETED)) {
+							HPGMethylFile resultFile = analysisResult.getResultFile();
+							
+							if(resultFile != null) {
+								this.downloaded = !resultFile.getStored();
+								
+								this.file = buildDownloadFile(resultFile);
+							}
+						}
+																			
 						AnalysisResultBean analysisResultBean = (AnalysisResultBean) FacesContextUtils.getBean("analysisResultBean");
-						analysisResultBean.loadAnalysisResult(analysisResult);
+						analysisResultBean.loadAnalysisResult(analysisResult, status);
 						
 					} catch (AnalysisResultNotFound | FileNotFoundException e) {
 						

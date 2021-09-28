@@ -223,7 +223,7 @@ public class AnalysisCommandBuilder {
 	    	command = command + " " + REPORT_N_HITS + " " + reportNHits;
 	    }
 	    
-	    command = " | tee " + outputDirectory + "/log.txt";
+	    command = command + " | tee " + outputDirectory + "/log.txt";
 		
 		return command;
 	}		

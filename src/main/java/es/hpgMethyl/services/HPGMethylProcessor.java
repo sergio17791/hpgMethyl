@@ -40,6 +40,8 @@ import es.hpgMethyl.usecases.file.CreateFile.CreateFile;
 import es.hpgMethyl.usecases.file.CreateFile.CreateFileRequest;
 import es.hpgMethyl.usecases.file.UnstoreFile.UnstoreFile;
 import es.hpgMethyl.usecases.file.UnstoreFile.UnstoreFileRequest;
+import es.hpgMethyl.usecases.result.CreateErrorMethylationResult.CreateErrorMethylationResult;
+import es.hpgMethyl.usecases.result.CreateErrorMethylationResult.CreateErrorMethylationResultRequest;
 import es.hpgMethyl.usecases.result.CreateMethylationResult.CreateMehtylationResult;
 import es.hpgMethyl.usecases.result.CreateMethylationResult.CreateMehtylationResultRequest;
 import es.hpgMethyl.utils.FileUtils;
@@ -162,7 +164,15 @@ public class HPGMethylProcessor extends Thread {
 						new UpdateMethylationAnalysisStatus(analysisRequestDAO).execute(
 								new UpdateMethylationAnalysisStatusRequest(analysisRequest.getId(), AnalysisStatus.FAILED)
 						);
-					} catch (AnalysisRequestNotFound | UpdateMethylationAnalysisException e2) {
+						
+						new CreateErrorMethylationResult(new AnalysisResultDAOHibernate()).execute(
+								new CreateErrorMethylationResultRequest(
+										analysisRequest, 
+										e.getMessage()
+								)
+						);
+						
+					} catch (AnalysisRequestNotFound | UpdateMethylationAnalysisException | CreateMehtylationResultException | DuplicatedAnalysisResult e2) {
 						Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.SEVERE, e2.getMessage());
 					}
 					

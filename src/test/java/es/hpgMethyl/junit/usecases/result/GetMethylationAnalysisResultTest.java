@@ -69,7 +69,8 @@ public class GetMethylationAnalysisResultTest {
 				new BigDecimal("86.40"),
 				27122088,
 				new BigDecimal("13.60"),
-				4269656
+				4269656,
+				null
 		);
 		
 		Mockito.doReturn(analysisResult).when(analysisResultDAO).findByAnalysisRequest(analysisRequest);

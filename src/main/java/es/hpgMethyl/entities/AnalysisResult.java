@@ -20,7 +20,7 @@ public class AnalysisResult extends BaseEntity {
 	private AnalysisRequest analysisRequest;
 
 	@ManyToOne
-	@JoinColumn(name = "result_file", nullable = false)
+	@JoinColumn(name = "result_file", nullable = true)
 	private HPGMethylFile resultFile;
 	
 	@Column(name = "total_number_c_analysed", nullable = true)
@@ -77,6 +77,9 @@ public class AnalysisResult extends BaseEntity {
 	@Column(name = "total_reads_unmapped", nullable = true)
 	private Integer totalReadsUnmapped;
 	
+	@Column(name = "error", nullable = true)
+	private String error;
+	
 	public AnalysisResult() {
 		super();
 		this.analysisRequest = null;
@@ -99,6 +102,7 @@ public class AnalysisResult extends BaseEntity {
 		this.totalReadsMapped = null;
 		this.readsUnmapped = null;
 		this.totalReadsUnmapped = null;
+		this.error = null;
 	}
 	
 	public AnalysisResult(			
@@ -124,7 +128,8 @@ public class AnalysisResult extends BaseEntity {
 			BigDecimal readsMapped,
 			Integer totalReadsMapped,
 			BigDecimal readsUnmapped,
-			Integer totalReadsUnmapped			
+			Integer totalReadsUnmapped,
+			String error
 	) {
 		super(id, createdAt, updatedAt);
 		this.analysisRequest = analysisRequest;
@@ -147,8 +152,9 @@ public class AnalysisResult extends BaseEntity {
 		this.totalReadsMapped = totalReadsMapped;
 		this.readsUnmapped = readsUnmapped;
 		this.totalReadsUnmapped = totalReadsUnmapped;
+		this.error = error;
 	}
-
+	
 	/**
 	 * @return the analysisRequest
 	 */
@@ -427,5 +433,19 @@ public class AnalysisResult extends BaseEntity {
 	 */
 	public void setTotalReadsUnmapped(Integer totalReadsUnmapped) {
 		this.totalReadsUnmapped = totalReadsUnmapped;
+	}
+
+	/**
+	 * @return the error
+	 */
+	public String getError() {
+		return error;
+	}
+
+	/**
+	 * @param error the error to set
+	 */
+	public void setError(String error) {
+		this.error = error;
 	}
 }

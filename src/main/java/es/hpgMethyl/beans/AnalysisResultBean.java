@@ -22,6 +22,7 @@ import org.primefaces.model.charts.pie.PieChartDataSet;
 import org.primefaces.model.charts.pie.PieChartModel;
 
 import es.hpgMethyl.entities.AnalysisResult;
+import es.hpgMethyl.types.AnalysisStatus;
 import es.hpgMethyl.utils.FacesContextUtils;
 
 @ManagedBean(name="analysisResultBean")
@@ -48,6 +49,7 @@ public class AnalysisResultBean implements Serializable {
 	private Integer totalReadsMapped;
 	private BigDecimal readsUnmapped;
 	private Integer totalReadsUnmapped;	
+	private String error;
 	
 	private BarChartModel cytosineMethylationReport;
 	private PieChartModel cMethylatedGraphic;
@@ -72,6 +74,7 @@ public class AnalysisResultBean implements Serializable {
 		this.totalReadsMapped = null;
 		this.readsUnmapped = null;
 		this.totalReadsUnmapped = null;
+		this.error = null;
 	}
 
 	/**
@@ -327,6 +330,20 @@ public class AnalysisResultBean implements Serializable {
 	}
 	
 	/**
+	 * @return the error
+	 */
+	public String getError() {
+		return error;
+	}
+
+	/**
+	 * @param error the error to set
+	 */
+	public void setError(String error) {
+		this.error = error;
+	}
+
+	/**
 	 * @return the cytosineMethylationReport
 	 */
 	public BarChartModel getCytosineMethylationReport() {
@@ -368,29 +385,34 @@ public class AnalysisResultBean implements Serializable {
 		this.totalReadsProcessedGraphic = totalReadsProcessedGraphic;
 	}
 
-	public void loadAnalysisResult(AnalysisResult analysisResult) {
-		this.totalNumberCAnalysed = analysisResult.getTotalNumberCAnalysed();
-		this.totalMethylatedCCPGContext = analysisResult.getTotalMethylatedCCPGContext();
-		this.totalMethylatedCCHGContext = analysisResult.getTotalMethylatedCCHGContext();
-		this.totalMethylatedCCHHContext = analysisResult.getTotalMethylatedCCHHContext();
-		this.totalCToTConversionsCPGContext = analysisResult.getTotalCToTConversionsCPGContext();
-		this.totalCToTConversionsCHGContext = analysisResult.getTotalCToTConversionsCHGContext();
-		this.totalCToTConversionsCHHContext = analysisResult.getTotalCToTConversionsCHHContext();
-		this.cMethylatedCPGContext = analysisResult.getcMethylatedCPGContext();
-		this.cMethylatedCHGContext = analysisResult.getcMethylatedCHGContext();;
-		this.cMethylatedCHHContext = analysisResult.getcMethylatedCHHContext();
-		this.loadingTime = analysisResult.getLoadingTime();
-		this.aligmentTime = analysisResult.getAligmentTime();
-		this.totalTime = analysisResult.getTotalTime();
-		this.totalReadsProcessed = analysisResult.getTotalReadsProcessed();
-		this.readsMapped = analysisResult.getReadsMapped();
-		this.totalReadsMapped = analysisResult.getTotalReadsMapped();
-		this.readsUnmapped = analysisResult.getReadsUnmapped();
-		this.totalReadsUnmapped = analysisResult.getTotalReadsUnmapped();
-		
-		loadCytosineMethylationReport();
-		loadCMethylatedGraphic();
-		loadTotalReadsProcessedGraphic();
+	public void loadAnalysisResult(AnalysisResult analysisResult, AnalysisStatus status) {
+		if(analysisResult != null) {
+			this.totalNumberCAnalysed = analysisResult.getTotalNumberCAnalysed();
+			this.totalMethylatedCCPGContext = analysisResult.getTotalMethylatedCCPGContext();
+			this.totalMethylatedCCHGContext = analysisResult.getTotalMethylatedCCHGContext();
+			this.totalMethylatedCCHHContext = analysisResult.getTotalMethylatedCCHHContext();
+			this.totalCToTConversionsCPGContext = analysisResult.getTotalCToTConversionsCPGContext();
+			this.totalCToTConversionsCHGContext = analysisResult.getTotalCToTConversionsCHGContext();
+			this.totalCToTConversionsCHHContext = analysisResult.getTotalCToTConversionsCHHContext();
+			this.cMethylatedCPGContext = analysisResult.getcMethylatedCPGContext();
+			this.cMethylatedCHGContext = analysisResult.getcMethylatedCHGContext();;
+			this.cMethylatedCHHContext = analysisResult.getcMethylatedCHHContext();
+			this.loadingTime = analysisResult.getLoadingTime();
+			this.aligmentTime = analysisResult.getAligmentTime();
+			this.totalTime = analysisResult.getTotalTime();
+			this.totalReadsProcessed = analysisResult.getTotalReadsProcessed();
+			this.readsMapped = analysisResult.getReadsMapped();
+			this.totalReadsMapped = analysisResult.getTotalReadsMapped();
+			this.readsUnmapped = analysisResult.getReadsUnmapped();
+			this.totalReadsUnmapped = analysisResult.getTotalReadsUnmapped();
+			this.error = analysisResult.getError();
+			
+			if(status.equals(AnalysisStatus.COMPLETED)) {
+				loadCytosineMethylationReport();
+				loadCMethylatedGraphic();
+				loadTotalReadsProcessedGraphic();
+			}
+		}		
 	}
 	
 	private void loadCytosineMethylationReport() {

@@ -112,6 +112,16 @@
 			             		 	 	 disabled="true"/>
 						</b:column>		             		 	                                   											                											  
             		</b:row>
+            		<b:row rendered="#{analysisBean.status eq 'FAILED'}">
+            			<b:column col-md="6">
+            				<legend><h:outputText value="#{msg['admin.analysis.detail.error']}"/></legend>      
+            			</b:column>  
+            		</b:row>
+            		<b:row rendered="#{analysisBean.status eq 'FAILED'}">
+            			<b:column>
+            				<h:outputText value="#{analysisResultBean.error}"/>     
+            			</b:column>  
+            		</b:row>
   				</b:panel>
   			</b:tab>
  		</b:tabView>
