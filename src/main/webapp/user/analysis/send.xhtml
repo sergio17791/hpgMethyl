@@ -16,7 +16,13 @@
                 <b:column col-md="6">
                     <legend><h:outputText value="#{msg['analysis.send.newRequest']}"/></legend>      
                 </b:column>
-                <b:column col-xs="6" col-sm="3" offset-sm="3">
+                <b:column col-xs="6" col-sm="2" offset-sm="2">
+            	<b:link value="#{msg['analisis.list.show']}" 
+	    				outcome="pretty:analysis"
+	    				iconAwesome="arrow-left" 
+	  					look="info"/>   
+            </b:column>
+                <b:column col-xs="6" col-sm="2">
             		<b:link value="#{msg['analysis.send.uploadFiles']}" 
 	    					outcome="pretty:userFiles"
 	    					iconAwesome="upload" 

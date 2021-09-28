@@ -15,7 +15,13 @@
          	<b:row>         	
          		<b:column col-md="6">
             		<legend><h:outputText value="#{msg['file.detail.legend']}"/></legend>      
-             	</b:column>                 
+             	</b:column>   
+             	<b:column col-xs="6" col-sm="3" offset-sm="3">
+            		<b:link value="#{msg['general.goBack']}" 
+	    					outcome="pretty:userFiles"
+	    					iconAwesome="arrow-left" 
+	  						look="info"/>   
+            	</b:column>              
          	</b:row>
             <b:panel>
 				<b:row>

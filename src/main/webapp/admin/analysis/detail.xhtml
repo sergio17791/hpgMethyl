@@ -11,6 +11,17 @@
   			<f:viewParam name="id" value="#{analysisDetail.id}"/>
 			<f:viewAction action="#{analysisDetail.loadAnalysisDetail}"/>
 		</f:metadata>
+		<b:row>
+			<b:column col-md="6">
+				<legend><h4><h:outputText value="#{msg['analysis']} "/><h:outputText value="#{analysisBean.identifier}"/></h4></legend>
+			</b:column>
+			<b:column col-xs="6" col-sm="3" offset-sm="3">
+            	<b:link value="#{msg['analisis.list.show']}" 
+	    				outcome="pretty:allAnalysis"
+	    				iconAwesome="arrow-left" 
+	  					look="info"/>   
+            </b:column>
+		</b:row>
 		<b:tabView activeIndex="0">
   			<b:tab title="#{msg['analysis.detail.legend']}" contentDisabled="true">
   				<b:form id="analysisResultForm">
