@@ -14,6 +14,12 @@
          	<b:row>
          		<b:column col-xs="6">
             		<legend><h:outputText value="#{msg['admin.users.detail.legend']}"/></legend>      
+            	</b:column>
+            	<b:column col-xs="6" col-sm="3" offset-sm="3">
+            		<b:link value="#{msg['admin.users.list.show']}" 
+	    					outcome="pretty:users"
+	    					iconAwesome="arrow-left" 
+	  						look="info"/>   
             	</b:column>                 
 	        </b:row>
          	<b:panel>
