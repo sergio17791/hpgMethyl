@@ -205,40 +205,7 @@ public class MethylationAnalysisDetail implements Serializable {
 				AnalysisStatus status = analysisRequest.getStatus();
 					
 				AnalysisRequestBean analysisRequestBean = (AnalysisRequestBean) FacesContextUtils.getBean("analysisBean");
-				analysisRequestBean.setId(analysisRequest.getId());
-				analysisRequestBean.setUser(analysisRequest.getUser());
-				analysisRequestBean.setIdentifier(analysisRequest.getIdentifier());
-				analysisRequestBean.setInputReadFile(analysisRequest.getInputReadFile());
-				analysisRequestBean.setStatus(status);
-				analysisRequestBean.setPairedMode(analysisRequest.getPairedMode());
-				analysisRequestBean.setWriteMethylationContext(analysisRequest.getWriteMethylationContext());
-				analysisRequestBean.setPairedEndModeFile(analysisRequest.getPairedEndModeFile());
-				analysisRequestBean.setPairedMaxDistance(analysisRequest.getPairedMaxDistance());
-				analysisRequestBean.setPairedMinDistance(analysisRequest.getPairedMinDistance());
-				analysisRequestBean.setSwaMinimunScore(analysisRequest.getSwaMinimunScore());
-				analysisRequestBean.setSwaMatchScore(analysisRequest.getSwaMatchScore());
-				analysisRequestBean.setSwaMismatchScore(analysisRequest.getSwaMismatchScore());
-				analysisRequestBean.setSwaGapOpen(analysisRequest.getSwaGapOpen());
-				analysisRequestBean.setSwaGapExtend(analysisRequest.getSwaGapExtend());
-				analysisRequestBean.setCalFlankSize(analysisRequest.getCalFlankSize());
-				analysisRequestBean.setMinimumCalSize(analysisRequest.getMinimumCalSize());
-				analysisRequestBean.setCalUmbralLengthFactor(analysisRequest.getCalUmbralLengthFactor());
-				analysisRequestBean.setMaximumBetweenSeeds(analysisRequest.getMaximumBetweenSeeds());
-				analysisRequestBean.setMaximumSeedSize(analysisRequest.getMaximumSeedSize());
-				analysisRequestBean.setMinimumCalSize(analysisRequest.getMinimumCalSize());
-				analysisRequestBean.setNumberSeedsPerRead(analysisRequest.getNumberSeedsPerRead());
-				analysisRequestBean.setReadMinimumDiscardLength(analysisRequest.getReadMinimumDiscardLength());
-				analysisRequestBean.setReadMaximumInnerGap(analysisRequest.getReadMaximumInnerGap());
-				analysisRequestBean.setMinimumNumberSeeds(analysisRequest.getMinimumNumberSeeds());
-				analysisRequestBean.setFilterReadMappings(analysisRequest.getFilterReadMappings());
-				analysisRequestBean.setFilterSeedMappings(analysisRequest.getFilterSeedMappings());
-				analysisRequestBean.setReportAll(analysisRequest.getReportAll());
-				analysisRequestBean.setReportBest(analysisRequest.getReportBest());
-				analysisRequestBean.setReportNBest(analysisRequest.getReportNBest());
-				analysisRequestBean.setReportNHits(analysisRequest.getReportNHits());
-				analysisRequestBean.setNumber(analysisRequest.getNumber());		
-				analysisRequestBean.setCreatedAt(analysisRequest.getCreatedAt());
-				analysisRequestBean.setUpdatedAt(analysisRequest.getUpdatedAt());
+				analysisRequestBean.loadAnalysisRequest(analysisRequest);
 				
 				if(status.equals(AnalysisStatus.CREATED)) {
 					analysisRequestBean.loadUserFiles();
@@ -250,7 +217,10 @@ public class MethylationAnalysisDetail implements Serializable {
 						
 						this.downloaded = !analysisResult.getResultFile().getStored();
 			
-						this.file = buildDownloadFile(analysisResult.getResultFile());																	
+						this.file = buildDownloadFile(analysisResult.getResultFile());	
+						
+						AnalysisResultBean analysisResultBean = (AnalysisResultBean) FacesContextUtils.getBean("analysisResultBean");
+						analysisResultBean.loadAnalysisResult(analysisResult);
 						
 					} catch (AnalysisResultNotFound | FileNotFoundException e) {
 						

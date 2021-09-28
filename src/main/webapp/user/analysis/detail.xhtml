@@ -11,243 +11,84 @@
     	<f:metadata>
   			<f:viewParam name="id" value="#{analysisDetail.id}"/>
 			<f:viewAction action="#{analysisDetail.loadAnalysisDetail}"/>
-		</f:metadata> 
-		<b:form id="analysisDetailForm">  	
-         	<b:row>
-         		<b:column col-md="6">
-            		<legend><h:outputText value="#{msg['analysis.detail.legend']}"/></legend>      
-            	</b:column>                 
-	        </b:row>
-         	<b:panel>
-         		<b:row>
-         			<b:column col-md="6">
-						<b:inputText id ="analysisStatus" 
-	        				 		 value ="#{msg['analysis.attribute.status.' += analysisBean.status]}"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.attribute.status']}" 
-			             		 	 disabled="true"/>
-					</b:column>	
-					<b:column col-md="6">
-						<b:inputText id ="analysisNumber" 
-	        				 		 value ="#{analysisBean.number}"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.attribute.number']}" 
-		                 			 a:type  ="number"
-			             		 	 disabled="true"/>
-					</b:column>	              											  
-            	</b:row>
-         	</b:panel>
-         </b:form>
-         <b:form id="analysisResultForm" rendered="#{analysisBean.status eq 'COMPLETED'}">  	
-         	<b:row>
-         		<b:column col-md="6">
-            		<legend><h:outputText value="#{msg['analysis.detail.result.legend']}"/></legend>      
-            	</b:column>                 
-	        </b:row>
-         	<b:panel>         		
-            	<b:row>
-         			<b:column col-md="12">
-         				<b:commandButton id="downloadButton"
-         								 binding="#{analysisDetail.downloadButtonComponent}"
-         								 value="#{msg['analysis.detail.result.download']}" 
-         								 onclick="PrimeFaces.monitorDownload(null, refresh);"
-		                                 iconAwesome="download"
-		                                 look="primary"
-		                                 styleClass="btn-block"
-		                                 disabled="#{analysisDetail.downloaded}"> 
-            				<p:fileDownload value="#{analysisDetail.file}"/>
-        				</b:commandButton>
-        				<p:remoteCommand update="@all" name="refresh"/>
-					</b:column>	             											  
-            	</b:row>
-            	<b:row style="margin-top: 10px">             
-                	<b:column col-md="12">
-	                	<b:alert severity="success" 
-    							 value="#{msg['analysis.detail.result.download.success']}" 
-    							 rendered="#{analysisDetail.downloaded}"
-    							 closable="true"/>
-						<b:alert severity="warning" 
-    							 value="#{msg['analysis.detail.result.download.warning']}" 
-    							 rendered="#{!analysisDetail.downloaded}"
-    							 closable="true"/>    							 
-                	</b:column>
-                </b:row>
-                <b:row style="margin-top: 10px">             
-                	<b:column col-md="12">
-	                	<h:message for="downloadButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
-                	</b:column>
-                </b:row>
-                <b:row>
-         			<b:column col-md="6" offset-md="3">
-						<b:inputText id ="totalNumberCAnalysed" 
-	        				 		 value ="#{analysisDetail.analysisResult.totalNumberCAnalysed}"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.detail.result.totalNumberCAnalysed']}" 
-		                 			 a:type  ="number"
-			             		 	 disabled="true"/>
-					</b:column>	            											  
-            	</b:row>
-            	<b:row>
-         			<b:column col-md="4">
-						<b:inputText id ="totalMethylatedCCPGContext" 
-	        				 		 value ="#{analysisDetail.analysisResult.totalMethylatedCCPGContext}"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.detail.result.totalMethylatedCCPGContext']}" 
-		                 			 a:type  ="number"
-			             		 	 disabled="true"/>
-					</b:column>	
-					<b:column col-md="4">
-						<b:inputText id ="totalMethylatedCCHGContext" 
-	        				 		 value ="#{analysisDetail.analysisResult.totalMethylatedCCHGContext}"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.detail.result.totalMethylatedCCHGContext']}" 
-		                 			 a:type  ="number"
-			             		 	 disabled="true"/>
-					</b:column>	
-					<b:column col-md="4">
-						<b:inputText id ="totalMethylatedCCHHContext" 
-	        				 		 value ="#{analysisDetail.analysisResult.totalMethylatedCCHHContext}"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.detail.result.totalMethylatedCCHHContext']}" 
-		                 			 a:type  ="number"
-			             		 	 disabled="true"/>
-					</b:column>	              											  
-            	</b:row>
-            	<b:row>
-         			<b:column col-md="4">
-						<b:inputText id ="totalCToTConversionsCPGContext" 
-	        				 		 value ="#{analysisDetail.analysisResult.totalCToTConversionsCPGContext}"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.detail.result.totalCToTConversionsCPGContext']}" 
-		                 			 a:type  ="number"
-			             		 	 disabled="true"/>
-					</b:column>	
-					<b:column col-md="4">
-						<b:inputText id ="totalCToTConversionsCHGContext" 
-	        				 		 value ="#{analysisDetail.analysisResult.totalCToTConversionsCHGContext}"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.detail.result.totalCToTConversionsCHGContext']}" 
-		                 			 a:type  ="number"
-			             		 	 disabled="true"/>
-					</b:column>	
-					<b:column col-md="4">
-						<b:inputText id ="totalCToTConversionsCHHContext" 
-	        				 		 value ="#{analysisDetail.analysisResult.totalCToTConversionsCHHContext}"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.detail.result.totalCToTConversionsCHHContext']}" 
-		                 			 a:type  ="number"
-			             		 	 disabled="true"/>
-					</b:column>	              											  
-            	</b:row>
-            	<b:row>
-         			<b:column col-md="4">
-						<b:inputText id ="cMethylatedCPGContext" 
-	        				 		 value ="#{analysisDetail.analysisResult.cMethylatedCPGContext}%"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.detail.result.cMethylatedCPGContext']}" 
-			             		 	 disabled="true"/>
-					</b:column>	
-					<b:column col-md="4">
-						<b:inputText id ="cMethylatedCHGContext" 
-	        				 		 value ="#{analysisDetail.analysisResult.cMethylatedCHGContext}%"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.detail.result.cMethylatedCHGContext']}"
-			             		 	 disabled="true"/>
-					</b:column>	
-					<b:column col-md="4">
-						<b:inputText id ="cMethylatedCHHContext" 
-	        				 		 value ="#{analysisDetail.analysisResult.cMethylatedCHHContext}%"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.detail.result.cMethylatedCHHContext']}" 
-			             		 	 disabled="true"/>
-					</b:column>	              											  
-            	</b:row>
-            	<b:row>
-         			<b:column col-md="4">
-						<b:inputText id ="loadingTime" 
-	        				 		 value ="#{analysisDetail.analysisResult.loadingTime} (s)"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.detail.result.loadingTime']}" 
-			             		 	 disabled="true"/>
-					</b:column>	
-					<b:column col-md="4">
-						<b:inputText id ="aligmentTime" 
-	        				 		 value ="#{analysisDetail.analysisResult.aligmentTime} (s)"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.detail.result.aligmentTime']}" 
-			             		 	 disabled="true"/>
-					</b:column>	
-					<b:column col-md="4">
-						<b:inputText id ="totalTime" 
-	        				 		 value ="#{analysisDetail.analysisResult.totalTime} (s)"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.detail.result.totalTime']}" 
-			             		 	 disabled="true"/>
-					</b:column>	              											  
-            	</b:row>
-            	<b:row>
-         			<b:column col-md="6" offset-md="3">
-						<b:inputText id ="totalReadsProcessed" 
-	        				 		 value ="#{analysisDetail.analysisResult.totalReadsProcessed}"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.detail.result.totalReadsProcessed']}" 
-			             		 	 disabled="true"/>
-					</b:column>	            											  
-            	</b:row>
-            	<b:row>
-         			<b:column col-md="6">
-						<b:inputText id ="readsMapped" 
-	        				 		 value ="#{analysisDetail.analysisResult.totalReadsMapped} (#{analysisDetail.analysisResult.readsMapped}%)"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.detail.result.readsMapped']}" 
-			             		 	 disabled="true"/>
-					</b:column>	
-					<b:column col-md="6">
-						<b:inputText id ="readsUnmapped" 
-	        				 		 value ="#{analysisDetail.analysisResult.totalReadsUnmapped} (#{analysisDetail.analysisResult.readsUnmapped}%)"
-		               	 			 styleClass ="form-control-plaintext"
-		                 			 label ="#{msg['analysis.detail.result.readsUnmapped']}" 
-			             		 	 disabled="true"/>
-					</b:column>	            											  
-            	</b:row>
-         	</b:panel>
-         </b:form>
-         <b:form id="analysisParametersForm">
-         	<b:row>         	
-         		<b:column col-md="6">
-            		<legend><h:outputText value="#{msg['analysis.detail.parametersLegend']}"/></legend>      
-             	</b:column>                 
-         	</b:row>
-            <b:panel contentDisabled="#{analysisBean.status ne 'CREATED'}">
-            	 <ui:decorate template="../../WEB-INF/templates/analysisRequestTemplate.xhtml"/>
-            	 <b:row rendered="#{analysisBean.status eq 'CREATED'}">
-    				<b:column col-md="12">    			
-    					<b:alert severity="warning" value="#{msg['analysis.detail.upload.warning']}" closable="true"/>    				
-	    			</b:column>
-    			</b:row>
-            	 <b:row rendered="#{analysisBean.status eq 'CREATED'}">
-                	<b:column col-md="6">
-	                	<b:commandButton id="resetAnalysisButton"
-		                                 value="#{msg['general.reset']}" 
-		                                 type="reset"
-		                                 look="light"
-		                                 styleClass="btn-block"/>
-                	</b:column>
-                	<b:column col-md="6">
-	                	<b:commandButton id="updateAnalysisParametersButton"
-		                                 binding="#{analysisDetail.updateAnalysisParametersComponent}"
-		                                 value="#{msg['general.update']}" 
-		                                 actionListener="#{analysisDetail.updateAnalysisParameters}"
-		                                 look="primary"
-		                                 styleClass="btn-block"/> 
-                	</b:column>                    	
-                </b:row>                 
-                <b:row style="margin-top: 10px">             
-                	<b:column col-md="12">
-	                	<h:message for="updateAnalysisParametersButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
-                	</b:column>
-                </b:row>
-            </b:panel>                                          
-        </b:form>
+		</f:metadata>
+		<b:tabView activeIndex="0">
+  			<b:tab title="#{msg['analysis.detail.legend']}" contentDisabled="true">
+  				<b:form id="analysisResultForm">
+    				<b:panel>
+    					<ui:decorate template="../../WEB-INF/templates/analysisResultTemplate.xhtml">
+    						<ui:define name="downloadResultFiles">
+            					<b:row>
+									<b:column col-md="12">
+										<b:commandButton id="downloadButton"
+														 binding="#{analysisDetail.downloadButtonComponent}"
+         								 				 value="#{msg['analysis.detail.result.download']}" 
+         								 				 onclick="PrimeFaces.monitorDownload(null, refresh);"
+		                	             				 iconAwesome="download"
+		                    	         				 look="primary"
+		                        	     				 styleClass="btn-block"
+		                            	 				 disabled="#{analysisDetail.downloaded}"> 
+		            						<p:fileDownload value="#{analysisDetail.file}"/>
+		        						</b:commandButton>
+		        						<p:remoteCommand update="@all" name="refresh"/>
+									</b:column>	             											  
+		            			</b:row>
+		            			<b:row style="margin-top: 10px">             
+		                			<b:column col-md="12">
+			                			<b:alert severity="success" 
+		    							 		 value="#{msg['analysis.detail.result.download.success']}" 
+		    							 		 rendered="#{analysisDetail.downloaded}"
+		    							 		 closable="true"/>
+										<b:alert severity="warning" 
+		    							 		 value="#{msg['analysis.detail.result.download.warning']}" 
+		    							 		 rendered="#{!analysisDetail.downloaded}"
+		    							 		 closable="true"/>    							 
+		                			</b:column>
+		                		</b:row>
+		                		<b:row style="margin-top: 10px">             
+		                			<b:column col-md="12">
+			                			<h:message for="downloadButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
+		                			</b:column>
+		                		</b:row>
+        					</ui:define>
+    					</ui:decorate>        				
+		         	</b:panel>
+		         </b:form>	
+  			</b:tab>
+  			<b:tab title="#{msg['analysis.detail.parametersLegend']}">
+	       		<b:form id="analysisParametersForm">
+	         		<b:panel contentDisabled="#{analysisBean.status ne 'CREATED'}">
+	         	   		<ui:decorate template="../../WEB-INF/templates/analysisRequestTemplate.xhtml"/>
+	         	   	 	<b:row rendered="#{analysisBean.status eq 'CREATED'}">
+	    					<b:column col-md="12">    			
+	    						<b:alert severity="warning" value="#{msg['analysis.detail.upload.warning']}" closable="true"/>    				
+		    				</b:column>
+	    				</b:row>
+	         	   	 	<b:row rendered="#{analysisBean.status eq 'CREATED'}">
+	         	       		<b:column col-md="6">
+		      	          		<b:commandButton id="resetAnalysisButton"
+			   	                 	             value="#{msg['general.reset']}" 
+			   	               		             type="reset"
+			   	                    	         look="light"
+			   	                        	     styleClass="btn-block"/>
+		         	       	</b:column>
+		         	       	<b:column col-md="6">
+			      	          	<b:commandButton id="updateAnalysisParametersButton"
+				  	                             binding="#{analysisDetail.updateAnalysisParametersComponent}"
+			   	                              	 value="#{msg['general.update']}" 
+			   	                              	 actionListener="#{analysisDetail.updateAnalysisParameters}"
+			   	                              	 look="primary"
+			   	                              	 styleClass="btn-block"/> 
+	         	       		</b:column>                    	
+	         	       	</b:row>                 
+	         	       	<b:row style="margin-top: 10px">             
+	         	       		<b:column col-md="12">
+		      	          		<h:message for="updateAnalysisParametersButton" infoClass="alert alert-success errorMessage" errorClass="alert alert-danger errorMessage"/>
+	         	       		</b:column>
+	         	       </b:row>
+	         	   </b:panel>                                          
+	      		</b:form>
+  			</b:tab>
+ 		</b:tabView> 	     	         
     </ui:define>
 </ui:composition>
