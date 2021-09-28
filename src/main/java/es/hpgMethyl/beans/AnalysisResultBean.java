@@ -27,9 +27,9 @@ import es.hpgMethyl.utils.FacesContextUtils;
 @ManagedBean(name="analysisResultBean")
 @ViewScoped
 public class AnalysisResultBean implements Serializable {
-
-	private static final long serialVersionUID = -66931227949705531L;
-
+	
+	private static final long serialVersionUID = 7623543969484222815L;
+	
 	private Integer totalNumberCAnalysed;
 	private Integer totalMethylatedCCPGContext;
 	private Integer totalMethylatedCCHGContext;
