@@ -10,12 +10,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import es.hpgMethyl.dao.hibernate.UserDAOHibernate;
 import es.hpgMethyl.entities.User;
-import es.hpgMethyl.exceptions.GetObjectException;
-import es.hpgMethyl.exceptions.UserNotFound;
-import es.hpgMethyl.usecases.user.GetUser.GetUser;
-import es.hpgMethyl.usecases.user.GetUser.GetUserRequest;
 import es.hpgMethyl.utils.FacesContextUtils;
 
 public class GuestFilter implements Filter {

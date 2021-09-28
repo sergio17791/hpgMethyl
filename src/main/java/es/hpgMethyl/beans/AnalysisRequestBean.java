@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import es.hpgMethyl.dao.hibernate.HPGMethylFileDAOHibernate;
+import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.HPGMethylFile;
 import es.hpgMethyl.entities.User;
 import es.hpgMethyl.exceptions.FileNotFound;
@@ -594,6 +595,43 @@ public class AnalysisRequestBean implements Serializable {
 	 */
 	public void setUserFiles(List<HPGMethylFile> userFiles) {
 		this.userFiles = userFiles;
+	}
+	
+	public void loadAnalysisRequest(AnalysisRequest analysisRequest) {
+		this.id = analysisRequest.getId();
+		this.user = analysisRequest.getUser();
+		this.identifier = analysisRequest.getIdentifier();
+		this.status = analysisRequest.getStatus();
+		this.pairedMode = analysisRequest.getPairedMode();
+		this.inputReadFile = analysisRequest.getInputReadFile();
+		this.writeMethylationContext = analysisRequest.getWriteMethylationContext();
+		this.pairedEndModeFile = analysisRequest.getPairedEndModeFile();
+		this.pairedMaxDistance = analysisRequest.getPairedMaxDistance();
+		this.pairedMinDistance = analysisRequest.getPairedMinDistance();
+		this.swaMinimunScore = analysisRequest.getSwaMinimunScore();
+		this.swaMatchScore = analysisRequest.getSwaMatchScore();
+		this.swaMismatchScore = analysisRequest.getSwaMismatchScore();
+		this.swaGapOpen = analysisRequest.getSwaGapOpen();
+		this.swaGapExtend = analysisRequest.getSwaGapExtend();
+		this.calFlankSize = analysisRequest.getCalFlankSize();
+		this.minimumCalSize = analysisRequest.getMinimumCalSize();
+		this.calUmbralLengthFactor = analysisRequest.getCalUmbralLengthFactor();
+		this.maximumBetweenSeeds = analysisRequest.getMaximumBetweenSeeds();
+		this.maximumSeedSize = analysisRequest.getMaximumSeedSize();
+		this.minimumSeedSize = analysisRequest.getMinimumCalSize();
+		this.numberSeedsPerRead = analysisRequest.getNumberSeedsPerRead();
+		this.readMinimumDiscardLength = analysisRequest.getReadMinimumDiscardLength();
+		this.readMaximumInnerGap = -analysisRequest.getReadMaximumInnerGap();
+		this.minimumNumberSeeds = analysisRequest.getMinimumNumberSeeds();
+		this.filterReadMappings = analysisRequest.getFilterReadMappings();
+		this.filterSeedMappings = analysisRequest.getFilterSeedMappings();
+		this.reportAll = analysisRequest.getReportAll();
+		this.reportBest = analysisRequest.getReportBest();
+		this.reportNBest = analysisRequest.getReportNBest();
+		this.reportNHits = analysisRequest.getReportNHits();
+		this.number = analysisRequest.getNumber();	
+		this.createdAt = analysisRequest.getCreatedAt();
+		this.updatedAt = analysisRequest.getUpdatedAt();		
 	}
 	
 	public void loadUserFiles() {

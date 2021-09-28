@@ -1,5 +1,6 @@
 package es.hpgMethyl.junit.usecases.result;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
@@ -50,7 +51,26 @@ public class GetMethylationAnalysisResultTest {
 				new Date(),
 				new Date(),
 				analysisRequest,
-				new HPGMethylFile()
+				new HPGMethylFile(),
+				1280229870,
+				31080182,
+				3999808,
+				26753886,
+				62521969,
+				162371568,
+				608524098,
+				new BigDecimal("33.20"),
+				new BigDecimal("2.40"),
+				new BigDecimal("4.21"),
+				new BigDecimal("0"),
+				new BigDecimal("3024.49"),
+				new BigDecimal("3024.49"),
+				31391744,
+				new BigDecimal("86.40"),
+				27122088,
+				new BigDecimal("13.60"),
+				4269656,
+				null
 		);
 		
 		Mockito.doReturn(analysisResult).when(analysisResultDAO).findByAnalysisRequest(analysisRequest);
