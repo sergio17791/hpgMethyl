@@ -109,10 +109,18 @@ public class HPGMethylProcessor extends Thread {
 				String userFilesPath = FileUtils.concatenatePath(configuration.getUsersDirectoryAbsolutePath(), analysisRequest.getUser().getId().toString());
 				String outputDirectory = FileUtils.concatenatePath(userFilesPath, analysisRequest.getId().toString());
 				
+				
+				
 				String command = new AnalysisCommandBuilder().build(configuration, analysisRequest, outputDirectory);
 				Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.INFO, command);
 				
 				try {
+					Boolean directoryCreated = FileUtils.createDirectory(outputDirectory);
+					
+					if(!directoryCreated) {
+						throw new IOException();
+					}
+					
 					executeCommand(command);
 					
 					File zipFile = FileUtils.compressDirectoryInZip(outputDirectory, userFilesPath, analysisRequest.getIdentifier());
