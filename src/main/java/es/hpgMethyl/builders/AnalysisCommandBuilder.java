@@ -72,19 +72,13 @@ public class AnalysisCommandBuilder {
 	
 	private String WRITE_MCONTEXT = "--write-mcontext";
 	
-	public String build(Configuration configuration, AnalysisRequest analysisRequest, String outputDirectory) {
-		
-		String command = "";				
+	public String[] build(Configuration configuration, AnalysisRequest analysisRequest, String outputDirectory) {	
 		
 		String hpgMethylAbsolutePath = configuration.getHpgMethylAbsolutePath();
 		
-		if (hpgMethylAbsolutePath.charAt(0) != '.') {
-			command = ".";
-		}
-		
 		String bwtIndexAbsolutePath = configuration.getBwtIndexAbsolutePath();
 		
-		command = command + hpgMethylAbsolutePath + " bs " + BWT_INDEX + "  " + bwtIndexAbsolutePath;
+		String command = hpgMethylAbsolutePath + " bs " + BWT_INDEX + "  " + bwtIndexAbsolutePath;
 				
 		command = command + " " + OUTDIR + " " + outputDirectory + " " + CPU_THREADS + " " + configuration.getCpuThreads();
 		
@@ -229,8 +223,10 @@ public class AnalysisCommandBuilder {
 	    	command = command + " " + REPORT_N_HITS + " " + reportNHits;
 	    }
 	    
-	    command = command + " | tee " + outputDirectory + "/log.txt";
+	    String log = "tee " + outputDirectory + "/log.txt";
+	    
+	    String[] result = {command, "|", log};
 		
-		return command;
+		return result;
 	}		
 }

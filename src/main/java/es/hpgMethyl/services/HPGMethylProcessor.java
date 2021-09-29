@@ -111,8 +111,8 @@ public class HPGMethylProcessor extends Thread {
 				
 				
 				
-				String command = new AnalysisCommandBuilder().build(configuration, analysisRequest, outputDirectory);
-				Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.INFO, command);
+				String[] command = new AnalysisCommandBuilder().build(configuration, analysisRequest, outputDirectory);
+				Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.INFO, command[0]);
 				
 				try {
 					Boolean directoryCreated = FileUtils.createDirectory(outputDirectory);
@@ -217,7 +217,7 @@ public class HPGMethylProcessor extends Thread {
 		Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.INFO, "HPG-Methyl Processing Finished");
 	}
 	
-	private void executeCommand(String command) throws IOException, InterruptedException {
+	private void executeCommand(String[] command) throws IOException, InterruptedException {
 
 		Runtime runtime = Runtime.getRuntime();
 				
