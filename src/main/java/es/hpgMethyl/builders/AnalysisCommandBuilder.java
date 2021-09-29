@@ -72,7 +72,7 @@ public class AnalysisCommandBuilder {
 	
 	private String WRITE_MCONTEXT = "--write-mcontext";
 	
-	public String[] build(Configuration configuration, AnalysisRequest analysisRequest, String outputDirectory) {	
+	public String build(Configuration configuration, AnalysisRequest analysisRequest, String outputDirectory) {			
 		
 		String hpgMethylAbsolutePath = configuration.getHpgMethylAbsolutePath();
 		
@@ -222,11 +222,7 @@ public class AnalysisCommandBuilder {
 	    if(reportNHits != null) {
 	    	command = command + " " + REPORT_N_HITS + " " + reportNHits;
 	    }
-	    
-	    String log = "tee " + outputDirectory + "/log.txt";
-	    
-	    String[] result = {command, "|", log};
 		
-		return result;
+		return command;
 	}		
 }

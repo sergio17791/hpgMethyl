@@ -111,8 +111,8 @@ public class HPGMethylProcessor extends Thread {
 				
 				
 				
-				String[] command = new AnalysisCommandBuilder().build(configuration, analysisRequest, outputDirectory);
-				Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.INFO, command[0]);
+				String command = new AnalysisCommandBuilder().build(configuration, analysisRequest, outputDirectory);
+				Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.INFO, command);
 				
 				try {
 					Boolean directoryCreated = FileUtils.createDirectory(outputDirectory);
@@ -217,17 +217,16 @@ public class HPGMethylProcessor extends Thread {
 		Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.INFO, "HPG-Methyl Processing Finished");
 	}
 	
-	private void executeCommand(String[] command) throws IOException, InterruptedException {
-
-		Runtime runtime = Runtime.getRuntime();
+	private void executeCommand(String command) throws IOException, InterruptedException {
 				
-		Process process = runtime.exec(command);
+		Process process = new ProcessBuilder(command).redirectErrorStream(true).start();
 		
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 		
 		String output;
-		while((output = bufferedReader.readLine())!=null){
-			Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.INFO, output);
+		while((output = bufferedReader.readLine()) != null){
+			Logger.getLogger(HPGMethylProcessor.class.getName()).log(Level.INFO, output);
+			Logger.getAnonymousLogger().log(Level.INFO, "ANONYMOUS -> " + output);
 		}
 		
 		process.waitFor();
