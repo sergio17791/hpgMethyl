@@ -136,7 +136,7 @@ public class HPGMethylProcessor extends Thread {
 							)	
 					).getFile();
 					
-					HPGMethylResultReader resultReader = new HPGMethylResultReader(outputDirectory + "/log.txt");
+					/*HPGMethylResultReader resultReader = new HPGMethylResultReader(outputDirectory + "/log.txt");
 					
 					new CreateMehtylationResult(new AnalysisResultDAOHibernate()).execute(
 							new CreateMehtylationResultRequest(
@@ -163,9 +163,9 @@ public class HPGMethylProcessor extends Thread {
 							)
 					);
 					
-					FileUtils.delete(outputDirectory);
+					FileUtils.delete(outputDirectory);*/
 					
-				} catch (IOException | InterruptedException | CreateFileException | DuplicatedFile | CreateMehtylationResultException | DuplicatedAnalysisResult e) {
+				} catch (IOException | InterruptedException | CreateFileException | DuplicatedFile /*| CreateMehtylationResultException | DuplicatedAnalysisResult*/ e) {
 					Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.SEVERE, e.getMessage());
 					
 					try {
@@ -173,22 +173,22 @@ public class HPGMethylProcessor extends Thread {
 								new UpdateMethylationAnalysisStatusRequest(analysisRequest.getId(), AnalysisStatus.FAILED)
 						);
 						
-						new CreateErrorMethylationResult(new AnalysisResultDAOHibernate()).execute(
+						/*new CreateErrorMethylationResult(new AnalysisResultDAOHibernate()).execute(
 								new CreateErrorMethylationResultRequest(
 										analysisRequest, 
 										e.getMessage()
 								)
 						);
-						
-					} catch (AnalysisRequestNotFound | UpdateMethylationAnalysisException | CreateMehtylationResultException | DuplicatedAnalysisResult e2) {
+						*/
+					} catch (AnalysisRequestNotFound | UpdateMethylationAnalysisException /*| CreateMehtylationResultException | DuplicatedAnalysisResult*/ e2) {
 						Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.SEVERE, e2.getMessage());
 					}
 					
-					deleteFileFromSystem(analysisRequest.getInputReadFile());
+					//deleteFileFromSystem(analysisRequest.getInputReadFile());
 					
-					if(analysisRequest.getPairedMode().equals(PairedMode.PAIRED_END_MODE)) {
-						deleteFileFromSystem(analysisRequest.getPairedEndModeFile());
-					}
+					//if(analysisRequest.getPairedMode().equals(PairedMode.PAIRED_END_MODE)) {
+					//	deleteFileFromSystem(analysisRequest.getPairedEndModeFile());
+					//}
 					
 					break;
 				}
@@ -201,11 +201,11 @@ public class HPGMethylProcessor extends Thread {
 					Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.SEVERE, e.getMessage());
 				}
 				
-				deleteFileFromSystem(analysisRequest.getInputReadFile());
+				//deleteFileFromSystem(analysisRequest.getInputReadFile());
 				
-				if(analysisRequest.getPairedMode().equals(PairedMode.PAIRED_END_MODE)) {
-					deleteFileFromSystem(analysisRequest.getPairedEndModeFile());
-				}
+				//if(analysisRequest.getPairedMode().equals(PairedMode.PAIRED_END_MODE)) {
+				//	deleteFileFromSystem(analysisRequest.getPairedEndModeFile());
+				//}
 			}
 									
 			semaphore.release();
