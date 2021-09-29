@@ -259,10 +259,6 @@ public class AnalysisCommandBuilder {
 	    	command.add(REPORT_N_HITS);
 	    	command.add(reportNHits.toString());
 	    }
-	    
-	    command.add("|");
-	    command.add("tee");
-	    command.add(outputDirectory + "/log.txt");
 		
 		return command;
 	}		

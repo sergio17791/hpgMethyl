@@ -1,15 +1,40 @@
 package es.hpgMethyl.services;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.math.BigDecimal;
-import java.util.Scanner;
 
 public class HPGMethylResultReader {
 		
-	private static final String RESULT_SEPARATOR = "Final Cytosine Methylation Report";
+	private static final String TOTAL_NUMBER_C_ANALYSED = "Total number of C's analysed";
 	
-	private String resultFilePath;
+	private static final String TOTAL_METHYLATED_C_CPG_CONTEXT = "Total methylated C's in CpG context";
+	
+	private static final String TOTAL_METHYLATED_C_CHG_CONTEXT = "Total methylated C's in CHG context";
+	
+	private static final String TOTAL_METHYLATED_C_CHH_CONTEXT = "Total methylated C's in CHH context";
+	
+	private static final String TOTAL_C_TO_T_CONVERSIONS_CPG_CONTEXT = "Total C to T conversions in CpG context";
+	
+	private static final String TOTAL_C_TO_T_CONVERSIONS_CHG_CONTEXT = "Total C to T conversions in CHG context";
+	
+	private static final String TOTAL_C_TO_T_CONVERSIONS_CHH_CONTEXT = "Total C to T conversions in CHH context";
+	
+	private static final String C_METHYLATED_CPG_CONTEXT = "C methylated in CpG context";
+	
+	private static final String C_METHYLATED_CHG_CONTEXT = "C methylated in CHG context";
+	
+	private static final String C_METHYLATED_CHH_CONTEXT = "C methylated in CHH context";
+	
+	private static final String LOADING_TIME = "Loading Time (s)";
+	
+	private static final String ALIGNMENT_TIME = "Alignment Time (s)";
+	
+	private static final String TOTAL_TIME = "Total Time (s)";
+	
+	private static final String TOTAL_READS_PROCESSED = "Total Reads Processed";
+	
+	private static final String READS_MAPPED = "Reads Mapped";
+	
+	private static final String READS_UNMAPPED = "Reads Unmapped";
 	
 	private Integer totalNumberCAnalysed;
 	
@@ -47,8 +72,7 @@ public class HPGMethylResultReader {
 	
 	private Integer totalReadsUnmapped;
 
-	public HPGMethylResultReader(String resultFilePath) {
-		this.resultFilePath = resultFilePath;
+	public HPGMethylResultReader() {
 		this.totalNumberCAnalysed = null;
 		this.totalMethylatedCCPGContext = null;
 		this.totalMethylatedCCHGContext = null;
@@ -67,13 +91,6 @@ public class HPGMethylResultReader {
 		this.totalReadsMapped = null;
 		this.readsUnmapped = null;
 		this.totalReadsUnmapped = null;
-	}
-
-	/**
-	 * @return the resultFilePath
-	 */
-	public String getResultFilePath() {
-		return resultFilePath;
 	}
 
 	/**
@@ -201,88 +218,50 @@ public class HPGMethylResultReader {
 	public Integer getTotalReadsUnmapped() {
 		return totalReadsUnmapped;
 	}
-
-	public void read() {
-		
-		try {
-			Scanner scanner = new Scanner(new File(resultFilePath));
-			
-			Integer line = null;
-			
-			while(scanner.hasNextLine()) {				
-				String fileLine = scanner.nextLine();
-
-				if(fileLine.equals(RESULT_SEPARATOR)) {
-					line = 0;
-				}
+	
+	public void readLine(String line) {
+		if(line != null) {
+			if(line.contains(TOTAL_NUMBER_C_ANALYSED)) {
+				this.totalNumberCAnalysed = getIntegerResultFromSimpleLine(line);
+			} else if(line.contains(TOTAL_METHYLATED_C_CPG_CONTEXT)) {
+				this.totalMethylatedCCPGContext = getIntegerResultFromSimpleLine(line);
+			} else if(line.contains(TOTAL_METHYLATED_C_CHG_CONTEXT)) {
+				this.totalMethylatedCCHGContext = getIntegerResultFromSimpleLine(line);
+			} else if(line.contains(TOTAL_METHYLATED_C_CHH_CONTEXT)) {
+				this.totalMethylatedCCHHContext = getIntegerResultFromSimpleLine(line);
+			} else if(line.contains(TOTAL_C_TO_T_CONVERSIONS_CPG_CONTEXT)) {
+				this.totalCToTConversionsCPGContext = getIntegerResultFromSimpleLine(line);
+			} else if(line.contains(TOTAL_C_TO_T_CONVERSIONS_CHG_CONTEXT)) {
+				this.totalCToTConversionsCHGContext = getIntegerResultFromSimpleLine(line);
+			} else if(line.contains(TOTAL_C_TO_T_CONVERSIONS_CHH_CONTEXT)) {
+				this.totalCToTConversionsCHHContex = getIntegerResultFromSimpleLine(line);
+			} else if(line.contains(C_METHYLATED_CPG_CONTEXT)) {
+				this.cMethylatedCPGContext = getPercentageResultFromSimpleLine(line);
+			} else if(line.contains(C_METHYLATED_CHG_CONTEXT)) {
+				this.cMethylatedCHGContext = getPercentageResultFromSimpleLine(line);
+			} else if(line.contains(C_METHYLATED_CHH_CONTEXT)) {
+				this.cMethylatedCHHContext = getPercentageResultFromSimpleLine(line);
+			} else if(line.contains(LOADING_TIME)) {
+				this.loadingTime = getFloatResultFromSimpleLine(line);
+			} else if(line.contains(ALIGNMENT_TIME)) {
+				this.aligmentTime = getFloatResultFromSimpleLine(line);
+			} else if(line.contains(TOTAL_TIME)) {
+				this.totalTime = getFloatResultFromSimpleLine(line);
+			} else if(line.contains(TOTAL_READS_PROCESSED)) {
+				this.totalReadsProcessed = getIntegerResultFromSimpleLine(line);
+			} else if(line.contains(READS_MAPPED) && line.contains(READS_UNMAPPED)) {
+				String[] lineResultsParts= line.replaceAll("^ +| +$|( )+", "$1").split("\\|");
 				
-				if(line != null) {
-					switch (line) {
-					case 2:
-						this.totalNumberCAnalysed = getIntegerResultFromSimpleLine(fileLine);
-						break;
-					case 4:
-						this.totalMethylatedCCPGContext = getIntegerResultFromSimpleLine(fileLine);
-						break;
-					case 5:
-						this.totalMethylatedCCHGContext = getIntegerResultFromSimpleLine(fileLine);
-						break;
-					case 6:
-						this.totalMethylatedCCHHContext = getIntegerResultFromSimpleLine(fileLine);
-						break;
-					case 8:
-						this.totalCToTConversionsCPGContext = getIntegerResultFromSimpleLine(fileLine);
-						break;
-					case 9:
-						this.totalCToTConversionsCHGContext = getIntegerResultFromSimpleLine(fileLine);
-						break;	
-					case 10:
-						this.totalCToTConversionsCHHContex = getIntegerResultFromSimpleLine(fileLine);
-						break;	
-					case 12:
-						this.cMethylatedCPGContext = getPercentageResultFromSimpleLine(fileLine);
-						break;
-					case 13:
-						this.cMethylatedCHGContext = getPercentageResultFromSimpleLine(fileLine);
-						break;	
-					case 14:
-						this.cMethylatedCHHContext = getPercentageResultFromSimpleLine(fileLine);
-						break;	
-					case 18:
-						this.loadingTime = getFloatResultFromSimpleLine(fileLine);
-						break;	
-					case 19:
-						this.aligmentTime = getFloatResultFromSimpleLine(fileLine);
-						break;	
-					case 20:
-						this.totalTime = getFloatResultFromSimpleLine(fileLine);
-						break;	
-					case 22:
-						this.totalReadsProcessed = getIntegerResultFromSimpleLine(fileLine);
-						break;	
-					case 24:
-						String[] lineResultsParts= fileLine.replaceAll("^ +| +$|( )+", "$1").split("\\|");
-						
-						String readsMappedCompleteResult = lineResultsParts[1].split(":")[1];
-						String[] readsMappedResults = readsMappedCompleteResult.split(" ");
-						this.totalReadsMapped = Integer.valueOf(readsMappedResults[1].trim());
-						this.readsMapped = new BigDecimal(readsMappedResults[2].trim().replace("%", ""));
+				String readsMappedCompleteResult = lineResultsParts[1].split(":")[1];
+				String[] readsMappedResults = readsMappedCompleteResult.split(" ");
+				this.totalReadsMapped = Integer.valueOf(readsMappedResults[1].trim());
+				this.readsMapped = new BigDecimal(readsMappedResults[2].trim().replace("%", ""));
 
-						String readsUnmappedCompleteResult = lineResultsParts[2].split(":")[1];
-						String[] readsUnmappedResults = readsUnmappedCompleteResult.split(" ");
-						this.totalReadsUnmapped = Integer.valueOf(readsUnmappedResults[1].trim());
-						this.readsUnmapped = new BigDecimal(readsUnmappedResults[2].trim().replace("%", ""));
-						break;	
-					default:
-						break;
-					}
-					
-					line++;
-				}
+				String readsUnmappedCompleteResult = lineResultsParts[2].split(":")[1];
+				String[] readsUnmappedResults = readsUnmappedCompleteResult.split(" ");
+				this.totalReadsUnmapped = Integer.valueOf(readsUnmappedResults[1].trim());
+				this.readsUnmapped = new BigDecimal(readsUnmappedResults[2].trim().replace("%", ""));
 			}
-			
-		} catch (FileNotFoundException e) {			
-			e.printStackTrace();
 		}
 	}
 	

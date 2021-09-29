@@ -121,7 +121,7 @@ public class HPGMethylProcessor extends Thread {
 						throw new IOException();
 					}
 					
-					executeCommand(command);
+					HPGMethylResultReader resultReader = executeCommand(command);
 					
 					File zipFile = FileUtils.compressDirectoryInZip(outputDirectory, userFilesPath, analysisRequest.getIdentifier());
 					
@@ -134,9 +134,7 @@ public class HPGMethylProcessor extends Thread {
 								"application/octet-stream",
 								Boolean.FALSE
 							)	
-					).getFile();
-					
-					/*HPGMethylResultReader resultReader = new HPGMethylResultReader(outputDirectory + "/log.txt");
+					).getFile();				
 					
 					new CreateMehtylationResult(new AnalysisResultDAOHibernate()).execute(
 							new CreateMehtylationResultRequest(
@@ -163,9 +161,9 @@ public class HPGMethylProcessor extends Thread {
 							)
 					);
 					
-					FileUtils.delete(outputDirectory);*/
+					FileUtils.delete(outputDirectory);
 					
-				} catch (IOException | InterruptedException | CreateFileException | DuplicatedFile /*| CreateMehtylationResultException | DuplicatedAnalysisResult*/ e) {
+				} catch (IOException | InterruptedException | CreateFileException | DuplicatedFile | CreateMehtylationResultException | DuplicatedAnalysisResult e) {
 					Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.SEVERE, e.getMessage());
 					
 					try {
@@ -173,22 +171,22 @@ public class HPGMethylProcessor extends Thread {
 								new UpdateMethylationAnalysisStatusRequest(analysisRequest.getId(), AnalysisStatus.FAILED)
 						);
 						
-						/*new CreateErrorMethylationResult(new AnalysisResultDAOHibernate()).execute(
+						new CreateErrorMethylationResult(new AnalysisResultDAOHibernate()).execute(
 								new CreateErrorMethylationResultRequest(
 										analysisRequest, 
 										e.getMessage()
 								)
 						);
-						*/
-					} catch (AnalysisRequestNotFound | UpdateMethylationAnalysisException /*| CreateMehtylationResultException | DuplicatedAnalysisResult*/ e2) {
+						
+					} catch (AnalysisRequestNotFound | UpdateMethylationAnalysisException | CreateMehtylationResultException | DuplicatedAnalysisResult e2) {
 						Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.SEVERE, e2.getMessage());
 					}
 					
-					//deleteFileFromSystem(analysisRequest.getInputReadFile());
+					deleteFileFromSystem(analysisRequest.getInputReadFile());
 					
-					//if(analysisRequest.getPairedMode().equals(PairedMode.PAIRED_END_MODE)) {
-					//	deleteFileFromSystem(analysisRequest.getPairedEndModeFile());
-					//}
+					if(analysisRequest.getPairedMode().equals(PairedMode.PAIRED_END_MODE)) {
+						deleteFileFromSystem(analysisRequest.getPairedEndModeFile());
+					}
 					
 					break;
 				}
@@ -201,11 +199,11 @@ public class HPGMethylProcessor extends Thread {
 					Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.SEVERE, e.getMessage());
 				}
 				
-				//deleteFileFromSystem(analysisRequest.getInputReadFile());
+				deleteFileFromSystem(analysisRequest.getInputReadFile());
 				
-				//if(analysisRequest.getPairedMode().equals(PairedMode.PAIRED_END_MODE)) {
-				//	deleteFileFromSystem(analysisRequest.getPairedEndModeFile());
-				//}
+				if(analysisRequest.getPairedMode().equals(PairedMode.PAIRED_END_MODE)) {
+					deleteFileFromSystem(analysisRequest.getPairedEndModeFile());
+				}
 			}
 									
 			semaphore.release();
@@ -217,18 +215,22 @@ public class HPGMethylProcessor extends Thread {
 		Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.INFO, "HPG-Methyl Processing Finished");
 	}
 	
-	private void executeCommand(List<String> command) throws IOException, InterruptedException {
-				
+	private HPGMethylResultReader executeCommand(List<String> command) throws IOException, InterruptedException {
+
+		HPGMethylResultReader resultReader = new HPGMethylResultReader();
+		
 		Process process = new ProcessBuilder(command).redirectErrorStream(true).start();
 		
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 		
 		String output;
 		while((output = bufferedReader.readLine()) != null){
-			Logger.getLogger(HPGMethylProcessor.class.getName()).log(Level.INFO, output);
+			resultReader.readLine(output);
 		}
 		
 		process.waitFor();
+		
+		return resultReader;
 	}
 	
 	private void deleteFileFromSystem(HPGMethylFile file) {
