@@ -7,11 +7,11 @@
                 template="../../WEB-INF/templates/mainTemplate.xhtml">
     <ui:define name="content">
     	<f:event type="preRenderView" listener="#{listUserAnalysis.loadAnalysisList}"/>
-    	<b:row>
-        	<b:column col-xs="6">
+    	<b:row> 
+        	<b:column col-sm="6">
             	<legend><h:outputText value="#{msg['analysis.list.legend']}"/></legend>      
             </b:column>
-            <b:column col-xs="6" col-sm="3" offset-sm="3">
+            <b:column col-sm="4" col-md="3" offset-sm="2" offset-md="3">
             	<b:link value="#{msg['analysis.send.newRequest']}" 
 	    				outcome="pretty:analysisSend"
 	    				iconAwesome="plus-circle" 
@@ -25,6 +25,7 @@
     				 searching="true"
     				 mark-search-results="true"
            	   		 page-length-menu="5,10,20,50"
+           	   		 style="margin-top: 10px"
     				 custom-lang-url="#{listUserAnalysis.customLanguageTranslation()}">
     		<b:dataTableColumn value="#{analysisRequest.identifier}" 
     						   label="#{msg['analysis.attribute.identifier']}"/>

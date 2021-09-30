@@ -13,17 +13,17 @@
 		</f:metadata>  
          <b:form>
          	<b:row>         	
-         		<b:column col-md="6">
+         		<b:column col-sm="6">
             		<legend><h:outputText value="#{msg['file.detail.legend']}"/></legend>      
              	</b:column>   
-             	<b:column col-xs="6" col-sm="3" offset-sm="3">
+             	<b:column col-sm="4" col-md="3" offset-sm="2" offset-md="3">
             		<b:link value="#{msg['general.goBack']}" 
 	    					outcome="pretty:userFiles"
 	    					iconAwesome="arrow-left" 
 	  						look="info"/>   
             	</b:column>              
          	</b:row>
-            <b:panel>
+            <b:panel style="margin-top: 10px">
 				<b:row>
          			<b:column col-md="6">
 						<b:inputText value ="#{fileDetail.file.fileName}"

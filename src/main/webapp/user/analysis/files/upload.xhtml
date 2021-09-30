@@ -9,17 +9,17 @@
     <ui:define name="content">
     	<b:form enctype="multipart/form-data">
     		<b:row>
-                <b:column col-md="6">
+                <b:column col-sm="6">
                     <legend><h:outputText value="#{msg['files.upload.legend']}"/></legend>      
                 </b:column>   
-                <b:column col-xs="6" col-sm="3" offset-sm="3">
+                <b:column col-sm="4" col-md="3" offset-sm="2" offset-md="3">
             		<b:link value="#{msg['analysis.send.newRequest']}" 
 	    					outcome="pretty:analysisSend"
 	    					iconAwesome="plus-circle" 
 	  						look="success"/>   
             	</b:column>                
 			</b:row>            	          	
-    		<b:row>
+    		<b:row style="margin-top: 10px">
     			<b:column col-md="12">    			
         			<p:fileUpload id="uploadFiles"
         						  binding="#{filesBean.uploadFilesComponent}"
