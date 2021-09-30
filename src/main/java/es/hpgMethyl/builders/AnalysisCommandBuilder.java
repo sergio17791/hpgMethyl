@@ -1,12 +1,16 @@
 package es.hpgMethyl.builders;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import es.hpgMethyl.entities.AnalysisRequest;
 import es.hpgMethyl.entities.Configuration;
 import es.hpgMethyl.types.PairedMode;
 
 public class AnalysisCommandBuilder {
+	
+	private String BISULFITE_MODE = "bs";
 	
 	private String BWT_INDEX = "--bwt-index";
 	
@@ -72,158 +76,189 @@ public class AnalysisCommandBuilder {
 	
 	private String WRITE_MCONTEXT = "--write-mcontext";
 	
-	public String build(Configuration configuration, AnalysisRequest analysisRequest, String outputDirectory) {
+	public List<String> build(Configuration configuration, AnalysisRequest analysisRequest, String outputDirectory) {
+		
+		List<String> command = new ArrayList<String>();
 		
 		String hpgMethylAbsolutePath = configuration.getHpgMethylAbsolutePath();
 		
 		String bwtIndexAbsolutePath = configuration.getBwtIndexAbsolutePath();
 		
-		String command = hpgMethylAbsolutePath + " bs " + BWT_INDEX + "  " + bwtIndexAbsolutePath;
-				
-		command = command + " " + OUTDIR + " " + outputDirectory + " " + CPU_THREADS + " " + configuration.getCpuThreads();
+		command.add(hpgMethylAbsolutePath);
+		command.add(BISULFITE_MODE);
+		command.add(BWT_INDEX);
+		command.add(bwtIndexAbsolutePath);
+		command.add(OUTDIR);
+		command.add(outputDirectory);
+		command.add(CPU_THREADS);
+		command.add(configuration.getCpuThreads().toString());
 		
 		Integer readBatchSize = configuration.getReadBatchSize();
 		if(readBatchSize != null) {
-			command = command + " " + READ_BATCH_SIZE + " " + readBatchSize;
+			command.add(READ_BATCH_SIZE);
+			command.add(readBatchSize.toString());
 		}
 		
 		Integer writeBatchSize = configuration.getWriteBatchSize();
 		if(writeBatchSize != null) {
-			command = command + " " + WRITE_BATCH_SIZE + " " + writeBatchSize;
+			command.add(WRITE_BATCH_SIZE);
+			command.add(writeBatchSize.toString());
 		}
 		
 		String fastqFilePath = analysisRequest.getInputReadFile().getPath();
 		
-		command = command + " " + FASTQ_FILE_PATH + " " + fastqFilePath;
+		command.add(FASTQ_FILE_PATH);
+		command.add(fastqFilePath);
 		
 		if(analysisRequest.getWriteMethylationContext()) {
-			command = command + " " + WRITE_MCONTEXT;
+			command.add(WRITE_MCONTEXT);
 		}
 		
 	    PairedMode pairedMode = analysisRequest.getPairedMode();
 	    
-		command = command + " " + PAIRED_MODE + " " + pairedMode.getValue();
+	    command.add(PAIRED_MODE);
+		command.add(pairedMode.getValue().toString());
 		
 	    if(PairedMode.PAIRED_END_MODE.equals(pairedMode)) {
 
 	    	String secondFastqFilePath = analysisRequest.getPairedEndModeFile().getPath();
-	    	command = command + " " + SECOND_FASTQ_FILE_PATH + " " + secondFastqFilePath;
+	    	command.add(SECOND_FASTQ_FILE_PATH);
+			command.add(secondFastqFilePath);
 	    	
 	    	Integer pairedMaxDistance = analysisRequest.getPairedMaxDistance();
 	    	if(pairedMaxDistance != null) {
-	    		command = command + " " + PAIRED_MAX_DISTANCE + " " + pairedMaxDistance;
+	    		command.add(PAIRED_MAX_DISTANCE);
+	    		command.add(pairedMaxDistance.toString());
 	    	}
 		    
 	    	Integer pairedMinDistance = analysisRequest.getPairedMinDistance();
 	    	if(pairedMinDistance != null) {
-	    		command = command + " " + PAIRED_MIN_DISTANCE + " " + pairedMinDistance;
+	    		command.add(PAIRED_MIN_DISTANCE);
+	    		command.add(pairedMinDistance.toString());
 	    	}
 	    }
 	    
 	    BigDecimal smithWatermanMinimumScore = analysisRequest.getSwaMinimunScore();
 	    if(smithWatermanMinimumScore != null) {
-	    	command = command + " " + SMITH_WATERMAN_MINIMUM_SCORE + " " + smithWatermanMinimumScore;
+	    	command.add(SMITH_WATERMAN_MINIMUM_SCORE);
+    		command.add(smithWatermanMinimumScore.toString());
 	    }
 	    
 	    BigDecimal smithWatermanMatchScore = analysisRequest.getSwaMatchScore();
 	    if(smithWatermanMatchScore != null) {
-	    	command = command + " " + SMITH_WATERMAN_MATCH_SCORE + " " + smithWatermanMatchScore;
+	    	command.add(SMITH_WATERMAN_MATCH_SCORE);
+    		command.add(smithWatermanMatchScore.toString());
 	    }
 	    
 	    BigDecimal smithWatermanMismatchScore = analysisRequest.getSwaMismatchScore();
 	    if(smithWatermanMismatchScore != null) {
-	    	command = command + " " + SMITH_WATERMAN_MISMATCH_SCORE + " " + smithWatermanMismatchScore;
+	    	command.add(SMITH_WATERMAN_MISMATCH_SCORE);
+    		command.add(smithWatermanMismatchScore.toString());
 	    }
 	    
 	    BigDecimal smithWatermanGapOpen = analysisRequest.getSwaGapOpen();
 	    if(smithWatermanGapOpen != null) {
-	    	command = command + " " + SMITH_WATERMAN_GAP_OPEN + " " + smithWatermanGapOpen;
+	    	command.add(SMITH_WATERMAN_GAP_OPEN);
+    		command.add(smithWatermanGapOpen.toString());
 	    }
 	    
 	    BigDecimal smithWatermanGapExtend = analysisRequest.getSwaGapExtend();
 	    if(smithWatermanGapExtend != null) {
-	    	command = command + " " + SMITH_WATERMAN_GAP_EXTEND + " " + smithWatermanGapExtend;
+	    	command.add(SMITH_WATERMAN_GAP_EXTEND);
+    		command.add(smithWatermanGapExtend.toString());
 	    }
 	    
 	    Integer calFlankSize = analysisRequest.getCalFlankSize();
 	    if(calFlankSize != null) {
-	    	command = command + " " + CAL_FLANK_SIZE + " " + calFlankSize;
+	    	command.add(CAL_FLANK_SIZE);
+    		command.add(calFlankSize.toString());
 	    }
 	    
 	    Integer minimumCalSize = analysisRequest.getMinimumCalSize();
 	    if(minimumCalSize != null) {
-	    	command = command + " " + MINIMUM_CAL_SIZE + " " + minimumCalSize;
+	    	command.add(MINIMUM_CAL_SIZE);
+    		command.add(minimumCalSize.toString());
 	    }
 	    
 	    BigDecimal calUmbralLengthFactor = analysisRequest.getCalUmbralLengthFactor();
 	    if(calUmbralLengthFactor != null) {
-	    	command = command + " " + CAL_UMBRAL_LENGTH_FACTOR + " " + calUmbralLengthFactor;
+	    	command.add(CAL_UMBRAL_LENGTH_FACTOR);
+    		command.add(calUmbralLengthFactor.toString());
 	    }
 	    
 	    Integer maximumBetweenSeeds = analysisRequest.getMaximumBetweenSeeds();
 	    if(maximumBetweenSeeds != null) {
-	    	command = command + " " + MAXIMUM_DISTANCE_SEEDS + " " + maximumBetweenSeeds;
+	    	command.add(MAXIMUM_DISTANCE_SEEDS);
+    		command.add(maximumBetweenSeeds.toString());
 	    }
 	    
 	    Integer maximumSeedSize = analysisRequest.getMaximumSeedSize();
 	    if(maximumSeedSize != null) {
-	    	command = command + " " + MAXIMUM_SEED_SIZE + " " + maximumBetweenSeeds;
+	    	command.add(MAXIMUM_SEED_SIZE);
+    		command.add(maximumSeedSize.toString());
 	    }
 	    
 	    Integer minimumSeedSize = analysisRequest.getMinimumSeedSize();
 	    if(minimumSeedSize != null) {
-	    	command = command + " " + MINIMUM_SEED_SIZE + " " + minimumSeedSize;
+	    	command.add(MINIMUM_SEED_SIZE);
+    		command.add(minimumSeedSize.toString());
 	    }
 	    
 	    Integer numberSeedsPerRead = analysisRequest.getNumberSeedsPerRead();
 	    if(numberSeedsPerRead != null) {
-	    	command = command + " " + NUMBER_SEEDS_PER_READ + " " + numberSeedsPerRead;
+	    	command.add(NUMBER_SEEDS_PER_READ);
+    		command.add(numberSeedsPerRead.toString());
 	    }
 	    
 	    Integer readMinimumDiscardLength = analysisRequest.getReadMinimumDiscardLength();
 	    if(readMinimumDiscardLength != null) {
-	    	command = command + " " + READ_MINIMUM_DISCARD_LENGTH + " " + readMinimumDiscardLength;
+	    	command.add(READ_MINIMUM_DISCARD_LENGTH);
+    		command.add(readMinimumDiscardLength.toString());
 	    }
 	    
 	    Integer readMaximumInnerGap = analysisRequest.getReadMaximumInnerGap();
 	    if(readMaximumInnerGap != null) {
-	    	command = command + " " + READ_MAXIMUM_INNER_GAP + " " + readMaximumInnerGap;
+	    	command.add(READ_MAXIMUM_INNER_GAP);
+    		command.add(readMaximumInnerGap.toString());
 	    }
 	    
 	    Integer minimumNumberSeeds = analysisRequest.getMinimumNumberSeeds();
 	    if(minimumNumberSeeds != null) {
-	    	command = command + " " + MINIMUM_NUMBER_SEEDS + " " + minimumNumberSeeds;
+	    	command.add(MINIMUM_NUMBER_SEEDS);
+    		command.add(minimumNumberSeeds.toString());
 	    }
 	    
 	    Integer filterReadMappings = analysisRequest.getFilterReadMappings();
 	    if(filterReadMappings != null) {
-	    	command = command + " " + FILTER_READ_MAPPINGS + " " + filterReadMappings;
+	    	command.add(FILTER_READ_MAPPINGS);
+    		command.add(filterReadMappings.toString());
 	    }
 	    
 	    Integer filterSeedMappings = analysisRequest.getFilterSeedMappings();
 	    if(filterSeedMappings != null) {
-	    	command = command + " " + FILTER_SEED_MAPPINGS + " " + filterSeedMappings;
+	    	command.add(FILTER_SEED_MAPPINGS);
+    		command.add(filterSeedMappings.toString());
 	    }
 	    
 	    if(analysisRequest.getReportAll()) {
-	    	command = command + " " + REPORT_ALL;
+	    	command.add(REPORT_ALL);
 	    }
 	    
 	    if(analysisRequest.getReportBest()) {
-	    	command = command + " " + REPORT_BEST;
+	    	command.add(REPORT_BEST);
 	    }
 	    
 	    Integer reportNBest = analysisRequest.getReportNBest();
 	    if(reportNBest != null) {
-	    	command = command + " " + REPORT_N_BEST + " " + reportNBest;
+	    	command.add(REPORT_N_BEST);
+	    	command.add(reportNBest.toString());
 	    }
 	    
 	    Integer reportNHits = analysisRequest.getReportNHits();
 	    if(reportNHits != null) {
-	    	command = command + " " + REPORT_N_HITS + " " + reportNHits;
+	    	command.add(REPORT_N_HITS);
+	    	command.add(reportNHits.toString());
 	    }
-	    
-	    command = command + " | tee " + outputDirectory + "/log.txt";
 		
 		return command;
 	}		

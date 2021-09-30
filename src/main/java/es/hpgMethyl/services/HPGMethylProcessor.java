@@ -109,11 +109,19 @@ public class HPGMethylProcessor extends Thread {
 				String userFilesPath = FileUtils.concatenatePath(configuration.getUsersDirectoryAbsolutePath(), analysisRequest.getUser().getId().toString());
 				String outputDirectory = FileUtils.concatenatePath(userFilesPath, analysisRequest.getId().toString());
 				
-				String command = new AnalysisCommandBuilder().build(configuration, analysisRequest, outputDirectory);
-				Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.INFO, command);
+				
+				
+				List<String> command = new AnalysisCommandBuilder().build(configuration, analysisRequest, outputDirectory);
+				Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.INFO, String.join(" ", command));
 				
 				try {
-					executeCommand(command);
+					Boolean directoryCreated = FileUtils.createDirectory(outputDirectory);
+					
+					if(!directoryCreated) {
+						throw new IOException();
+					}
+					
+					HPGMethylResultReader resultReader = executeCommand(command);
 					
 					File zipFile = FileUtils.compressDirectoryInZip(outputDirectory, userFilesPath, analysisRequest.getIdentifier());
 					
@@ -126,9 +134,7 @@ public class HPGMethylProcessor extends Thread {
 								"application/octet-stream",
 								Boolean.FALSE
 							)	
-					).getFile();
-					
-					HPGMethylResultReader resultReader = new HPGMethylResultReader(outputDirectory + "/log.txt");
+					).getFile();				
 					
 					new CreateMehtylationResult(new AnalysisResultDAOHibernate()).execute(
 							new CreateMehtylationResultRequest(
@@ -209,20 +215,22 @@ public class HPGMethylProcessor extends Thread {
 		Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.INFO, "HPG-Methyl Processing Finished");
 	}
 	
-	private void executeCommand(String command) throws IOException, InterruptedException {
+	private HPGMethylResultReader executeCommand(List<String> command) throws IOException, InterruptedException {
 
-		Runtime runtime = Runtime.getRuntime();
-				
-		Process process = runtime.exec(command);
+		HPGMethylResultReader resultReader = new HPGMethylResultReader();
+		
+		Process process = new ProcessBuilder(command).redirectErrorStream(true).start();
 		
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 		
 		String output;
-		while((output = bufferedReader.readLine())!=null){
-			Logger.getLogger (HPGMethylProcessor.class.getName()).log(Level.INFO, output);
+		while((output = bufferedReader.readLine()) != null){
+			resultReader.readLine(output);
 		}
 		
 		process.waitFor();
+		
+		return resultReader;
 	}
 	
 	private void deleteFileFromSystem(HPGMethylFile file) {

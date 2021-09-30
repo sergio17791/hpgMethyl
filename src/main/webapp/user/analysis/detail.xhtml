@@ -13,17 +13,17 @@
 			<f:viewAction action="#{analysisDetail.loadAnalysisDetail}"/>
 		</f:metadata>
 		<b:row>
-			<b:column col-md="6">
+			<b:column col-sm="6">
 				<legend><h4><h:outputText value="#{msg['analysis']} "/><h:outputText value="#{analysisBean.identifier}"/></h4></legend>
 			</b:column>
-			<b:column col-xs="6" col-sm="3" offset-sm="3">
+			<b:column col-sm="4" col-md="3" offset-sm="2" offset-md="3">
             	<b:link value="#{msg['analisis.list.show']}" 
 	    				outcome="pretty:analysis"
 	    				iconAwesome="arrow-left" 
 	  					look="info"/>   
             </b:column>
 		</b:row>		
-		<b:tabView activeIndex="0">
+		<b:tabView activeIndex="0" style="margin-top: 10px">
   			<b:tab title="#{msg['analysis.detail.legend']}" contentDisabled="true">
   				<b:form id="analysisResultForm">
     				<b:panel>

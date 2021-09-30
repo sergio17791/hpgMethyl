@@ -93,6 +93,17 @@ public class FileUtils {
         
         return completePath;
     }
+	
+	public static boolean createDirectory(String path) {
+		
+		File directory = new File(path);
+		
+		if (!directory.exists()) {
+			 return directory.mkdirs();
+		}
+		
+		return true;
+	}
     
     public static File compressDirectoryInZip(String directoryPath, String zipFilePath, String zipFileName) throws IOException {
     	
