@@ -30,7 +30,7 @@
     					<ui:decorate template="../../WEB-INF/templates/analysisResultTemplate.xhtml">
     						<ui:define name="downloadResultFiles">
             					<b:row>
-									<b:column col-md="12">
+									<b:column col-md="6">
 										<b:commandButton id="downloadButton"
 														 binding="#{analysisDetail.downloadButtonComponent}"
          								 				 value="#{msg['analysis.detail.result.download']}" 
@@ -43,8 +43,8 @@
 		        						</b:commandButton>
 		        						<p:remoteCommand update="@all" name="refresh"/>
 									</b:column>	
-									<b:column col-md="12">
-										<b:commandButton value="#{msg['analysis.detail.result.download']}" 
+									<b:column col-md="6">
+										<b:commandButton value="Imprimir informe" 
 		                	             				 iconAwesome="download"
 		                    	         				 look="primary"
 		                        	     				 styleClass="btn-block"> 

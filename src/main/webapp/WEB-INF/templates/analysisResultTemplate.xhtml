@@ -46,7 +46,7 @@
 			</h:panelGroup>
 			<h:panelGroup rendered="#{analysisBean.status eq 'COMPLETED'}">
 				<ui:insert name="downloadResultFiles"/>
-				<h:panelGroup id="resultReport">
+				<h:panelGroup id="resultReport" layout="block">
 					<b:row>
 						<b:column col-md="6" offset-md="3">
 							<b:inputText id="totalNumberCAnalysed" 
