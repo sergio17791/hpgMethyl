@@ -36,10 +36,19 @@
          								 				 value="#{msg['analysis.detail.result.download']}" 
          								 				 onclick="PrimeFaces.monitorDownload(null, refresh);"
 		                	             				 iconAwesome="download"
-		                    	         				 look="primary"
+		                    	         				 look="danger"
 		                        	     				 styleClass="btn-block"
 		                            	 				 disabled="#{analysisDetail.downloaded}"> 
 		            						<p:fileDownload value="#{analysisDetail.file}"/>
+		        						</b:commandButton>
+		        						<p:remoteCommand update="@all" name="refresh"/>
+									</b:column>	
+									<b:column col-md="12">
+										<b:commandButton value="#{msg['analysis.detail.result.download']}" 
+		                	             				 iconAwesome="download"
+		                    	         				 look="primary"
+		                        	     				 styleClass="btn-block"> 
+		            						<p:printer target="resultReport"/>
 		        						</b:commandButton>
 		        						<p:remoteCommand update="@all" name="refresh"/>
 									</b:column>	             											  
