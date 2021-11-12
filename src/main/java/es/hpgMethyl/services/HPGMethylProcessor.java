@@ -278,14 +278,15 @@ public class HPGMethylProcessor extends Thread {
 			Integer totalCToTConversions = totalCToTConversionsCPGContext + totalCToTConversionsCHGContext + totalCToTConversionsCHHContext;
 			
 			DefaultCategoryDataset cytosineMethylationReportDataset = new DefaultCategoryDataset();
-			cytosineMethylationReportDataset.addValue(totalMethylatedCCPGContext, "CpG context", "Methylated C's");
-			cytosineMethylationReportDataset.addValue(totalMethylatedCCHGContext, "CHG context", "Methylated C's");
-			cytosineMethylationReportDataset.addValue(totalMethylatedCCHHContext, "CHH context", "Methylated C's");
-			cytosineMethylationReportDataset.addValue(totalMethylated, "Total", "Methylated C's");
-			cytosineMethylationReportDataset.addValue(totalCToTConversionsCPGContext, "CpG context", "C to T conversions");
-			cytosineMethylationReportDataset.addValue(totalCToTConversionsCHGContext, "CHG context", "C to T conversions");
-			cytosineMethylationReportDataset.addValue(totalCToTConversionsCHHContext, "CHH context", "C to T conversions");
-			cytosineMethylationReportDataset.addValue(totalCToTConversions, "Total", "C to T conversions");
+			cytosineMethylationReportDataset.addValue(totalNumberCAnalysed.doubleValue(), "Total", "C's analysed");
+			cytosineMethylationReportDataset.addValue(totalMethylatedCCPGContext.doubleValue(), "CpG context", "Methylated C's");
+			cytosineMethylationReportDataset.addValue(totalMethylatedCCHGContext.doubleValue(), "CHG context", "Methylated C's");
+			cytosineMethylationReportDataset.addValue(totalMethylatedCCHHContext.doubleValue(), "CHH context", "Methylated C's");
+			cytosineMethylationReportDataset.addValue(totalMethylated.doubleValue(), "Total", "Methylated C's");
+			cytosineMethylationReportDataset.addValue(totalCToTConversionsCPGContext.doubleValue(), "CpG context", "C to T conversions");
+			cytosineMethylationReportDataset.addValue(totalCToTConversionsCHGContext.doubleValue(), "CHG context", "C to T conversions");
+			cytosineMethylationReportDataset.addValue(totalCToTConversionsCHHContext.doubleValue(), "CHH context", "C to T conversions");
+			cytosineMethylationReportDataset.addValue(totalCToTConversions.doubleValue(), "Total", "C to T conversions");
 			
 			JFreeChart cytosineMethylationReportChart = ChartFactory.createBarChart(
 					"Cytosine Methylation Report", 
@@ -298,7 +299,7 @@ public class HPGMethylProcessor extends Thread {
 			        false
 			);
 			
-			File cytosineMethylationReportFile = new File( graphsDirectory + "/cytosineMethylationReport.jpeg" ); 
+			File cytosineMethylationReportFile = new File( graphsDirectory + "/cytosine_methylation_report.jpeg" ); 
 			try {
 				ChartUtils.saveChartAsJPEG(cytosineMethylationReportFile, cytosineMethylationReportChart, 640, 480);
 			} catch (IOException e) {
