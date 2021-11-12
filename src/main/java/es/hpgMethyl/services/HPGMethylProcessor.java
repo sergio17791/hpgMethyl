@@ -288,7 +288,7 @@ public class HPGMethylProcessor extends Thread {
 			cytosineMethylationReportDataset.addValue(totalCToTConversionsCHHContext.doubleValue(), "CHH context", "C to T conversions");
 			cytosineMethylationReportDataset.addValue(totalCToTConversions.doubleValue(), "Total", "C to T conversions");
 			
-			JFreeChart cytosineMethylationReportChart = ChartFactory.createBarChart(
+			JFreeChart cytosineMethylationReportChart = ChartFactory.createStackedBarChart(
 					"Cytosine Methylation Report", 
 					null, 
 			        null, 
@@ -301,7 +301,7 @@ public class HPGMethylProcessor extends Thread {
 			
 			File cytosineMethylationReportFile = new File( graphsDirectory + "/cytosine_methylation_report.jpeg" ); 
 			try {
-				ChartUtils.saveChartAsJPEG(cytosineMethylationReportFile, cytosineMethylationReportChart, 640, 480);
+				ChartUtils.saveChartAsJPEG(cytosineMethylationReportFile, cytosineMethylationReportChart, 960, 720);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
