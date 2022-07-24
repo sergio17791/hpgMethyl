@@ -12,7 +12,7 @@ RUN apt-get install -yy build-essential \
 						libncurses5-dev \
 						libgsl0-dev \
 						check
-RUN curl -Lo hpg-methyl.tar.gz https://github.com/grev-uv/hpg-methyl/releases/download/v3.2.5/hpg-methyl.v_3.2.5_x86_64.tar.gz
+RUN curl -Lo hpg-methyl.tar.gz https://github.com/grev-uv/hpg-methyl/releases/download/v3.32/hpg-methyl.v3.32_x86_64.tar.gz
 RUN mv hpg-methyl.tar.gz /opt
 RUN tar xzvf /opt/hpg-methyl.tar.gz -C /opt
 RUN rm /opt/hpg-methyl.tar.gz
