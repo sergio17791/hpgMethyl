@@ -74,7 +74,7 @@ public class AnalysisRequestBean implements Serializable {
 		this.pairedMode = PairedMode.SINGLE_END_MODE;
 		this.status = null;
 		this.inputReadFile = null;
-		this.writeMethylationContext = false;
+		this.writeMethylationContext = true;
 		this.pairedEndModeFile = null;
 		this.pairedMaxDistance = null;
 		this.pairedMinDistance = null;

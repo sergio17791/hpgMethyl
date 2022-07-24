@@ -48,7 +48,7 @@ public class HPGMethylResultReader {
 	
 	private Integer totalCToTConversionsCHGContext;
 	
-	private Integer totalCToTConversionsCHHContex;
+	private Integer totalCToTConversionsCHHContext;
 	
 	private BigDecimal cMethylatedCPGContext;
 	
@@ -79,7 +79,7 @@ public class HPGMethylResultReader {
 		this.totalMethylatedCCHHContext = null;
 		this.totalCToTConversionsCPGContext = null;
 		this.totalCToTConversionsCHGContext = null;
-		this.totalCToTConversionsCHHContex = null;
+		this.totalCToTConversionsCHHContext = null;
 		this.cMethylatedCPGContext = null;
 		this.cMethylatedCHGContext = null;
 		this.cMethylatedCHHContext = null;
@@ -138,8 +138,8 @@ public class HPGMethylResultReader {
 	/**
 	 * @return the totalCToTConversionsCHHContex
 	 */
-	public Integer getTotalCToTConversionsCHHContex() {
-		return totalCToTConversionsCHHContex;
+	public Integer getTotalCToTConversionsCHHContext() {
+		return totalCToTConversionsCHHContext;
 	}
 
 	/**
@@ -234,7 +234,7 @@ public class HPGMethylResultReader {
 			} else if(line.contains(TOTAL_C_TO_T_CONVERSIONS_CHG_CONTEXT)) {
 				this.totalCToTConversionsCHGContext = getIntegerResultFromSimpleLine(line);
 			} else if(line.contains(TOTAL_C_TO_T_CONVERSIONS_CHH_CONTEXT)) {
-				this.totalCToTConversionsCHHContex = getIntegerResultFromSimpleLine(line);
+				this.totalCToTConversionsCHHContext = getIntegerResultFromSimpleLine(line);
 			} else if(line.contains(C_METHYLATED_CPG_CONTEXT)) {
 				this.cMethylatedCPGContext = getPercentageResultFromSimpleLine(line);
 			} else if(line.contains(C_METHYLATED_CHG_CONTEXT)) {
