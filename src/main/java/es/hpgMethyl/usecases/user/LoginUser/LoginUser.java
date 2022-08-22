@@ -30,7 +30,8 @@ public class LoginUser {
 			Boolean passwordVerified = PasswordUtils.checkPassword(
 					password, 
 					user.getPassword(), 
-					user.getPasswordSalt()
+					user.getPasswordSalt(),
+					false
 			);
 					
 			if(passwordVerified) {	

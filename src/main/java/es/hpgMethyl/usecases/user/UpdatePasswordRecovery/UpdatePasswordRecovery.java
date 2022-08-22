@@ -42,7 +42,7 @@ public class UpdatePasswordRecovery {
 		
 		String hashedPasswordRecoveryResponse;
 		try {
-			hashedPasswordRecoveryResponse = PasswordUtils.getHashWithSalt(request.getPasswordRecoveryResponse(), salt);
+			hashedPasswordRecoveryResponse = PasswordUtils.getHashWithSalt(request.getPasswordRecoveryResponse(), salt, true);
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			throw new UpdateUserException(e);
 		}

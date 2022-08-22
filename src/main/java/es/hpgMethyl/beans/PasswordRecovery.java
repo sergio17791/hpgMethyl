@@ -198,7 +198,7 @@ public class PasswordRecovery implements Serializable {
 	public void sendResponse() {
 		
 		try {
-			String hashedResponse = PasswordUtils.getHashWithSalt(this.getResponse().replaceAll("\\s","").toLowerCase(), this.user.getPasswordRecoveryResponseSalt());
+			String hashedResponse = PasswordUtils.getHashWithSalt(this.getResponse().replaceAll("\\s","").toLowerCase(), this.user.getPasswordRecoveryResponseSalt(), true);
 			
 			if(hashedResponse.equals(this.user.getPasswordRecoveryResponse())) {
 				this.setCorrectResponse(true);
