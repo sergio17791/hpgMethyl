@@ -30,8 +30,8 @@ public class SignupUser {
 		
 		String passwordRecoveryResponseFormatted = request.getPasswordRecoveryResponse();
 
-		String password = generateHashWithSalt(request.getPassword(), passwordSalt);
-		String passwordRecoveryResponse = generateHashWithSalt(passwordRecoveryResponseFormatted, passwordRecoveryResponseSalt);
+		String password = generateHashWithSalt(request.getPassword(), passwordSalt, false);
+		String passwordRecoveryResponse = generateHashWithSalt(passwordRecoveryResponseFormatted, passwordRecoveryResponseSalt, true);
 		
 		User user = new User();
 		user.setFirstName(request.getFirstName());
@@ -71,10 +71,10 @@ public class SignupUser {
 		return salt;
 	}
 	
-	private String generateHashWithSalt(String string, String salt) throws SignupUserException {
+	private String generateHashWithSalt(String string, String salt, Boolean strong) throws SignupUserException {
 		
 		try {
-			return PasswordUtils.getHashWithSalt(string, salt, false);
+			return PasswordUtils.getHashWithSalt(string, salt, strong);
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			throw new SignupUserException(e);
 		}
