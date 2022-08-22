@@ -12,7 +12,7 @@ public class PasswordUtils {
 	
 	private static final String ENCRYPTION_ALGORITHM = "PBKDF2WithHmacSHA512";
 	private static final int 	ENCRYPTION_ITERATIONS = 50000;
-	private static final int 	ENCRYPTION_ITERATIONS_STRONG_MULTIPLIER = 20;
+	private static final int 	ENCRYPTION_ITERATIONS_STRONG = 1000000;
 	private static final int 	ENCRYPTION_KEY_LENGTH = 1024;
 	private static final int 	SALT_BYTES_LENGTH = 20;
 	
@@ -33,13 +33,9 @@ public class PasswordUtils {
 		char[] passwordChars = password.toCharArray();
 	    byte[] saltBytes = salt.getBytes();
 	    
-	    int encryptionIterations = ENCRYPTION_ITERATIONS; 
+	    int encryptionIterations = strong ? ENCRYPTION_ITERATIONS_STRONG : ENCRYPTION_ITERATIONS;   
 	    
-	    if (strong) {
-	    	encryptionIterations = encryptionIterations * ENCRYPTION_ITERATIONS_STRONG_MULTIPLIER;
-	    }
-	    
-	    PBEKeySpec spec = new PBEKeySpec(passwordChars, saltBytes, ENCRYPTION_ITERATIONS, ENCRYPTION_KEY_LENGTH);
+	    PBEKeySpec spec = new PBEKeySpec(passwordChars, saltBytes, encryptionIterations, ENCRYPTION_KEY_LENGTH);
 	    
 	    try {
 	    	SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(ENCRYPTION_ALGORITHM);
