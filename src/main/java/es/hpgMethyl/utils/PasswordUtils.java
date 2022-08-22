@@ -11,7 +11,8 @@ import javax.crypto.spec.PBEKeySpec;
 public class PasswordUtils {
 	
 	private static final String ENCRYPTION_ALGORITHM = "PBKDF2WithHmacSHA512";
-	private static final int 	ENCRYPTION_ITERATIONS = 1000000;
+	private static final int 	ENCRYPTION_ITERATIONS = 50000;
+	private static final int 	ENCRYPTION_ITERATIONS_STRONG_MULTIPLIER = 20;
 	private static final int 	ENCRYPTION_KEY_LENGTH = 1024;
 	private static final int 	SALT_BYTES_LENGTH = 20;
 	
@@ -27,10 +28,16 @@ public class PasswordUtils {
 		return salt;		
 	}
 	
-	public static String getHashWithSalt(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+	public static String getHashWithSalt(String password, String salt, Boolean strong) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		
 		char[] passwordChars = password.toCharArray();
 	    byte[] saltBytes = salt.getBytes();
+	    
+	    int encryptionIterations = ENCRYPTION_ITERATIONS; 
+	    
+	    if (strong) {
+	    	encryptionIterations = encryptionIterations * ENCRYPTION_ITERATIONS_STRONG_MULTIPLIER;
+	    }
 	    
 	    PBEKeySpec spec = new PBEKeySpec(passwordChars, saltBytes, ENCRYPTION_ITERATIONS, ENCRYPTION_KEY_LENGTH);
 	    
@@ -43,10 +50,11 @@ public class PasswordUtils {
 	    }
 	}
 	
-	public static Boolean checkPassword(String password, String hash, String salt) {
+	public static Boolean checkPassword(String password, String hash, String salt, Boolean strong) {
 		
 		try {
-			String candidateHash = getHashWithSalt(password, salt);
+			String candidateHash = getHashWithSalt(password, salt, strong);
+			System.out.println(candidateHash);
 			return candidateHash.equals(hash);
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			return false;
