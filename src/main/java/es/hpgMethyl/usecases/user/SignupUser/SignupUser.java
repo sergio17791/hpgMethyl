@@ -74,7 +74,7 @@ public class SignupUser {
 	private String generateHashWithSalt(String string, String salt) throws SignupUserException {
 		
 		try {
-			return PasswordUtils.getHashWithSalt(string, salt);
+			return PasswordUtils.getHashWithSalt(string, salt, false);
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			throw new SignupUserException(e);
 		}

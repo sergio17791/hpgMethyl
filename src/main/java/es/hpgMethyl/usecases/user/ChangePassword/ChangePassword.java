@@ -42,7 +42,7 @@ public class ChangePassword {
 		
 		String hashedPassword;
 		try {
-			hashedPassword = PasswordUtils.getHashWithSalt(request.getNewPassword(), salt);
+			hashedPassword = PasswordUtils.getHashWithSalt(request.getNewPassword(), salt, false);
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			throw new ChangePasswordException(e);
 		}

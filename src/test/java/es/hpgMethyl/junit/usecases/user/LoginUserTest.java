@@ -37,7 +37,7 @@ public class LoginUserTest {
 			"First name", 
 			"Last name", 
 			"test@test.com", 
-			"yk7wtMR4rBr/UPCThvmoiSiw5Lf+hD+VwbQVeb21zXPOi5XJqRoGgxGml1JQj5DdxahbDV+QysvAEt44ZVvA6qrUifWJStKKlL4LGz6rOwjVtg9AblQBFWW2CHxZ85CTN+exdOlKU/cTVjC3uyCaQs6cS/ckzk1DVZPgTZT5lBY=", 
+			"aIDiK4Pd/yy+gASC2bgMppRlSEWAlBCUm5JtcHddRa1Po3busHyrlhvMfKeau0urUqAzBkwCc4IeckYfw3wda8Ost2cWdDfjKH6gbcmBJX8sqnEdVTBDUwPUuyA36+R7QGmPFcBIxsDhHI0CKG+OphyfMBeVXzf35dPwucqwVWk=", 
 			"Lm7jSnhSQYVOh3mQHToscnO_CV0",
 			"Recovery question",
 			"uKjTIA2jD1XUhcL2IcYC52FMS5ahYHcpwrt2qyDefsNOTx68reYWiu57ExBIq0KUJHmmeWh6n/bxfpnJ7PouZdaanp3NthhFN6pFMuvvBPWRcfdcpkuL54fntJskAIfMXrsOyEbVLbOuegPi3q0zmQxM3BTB27lKal6k2ZjVcu8=",
