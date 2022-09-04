@@ -36,6 +36,7 @@ public class UserSignup implements Serializable {
     private String passwordRecoveryResponse;
     private String passwordVerification;
     private String defaultLanguage;
+    private Boolean termsAndConditions;
     private UIComponent signupComponent;
     
     public UserSignup() {
@@ -48,6 +49,7 @@ public class UserSignup implements Serializable {
     	this.passwordRecoveryResponse = null;
     	this.passwordVerification = null;
     	this.defaultLanguage = null;
+    	this.termsAndConditions = false;
     }
     
     @PostConstruct
@@ -182,6 +184,20 @@ public class UserSignup implements Serializable {
     public void setDefaultLanguage(String defaultLanguage) {
         this.defaultLanguage = defaultLanguage;
     }
+
+	/**
+	 * @return the termsAndConditions
+	 */
+	public Boolean getTermsAndConditions() {
+		return termsAndConditions;
+	}
+
+	/**
+	 * @param termsAndConditions the termsAndConditions to set
+	 */
+	public void setTermsAndConditions(Boolean termsAndConditions) {
+		this.termsAndConditions = termsAndConditions;
+	}
 
 	/**
 	 * @return the signupComponent
