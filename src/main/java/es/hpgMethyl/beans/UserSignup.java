@@ -255,4 +255,9 @@ public class UserSignup implements Serializable {
 		UIInput input = (UIInput) event.getComponent();
 		input.setValue("");
 	}
+	
+	public void cleanCheckboxComponent(ComponentSystemEvent event) throws AbortProcessingException {
+		UIInput input = (UIInput) event.getComponent();
+		input.setValue(false);
+	}
 }
