@@ -180,6 +180,7 @@
 													 caption="#{msg['signup.termsAndConditions']}"
 													 escape="false">
 								<f:ajax render="signupButton" /> 
+								<f:event listener="#{userSignup.cleanCheckboxComponent}" type="preRenderComponent"/>
 							</b:selectBooleanCheckbox>													                   
                     	</b:column>
                 	</b:row>           
