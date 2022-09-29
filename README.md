@@ -20,3 +20,7 @@ You can see the HPG-Methyl project in the following link to its [GitHub](https:/
 - In the admin panel, review the application settings.
 
 - Copy your generated bs-index files to the configured folder.
+
+## Deployed
+
+The project is temporarily deployed at [the following url](https://link-url-here.org)
